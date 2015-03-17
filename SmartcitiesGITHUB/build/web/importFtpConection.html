@@ -1,0 +1,37 @@
+<span id="testeClicaToolbar" data-dojo-type="dijit/Toolbar">
+    <input id="btAnteriorFtpConnection" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtAnteriorFtpConn'>Anterior</span>" iconClass="icone-anterior" ></input>
+	<input id="btProximoFtpConnection" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtProximoFtpConn'>Proximo</span>" iconClass="icone-proximo" ></input>
+</span>
+
+<div style="margin:10px;">
+	<h1>
+		<span id="tituloImportFtpConection">Importar</span>&nbsp;FTP
+	</h1>
+	
+	<p id="p1ImportFtpConection" style="margin-left: 20px;">
+		Preencha os dados e teste a conexão (Passo 2 de 3)
+	</p>
+	
+	<div class="celula-form-1">
+        <span class="rotulo"><span id="rotTipoImportFtp">Tipo</span>:</span>
+        <select class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" selectOnClick="false" searchDelay="0" style="width:100px;">
+			<option value="">FTP</option>
+			<option value="">SFTP</option>
+		</select>
+    </div>
+	<div class="celula-form-1">
+        <span class="rotulo"><span id="rotUrlImportFtp">Url</span>:</span>
+        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:300px;"></input>
+    </div>
+	<div class="celula-form-1">
+		<span class="rotulo"><span id="rotUsuarioImportFtp">Usuario</span>:</span>
+		<input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input>	
+    </div>	
+	<div class="celula-form-1">
+        <span class="rotulo"><span id="rotSenhaImportFtp">Senha</span>:</span>
+        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input><br>
+    </div>
+	<div class="celula-form-1">        
+        <input class="campo" type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtTestarFtpConn'>Testar</span>" ></input>
+    </div>
+</div>

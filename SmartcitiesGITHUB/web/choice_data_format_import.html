@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Untitled</title>
+<script type="text/javascript" src="lib/dojo/dojo/dojo.js" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''"></script>
+<script type="text/javascript">
+require([
+  "dijit/dijit",
+  "dojo/parser",
+  "maqetta/space",
+  "maqetta/AppStates"
+]);
+</script>
+<style>@import "themes/claro/claro.css";@import "app.css";
+
+.lista-icones ul{
+	padding: 0px;
+	margin: 0px;
+	background-color: inherit;
+	list-style: none;
+}
+
+.lista-icones li{
+	width: 60px;
+	height: 60px;
+	border: 1px solid gray;
+	margin: 30px;
+	display: block;
+	float: left;
+}
+</style>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body data-maq-flow-layout="true" data-maq-comptype="desktop" class="claro" data-maq-ws="collapse" data-maq-appstates="{}" id="myapp">
+	<h3 style="margin: 20px;margin-top: 5px; font-size: 12pt; color: blue; font-weight: bold;">
+		Importa&ccedil;&atilde;o de Dados
+	</h3>
+	
+	<ul class="lista-icones">
+		<li>Active Directory<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>Banco de Dados<br><img src="images/icon/DataBase.png"></li>
+		<li>CSV<br><img src="images/icon/CSV.png"></li>
+		<li>HTML<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>Json<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>KML<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>LDAP<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>PDF<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>RTF<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>WSDL<br><img src="images/icon/ActiveDirectory.png"></li>
+		<li>XML<br><img src="images/icon/ActiveDirectory.png"></li>
+		
+	</ul>
+</body>
+</html>

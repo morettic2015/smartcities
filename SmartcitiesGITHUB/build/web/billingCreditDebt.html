@@ -1,0 +1,29 @@
+<div style="margin:10px;">
+	<h1 id="tituloBillingCreditDebit">Crédito / Débito</h1>
+	
+	<span id="p1BillingCreditDebit" style="margin:10px;">Configure suas formas de pagamento e recebimento.</span>
+	
+	<div style="position:absolute;">
+		<ul class="lista-icones">
+			<li>
+				<input type="image" src="images/icons/54X54/paypal.png" name="botaoPaypal" class="bt-paypal" id="btPaypalCredito" style=""/>
+			</li>
+			<li>
+				<input type="image" src="images/icons/54X54/pagseguro.png" name="botaoPagseguro" class="bt-pagseguro" id="btPagseguroCredito" style=""/>
+			</li>
+			<li>
+				<input type="image" src="images/icons/54X54/banco.png" name="botaoBanco" class="bt-pagseguro" id="btBancoCredito" style=""/>
+			</li>
+			<li>
+				<input type="image" src="images/icons/54X54/banco.png" name="botaoBanco" class="bt-pagseguro" id="btCCCredito" style=""/>
+			</li>
+		</ul>
+	</div>
+
+
+	<div data-dojo-type="dijit/layout/ContentPane" doLayout="true" closable="false" style="margin-top:100px;">
+		<span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_1CC1" jsId="ItemFileReadStore_1CC1" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:[1],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot;nome&quot;],&quot;conta&quot;:[&quot;conta&quot;],&quot;descricao&quot;:[&quot;descricao&quot;],&quot;mediador&quot;:[&quot;&lt;img src=\&quot;http://msdistribuidora.com.br/images/itau_icon.png\&quot; alt=\&quot;Banco do Brasil\&quot; style=\&quot;width:15px;height:15px\&quot;&gt;&quot;]},{&quot;unique_id&quot;:[2],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot;nome&quot;],&quot;conta&quot;:[&quot;conta&quot;],&quot;agência&quot;:[&quot;agência&quot;],&quot;banco&quot;:[&quot;&lt;img src=\&quot;http://msdistribuidora.com.br/images/itau_icon.png\&quot; alt=\&quot;Banco do Brasil\&quot; style=\&quot;width:15px;height:15px\&quot;&gt;&quot;]}]}"></span>
+		<table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 200px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'15px',name:'&lt;input type=&quot;checkbox&quot;&gt;',field:'&lt;input_type=&quot;checkbox&quot;&gt;'},{width:'auto',name:'<span id=\'colGridNomeBillingCredit\'>nome</span>',field:'nome'},{width:'auto',name:'<span id=\'colGridContaBillingCredit\'>conta</span>',field:'conta'},{width:'auto',name:'<span id=\'colGridAgenciaBillingCredit\'>agência</span>',field:'agência'},{width:'auto',name:'<span id=\'colGridBancoBillingCredit\'>banco</span>',field:'banco'}],store:ItemFileReadStore_1CC1"></table>
+	</div>
+
+</div>

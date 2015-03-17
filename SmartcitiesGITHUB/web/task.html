@@ -1,0 +1,63 @@
+<span data-dojo-type="dijit/Toolbar" style="">
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtNewTask'>Nova</span>" iconClass="icone-novo-generico"></input>
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSaveTask'>Salvar</span>" iconClass="icone-salvar"></input>
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcludeTask'>Excluir</span>" iconClass="icone-excluir"></input>
+</span>
+
+<div style="margin-left:10px;">	
+	<h1 style="" class="icone-tarefaBig">
+        <span id="tituloDataTask">Tarefas</span>
+	</h1>
+    <p id="p1DataTask" style="margin:10px;">
+        Selecione uma fonte de dados a esquerda e configure suas tarefas para sincronizar as fontes de dados.
+	</p>
+		
+	<div style="margin:8px;">
+		<input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="Nome da tarefa" style=""></input>    
+		<input type="text" data-dojo-type="dijit/form/DateTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" placeHolder="data" propercase="false" invalidMessage="$_unset_$" style="width: 100px;"></input>
+		<input type="text" data-dojo-type="dijit/form/TimeTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" placeHolder="hora" propercase="false" invalidMessage="$_unset_$" style="width: 100px;"></input>
+	</div>
+    
+	<div class="celula-form-1">
+        <span class="rotulo" style="right:80%"><span id="rotDiariamenteDataTask">Executar diariamente</span>:</span>
+        <input class="campo" style="left:21%" type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon" style=""></input>
+    </div>
+	
+    <div class="celula-form-1" title="Maior custo de processamento" style="margin-bottom: 20px;">
+        <span class="rotulo" style="right:80%;"><span id="rotSicronDataTask">Sincronizar a cada<br> requisição</span>: *</span>
+        <input class="campo" style="left:21%" type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon" style=""></input>		
+    </div>
+	
+	<div class="celula-form-1">
+        <span class="rotulo" style="right:80%"><span id="rotIntervaloDataTask">Intervalo de Sincronizacao</span>:</span>
+        <select class="campo" style="left: 21%;" data-dojo-type="dijit/form/ComboBox" value="" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" style="width: 200px; ">
+			<option value=""></option>
+			<option value="5 minutos">5 minutos</option>
+			<option value="10 minutos">10 minutos</option>
+			<option value="15 minutos">15 minutos</option>
+			<option value="30 minutos">30 minutos</option>
+			<option value="1 hora">1 hora</option>
+			<option value="2 horas">2 horas</option>
+			<option value="4 horas ">4 horas</option>
+			<option value="6 horas ">6 horas</option>
+			<option value="12 horas">12 horas</option>
+			<option value="24 horas">24 horas</option>
+		</select>
+    </div>
+	
+		
+	<div data-dojo-type="dijit/layout/ContentPane" title="Tarefas" extractContent="false" preventCache="false" preload="false" refreshOnShow="true" style="width:auto;" doLayout="true;">
+		
+		<table data-dojo-type="gridx/Grid" id="gridTasks" jsId="gridTasks" style="min-width: 1em; min-height: 1em; height: 147px; " data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+			structure:[
+				{width:'auto',name:'<span id=\'colGridIDDataTask\'>ID</span>',field:'id'},
+				{width:'auto',name:'<span id=\'colGridNomeDataTask\'>Nome</span>',field:'nome'},
+				{width:'auto',name:'<span id=\'colGridHoraDataTask\'>hora</span>',field:'hora'},
+				{width:'auto',name:'<span id=\'colGridDateDataTask\'>data',field:'data'},
+				{width:'auto',name:'<span id=\'colGridPeriodoDataTask\'>periodo de execução</span>',field:'periodo'}
+			],store:storeMemory">
+		</table>
+		
+	</div>
+
+</div>

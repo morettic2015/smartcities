@@ -1,0 +1,26 @@
+<span data-dojo-type="dijit/Toolbar" style="">
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtNovoCircles'>Novo</span>" iconClass="icone-novo-circulo"></input>
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSalvarCircles'>Salvar</span>" iconClass="icone-salvar"></input>
+	<input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcluirCircles'>Excluir</span>" iconClass="icone-excluir"></input>
+	<input type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtHistoricoCircles'>Hist&amp;oacute;rico</span>" iconClass="icone-historico"></input>
+</span>
+
+<div style="margin:10px;">
+	<h1 id="tituloCircles">
+		Círculos
+	</h1>
+	<span style="margin:8px;">
+		<span id="rotNomeCircles">Nome</span>:
+		<input placeholder="digite um nome aqui" readonly="true"></input>
+		<input type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtBuscarCircles'>Buscar</span>" iconClass="icone-buscar"></input>
+	</span>
+	
+	<div data-dojo-type="dijit/layout/ContentPane" title="" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false" style="">
+		<table data-dojo-type="gridx/Grid" id="gridCircles" jsId="gridCircles" style="min-width: 1em; min-height: 1em; height: 100px; width: 100%;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+			structure:[
+				{width:'auto',name:'<span id=\'colGridCirculoCircles\'>Círculo</span>',field:'circulo'},
+				{width:'auto',name:'<span id=\'colGridMembrosCircles\'>Membros</span>',field:'membros'}
+			],store:storeMemory">
+		</table>
+	</div>
+</div>

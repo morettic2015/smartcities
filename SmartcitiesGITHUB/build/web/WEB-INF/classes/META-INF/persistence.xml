@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="smartcitie_db" transaction-type="JTA">
+    <description>Smartcities Persistence Unit</description>
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>java:jboss/datasources/SmartcitieDB</jta-data-source>
+    <class>br.com.moretic.vo.Action</class>
+    <class>br.com.moretic.vo.Adress</class>
+    <class>br.com.moretic.vo.Avatar</class>
+    <class>br.com.moretic.vo.City</class>
+    <class>br.com.moretic.vo.Country</class>
+    <class>br.com.moretic.vo.DataSourceDriver</class>
+    <class>br.com.moretic.vo.DataSourceDriverOutput</class>
+    <class>br.com.moretic.vo.DataSource</class>
+    <class>br.com.moretic.vo.DataSourceType</class>
+    <class>br.com.moretic.vo.Field</class>
+    <class>br.com.moretic.vo.FieldMask</class>
+    <class>br.com.moretic.vo.FieldType</class>
+    <class>br.com.moretic.vo.GroupHasProfile</class>
+    <class>br.com.moretic.vo.Group</class>
+    <class>br.com.moretic.vo.Info</class>
+    <class>br.com.moretic.vo.OperationType</class>
+    <class>br.com.moretic.vo.ProfileContact</class>
+    <class>br.com.moretic.vo.Profile</class>
+    <class>br.com.moretic.vo.Relationship</class>
+    <class>br.com.moretic.vo.ShareLog</class>
+    <class>br.com.moretic.vo.SharePermissions</class>
+    <class>br.com.moretic.vo.ShareType</class>
+    <class>br.com.moretic.vo.ShareView</class>
+    <class>br.com.moretic.vo.ShareViewWith</class>
+    <class>br.com.moretic.vo.SocialNetwork</class>
+    <class>br.com.moretic.vo.SocialNetworkType</class>
+    <class>br.com.moretic.vo.State</class>
+    <class>br.com.moretic.vo.TxnLog</class>
+    <class>br.com.moretic.vo.ViewRule</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
+    </properties>
+  </persistence-unit>
+</persistence>
