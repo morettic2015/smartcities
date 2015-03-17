@@ -1,0 +1,52 @@
+<form name="datasourcesForm">
+<input ng-model="datasource.idDataSourceDriver" ="text" placeholder="idDataSourceDriver">
+<input ng-model="datasource.idDataSourceType" ="text" placeholder="idDataSourceType">
+<input ng-model="datasource.idDataSourceRelatedTo" ="text" placeholder="idDataSourceRelatedTo">
+<input ng-model="datasource.deDatasource" ="text" placeholder="deDatasource">
+<input ng-model="datasource.nmDatasource" ="text" placeholder="nmDatasource">
+<input ng-model="datasource.dataSourceUrl" ="text" placeholder="dataSourceUrl">
+<input ng-model="datasource.dataPassword" ="text" placeholder="dataPassword">
+<input ng-model="datasource.enabled" ="text" placeholder="enabled">
+<input ng-model="datasource.dataUsername" ="text" placeholder="dataUsername">
+<input ng-model="datasource.lat" ="text" placeholder="lat">
+<input ng-model="datasource.lon" ="text" placeholder="lon">
+<input ng-model="datasource.schema" ="text" placeholder="schema">
+<br>
+<button ng-click="adicionarDataSource(datasource)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="DataSourcesCtrl">
+	<input ="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='iddatasource';direcao=!direcao">iddataSource</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">idDataSourceDriver</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">idDataSourceType</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">idDataSourceRelatedTo</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">deDatasource</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">nmDatasource</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">dataSourceUrl</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">dataPassword</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">enabled</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">dataUsername</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">lat</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">lon</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSource';direcao=!direcao">schema</a></th>
+	</tr>
+	<tr ng-repeat="item in datasources | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.iddataSource}}</td>
+			<td>{{item.idDataSourceDriver}}</td>
+			<td>{{item.idDataSourceType}}</td>
+			<td>{{item.idDataSourceRelatedTo}}</td>
+			<td>{{item.deDatasource}}</td>
+			<td>{{item.nmDatasource}}</td>
+			<td>{{item.dataSourceUrl}}</td>
+			<td>{{item.dataPassword}}</td>
+			<td>{{item.enabled}}</td>
+			<td>{{item.dataUsername}}</td>
+			<td>{{item.lat}}</td>
+			<td>{{item.lon}}</td>
+			<td>{{item.schema}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{datasources}}

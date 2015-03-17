@@ -1,0 +1,56 @@
+<span data-dojo-type="dijit/Toolbar">
+    <input id="btSalvarFormCartao" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSalvarFormCartao'>Salvar</span>" iconClass="icone-salvar"></input>
+    <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" iconClass="icone-excluir" label="<span id='rotBtExcluirFormCartao'>Excluir</span>"></input>
+</span>
+<table border="0" style="margin: 1em; border-collapse: collapse; table-layout: fixed; height: auto; width: 40%;">
+    
+    <tbody>
+        <tr>
+            <td style="float: right;">
+                <span id="rotSelecioneCartao">selecione um cartao</span>
+			</td>
+            <td>
+
+                &nbsp;
+				<select id="cmbCartaoFormCartao" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false">				
+					<option value="1">Opcao 1</option>
+					<option value="2">Opcao 2</option>                
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="float: right;">
+                <span id="rotNumeroCartao">número do cartão</span>
+			</td>
+            <td>
+                &nbsp;<input type="text" data-dojo-type="dijit/form/ValidationTextBox"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="float: right;">
+                <span id="rotDataExpiracaoCartao">data expiração</span>
+			</td>
+            <td>
+
+                &nbsp;<input type="text" data-dojo-type="dijit/form/DateTextBox"></input>
+            </td>
+        </tr>
+        <tr>
+            <td style="float: right;">
+                <span id="cvcFormCartao">cvc</span>
+			</td>
+            <td>
+                &nbsp;<input type="text" data-dojo-type="dijit/form/NumberTextBox"></input>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+
+                <span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_formCartao" jsId="ItemFileReadStore_formCartao" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:[1],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;número_do_cartão&quot;:[&quot;1&quot;],&quot;bandeira&quot;:[&quot;&lt;img src=\&quot;http://www.deinfra.sc.gov.br/gru/imagens/icone-bb.gif\&quot; alt=\&quot;Banco do Brasil\&quot; style=\&quot;width:15px;height:15px\&quot;&gt;&quot;]},{&quot;unique_id&quot;:[2],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;número_do_cartão&quot;:[&quot; 2&quot;],&quot;bandeira&quot;:[&quot;&lt;img src=\&quot;http://msdistribuidora.com.br/images/itau_icon.png\&quot; alt=\&quot;Banco do Brasil\&quot; style=\&quot;width:15px;height:15px\&quot;&gt;&quot;]}]}"></span>
+                <table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 753.796875px; height: 115.1875px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'3%',name:'&lt;input type=&quot;checkbox&quot;&gt;',field:'&lt;input_type=&quot;checkbox&quot;&gt;'},{width:'auto',name:'<span id=\'colGridNumeroCartao\'>número do cartão</span>',field:'número_do_cartão'},{width:'auto',name:'<span id=\'colGridBandeiraCartao\'>bandeira</span>',field:'bandeira'}],store:ItemFileReadStore_formCartao"></table>
+
+            </td>
+        </tr>
+
+    </tbody>
+</table>

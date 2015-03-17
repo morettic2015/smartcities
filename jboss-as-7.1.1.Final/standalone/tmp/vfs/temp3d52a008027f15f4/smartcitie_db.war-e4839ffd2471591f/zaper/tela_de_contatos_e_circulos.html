@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Untitled</title>
+<script type="text/javascript" src="lib/dojo/dojo/dojo.js" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':'', 'mblLoadCompatPattern': ''"></script>
+<script type="text/javascript">
+require([
+  "dijit/dijit",
+  "dojo/parser",
+  "maqetta/space",
+  "maqetta/AppStates",
+  "dijit/layout/TabContainer",
+  "dijit/layout/ContentPane",
+  "dijit/Toolbar",
+  "dijit/form/Button",
+  "dojox/io/xhrScriptPlugin",
+  "dojo/data/ItemFileReadStore",
+  "gridx/Grid",
+  "gridx/core/model/cache/Async",
+  "dojox/data/CsvStore",
+  "dijit/form/Textarea",
+  "dijit/form/TextBox"
+]);
+</script>
+<style>@import "themes/claro/document.css";@import "themes/claro/claro.css";@import "lib/dojo/gridx/resources/claro/Gridx.css";@import "lib/dojo/gridx/resources/claro/Gridx_rtl.css";@import "app.css";
+</style>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body data-maq-flow-layout="true" data-maq-comptype="desktop" class="claro" data-maq-ws="collapse" data-maq-appstates="{}" id="myapp">
+<span data-dojo-type="dijit/layout/TabContainer" style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;" controllerWidget="dijit.layout.TabController">
+<div data-dojo-type="dijit/layout/ContentPane" title="Contatos" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false" style="height: 100%;">
+   <div style="height: 33px;">
+     <input placeholder="digite um nome aqui" readonly="true"></input>
+     </div><span data-dojo-type="dijit/Toolbar"><input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Salvar" iconClass="dijitNoIcon"></input>
+   <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Excluir" iconClass="dijitNoIcon"></input>
+   <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Importar" iconClass="dijitNoIcon"></input>
+   <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Vincular a C&amp;iacute;rculo" iconClass="dijitNoIcon"></input>
+   </span>
+   <div style="width: 569.991455078125px; height: 176.97158813476562px;">
+     <img src="http://www.insidefacebook.com/wp-content/uploads/2013/01/profile-150x150.png" style="border: 1px solid black; left: 14.890625px; position: absolute; z-index: 900; width: 150px; height: 150px; top: 70px;" class="HtmlWidget"></img>
+     <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="nome" style="position: absolute; z-index: 900; left: 174.99999725818634px; top: 72.98863410949707px;"></input>
+     <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="cargo" style="position: absolute; z-index: 900; left: 174.99999725818634px; top: 104.97727394104004px;"></input>
+     <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" placeHolder="empresa" style="position: absolute; z-index: 900; top: 136.1931734085083px; left: 175px;"></input>
+     <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" placeHolder="e-mail" style="position: absolute; z-index: 900; left: 174.71590912342072px; top: 167.00283241271973px;"></input>
+     <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" placeHolder="celular" style="position: absolute; z-index: 900; left: 174.71590912342072px; top: 202.3863525390625px;"></input>
+   </div>
+   <span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_1" jsId="ItemFileReadStore_1" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:[1],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot; nome&quot;],&quot;e-mail&quot;:[&quot; &lt;a href=&gt;e-mail@email.com&lt;/a&gt;&quot;],&quot;círculos&quot;:[&quot; Círculo&quot;]},{&quot;unique_id&quot;:[2],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot; nome&quot;],&quot;e-mail&quot;:[&quot; &lt;a href=&gt;e-mail@email.com&lt;/a&gt;&quot;],&quot;círculos&quot;:[&quot; Círculo&quot;]},{&quot;unique_id&quot;:[3],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot; nome&quot;],&quot;e-mail&quot;:[&quot; &lt;a href=&gt;e-mail@email.com&lt;/a&gt;&quot;],&quot;círculos&quot;:[&quot; Círculo&quot;]},{&quot;unique_id&quot;:[4],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot; nome&quot;],&quot;e-mail&quot;:[&quot; &lt;a href=&gt;e-mail@email.com&lt;/a&gt;&quot;],&quot;círculos&quot;:[&quot; Círculo&quot;]},{&quot;unique_id&quot;:[5],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;nome&quot;:[&quot; nome&quot;],&quot;e-mail&quot;:[&quot; &lt;a href=&gt;e-mail@email.com&lt;/a&gt;&quot;],&quot;círculos&quot;:[&quot; Círculo&quot;]}]}"></span>
+<table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'1.5%',name:'&lt;input type=&quot;checkbox&quot;&gt;',field:'&lt;input_type=&quot;checkbox&quot;&gt;'},{width:'70%',name:'Nome',field:'nome'},{width:'auto',name:'E-mail',field:'e-mail'},{width:'auto',name:'Círculos',field:'círculos'}],store:ItemFileReadStore_1"></table>
+<table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'auto',name:'nome',field:'nome'},{width:'auto',name:'e-mail',field:'e-mail'},{width:'auto',name:'&lt;input type=&quot;checkbox&quot; name=&quot;vehicle&quot; value=&quot;Car&quot;&gt;',field:'&lt;input_type=&quot;checkbox&quot;_name=&quot;vehicle&quot;_value=&quot;car&quot;&gt;'},{width:'auto',name:'Círculo',field:'círculo'}],store:ItemFileReadStore_2"></table>
+ </div>
+ <div data-dojo-type="dijit/layout/ContentPane" title="Circulos" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" selected="true" closable="false">
+   <div style="width: 1219px; height: 127px;">
+     <div style="height: 33px;">
+       <input placeholder="digite um nome aqui" readonly="true"></input>
+       <button class="HtmlWidget">
+         
+         
+         
+         
+        Procurar</button>
+     </div>
+     <span data-dojo-type="dijit/Toolbar" style="width: 100%;"><input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Salvar" iconClass="dijitNoIcon"></input>
+     <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Excluir" iconClass="dijitNoIcon"></input>
+     <input type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="Hist&amp;oacute;rico" iconClass="dijitNoIcon" onclick="location.href='historico.html'"></input>
+     </span>
+     <input placeholder="circulo" readonly="true" style="position: absolute; z-index: 900; left: 12.000000178813934px; top: 74px;"></input>
+     <button style="position: absolute; z-index: 900; left: 174.99999922513962px; top: 72px;">
+       Adicionar</button>
+   </div>
+   <span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_3" jsId="ItemFileReadStore_3" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:[1],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;círculo&quot;:[&quot;nome&quot;],&quot;membros&quot;:[&quot;membros&quot;]},{&quot;unique_id&quot;:[2],&quot;&lt;input_type=\&quot;checkbox\&quot;&gt;&quot;:[&quot;&lt;input type=\&quot;checkbox\&quot;&gt;&quot;],&quot;círculo&quot;:[&quot;nome&quot;],&quot;membros&quot;:[&quot;membros&quot;]}]}"></span>
+   <table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px; position: absolute; z-index: 900; left: 8.000000178813934px; top: 102px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'1.5%',name:'&lt;input type=&quot;checkbox&quot;&gt;',field:'&lt;input_type=&quot;checkbox&quot;&gt;'},{width:'auto',name:'Círculo',field:'círculo'},{width:'auto',name:'Membros',field:'membros'}],store:ItemFileReadStore_3"></table>
+ </div>
+ </span></body>
+</html>

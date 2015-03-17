@@ -1,0 +1,22 @@
+<form name="datasourcedriversForm">
+<input ng-model="datasourcedriver.classPath" type="text" placeholder="classPath">
+<input ng-model="datasourcedriver.dataSourceDrivercol" type="text" placeholder="dataSourceDrivercol">
+<br>
+<button ng-click="adicionarDatasourcedriver(datasourcedriver)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="DatasourcedriversCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='iddatasourcedriver';direcao=!direcao">iddatasourcedriver</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDatasourcedriver';direcao=!direcao">classPath</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDatasourcedriver';direcao=!direcao">dataSourceDrivercol</a></th>
+	</tr>
+	<tr ng-repeat="item in datasourcedrivers | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.iddatasourcedriver}}</td>
+			<td>{{item.classPath}}</td>
+			<td>{{item.dataSourceDrivercol}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{datasourcedrivers}}

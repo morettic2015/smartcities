@@ -1,0 +1,31 @@
+<form name="profilesForm">
+<input ng-model="profile.nmUser" type="text" placeholder="nmUser">
+<input ng-model="profile.email" type="text" placeholder="email">
+<input ng-model="profile.password" type="text" placeholder="password">
+<input ng-model="profile.cpfCnpj" type="text" placeholder="cpfCnpj">
+<input ng-model="profile.online" type="text" placeholder="online">
+<br>
+<button ng-click="adicionarProfile(profile)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="AdressesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idprofile';direcao=!direcao">idprofile</a></th>
+		<th><a href="" ng-click="ordenarPor='nmProfile';direcao=!direcao">nmUser</a></th>
+		<th><a href="" ng-click="ordenarPor='nmProfile';direcao=!direcao">email</a></th>
+		<th><a href="" ng-click="ordenarPor='nmProfile';direcao=!direcao">password</a></th>
+		<th><a href="" ng-click="ordenarPor='nmProfile';direcao=!direcao">cpfCnpj</a></th>
+		<th><a href="" ng-click="ordenarPor='nmProfile';direcao=!direcao">online</a></th>
+	</tr>
+	<tr ng-repeat="item in profiles | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idprofile}}</td>
+			<td>{{item.nmUser}}</td>
+			<td>{{item.email}}</td>
+			<td>{{item.password}}</td>
+			<td>{{item.cpfCnpj}}</td>
+			<td>{{item.online}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{profiles}}

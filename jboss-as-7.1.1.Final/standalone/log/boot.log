@@ -1,0 +1,103 @@
+13:24:52,163 INFO  [org.jboss.modules] JBoss Modules version 1.1.1.GA
+13:24:52,563 INFO  [org.jboss.msc] JBoss MSC version 1.0.2.GA
+13:24:52,626 INFO  [org.jboss.as] JBAS015899: JBoss AS 7.1.1.Final "Brontes" starting
+13:24:52,626 DEBUG [org.jboss.as.config] Configured system properties:
+	awt.toolkit = sun.awt.windows.WToolkit
+	file.encoding = Cp1252
+	file.encoding.pkg = sun.io
+	file.separator = \
+	java.awt.graphicsenv = sun.awt.Win32GraphicsEnvironment
+	java.awt.printerjob = sun.awt.windows.WPrinterJob
+	java.class.path = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\jboss-modules.jar
+	java.class.version = 51.0
+	java.endorsed.dirs = C:\Program Files\Java\jdk1.7.0_67\jre\lib\endorsed
+	java.ext.dirs = C:\Program Files\Java\jdk1.7.0_67\jre\lib\ext;C:\Windows\Sun\Java\lib\ext
+	java.home = C:\Program Files\Java\jdk1.7.0_67\jre
+	java.io.tmpdir = C:\Users\LMROSA~1\AppData\Local\Temp\
+	java.library.path = C:\Program Files\Java\jdk1.7.0_67\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\Program Files\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\Common Files\Microsoft Shared\Microsoft Online Services;C:\Program Files (x86)\EasyPHP-DevServer-14.1VC11\binaries\php\php_runningversion;C:\app\lmrosario\product\11.2.0\client_3;C:\app\lmrosario\product\11.2.0\client_2\bin;C:\Program Files\MATLAB\R2013a\bin;C:\Program Files\Broadcom\Broadcom 802.11 Network Adapter\Driver;;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\PROGRAM FILES\COMMON FILES\MICROSOFT SHARED\WINDOWS LIVE;C:\PROGRAM FILES (X86)\COMMON FILES\MICROSOFT SHARED\WINDOWS LIVE;C:\Windows\SYSTEM32\WINDOWSPOWERSHELL\V1.0;C:\PROGRAMS\JAVA\JDK1.6.0_64\BIN;C:\PROGRAMS\ELEVATION;C:\PROGRAMS\CYGWIN\BIN;C:\PROGRAM FILES (X86)\LENOVO\ACCESS CONNECTIONS;C:\PROGRAM FILES (X86)\COMMON FILES\ULEAD SYSTEMS\MPEG;C:\PROGRAMS\WINMERGE;C:\PROGRAMS\SERENA\DIMENSIONS 10.1\CM\PROG;C:\SWTOOLS\READYAPPS;C:\PROGRAM FILES (X86)\WINDOWS LIVE\SHARED;C:\Program Files\ThinkPad\Bluetooth Software;C:\Program Files\ThinkPad\Bluetooth Software\syswow64;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x64;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\MATLAB\R2013a\runtime\win64;C:\Program Files\TortoiseSVN\bin;.
+	java.runtime.name = Java(TM) SE Runtime Environment
+	java.runtime.version = 1.7.0_67-b01
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 1.7
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Oracle Corporation
+	java.vendor.url = http://java.oracle.com/
+	java.vendor.url.bug = http://bugreport.sun.com/bugreport/
+	java.version = 1.7.0_67
+	java.vm.info = mixed mode
+	java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 1.7
+	java.vm.vendor = Oracle Corporation
+	java.vm.version = 24.65-b04
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	javax.xml.datatype.DatatypeFactory = __redirected.__DatatypeFactory
+	javax.xml.parsers.DocumentBuilderFactory = __redirected.__DocumentBuilderFactory
+	javax.xml.parsers.SAXParserFactory = __redirected.__SAXParserFactory
+	javax.xml.stream.XMLEventFactory = __redirected.__XMLEventFactory
+	javax.xml.stream.XMLInputFactory = __redirected.__XMLInputFactory
+	javax.xml.stream.XMLOutputFactory = __redirected.__XMLOutputFactory
+	javax.xml.transform.TransformerFactory = __redirected.__TransformerFactory
+	javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema = __redirected.__SchemaFactory
+	javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom = __redirected.__XPathFactory
+	jboss.home.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final
+	jboss.host.name = lmrosario
+	jboss.modules.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\modules
+	jboss.node.name = lmrosario
+	jboss.qualified.host.name = lmrosario
+	jboss.server.base.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone
+	jboss.server.config.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\configuration
+	jboss.server.data.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\data
+	jboss.server.deploy.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\data\content
+	jboss.server.log.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\log
+	jboss.server.name = lmrosario
+	jboss.server.temp.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\tmp
+	line.separator = 
+
+	logging.configuration = file:D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone/configuration/logging.properties
+	module.path = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\modules
+	org.jboss.boot.log.file = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\log\boot.log
+	org.xml.sax.driver = __redirected.__XMLReaderFactory
+	os.arch = amd64
+	os.name = Windows 7
+	os.version = 6.1
+	path.separator = ;
+	program.name = standalone.bat
+	sun.arch.data.model = 64
+	sun.boot.class.path = C:\Program Files\Java\jdk1.7.0_67\jre\lib\resources.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\rt.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\jce.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.7.0_67\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.7.0_67\jre\classes
+	sun.boot.library.path = C:\Program Files\Java\jdk1.7.0_67\jre\bin
+	sun.cpu.endian = little
+	sun.cpu.isalist = amd64
+	sun.desktop = windows
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\jboss-modules.jar -mp D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\modules -jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone -Djboss.home.dir=D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = Cp1252
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	sun.os.patch.level = Service Pack 1
+	user.country = US
+	user.country.format = PT
+	user.dir = D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\bin
+	user.home = C:\Users\lmrosario
+	user.language = en
+	user.language.format = pt
+	user.name = lmrosario
+	user.script = 
+	user.timezone = America/Sao_Paulo
+	user.variant = 
+13:24:52,726 DEBUG [org.jboss.as.config] VM Arguments: -XX:+TieredCompilation -Dprogram.name=standalone.bat -Xms128m -Xmx512m -XX:MaxPermSize=256m -Dorg.jboss.boot.log.file=D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\log\boot.log -Dlogging.configuration=file:D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone/configuration/logging.properties 
+13:24:54,235 INFO  [org.jboss.as.server] JBAS015888: Creating http management service using socket-binding (management-http)
+13:24:54,235 INFO  [org.xnio] XNIO Version 3.0.3.GA
+13:24:54,255 INFO  [org.xnio.nio] XNIO NIO Implementation Version 3.0.3.GA
+13:24:54,265 INFO  [org.jboss.remoting] JBoss Remoting version 3.2.3.GA
+13:24:54,302 INFO  [org.jboss.as.logging] JBAS011502: Removing bootstrap log handlers
+14:34:12,030 INFO  [org.jboss.as.logging] JBAS011503: Restored bootstrap log handlers
+14:34:12,040 INFO  [org.apache.catalina.core.StandardContext] Container org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/] has not been started
+14:34:12,060 INFO  [org.jboss.as.jpa] JBAS011403: Stopping Persistence Unit Service 'SmartcitiesGITHUB.war#smartcitie_db'
+14:34:12,070 INFO  [com.arjuna.ats.jbossatx] ARJUNA032018: Destroying TransactionManagerService
+14:34:12,070 INFO  [com.arjuna.ats.jbossatx] ARJUNA032014: Stopping transaction recovery manager
+14:34:12,080 INFO  [org.jboss.as.server.deployment] JBAS015877: Stopped deployment postgresql-9.3-1102.jdbc4.jar in 65ms
+14:34:17,933 INFO  [org.jboss.as.server.deployment] JBAS015877: Stopped deployment SmartcitiesGITHUB.war in 5928ms
+14:34:17,943 INFO  [org.jboss.as] JBAS015950: JBoss AS 7.1.1.Final "Brontes" stopped in 5932ms

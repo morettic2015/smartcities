@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Untitled</title>
+<script type="text/javascript" src="lib/dojo/dojo/dojo.js" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':'', 'mblLoadCompatPattern': ''"></script>
+<script type="text/javascript">
+require([
+  "dijit/dijit",
+  "dojo/parser",
+  "maqetta/space",
+  "maqetta/AppStates",
+  "dijit/Toolbar",
+  "dijit/form/Button",
+  "dijit/layout/ContentPane",
+  "dojox/io/xhrScriptPlugin",
+  "dojo/data/ItemFileReadStore",
+  "gridx/Grid",
+  "gridx/core/model/cache/Async",
+  "dojox/data/CsvStore"
+]);
+</script>
+<style>@import "themes/claro/document.css";@import "themes/claro/claro.css";@import "lib/dojo/gridx/resources/claro/Gridx.css";@import "lib/dojo/gridx/resources/claro/Gridx_rtl.css";@import "app.css";
+</style>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body data-maq-flow-layout="true" data-maq-comptype="desktop" class="claro" data-maq-ws="collapse" id="myapp" data-maq-appstates="{}">
+ <div data-dojo-type="dijit/layout/ContentPane" title="Pane" doLayout="false" style="width: 100%; height: 331.99431800842285px;">
+  <div style="height: 33px;">
+    <input placeholder="digite um nome aqui" readonly="true"></input>
+    <button class="HtmlWidget">
+      Procurar</button>
+  </div>
+<span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_1" jsId="ItemFileReadStore_1" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:1,&quot;adicionado&quot;:&quot;&lt;font color=\&quot;#32CD32\&quot;&gt;nome&lt;/font&gt;&quot;,&quot;removido&quot;:&quot;&quot;,&quot;data&quot;:&quot;dia/horário&quot;,&quot;responsável&quot;:&quot;nome&quot;},{&quot;unique_id&quot;:2,&quot;adicionado&quot;:&quot;&lt;font color=\&quot;#32CD32\&quot;&gt;nome&lt;/font&gt;&quot;,&quot;removido&quot;:&quot;&quot;,&quot;data&quot;:&quot;dia/horário&quot;,&quot;responsável&quot;:&quot;nome&quot;},{&quot;unique_id&quot;:3,&quot;adicionado&quot;:&quot;&lt;font color=\&quot;#888\&quot;&gt;nome&lt;/font&gt;&quot;,&quot;removido&quot;:&quot;&lt;font color=\&quot;#FF0000\&quot;&gt;nome&lt;/font&gt;&quot;,&quot;data&quot;:&quot;dia/horário&quot;,&quot;responsável&quot;:&quot;nome&quot;}]}"></span>
+<table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'auto',name:'Adicionado',field:'adicionado'},{width:'auto',name:'Removido',field:'removido'},{width:'auto',name:'Data',field:'data'},{width:'auto',name:'Responsável',field:'responsável'}],store:ItemFileReadStore_1"></table>
+</div>
+ </body>
+</html>

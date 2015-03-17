@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>Untitled</title>
+<script type="text/javascript" src="lib/dojo/dojo/dojo.js" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':'', 'mblLoadCompatPattern': ''"></script>
+<script type="text/javascript">
+require([
+  "dijit/dijit",
+  "dojo/parser",
+  "maqetta/space",
+  "maqetta/AppStates"
+]);
+</script>
+<style>@import "themes/claro/document.css";@import "themes/claro/claro.css";@import "app.css";
+</style>
+<script type="text/javascript" src="app.js"></script>
+</head>
+<body data-maq-flow-layout="true" data-maq-comptype="desktop" class="claro" data-maq-ws="collapse" id="myapp" data-maq-appstates="{}">
+ <input placeholder="nome" readonly="true" style="position: absolute; z-index: 900; left: 30px; top: 34px;"></input>
+ <input readonly="true" placeholder="conta" style="position: absolute; z-index: 900; left: 30px; top: 93px;"></input>
+ <input placeholder="agencia" readonly="true" style="position: absolute; z-index: 900; left: 30px; top: 122px;"></input>
+ <select style="position: absolute; z-index: 900; left: 30px; top: 154px;">
+<option value="Banco do Brasil">
+     Banco do Brasil</option>
+   <option value="Santander">
+     Santander</option>
+   <option value="Ita&amp;uacute;">
+     Ita&uacute;</option>
+   <option value="Caixa Econ&amp;ocirc;mica Federal">
+     Caixa Econ&ocirc;mica Federal</option>
+   <option value="HSBC">
+     HSBC</option>
+ </select>
+ <input placeholder="cpf" readonly="true" style="position: absolute; z-index: 900; left: 30px; top: 64px;"></input>
+ </body>
+</html>

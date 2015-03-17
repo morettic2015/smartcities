@@ -1,0 +1,19 @@
+<form name="datasourcetypesForm">
+<input ng-model="datasourcetype.deSourceType" type="text" placeholder="deSourceType">
+<br>
+<button ng-click="adicionarDataSourceType(datasourcetype)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="DataSourceTypesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='iddatasourcetype';direcao=!direcao">iddataSourceType</a></th>
+		<th><a href="" ng-click="ordenarPor='nmDataSourceType';direcao=!direcao">deSourceType</a></th>
+	</tr>
+	<tr ng-repeat="item in datasourcetypes | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.iddataSourceType}}</td>
+			<td>{{item.deSourceType}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{datasourcetypes}}

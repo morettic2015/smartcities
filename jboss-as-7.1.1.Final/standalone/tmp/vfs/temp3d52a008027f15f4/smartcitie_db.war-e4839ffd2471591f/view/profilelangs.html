@@ -1,0 +1,25 @@
+<form name="profilelangsForm">
+<input ng-model="profilelang.isMainLanguage" type="text" placeholder="isMainLanguage">
+<input ng-model="profilelang.idProfile" type="text" placeholder="idProfile">
+<input ng-model="profilelang.idLang" type="text" placeholder="idLang">
+<br>
+<button ng-click="adicionarProfileLang(profilelang)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="ProfileLangsCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='id';direcao=!direcao">id</a></th>
+		<th><a href="" ng-click="ordenarPor='isMainLanguage';direcao=!direcao">isMainLanguage</a></th>
+		<th><a href="" ng-click="ordenarPor='idProfile';direcao=!direcao">idProfile</a></th>
+		<th><a href="" ng-click="ordenarPor='idLang';direcao=!direcao">idLang</a></th>
+	</tr>
+	<tr ng-repeat="item in profilelangs | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.id}}</td>
+			<td>{{item.isMainLanguage}}</td>
+			<td>{{item.idProfile}}</td>
+			<td>{{item.idLang}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{profilelangs}}

@@ -1,0 +1,19 @@
+<form name="countriesForm">
+<input ng-model="country.nmCountry" type="text" placeholder="nmCountry">
+<br>
+<button ng-click="adicionarCountry(country)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="CountriesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idcountry';direcao=!direcao">idcountry</a></th>
+		<th><a href="" ng-click="ordenarPor='nmCountry';direcao=!direcao">nmCountry</a></th>
+	</tr>
+	<tr ng-repeat="item in countries | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idcountry}}</td>
+			<td>{{item.nmCountry}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{countries}}

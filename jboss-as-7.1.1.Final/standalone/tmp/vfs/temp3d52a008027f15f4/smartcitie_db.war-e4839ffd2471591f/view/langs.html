@@ -1,0 +1,22 @@
+<form name="langsForm">
+<input ng-model="lang.lang" type="text" placeholder="lang">
+<input ng-model="lang.token" type="text" placeholder="token">
+<br>
+<button ng-click="adicionarLang(lang)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="LangsCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idLang';direcao=!direcao">idLang</a></th>
+		<th><a href="" ng-click="ordenarPor='lang';direcao=!direcao">lang</a></th>
+		<th><a href="" ng-click="ordenarPor='token';direcao=!direcao">token</a></th>
+	</tr>
+	<tr ng-repeat="item in langs | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idLang}}</td>
+			<td>{{item.lang}}</td>
+			<td>{{item.token}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{langs}}

@@ -1,0 +1,25 @@
+<form name="socialnetworksForm">
+<input ng-model="socialnetwork.idSocialNetworkType" type="text" placeholder="idSocialNetworkType">
+<input ng-model="socialnetwork.idProfile" type="text" placeholder="idProfile">
+<input ng-model="socialnetwork.userLogin" type="text" placeholder="userLogin">
+<br>
+<button ng-click="adicionarSocialNetwork(socialnetwork)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="SocialNetworksCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idsocialnetwork';direcao=!direcao">idSocialNetwork</a></th>
+		<th><a href="" ng-click="ordenarPor='nmSocialNetwork';direcao=!direcao">idSocialNetworkType</a></th>
+		<th><a href="" ng-click="ordenarPor='nmSocialNetwork';direcao=!direcao">idProfile</a></th>
+		<th><a href="" ng-click="ordenarPor='nmSocialNetwork';direcao=!direcao">userLogin</a></th>
+	</tr>
+	<tr ng-repeat="item in socialnetworks | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idSocialNetwork}}</td>
+			<td>{{item.idSocialNetworkType}}</td>
+			<td>{{item.idProfile}}</td>
+			<td>{{item.userLogin}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{socialnetworks}}

@@ -1,0 +1,26 @@
+<form name="statesForm">
+<input ng-model="state.nmState" type="text" placeholder="nmState">
+<input ng-model="state.idCountry" type="text" placeholder="idCountry">
+<input ng-model="state.statecol" type="text" placeholder="statecol">
+
+<br>
+<button ng-click="adicionarState(state)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="StatesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idstate';direcao=!direcao">idstate</a></th>
+		<th><a href="" ng-click="ordenarPor='nmState';direcao=!direcao">nmState</a></th>
+		<th><a href="" ng-click="ordenarPor='nmState';direcao=!direcao">idCountry</a></th>
+		<th><a href="" ng-click="ordenarPor='nmState';direcao=!direcao">statecol</a></th>
+	</tr>
+	<tr ng-repeat="item in states | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idstate}}</td>
+			<td>{{item.nmState}}</td>
+			<td>{{item.idCountry}}</td>
+			<td>{{item.statecol}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{states}}

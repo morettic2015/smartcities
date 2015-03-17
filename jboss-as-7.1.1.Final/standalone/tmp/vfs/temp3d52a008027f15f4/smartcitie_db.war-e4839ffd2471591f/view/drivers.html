@@ -1,0 +1,28 @@
+<form name="driversForm">
+<input ng-model="driver.driverName" type="text" placeholder="driverName">
+<input ng-model="driver.driverClasspath" type="text" placeholder="driverClasspath">
+<input ng-model="driver.driverDescription" type="text" placeholder="driverDescription">
+<input ng-model="driver.idProfileDriverCreator" type="text" placeholder="idProfileDriverCreator">
+<br>
+<button ng-click="adicionarDriver(driver)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="DriversCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='id';direcao=!direcao">id</a></th>
+		<th><a href="" ng-click="ordenarPor='driverName';direcao=!direcao">driverName</a></th>
+		<th><a href="" ng-click="ordenarPor='driverClasspath';direcao=!direcao">driverClasspath</a></th>
+		<th><a href="" ng-click="ordenarPor='driverDescription';direcao=!direcao">driverDescription</a></th>
+		<th><a href="" ng-click="ordenarPor='idProfileDriverCreator';direcao=!direcao">idProfileDriverCreator</a></th>
+	</tr>
+	<tr ng-repeat="item in drivers | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.id}}</td>
+			<td>{{item.driverName}}</td>
+			<td>{{item.driverClasspath}}</td>
+			<td>{{item.driverDescription}}</td>
+			<td>{{item.idProfileDriverCreator}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{drivers}}

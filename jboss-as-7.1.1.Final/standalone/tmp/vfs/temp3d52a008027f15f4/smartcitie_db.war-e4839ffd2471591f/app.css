@@ -1,0 +1,320 @@
+#myDialog_underlay{
+	background-color: #000000;
+}
+
+.icone-importar,
+.icone-exportar,
+.icone-excluir,
+.icone-copiar,
+.icone-transformar,
+.icone-compartilhar,
+.icone-drivers,
+.icone-salvar,
+.icone-tarefa,
+.icone-historico,
+.icone-novo-contato,
+.icone-novo-circulo,
+.icone-circulo,
+.icone-dados-pessoais,
+.icone-endereco,
+.icone-idioma,
+.icone-seguranca,
+.icone-credito,
+.icone-atualizar,
+.icon-config-p,
+.icone-buscar,
+.icone-novo-alarme,
+.icone-filtrar{
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+}
+.imgIcon{
+    padding-left: 30px;
+}
+
+.icone-perfil{
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    left: 0px;
+    padding-left: 0px;
+    text-align: center;
+    background-image: url('images/icons/Importar/24X24.png');	
+    z-index:999;
+    float:left;
+}
+.icone-importar{
+    background-image: url('images/icons/Importar/12X12.png');	
+}
+.icone-buscar{
+    background-image: url('images/icons/Buscar/12X12.png');	
+}
+
+.icone-exportar{
+    background-image: url('images/icons/Exportar/12X12.png');
+}
+
+.icone-excluir{
+    background-image: url('images/icons/Excluir/12X12.png');
+}
+
+.icone-copiar{
+    background-image: url(images/icons/Dados/12X12.png);
+}
+
+.icone-transformar{
+    background-image: url(images/icons/Transformar/12X12.png);
+}
+
+.icone-dados-pessoais{
+    background-image: url(images/icons/DadosPessoais/12X12.png);
+}
+
+.icone-endereco{
+	background-image: url(images/icons/Endereco/12X12.png);
+}
+
+.icone-seguranca{
+	background-image: url(images/icons/Seguranca/12X12.png);
+}
+
+.icone-idioma{
+	background-image: url(images/icons/Idioma/12X12.png);
+}
+
+.icone-credito{
+	background-image: url(images/icons/Credito/12X12.png);
+}
+
+.icone-compartilhar{
+    background-image: url(images/icons/Compartilhar/12X12.png);
+}
+
+.icone-drivers{
+    background-image: url(images/icons/Drivers/12X12.png);
+}
+
+.icone-salvar{
+    background-image: url(images/icons/Salvar/12X12.png);
+}
+
+.icone-novo-contato{
+    background-image: url(images/icons/Novo/Contato/12X12.png);
+}
+
+.icone-novo-circulo{
+    background-image: url(images/icons/Novo/Grupo/12X12.png);
+}
+
+.icone-circulo{
+    background-image: url(images/icons/Circulo/12X12.png);
+}
+
+.icone-tarefa{
+    background-image: url(images/icons/Tarefa/12X12.png);
+}
+.icone-tarefaBig{
+    //padding:0 48px 0 0; /* whatever the dimensions the image needs */
+    background-image: url(images/icons/Tarefa/12X12.png) no-repeat   ;
+    padding-right: 50px;
+}
+.icone-atualizar{
+    background-image: url(images/icons/Atualizar/12X12.png);
+}
+.icone-historico{
+    background-image: url(images/icons/historico/12X12.png);
+}
+.icone-transacoes-paypal{
+    background-image: url(images/icons/Transacoes/paypal.png);	
+}
+.icone-transacoes-santander{
+    background-image: url(images/icons/Transacoes/santander.png);	
+}
+.icone-transacoes-caixa{
+    background-image: url(images/icons/Transacoes/caixa.png);	
+}
+.icone-transacoes-hsbc{
+    background-image: url(images/icons/Transacoes/hsbc.png);	
+}
+.icone-transacoes-itau{
+    background-image: url(images/icons/Transacoes/itau.png);	
+}
+.icone-transacoes-pagseguro{
+    background-image: url(images/icons/Transacoes/pagseguro.png);	
+}
+.icone-transacoes-bb{
+    background-image: url(images/icons/Transacoes/bb.png);	
+}
+.bt-paypal{
+    background-image: url(images/icons/54X54/paypal.png);
+}
+.icon-ferramenta-dados{
+    background-image: url(images/icons/Config/24X24.png);
+}
+.icon-config-p{
+    background-image: url(images/icons/Config/12X12.png);
+}
+.icone-novo-alarme{
+	background-image: url(images/icons/NovoAlarme/12X12-2.png);
+}
+.icone-filtrar{
+	background-image: url(images/icons/Filtrar/12X12-2.png);
+}
+
+
+.bt-paypal:link{
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+.bt-paypal:hover {
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+.bt-pagseguro{
+    background-image: url(images/icons/54X54/pagseguro.png);
+}
+.bt-pagseguro:link{
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+.bt-pagseguro:hover{
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+.bt-banco{
+    background-image: url(images/icons/54X54/banco.png);
+}
+.bt-banco:link{
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+.bt-banco:hover{
+    color: #0083cc;
+    background-color: #f1f1f1;
+}
+
+img.fundo {
+    min-height: 100%;
+    min-width: 1240px;
+
+    /* escala proporcioanl */
+    width: 100%;
+    height: auto;
+
+    /* posicionamento */
+    position: fixed;
+    left: 0;
+    top: 0;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/* largura dessa imagem em particular */
+@media screen and (max-width: 1240px){
+    img.fundo{
+        left: 50%;
+        margin-left: -620px;
+    }
+}
+.item-menu-principal {
+    background-color : inherit;
+    padding-left : 4px;
+    padding-right : 4px;
+    padding-top : 2px;
+    padding-bottom : 1px;
+    color : white;
+    font-weight : bold;
+    font-family : Tahoma,Geneva,sans-serif;
+    font-size : 10pt;
+    position : absolute;
+    z-index : 900;
+    top : 48px;
+    cursor : default;
+}
+
+.item-menu-principal:hover {
+    background-color : #FFFFFF;
+    color : #000000
+        ;
+}
+
+.usuario-cabecalho {
+    color : white;
+    font-weight : normal;
+    font-family : Tahoma,Geneva,sans-serif;
+    font-size : 10pt;
+}
+
+.fundo-azul {
+    background-color: #002F66;
+}
+
+.fundo-laranja {
+    background-color: #f26822;
+}
+
+/* Padronização de layout dos formularios */
+.celula-form-1{
+    position: relative;
+    width:100%;
+    height: 20px;
+	margin-bottom: 5px;
+}
+.celula-form-1 .rotulo{
+    position:absolute;
+    right:90%;
+	text-align: right;
+	top: 50%;
+	margin-top: -7px;	
+}
+.celula-form-1 .campo{
+    position: absolute;
+    left: 11%;
+	margin: 0px;
+}
+
+.plegend {
+    border: 1px;
+    border-color: #f26822;
+    background: white;
+    padding: 10px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    width: 120px;
+    height: 75%;
+    font-size: smaller;
+    box-shadow: 10px 10px 5px #888888;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    
+}
+
+/* Formatação do layout da tela para escolha de tipo de dados */
+.lista-icones ul {
+    padding : 0px;
+    margin : 0px;
+    background-color : inherit;
+    list-style : none;
+}
+.lista-icones li {
+    width : 54px;
+    height : 54px;
+    margin-left: 0px;
+	margin-right: 65px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+    display : block;
+    float : left;
+}
+/* Fim estilos layout escolha de dados */
+
+.icone-bandeira{
+	background-color: inherit;
+}
+.icone-bandeira:hover{
+	background-color: #002F66;
+}

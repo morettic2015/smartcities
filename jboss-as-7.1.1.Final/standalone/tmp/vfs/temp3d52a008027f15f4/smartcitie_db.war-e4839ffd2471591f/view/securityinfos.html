@@ -1,0 +1,31 @@
+<form name="securityInfosForm">
+<input ng-model="securityInfo.telefoneRecorey1" type="text" placeholder="telefoneRecorey1">
+<input ng-model="securityInfo.telefoneRecorey2" type="text" placeholder="telefoneRecorey2">
+<input ng-model="securityInfo.emailRecorey1" type="text" placeholder="emailRecorey1">
+<input ng-model="securityInfo.secretWord" type="text" placeholder="secretWord">
+<input ng-model="securityInfo.idProfile" type="text" placeholder="idProfile">
+<br>
+<button ng-click="adicionarSecurityInfo(securityInfo)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="SecurityInfosCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='id';direcao=!direcao">id</a></th>
+		<th><a href="" ng-click="ordenarPor='telefoneRecorey1';direcao=!direcao">telefoneRecorey1</a></th>
+		<th><a href="" ng-click="ordenarPor='telefoneRecorey2';direcao=!direcao">telefoneRecorey2</a></th>
+		<th><a href="" ng-click="ordenarPor='emailRecorey1';direcao=!direcao">emailRecorey1</a></th>
+		<th><a href="" ng-click="ordenarPor='secretWord';direcao=!direcao">secretWord</a></th>
+		<th><a href="" ng-click="ordenarPor='idProfile';direcao=!direcao">idProfile</a></th>
+	</tr>
+	<tr ng-repeat="item in securityInfos | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.id}}</td>
+			<td>{{item.telefoneRecorey1}}</td>
+			<td>{{item.telefoneRecorey2}}</td>
+			<td>{{item.emailRecorey1}}</td>
+			<td>{{item.secretWord}}</td>
+			<td>{{item.idProfile}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{securityInfos}}

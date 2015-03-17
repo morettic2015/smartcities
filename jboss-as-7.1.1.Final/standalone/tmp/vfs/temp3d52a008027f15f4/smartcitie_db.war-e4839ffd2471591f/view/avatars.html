@@ -1,0 +1,22 @@
+<form name="avatarsForm">
+<input ng-model="avatar.idProfile" type="text" placeholder="idProfile">
+<input ng-model="avatar.path" type="text" placeholder="path">
+<br>
+<button ng-click="adicionarAvatar(avatar)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="AvatarsCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idavatar';direcao=!direcao">idavatar</a></th>
+		<th><a href="" ng-click="ordenarPor='nmAvatar';direcao=!direcao">idProfile</a></th>
+		<th><a href="" ng-click="ordenarPor='nmAvatar';direcao=!direcao">path</a></th>
+	</tr>
+	<tr ng-repeat="item in avatars | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idavatar}}</td>
+			<td>{{item.idProfile}}</td>
+			<td>{{item.path}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{avatars}}

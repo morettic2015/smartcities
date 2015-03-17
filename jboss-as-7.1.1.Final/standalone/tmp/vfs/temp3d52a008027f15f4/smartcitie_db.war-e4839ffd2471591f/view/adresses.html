@@ -1,0 +1,37 @@
+<form name="adressesForm">
+<input ng-model="adress.street" type="text" placeholder="street">
+<input ng-model="adress.number" type="text" placeholder="number">
+<input ng-model="adress.otherinfo" type="text" placeholder="otherinfo">
+<input ng-model="adress.lat" type="text" placeholder="lat">
+<input ng-model="adress.lon" type="text" placeholder="lon">
+<input ng-model="adress.idCity" type="text" placeholder="idCity">
+<input ng-model="adress.idProfile" type="text" placeholder="idProfile">
+<br>
+<button ng-click="adicionarAdress(adress)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="AdressesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idadress';direcao=!direcao">idadress</a></th>
+		<th><a href="" ng-click="ordenarPor='street';direcao=!direcao">street</a></th>
+		<th><a href="" ng-click="ordenarPor='number';direcao=!direcao">number</a></th>
+		<th><a href="" ng-click="ordenarPor='otherinfo';direcao=!direcao">otherinfo</a></th>
+		<th><a href="" ng-click="ordenarPor='lat';direcao=!direcao">lat</a></th>
+		<th><a href="" ng-click="ordenarPor='lon';direcao=!direcao">lon</a></th>
+		<th><a href="" ng-click="ordenarPor='idCity';direcao=!direcao">idCity</a></th>
+		<th><a href="" ng-click="ordenarPor='idProfile';direcao=!direcao">idProfile</a></th>
+	</tr>
+	<tr ng-repeat="item in adresses | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idadress}}</td>
+			<td>{{item.street}}</td>
+			<td>{{item.number}}</td>
+			<td>{{item.otherinfo}}</td>
+			<td>{{item.lat}}</td>
+			<td>{{item.lon}}</td>
+			<td>{{item.idCity}}</td>
+			<td>{{item.idProfile}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{adresses}}

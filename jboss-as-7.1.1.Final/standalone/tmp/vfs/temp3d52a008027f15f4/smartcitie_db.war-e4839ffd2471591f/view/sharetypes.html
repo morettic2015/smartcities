@@ -1,0 +1,22 @@
+<form name="sharetypesForm">
+<input ng-model="sharetype.deShare" type="text" placeholder="deShare">
+<input ng-model="sharetype.nmShare" type="text" placeholder="nmShare">
+<br>
+<button ng-click="adicionarShareType(sharetype)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="ShareTypesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idsharetype';direcao=!direcao">idshareType</a></th>
+		<th><a href="" ng-click="ordenarPor='nmShareType';direcao=!direcao">deShare</a></th>
+		<th><a href="" ng-click="ordenarPor='nmShareType';direcao=!direcao">nmShare</a></th>
+	</tr>
+	<tr ng-repeat="item in sharetypes | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idshareType}}</td>
+			<td>{{item.deShare}}</td>
+			<td>{{item.nmShare}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{sharetypes}}

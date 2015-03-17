@@ -1,0 +1,340 @@
+18:22:27,652 WARN  [org.hibernate.hql.internal.ast.QueryTranslatorImpl] (http--127.0.0.1-8080-2) HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+18:22:31,620 WARN  [org.hibernate.hql.internal.ast.QueryTranslatorImpl] (http--127.0.0.1-8080-2) HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+18:22:39,007 WARN  [org.hibernate.hql.internal.ast.QueryTranslatorImpl] (http--127.0.0.1-8080-2) HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+18:22:43,365 WARN  [org.hibernate.hql.internal.ast.QueryTranslatorImpl] (http--127.0.0.1-8080-2) HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+20:48:50,846 WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-6) SQL Error: 0, SQLState: 23505
+20:48:50,856 ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-6) ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+20:48:50,866 WARN  [com.arjuna.ats.arjuna] (http--127.0.0.1-8080-6) ARJUNA012125: TwoPhaseCoordinator.beforeCompletion - failed for SynchronizationImple< 0:ffffac1a81b0:-1609b413:54cfc328:490, org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization@2203e992 >: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint$$$view28.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+
+20:48:51,116 INFO  [org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl] (http--127.0.0.1-8080-6) HHH000010: On release of batch it still contained JDBC statements
+20:48:51,126 ERROR [org.jboss.ejb3.invocation] (http--127.0.0.1-8080-6) JBAS014134: EJB Invocation failed on component CountryEndpoint for method public javax.ws.rs.core.Response br.com.moretic.rest.CountryEndpoint.create(br.com.moretic.vo.Country): javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.handleEndTransactionException(CMTTxInterceptor.java:115) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:95) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint$$$view28.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction.
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1177)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	... 50 more
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	... 53 more
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+
+20:48:51,356 ERROR [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/smartcitie_db].[br.com.moretic.rest.RestApplication]] (http--127.0.0.1-8080-6) Servlet.service() for servlet br.com.moretic.rest.RestApplication threw exception: org.jboss.resteasy.spi.UnhandledException: javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleApplicationException(SynchronousDispatcher.java:340) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleException(SynchronousDispatcher.java:214) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleInvokerException(SynchronousDispatcher.java:190) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:540) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.handleEndTransactionException(CMTTxInterceptor.java:115) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:95) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint$$$view28.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	... 20 more
+Caused by: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction.
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1177)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	... 50 more
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	... 53 more
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "country_pkey"
+  Detail: Key (idcountry)=(1) already exists.
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+

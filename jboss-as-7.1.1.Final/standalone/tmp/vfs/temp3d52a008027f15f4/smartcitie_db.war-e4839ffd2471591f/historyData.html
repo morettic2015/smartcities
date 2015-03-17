@@ -1,0 +1,17 @@
+<div style="margin: 10px;">
+
+    <h1 id="tituloHistoryData">Histórico de transações</h1>
+	
+    <p id="p1HistoryData" style="margin:10px;">Utilize o filtro abaixo para visualizar as transações de dados realizadas.</p>
+	
+    <div style="margin-left:10px;">
+		<span id="rotDeHistoryData">De</span>&nbsp;<input type="text" data-dojo-type="dijit/form/DateTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" style="padding: 0.5em;"></input>
+		&nbsp;<span id="rotAteHistoryData">at&eacute;</span>&nbsp;<input type="text" data-dojo-type="dijit/form/DateTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" style="padding: 0.5em;"></input>
+		&nbsp;<input id="btFiltrarHistoricoDados" type="button" data-dojo-type="dijit/form/Button" iconClass="icone-buscar" label="<span id='rotBtBuscarHistoryData'>Buscar</span>" title="Buscar"></input>
+	</div>
+	
+	<div data-dojo-type="dijit/layout/ContentPane" title="Hist&amp;oacute;rico da Conta" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
+        <span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_1" jsId="ItemFileReadStore_1" data="{&quot;identifier&quot;:&quot;unique_id&quot;,&quot;items&quot;:[{&quot;unique_id&quot;:1,&quot;id&quot;:&quot;ID&quot;,&quot;data&quot;:&quot;Data&quot;,&quot;hora&quot;:&quot;Hora&quot;,&quot;usuário&quot;:&quot;Usuário&quot;,&quot;fonte_de_dados&quot;:&quot;Fonte de Dados&quot;,&quot;operação&quot;:&quot; Operação&quot;}]}"></span>
+        <table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 84px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[{width:'auto',name:'<span id=\'colGridIDHistoryData\'>ID</span>',field:'id'},{width:'auto',name:'<span id=\'colGridDateHistoryData\'>data</span>',field:'data'},{width:'auto',name:'<span id=\'colGridTimeHistoryData\'>Hora</span>',field:'hora'},{width:'auto',name:'<span id=\'colGridUserHistoryData\'>Usuário</span>',field:'usuário'},{width:'auto',name:'<span id=\'colGridSourceHistoryData\'>Fonte de Dados</span>',field:'fonte_de_dados'},{width:'auto',name:'<span id=\'colGridOperationHistoryData\'>Operação</span>',field:'operação'}],store:ItemFileReadStore_1"></table>
+    </div>
+</div>

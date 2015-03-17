@@ -1,0 +1,1778 @@
+01:37:54,902 ERROR [org.jboss.remoting.remote.connection] (Remoting "lmrosario:MANAGEMENT" read-1) JBREM000200: Remote connection failed: java.io.IOException: An existing connection was forcibly closed by the remote host
+01:38:04,166 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-1) Pausing Coyote HTTP/1.1 on http--127.0.0.1-8080
+01:38:04,176 INFO  [org.jboss.as.osgi] (MSC service thread 1-8) JBAS011942: Stopping OSGi Framework
+01:38:04,186 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-1) Stopping Coyote HTTP/1.1 on http--127.0.0.1-8080
+18:44:28,033 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+18:44:28,043 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+18:44:28,081 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+18:44:28,053 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+18:44:28,407 INFO  [org.jboss.as.naming] (MSC service thread 1-4) JBAS011802: Starting Naming Service
+18:44:28,441 INFO  [org.jboss.as.security] (MSC service thread 1-6) JBAS013100: Current PicketBox version=4.0.7.Final
+18:44:28,445 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-1) JBAS015400: Bound mail session [java:jboss/mail/Default]
+18:44:28,515 INFO  [org.jboss.as.connector] (MSC service thread 1-3) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+18:44:28,807 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+18:44:29,595 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-7) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+18:44:31,154 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-1) JBoss Web Services - Stack CXF Server 4.0.2.GA
+18:44:31,881 INFO  [org.jboss.as.remoting] (MSC service thread 1-7) JBAS017100: Listening on /127.0.0.1:9999
+18:44:31,881 INFO  [org.jboss.as.remoting] (MSC service thread 1-6) JBAS017100: Listening on /127.0.0.1:4447
+18:44:31,931 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-2) JBAS015012: Started FileSystemDeploymentService for directory D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\deployments
+18:44:32,871 INFO  [org.jboss.as.controller] (Controller Boot Thread) JBAS014774: Service status report
+JBAS014775:    New missing/unsatisfied dependencies:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (missing) dependents: [service jboss.data-source.java:jboss/datasources/SmartcitieDB] 
+
+18:44:32,911 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) JBAS015876: Starting deployment of "postgresql-9.3-1102.jdbc4.jar"
+18:44:32,911 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-8) JBAS015876: Starting deployment of "smartcitie_db.war"
+18:44:33,243 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-3) JBAS010404: Deploying non-JDBC-compliant driver class org.postgresql.Driver (version 9.3)
+18:44:33,331 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-6) JBAS010400: Bound data source [java:jboss/datasources/SmartcitieDB]
+18:44:34,495 INFO  [org.jboss.as.jpa] (MSC service thread 1-4) JBAS011401: Read persistence.xml for smartcitie_db
+18:44:34,954 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ViewRuleEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:module/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:global/smartcitie_db/ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint
+	java:module/ViewRuleEndpoint
+
+18:44:34,964 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named OperationTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:module/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:global/smartcitie_db/OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint
+	java:module/OperationTypeEndpoint
+
+18:44:34,974 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:module/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:global/smartcitie_db/FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint
+	java:module/FieldEndpoint
+
+18:44:34,984 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:module/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:global/smartcitie_db/DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint
+	java:module/DriverEndpoint
+
+18:44:34,994 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ProfileLangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:module/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:global/smartcitie_db/ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint
+	java:module/ProfileLangEndpoint
+
+18:44:35,004 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named GenericHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:module/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:global/smartcitie_db/GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO
+	java:module/GenericHibernateDAO
+
+18:44:35,014 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named AvatarEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:module/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:global/smartcitie_db/AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint
+	java:module/AvatarEndpoint
+
+18:44:35,024 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SharePermissionsEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:global/smartcitie_db/SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint
+
+18:44:35,034 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ShareLogEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:module/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:global/smartcitie_db/ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint
+	java:module/ShareLogEndpoint
+
+18:44:35,044 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ProfileEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:module/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:global/smartcitie_db/ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint
+	java:module/ProfileEndpoint
+
+18:44:35,054 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceDriverOutputEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint
+
+18:44:35,074 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named CityEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:app/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:module/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:global/smartcitie_db/CityEndpoint
+	java:app/smartcitie_db/CityEndpoint
+	java:module/CityEndpoint
+
+18:44:35,074 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SecurityInfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:global/smartcitie_db/SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint
+
+18:44:35,094 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named GroupEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:module/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:global/smartcitie_db/GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint
+	java:module/GroupEndpoint
+
+18:44:35,104 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ActionHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:module/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:global/smartcitie_db/ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO
+	java:module/ActionHibernateDAO
+
+18:44:35,114 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named LangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:app/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:module/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:global/smartcitie_db/LangEndpoint
+	java:app/smartcitie_db/LangEndpoint
+	java:module/LangEndpoint
+
+18:44:35,124 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SocialNetworkEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:global/smartcitie_db/SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint
+
+18:44:35,134 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceDriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:global/smartcitie_db/DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint
+
+18:44:35,153 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldMaskEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:module/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:global/smartcitie_db/FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint
+	java:module/FieldMaskEndpoint
+
+18:44:35,165 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:module/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:global/smartcitie_db/DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint
+	java:module/DataSourceEndpoint
+
+18:44:35,166 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:module/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:global/smartcitie_db/FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint
+	java:module/FieldTypeEndpoint
+
+18:44:35,186 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named InfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:module/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:global/smartcitie_db/InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint
+	java:module/InfoEndpoint
+
+18:44:35,196 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:global/smartcitie_db/DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint
+
+18:44:35,206 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named StateEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:app/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:module/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:global/smartcitie_db/StateEndpoint
+	java:app/smartcitie_db/StateEndpoint
+	java:module/StateEndpoint
+
+18:44:35,216 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ShareTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:module/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:global/smartcitie_db/ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint
+	java:module/ShareTypeEndpoint
+
+18:44:35,227 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SocialNetworkTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint
+
+18:44:35,238 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named AdressEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:module/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:global/smartcitie_db/AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint
+	java:module/AdressEndpoint
+
+18:44:35,248 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named CountryEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:module/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:global/smartcitie_db/CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint
+	java:module/CountryEndpoint
+
+18:44:36,102 INFO  [org.jboss.as.jpa] (MSC service thread 1-2) JBAS011402: Starting Persistence Unit Service 'smartcitie_db.war#smartcitie_db'
+18:44:36,312 INFO  [org.hibernate.annotations.common.Version] (MSC service thread 1-2) HCANN000001: Hibernate Commons Annotations {4.0.1.Final}
+18:44:36,322 INFO  [org.hibernate.Version] (MSC service thread 1-2) HHH000412: Hibernate Core {4.0.1.Final}
+18:44:36,322 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-2) HHH000206: hibernate.properties not found
+18:44:36,332 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-2) HHH000021: Bytecode provider name : javassist
+18:44:36,352 INFO  [org.hibernate.ejb.Ejb3Configuration] (MSC service thread 1-2) HHH000204: Processing PersistenceUnitInfo [
+	name: smartcitie_db
+	...]
+18:44:36,742 INFO  [org.hibernate.service.jdbc.connections.internal.ConnectionProviderInitiator] (MSC service thread 1-2) HHH000130: Instantiating explicit connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+18:44:37,520 INFO  [org.hibernate.dialect.Dialect] (MSC service thread 1-2) HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:44:37,540 INFO  [org.hibernate.engine.jdbc.internal.LobCreatorBuilder] (MSC service thread 1-2) HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+18:44:37,550 INFO  [org.hibernate.engine.transaction.internal.TransactionFactoryInitiator] (MSC service thread 1-2) HHH000268: Transaction strategy: org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory
+18:44:37,560 INFO  [org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory] (MSC service thread 1-2) HHH000397: Using ASTQueryTranslatorFactory
+18:44:37,610 INFO  [org.hibernate.validator.util.Version] (MSC service thread 1-2) Hibernate Validator 4.2.0.Final
+18:44:38,594 INFO  [org.jboss.web] (MSC service thread 1-7) JBAS018210: Registering web context: /smartcitie_db
+18:44:38,594 INFO  [org.jboss.as] (MSC service thread 1-6) JBAS015951: Admin console listening on http://127.0.0.1:9990
+18:44:38,594 INFO  [org.jboss.as] (MSC service thread 1-6) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 16443ms - Started 533 of 612 services (78 services are passive or on-demand)
+18:44:38,684 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "smartcitie_db.war"
+18:44:38,684 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "postgresql-9.3-1102.jdbc4.jar"
+18:44:38,694 INFO  [org.jboss.as.controller] (DeploymentScanner-threads - 2) JBAS014774: Service status report
+JBAS014776:    Newly corrected services:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (no longer required)
+
+18:45:33,633 INFO  [org.jboss.resteasy.spi.ResteasyDeployment] (http--127.0.0.1-8080-4) Deploying javax.ws.rs.core.Application: class br.com.moretic.rest.RestApplication
+18:45:44,426 WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-4) SQL Error: 0, SQLState: 42P01
+18:45:44,426 ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-4) ERROR: relation "country_id_seq" does not exist
+  Position: 17
+18:45:44,436 ERROR [org.jboss.ejb3.invocation] (http--127.0.0.1-8080-4) JBAS014134: EJB Invocation failed on component CountryEndpoint for method public javax.ws.rs.core.Response br.com.moretic.rest.CountryEndpoint.create(br.com.moretic.vo.Country): javax.ejb.EJBException: javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.handleExceptionInOurTx(CMTTxInterceptor.java:166) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:230) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint$$$view28.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:859) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.jboss.as.jpa.container.AbstractEntityManager.persist(AbstractEntityManager.java:563) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint.create(CountryEndpoint.java:31) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.as.ee.component.ManagedReferenceMethodInterceptorFactory$ManagedReferenceMethodInterceptor.processInvocation(ManagedReferenceMethodInterceptorFactory.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.WeavedInterceptor.processInvocation(WeavedInterceptor.java:53) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.interceptors.UserInterceptorFactory$1.processInvocation(UserInterceptorFactory.java:36) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.jpa.interceptor.SBInvocationInterceptor.processInvocation(SBInvocationInterceptor.java:47) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.InitialInterceptor.processInvocation(InitialInterceptor.java:21) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.interceptors.ComponentDispatcherInterceptor.processInvocation(ComponentDispatcherInterceptor.java:53) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.pool.PooledInstanceInterceptor.processInvocation(PooledInstanceInterceptor.java:51) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:228) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	... 49 more
+Caused by: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeQuery(Unknown Source)
+	at org.hibernate.id.enhanced.SequenceStructure$1.getNextValue(SequenceStructure.java:98) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.id.enhanced.OptimizerFactory$NoopOptimizer.generate(OptimizerFactory.java:252) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.id.enhanced.SequenceStyleGenerator.generate(SequenceStyleGenerator.java:353) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:120) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.event.EJB3PersistEventListener.saveWithGeneratedId(EJB3PersistEventListener.java:78) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:208) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:151) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:78) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:725) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:701) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:705) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:853) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	... 70 more
+Caused by: org.postgresql.util.PSQLException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeQuery(AbstractJdbc2Statement.java:304)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeQuery(WrappedPreparedStatement.java:462)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 84 more
+
+18:45:44,816 ERROR [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/smartcitie_db].[br.com.moretic.rest.RestApplication]] (http--127.0.0.1-8080-4) Servlet.service() for servlet br.com.moretic.rest.RestApplication threw exception: org.jboss.resteasy.spi.UnhandledException: javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleApplicationException(SynchronousDispatcher.java:340) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleException(SynchronousDispatcher.java:214) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleInvokerException(SynchronousDispatcher.java:190) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:540) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:859) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.jboss.as.jpa.container.AbstractEntityManager.persist(AbstractEntityManager.java:563) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint.create(CountryEndpoint.java:31) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.as.ee.component.ManagedReferenceMethodInterceptorFactory$ManagedReferenceMethodInterceptor.processInvocation(ManagedReferenceMethodInterceptorFactory.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.WeavedInterceptor.processInvocation(WeavedInterceptor.java:53) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.interceptors.UserInterceptorFactory$1.processInvocation(UserInterceptorFactory.java:36) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.jpa.interceptor.SBInvocationInterceptor.processInvocation(SBInvocationInterceptor.java:47) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.InitialInterceptor.processInvocation(InitialInterceptor.java:21) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.interceptors.ComponentDispatcherInterceptor.processInvocation(ComponentDispatcherInterceptor.java:53) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.pool.PooledInstanceInterceptor.processInvocation(PooledInstanceInterceptor.java:51) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:228) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.CountryEndpoint$$$view28.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	... 20 more
+Caused by: org.hibernate.exception.SQLGrammarException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeQuery(Unknown Source)
+	at org.hibernate.id.enhanced.SequenceStructure$1.getNextValue(SequenceStructure.java:98) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.id.enhanced.OptimizerFactory$NoopOptimizer.generate(OptimizerFactory.java:252) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.id.enhanced.SequenceStyleGenerator.generate(SequenceStyleGenerator.java:353) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:120) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.event.EJB3PersistEventListener.saveWithGeneratedId(EJB3PersistEventListener.java:78) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:208) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:151) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:78) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:725) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:701) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:705) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:853) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	... 70 more
+Caused by: org.postgresql.util.PSQLException: ERROR: relation "country_id_seq" does not exist
+  Position: 17
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeQuery(AbstractJdbc2Statement.java:304)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeQuery(WrappedPreparedStatement.java:462)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 84 more
+
+18:48:09,297 INFO  [org.jboss.as.jpa] (MSC service thread 1-4) JBAS011403: Stopping Persistence Unit Service 'smartcitie_db.war#smartcitie_db'
+18:48:10,070 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) JBAS015877: Stopped deployment smartcitie_db.war in 906ms
+18:48:10,138 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 1) JBAS018558: Undeployed "smartcitie_db.war"
+18:48:25,779 INFO  [org.jboss.as.osgi] (MSC service thread 1-4) JBAS011942: Stopping OSGi Framework
+18:48:25,828 INFO  [org.apache.catalina.core.StandardContext] (MSC service thread 1-6) Container org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/] has not been started
+18:49:04,208 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+18:49:04,218 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+18:49:04,268 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+18:49:04,278 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+18:49:04,288 INFO  [org.jboss.as.connector] (MSC service thread 1-5) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+18:49:04,298 INFO  [org.jboss.as.naming] (MSC service thread 1-5) JBAS011802: Starting Naming Service
+18:49:04,316 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+18:49:04,347 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-8) JBAS015400: Bound mail session [java:jboss/mail/Default]
+18:49:04,380 INFO  [org.jboss.as.security] (MSC service thread 1-4) JBAS013100: Current PicketBox version=4.0.7.Final
+18:49:04,390 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+18:49:04,400 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+18:49:05,082 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-2) JBoss Web Services - Stack CXF Server 4.0.2.GA
+18:49:05,356 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-4) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+18:49:05,770 INFO  [org.jboss.as.remoting] (MSC service thread 1-2) JBAS017100: Listening on /127.0.0.1:9999
+18:49:05,770 INFO  [org.jboss.as.remoting] (MSC service thread 1-6) JBAS017100: Listening on /127.0.0.1:4447
+18:49:05,800 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-8) JBAS015012: Started FileSystemDeploymentService for directory D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\deployments
+18:49:06,132 INFO  [org.jboss.as.controller] (Controller Boot Thread) JBAS014774: Service status report
+JBAS014775:    New missing/unsatisfied dependencies:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (missing) dependents: [service jboss.data-source.java:jboss/datasources/SmartcitieDB] 
+
+18:49:06,172 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-3) JBAS015876: Starting deployment of "postgresql-9.3-1102.jdbc4.jar"
+18:49:06,372 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-7) JBAS010404: Deploying non-JDBC-compliant driver class org.postgresql.Driver (version 9.3)
+18:49:06,465 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-4) JBAS010400: Bound data source [java:jboss/datasources/SmartcitieDB]
+18:49:06,473 INFO  [org.jboss.as] (MSC service thread 1-7) JBAS015951: Admin console listening on http://127.0.0.1:9990
+18:49:06,476 INFO  [org.jboss.as] (MSC service thread 1-7) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 4101ms - Started 156 of 233 services (76 services are passive or on-demand)
+18:49:06,578 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "postgresql-9.3-1102.jdbc4.jar"
+18:49:06,582 INFO  [org.jboss.as.controller] (DeploymentScanner-threads - 2) JBAS014774: Service status report
+JBAS014776:    Newly corrected services:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (no longer required)
+
+18:49:11,668 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-2) JBAS015876: Starting deployment of "smartcitie_db.war"
+18:49:13,168 INFO  [org.jboss.as.jpa] (MSC service thread 1-3) JBAS011401: Read persistence.xml for smartcitie_db
+18:49:13,390 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ViewRuleEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:module/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:global/smartcitie_db/ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint
+	java:module/ViewRuleEndpoint
+
+18:49:13,400 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named OperationTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:module/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:global/smartcitie_db/OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint
+	java:module/OperationTypeEndpoint
+
+18:49:13,420 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:module/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:global/smartcitie_db/FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint
+	java:module/FieldEndpoint
+
+18:49:13,430 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:module/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:global/smartcitie_db/DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint
+	java:module/DriverEndpoint
+
+18:49:13,440 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ProfileLangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:module/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:global/smartcitie_db/ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint
+	java:module/ProfileLangEndpoint
+
+18:49:13,450 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named GenericHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:module/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:global/smartcitie_db/GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO
+	java:module/GenericHibernateDAO
+
+18:49:13,460 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named AvatarEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:module/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:global/smartcitie_db/AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint
+	java:module/AvatarEndpoint
+
+18:49:13,470 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SharePermissionsEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:global/smartcitie_db/SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint
+
+18:49:13,480 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ShareLogEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:module/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:global/smartcitie_db/ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint
+	java:module/ShareLogEndpoint
+
+18:49:13,490 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ProfileEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:module/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:global/smartcitie_db/ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint
+	java:module/ProfileEndpoint
+
+18:49:13,490 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceDriverOutputEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint
+
+18:49:13,500 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named CityEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:app/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:module/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:global/smartcitie_db/CityEndpoint
+	java:app/smartcitie_db/CityEndpoint
+	java:module/CityEndpoint
+
+18:49:13,510 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SecurityInfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:global/smartcitie_db/SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint
+
+18:49:13,520 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named GroupEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:module/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:global/smartcitie_db/GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint
+	java:module/GroupEndpoint
+
+18:49:13,530 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ActionHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:module/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:global/smartcitie_db/ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO
+	java:module/ActionHibernateDAO
+
+18:49:13,530 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named LangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:app/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:module/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:global/smartcitie_db/LangEndpoint
+	java:app/smartcitie_db/LangEndpoint
+	java:module/LangEndpoint
+
+18:49:13,540 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SocialNetworkEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:global/smartcitie_db/SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint
+
+18:49:13,550 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceDriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:global/smartcitie_db/DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint
+
+18:49:13,560 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldMaskEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:module/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:global/smartcitie_db/FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint
+	java:module/FieldMaskEndpoint
+
+18:49:13,570 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:module/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:global/smartcitie_db/DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint
+	java:module/DataSourceEndpoint
+
+18:49:13,580 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named FieldTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:module/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:global/smartcitie_db/FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint
+	java:module/FieldTypeEndpoint
+
+18:49:13,590 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named InfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:module/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:global/smartcitie_db/InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint
+	java:module/InfoEndpoint
+
+18:49:13,590 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named DataSourceTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:global/smartcitie_db/DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint
+
+18:49:13,600 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named StateEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:app/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:module/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:global/smartcitie_db/StateEndpoint
+	java:app/smartcitie_db/StateEndpoint
+	java:module/StateEndpoint
+
+18:49:13,610 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named ShareTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:module/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:global/smartcitie_db/ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint
+	java:module/ShareTypeEndpoint
+
+18:49:13,620 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named SocialNetworkTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint
+
+18:49:13,620 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named AdressEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:module/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:global/smartcitie_db/AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint
+	java:module/AdressEndpoint
+
+18:49:13,640 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-8) JNDI bindings for session bean named CountryEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:module/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:global/smartcitie_db/CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint
+	java:module/CountryEndpoint
+
+18:49:14,074 INFO  [org.jboss.as.jpa] (MSC service thread 1-8) JBAS011402: Starting Persistence Unit Service 'smartcitie_db.war#smartcitie_db'
+18:49:14,246 INFO  [org.hibernate.annotations.common.Version] (MSC service thread 1-8) HCANN000001: Hibernate Commons Annotations {4.0.1.Final}
+18:49:14,256 INFO  [org.hibernate.Version] (MSC service thread 1-8) HHH000412: Hibernate Core {4.0.1.Final}
+18:49:14,256 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-8) HHH000206: hibernate.properties not found
+18:49:14,256 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-8) HHH000021: Bytecode provider name : javassist
+18:49:14,276 INFO  [org.hibernate.ejb.Ejb3Configuration] (MSC service thread 1-8) HHH000204: Processing PersistenceUnitInfo [
+	name: smartcitie_db
+	...]
+18:49:14,628 INFO  [org.hibernate.service.jdbc.connections.internal.ConnectionProviderInitiator] (MSC service thread 1-8) HHH000130: Instantiating explicit connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+18:49:15,038 INFO  [org.hibernate.dialect.Dialect] (MSC service thread 1-8) HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:49:15,058 INFO  [org.hibernate.engine.jdbc.internal.LobCreatorBuilder] (MSC service thread 1-8) HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+18:49:15,068 INFO  [org.hibernate.engine.transaction.internal.TransactionFactoryInitiator] (MSC service thread 1-8) HHH000268: Transaction strategy: org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory
+18:49:15,078 INFO  [org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory] (MSC service thread 1-8) HHH000397: Using ASTQueryTranslatorFactory
+18:49:15,118 INFO  [org.hibernate.validator.util.Version] (MSC service thread 1-8) Hibernate Validator 4.2.0.Final
+18:49:15,662 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-8) HHH000228: Running hbm2ddl schema update
+18:49:15,662 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-8) HHH000102: Fetching database metadata
+18:49:15,682 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-8) HHH000396: Updating schema
+18:49:15,832 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.action
+18:49:15,832 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idaction, action_invoker, class_path]
+18:49:15,832 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:15,832 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [action_pkey]
+18:49:15,872 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.adress
+18:49:15,872 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idadress, lon, profile_idprofile, street, number, city_idcity, lat, otherinfo]
+18:49:15,872 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_adress_city1, fk_adress_profile1]
+18:49:15,872 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [adress_pkey]
+18:49:15,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.avatar
+18:49:15,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [profile_idprofile, idavatar, path]
+18:49:15,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_avatar_profile1]
+18:49:15,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [avatar_pkey]
+18:49:15,942 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.city
+18:49:15,942 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idcity, state_idstate, nm_city]
+18:49:15,952 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_city_state1]
+18:49:15,952 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [city_pkey]
+18:49:15,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.country
+18:49:15,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idcountry, nm_country]
+18:49:15,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:15,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [country_pkey]
+18:49:16,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.data_source
+18:49:16,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [data_source_driver_iddata_source_driver, enabled, lon, data_source_url, iddata_source, data_source_type_iddata_source_type, de_datasource, version, schema, data_username, data_password, nm_datasource, iddata_source_relatedto, lat]
+18:49:16,042 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_data_source_data_source_type1, fk_data_source_data_source1, fk_data_source_data_source_driver1]
+18:49:16,042 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [data_source_pkey]
+18:49:16,089 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.data_source_driver
+18:49:16,092 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [data_source_drivercol, class_path, iddata_source_driver]
+18:49:16,096 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,099 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [data_source_driver_pkey]
+18:49:16,124 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.data_source_driver_output
+18:49:16,134 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [data_source_drivercol, class_path, iddata_source_driver]
+18:49:16,134 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,134 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [data_source_driver_output_pkey]
+18:49:16,164 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.data_source_type
+18:49:16,174 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [iddata_source_type, de_source_type]
+18:49:16,174 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,174 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [data_source_type_pkey]
+18:49:16,204 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.driver
+18:49:16,204 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [id, driver_creator, driver_name, driver_description, driver_binaries, driver_classpath]
+18:49:16,204 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_driver]
+18:49:16,204 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [driver_pkey]
+18:49:16,234 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.field
+18:49:16,234 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [field_type_idfield_type, iddata_field, field_mask_idfield_mask, label, nm_field, iddata_info, de_field]
+18:49:16,234 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_data_field_data_info1, fk_field_field_type1, fk_field_field_mask1]
+18:49:16,244 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [field_pkey]
+18:49:16,264 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.field_mask
+18:49:16,274 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [my_mask, idfield_mask, de_mask, nm_mask]
+18:49:16,274 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,274 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [field_mask_pkey]
+18:49:16,294 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.field_type
+18:49:16,304 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [field_typecol, nm_type, idfield_type]
+18:49:16,304 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,304 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [field_type_pkey]
+18:49:16,344 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.group
+18:49:16,344 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [description, idgroup, name]
+18:49:16,354 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,354 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [group_pkey]
+18:49:16,394 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.group_has_action
+18:49:16,394 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [action_action_invoker, action_class_path, group_idgroup]
+18:49:16,394 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_group_has_action_group1, fk_group_has_action_action1]
+18:49:16,404 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [group_has_action_pkey]
+18:49:16,434 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.group_has_profile
+18:49:16,444 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [enabled, profile_idprofile, group_idgroup]
+18:49:16,444 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_group_has_profile_profile1, fk_group_has_profile_group1]
+18:49:16,444 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [group_has_profile_pkey]
+18:49:16,488 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.info
+18:49:16,490 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [de_info, nm_info, iddata_source, iddata_info]
+18:49:16,492 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_data_info_data_source1]
+18:49:16,494 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [info_pkey]
+18:49:16,526 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.lang
+18:49:16,526 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [id_lang, token, lang]
+18:49:16,526 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,526 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [lang_pkey]
+18:49:16,566 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.operation_type
+18:49:16,566 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [de_op, idoperation_type]
+18:49:16,566 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,566 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [operation_type_pkey]
+18:49:16,596 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.profile
+18:49:16,596 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idprofile, nm_user, bio, cpf_cnpj, email, telefone, nascimento, password, idprofile_organization, online]
+18:49:16,596 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,606 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [profile_pkey]
+18:49:16,636 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.profile_contact
+18:49:16,646 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [enabled, profile_idprofile, profile_idprofile1]
+18:49:16,646 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_profile_has_profile_profile1, fk_profile_has_profile_profile2]
+18:49:16,646 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [profile_contact_pkey]
+18:49:16,686 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.profile_lang
+18:49:16,686 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [id, id_lang, is_main_language, id_profile]
+18:49:16,686 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_profile_lang_2, fk_profile_lang_1]
+18:49:16,686 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [profile_lang_pkey]
+18:49:16,716 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.relationship
+18:49:16,716 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [field_iddata_to, description, field_iddata_from, required]
+18:49:16,716 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_field_has_field_field1, fk_field_has_field_field2]
+18:49:16,726 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [relationship_pkey]
+18:49:16,756 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.security_info
+18:49:16,756 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [id, email_recorey1, telefone_recorey2, telefone_recorey1, id_profile, secret_word]
+18:49:16,766 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_security_info]
+18:49:16,766 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [security_info_pkey]
+18:49:16,786 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.share_log
+18:49:16,796 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [share_from_to_iddata_source, operation_type_idoperation_type, info_log, share_from_to_idprofile_owner, date, idshare_log, share_from_to_idprofile_user, ip]
+18:49:16,796 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_share_log_share_from_to1, fk_share_log_operation_type1]
+18:49:16,796 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [share_log_pkey]
+18:49:16,836 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.share_permissions
+18:49:16,836 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idshare_permissions, de_permission]
+18:49:16,836 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,846 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [share_permissions_pkey]
+18:49:16,876 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.share_type
+18:49:16,876 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idshare_type, de_share, nm_share]
+18:49:16,876 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:16,876 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [share_type_pkey]
+18:49:16,916 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.share_view
+18:49:16,916 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idshare_type, data_source_driver_iddata_source_driver, req_url, can_share, share_token, res_url, idprofile_owner, iddata_source]
+18:49:16,916 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_profile_has_data_source_profile, fk_share_view_data_source_driver1, fk_share_share_type1, fk_profile_has_data_source_data_source1]
+18:49:16,926 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [share_view_pkey]
+18:49:16,977 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.share_view_with
+18:49:16,980 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idprofile_user, share_permissions_idshare_permissions, idprofile_owner, iddata_source]
+18:49:16,984 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_share_from_to_share_permissions1, fk_profile_has_share_share1, fk_profile_has_share_profile1]
+18:49:16,988 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [share_view_with_pkey]
+18:49:17,028 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.social_network
+18:49:17,028 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [social_network_type_idsocial_network_type, idsocial_network, user_login, profile_idprofile]
+18:49:17,028 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_social_network_social_network_type1, fk_social_network_profile1]
+18:49:17,039 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [social_network_pkey]
+18:49:17,060 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.social_network_type
+18:49:17,060 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idsocial_network_type, name, login_driver]
+18:49:17,070 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: []
+18:49:17,070 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [social_network_type_pkey]
+18:49:17,090 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.state
+18:49:17,090 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [idstate, nm_state, statecol, country_idcountry]
+18:49:17,090 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_state_country1]
+18:49:17,090 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [state_pkey]
+18:49:17,130 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.txn_log
+18:49:17,130 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [value, share_log_idshare_log, field_iddata_field]
+18:49:17,130 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_share_log_has_field_share_log1, fk_share_log_has_field_field1]
+18:49:17,130 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [txn_log_pkey]
+18:49:17,160 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000261: Table found: public.view_rule
+18:49:17,160 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000037: Columns: [rule_query, idview_rules, rule_script_path, idprofile_owner, iddata_source]
+18:49:17,160 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000108: Foreign keys: [fk_profile_has_share_share2]
+18:49:17,170 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-8) HHH000126: Indexes: [view_rule_pkey]
+18:49:17,170 INFO  [java.sql.DatabaseMetaData] (MSC service thread 1-8) HHH000262: Table not found: adress_seq
+18:49:17,180 INFO  [java.sql.DatabaseMetaData] (MSC service thread 1-8) HHH000262: Table not found: country_id_seq
+18:49:17,180 INFO  [java.sql.DatabaseMetaData] (MSC service thread 1-8) HHH000262: Table not found: social_network_id_seq
+18:49:17,180 INFO  [java.sql.DatabaseMetaData] (MSC service thread 1-8) HHH000262: Table not found: social_network_type_id_seq
+18:49:17,190 INFO  [java.sql.DatabaseMetaData] (MSC service thread 1-8) HHH000262: Table not found: state_id_seq
+18:49:17,390 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-8) HHH000232: Schema update complete
+18:49:17,530 INFO  [org.jboss.web] (MSC service thread 1-4) JBAS018210: Registering web context: /smartcitie_db
+18:49:17,580 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "smartcitie_db.war"
+18:49:25,165 INFO  [org.jboss.resteasy.spi.ResteasyDeployment] (http--127.0.0.1-8080-1) Deploying javax.ws.rs.core.Application: class br.com.moretic.rest.RestApplication
+18:51:01,787 WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-4) SQL Error: 0, SQLState: 23503
+18:51:01,787 ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (http--127.0.0.1-8080-4) ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+18:51:01,797 WARN  [com.arjuna.ats.arjuna] (http--127.0.0.1-8080-4) ARJUNA012125: TwoPhaseCoordinator.beforeCompletion - failed for SynchronizationImple< 0:ffffc0a83801:-32d94618:54c94b41:1cb, org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization@36e65e22 >: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.AdressEndpoint$$$view27.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.GeneratedMethodAccessor33.invoke(Unknown Source) [:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+
+18:51:02,017 INFO  [org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl] (http--127.0.0.1-8080-4) HHH000010: On release of batch it still contained JDBC statements
+18:51:02,027 ERROR [org.jboss.ejb3.invocation] (http--127.0.0.1-8080-4) JBAS014134: EJB Invocation failed on component AdressEndpoint for method public javax.ws.rs.core.Response br.com.moretic.rest.AdressEndpoint.create(br.com.moretic.vo.Adress): javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.handleEndTransactionException(CMTTxInterceptor.java:115) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:95) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.AdressEndpoint$$$view27.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction.
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1177)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	... 50 more
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	... 53 more
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.GeneratedMethodAccessor33.invoke(Unknown Source) [:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+
+18:51:02,247 ERROR [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/smartcitie_db].[br.com.moretic.rest.RestApplication]] (http--127.0.0.1-8080-4) Servlet.service() for servlet br.com.moretic.rest.RestApplication threw exception: org.jboss.resteasy.spi.UnhandledException: javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleApplicationException(SynchronousDispatcher.java:340) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleException(SynchronousDispatcher.java:214) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.handleInvokerException(SynchronousDispatcher.java:190) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:540) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:502) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.invoke(SynchronousDispatcher.java:119) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.ServletContainerDispatcher.service(ServletContainerDispatcher.java:208) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:55) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher.service(HttpServletDispatcher.java:50) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:847) [jboss-servlet-api_3.0_spec-1.0.0.Final.jar:1.0.0.Final]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:329) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:248) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:275) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:161) [jbossweb-7.0.13.Final.jar:]
+	at org.jboss.as.jpa.interceptor.WebNonTxEmCloserValve.invoke(WebNonTxEmCloserValve.java:50) [jboss-as-jpa-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.web.security.SecurityContextAssociationValve.invoke(SecurityContextAssociationValve.java:153) [jboss-as-web-7.1.1.Final.jar:7.1.1.Final]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:155) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:102) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:109) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:368) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:877) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler.process(Http11Protocol.java:671) [jbossweb-7.0.13.Final.jar:]
+	at org.apache.tomcat.util.net.JIoEndpoint$Worker.run(JIoEndpoint.java:930) [jbossweb-7.0.13.Final.jar:]
+	at java.lang.Thread.run(Thread.java:745) [rt.jar:1.7.0_67]
+Caused by: javax.ejb.EJBTransactionRolledbackException: Transaction rolled back
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.handleEndTransactionException(CMTTxInterceptor.java:115) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:95) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:232) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:304) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:190) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.CurrentInvocationContextInterceptor.processInvocation(CurrentInvocationContextInterceptor.java:41) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:59) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:32) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.TCCLInterceptor.processInvocation(TCCLInterceptor.java:45) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:165) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:173) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:288) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:61) [jboss-invocation-1.1.1.Final.jar:1.1.1.Final]
+	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:72) [jboss-as-ee-7.1.1.Final.jar:7.1.1.Final]
+	at br.com.moretic.rest.AdressEndpoint$$$view27.create(Unknown Source) [classes:]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) [rt.jar:1.7.0_67]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) [rt.jar:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.jboss.resteasy.core.MethodInjectorImpl.invoke(MethodInjectorImpl.java:155) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invokeOnTarget(ResourceMethod.java:257) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:222) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.ResourceMethod.invoke(ResourceMethod.java:211) [resteasy-jaxrs-2.3.2.Final.jar:]
+	at org.jboss.resteasy.core.SynchronousDispatcher.getResponse(SynchronousDispatcher.java:525) [resteasy-jaxrs-2.3.2.Final.jar:]
+	... 20 more
+Caused by: javax.transaction.RollbackException: ARJUNA016053: Could not commit transaction.
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1177)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction.commit(BaseTransaction.java:117)
+	at com.arjuna.ats.jbossatx.BaseTransactionManagerDelegate.commit(BaseTransactionManagerDelegate.java:75)
+	at org.jboss.as.ejb3.tx.CMTTxInterceptor.endTransaction(CMTTxInterceptor.java:92) [jboss-as-ejb3-7.1.1.Final.jar:7.1.1.Final]
+	... 50 more
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1295) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.ejb.AbstractEntityManagerImpl$CallbackExceptionMapperImpl.mapManagedFlushFailure(AbstractEntityManagerImpl.java:1481) [hibernate-entitymanager-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:109) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization.beforeCompletion(RegisteredSynchronization.java:53) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.arjuna.ats.internal.jta.resources.arjunacore.SynchronizationImple.beforeCompletion(SynchronizationImple.java:76)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.beforeCompletion(TwoPhaseCoordinator.java:273)
+	at com.arjuna.ats.arjuna.coordinator.TwoPhaseCoordinator.end(TwoPhaseCoordinator.java:93)
+	at com.arjuna.ats.arjuna.AtomicAction.commit(AtomicAction.java:164)
+	at com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple.commitAndDisassociate(TransactionImple.java:1165)
+	... 53 more
+Caused by: org.hibernate.exception.ConstraintViolationException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:128) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:47) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:129) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at com.sun.proxy.$Proxy54.executeUpdate(Unknown Source)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:56) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2849) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3290) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:80) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:272) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:264) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:186) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:326) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:52) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.flush(SessionImpl.java:1081) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:315) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	at org.hibernate.engine.transaction.synchronization.internal.SynchronizationCallbackCoordinatorImpl.beforeCompletion(SynchronizationCallbackCoordinatorImpl.java:104) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 59 more
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "adress" violates foreign key constraint "fk_adress_profile1"
+  Detail: Key (profile_idprofile)=(555) is not present in table "profile".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2198)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:1927)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:255)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.execute(AbstractJdbc2Statement.java:561)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeWithFlags(AbstractJdbc2Statement.java:419)
+	at org.postgresql.jdbc2.AbstractJdbc2Statement.executeUpdate(AbstractJdbc2Statement.java:365)
+	at org.jboss.jca.adapters.jdbc.WrappedPreparedStatement.executeUpdate(WrappedPreparedStatement.java:493)
+	at sun.reflect.GeneratedMethodAccessor33.invoke(Unknown Source) [:1.7.0_67]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) [rt.jar:1.7.0_67]
+	at java.lang.reflect.Method.invoke(Method.java:606) [rt.jar:1.7.0_67]
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractStatementProxyHandler.continueInvocation(AbstractStatementProxyHandler.java:122) [hibernate-core-4.0.1.Final.jar:4.0.1.Final]
+	... 73 more
+
+21:22:14,536 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-8) Pausing Coyote HTTP/1.1 on http--127.0.0.1-8080
+21:22:14,546 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-8) Stopping Coyote HTTP/1.1 on http--127.0.0.1-8080
+21:22:14,546 INFO  [org.jboss.as.osgi] (MSC service thread 1-7) JBAS011942: Stopping OSGi Framework
+16:34:14,369 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+16:34:14,419 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+16:34:14,399 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+16:34:14,419 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+16:34:14,469 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+16:34:14,480 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+16:34:14,552 INFO  [org.jboss.as.naming] (MSC service thread 1-8) JBAS011802: Starting Naming Service
+16:34:14,718 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-2) JBAS015400: Bound mail session [java:jboss/mail/Default]
+16:34:14,728 INFO  [org.jboss.as.security] (MSC service thread 1-2) JBAS013100: Current PicketBox version=4.0.7.Final
+16:34:14,782 INFO  [org.jboss.as.connector] (MSC service thread 1-8) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+16:34:15,165 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+16:34:15,855 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-6) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+16:34:17,755 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-4) JBoss Web Services - Stack CXF Server 4.0.2.GA
+16:34:18,486 INFO  [org.jboss.as.remoting] (MSC service thread 1-1) JBAS017100: Listening on /127.0.0.1:9999
+16:34:18,486 INFO  [org.jboss.as.remoting] (MSC service thread 1-6) JBAS017100: Listening on /127.0.0.1:4447
+16:34:18,496 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-7) JBAS015012: Started FileSystemDeploymentService for directory D:\lucas\jboss7_1_1\jboss-as-7.1.1.Final\standalone\deployments
+16:34:19,425 INFO  [org.jboss.as.controller] (Controller Boot Thread) JBAS014774: Service status report
+JBAS014775:    New missing/unsatisfied dependencies:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (missing) dependents: [service jboss.data-source.java:jboss/datasources/SmartcitieDB] 
+
+16:34:19,455 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) JBAS015876: Starting deployment of "smartcitie_db.war"
+16:34:19,465 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) JBAS015876: Starting deployment of "postgresql-9.3-1102.jdbc4.jar"
+16:34:19,778 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-1) JBAS010404: Deploying non-JDBC-compliant driver class org.postgresql.Driver (version 9.3)
+16:34:19,876 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-1) JBAS010400: Bound data source [java:jboss/datasources/SmartcitieDB]
+16:34:21,001 INFO  [org.jboss.as.jpa] (MSC service thread 1-3) JBAS011401: Read persistence.xml for smartcitie_db
+16:34:21,515 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ViewRuleEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:module/ViewRuleEndpoint!br.com.moretic.rest.ViewRuleEndpoint
+	java:global/smartcitie_db/ViewRuleEndpoint
+	java:app/smartcitie_db/ViewRuleEndpoint
+	java:module/ViewRuleEndpoint
+
+16:34:21,525 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named OperationTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:module/OperationTypeEndpoint!br.com.moretic.rest.OperationTypeEndpoint
+	java:global/smartcitie_db/OperationTypeEndpoint
+	java:app/smartcitie_db/OperationTypeEndpoint
+	java:module/OperationTypeEndpoint
+
+16:34:21,535 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named FieldEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:module/FieldEndpoint!br.com.moretic.rest.FieldEndpoint
+	java:global/smartcitie_db/FieldEndpoint
+	java:app/smartcitie_db/FieldEndpoint
+	java:module/FieldEndpoint
+
+16:34:21,545 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named DriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:module/DriverEndpoint!br.com.moretic.rest.DriverEndpoint
+	java:global/smartcitie_db/DriverEndpoint
+	java:app/smartcitie_db/DriverEndpoint
+	java:module/DriverEndpoint
+
+16:34:21,565 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ProfileLangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:module/ProfileLangEndpoint!br.com.moretic.rest.ProfileLangEndpoint
+	java:global/smartcitie_db/ProfileLangEndpoint
+	java:app/smartcitie_db/ProfileLangEndpoint
+	java:module/ProfileLangEndpoint
+
+16:34:21,566 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named GenericHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:module/GenericHibernateDAO!br.com.moretic.vo.dao.GenericHibernateDAO
+	java:global/smartcitie_db/GenericHibernateDAO
+	java:app/smartcitie_db/GenericHibernateDAO
+	java:module/GenericHibernateDAO
+
+16:34:21,573 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named AvatarEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:module/AvatarEndpoint!br.com.moretic.rest.AvatarEndpoint
+	java:global/smartcitie_db/AvatarEndpoint
+	java:app/smartcitie_db/AvatarEndpoint
+	java:module/AvatarEndpoint
+
+16:34:21,585 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named SharePermissionsEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint!br.com.moretic.rest.SharePermissionsEndpoint
+	java:global/smartcitie_db/SharePermissionsEndpoint
+	java:app/smartcitie_db/SharePermissionsEndpoint
+	java:module/SharePermissionsEndpoint
+
+16:34:21,606 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ShareLogEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:module/ShareLogEndpoint!br.com.moretic.rest.ShareLogEndpoint
+	java:global/smartcitie_db/ShareLogEndpoint
+	java:app/smartcitie_db/ShareLogEndpoint
+	java:module/ShareLogEndpoint
+
+16:34:21,617 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ProfileEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:module/ProfileEndpoint!br.com.moretic.rest.ProfileEndpoint
+	java:global/smartcitie_db/ProfileEndpoint
+	java:app/smartcitie_db/ProfileEndpoint
+	java:module/ProfileEndpoint
+
+16:34:21,628 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named DataSourceDriverOutputEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint!br.com.moretic.rest.DataSourceDriverOutputEndpoint
+	java:global/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:app/smartcitie_db/DataSourceDriverOutputEndpoint
+	java:module/DataSourceDriverOutputEndpoint
+
+16:34:21,644 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named CityEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:app/smartcitie_db/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:module/CityEndpoint!br.com.moretic.rest.CityEndpoint
+	java:global/smartcitie_db/CityEndpoint
+	java:app/smartcitie_db/CityEndpoint
+	java:module/CityEndpoint
+
+16:34:21,654 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named SecurityInfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint!br.com.moretic.rest.SecurityInfoEndpoint
+	java:global/smartcitie_db/SecurityInfoEndpoint
+	java:app/smartcitie_db/SecurityInfoEndpoint
+	java:module/SecurityInfoEndpoint
+
+16:34:21,666 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named GroupEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:module/GroupEndpoint!br.com.moretic.rest.GroupEndpoint
+	java:global/smartcitie_db/GroupEndpoint
+	java:app/smartcitie_db/GroupEndpoint
+	java:module/GroupEndpoint
+
+16:34:21,693 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ActionHibernateDAO in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:module/ActionHibernateDAO!br.com.moretic.vo.dao.ActionHibernateDAO
+	java:global/smartcitie_db/ActionHibernateDAO
+	java:app/smartcitie_db/ActionHibernateDAO
+	java:module/ActionHibernateDAO
+
+16:34:21,704 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named LangEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:app/smartcitie_db/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:module/LangEndpoint!br.com.moretic.rest.LangEndpoint
+	java:global/smartcitie_db/LangEndpoint
+	java:app/smartcitie_db/LangEndpoint
+	java:module/LangEndpoint
+
+16:34:21,715 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named SocialNetworkEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint!br.com.moretic.rest.SocialNetworkEndpoint
+	java:global/smartcitie_db/SocialNetworkEndpoint
+	java:app/smartcitie_db/SocialNetworkEndpoint
+	java:module/SocialNetworkEndpoint
+
+16:34:21,730 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named DataSourceDriverEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint!br.com.moretic.rest.DataSourceDriverEndpoint
+	java:global/smartcitie_db/DataSourceDriverEndpoint
+	java:app/smartcitie_db/DataSourceDriverEndpoint
+	java:module/DataSourceDriverEndpoint
+
+16:34:21,743 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named FieldMaskEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:module/FieldMaskEndpoint!br.com.moretic.rest.FieldMaskEndpoint
+	java:global/smartcitie_db/FieldMaskEndpoint
+	java:app/smartcitie_db/FieldMaskEndpoint
+	java:module/FieldMaskEndpoint
+
+16:34:21,837 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named DataSourceEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:module/DataSourceEndpoint!br.com.moretic.rest.DataSourceEndpoint
+	java:global/smartcitie_db/DataSourceEndpoint
+	java:app/smartcitie_db/DataSourceEndpoint
+	java:module/DataSourceEndpoint
+
+16:34:21,837 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named FieldTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:module/FieldTypeEndpoint!br.com.moretic.rest.FieldTypeEndpoint
+	java:global/smartcitie_db/FieldTypeEndpoint
+	java:app/smartcitie_db/FieldTypeEndpoint
+	java:module/FieldTypeEndpoint
+
+16:34:21,847 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named InfoEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:module/InfoEndpoint!br.com.moretic.rest.InfoEndpoint
+	java:global/smartcitie_db/InfoEndpoint
+	java:app/smartcitie_db/InfoEndpoint
+	java:module/InfoEndpoint
+
+16:34:21,857 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named DataSourceTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint!br.com.moretic.rest.DataSourceTypeEndpoint
+	java:global/smartcitie_db/DataSourceTypeEndpoint
+	java:app/smartcitie_db/DataSourceTypeEndpoint
+	java:module/DataSourceTypeEndpoint
+
+16:34:21,877 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named StateEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:app/smartcitie_db/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:module/StateEndpoint!br.com.moretic.rest.StateEndpoint
+	java:global/smartcitie_db/StateEndpoint
+	java:app/smartcitie_db/StateEndpoint
+	java:module/StateEndpoint
+
+16:34:21,887 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named ShareTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:module/ShareTypeEndpoint!br.com.moretic.rest.ShareTypeEndpoint
+	java:global/smartcitie_db/ShareTypeEndpoint
+	java:app/smartcitie_db/ShareTypeEndpoint
+	java:module/ShareTypeEndpoint
+
+16:34:21,897 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named SocialNetworkTypeEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint!br.com.moretic.rest.SocialNetworkTypeEndpoint
+	java:global/smartcitie_db/SocialNetworkTypeEndpoint
+	java:app/smartcitie_db/SocialNetworkTypeEndpoint
+	java:module/SocialNetworkTypeEndpoint
+
+16:34:21,897 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named AdressEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:module/AdressEndpoint!br.com.moretic.rest.AdressEndpoint
+	java:global/smartcitie_db/AdressEndpoint
+	java:app/smartcitie_db/AdressEndpoint
+	java:module/AdressEndpoint
+
+16:34:21,907 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named CountryEndpoint in deployment unit deployment "smartcitie_db.war" are as follows:
+
+	java:global/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:module/CountryEndpoint!br.com.moretic.rest.CountryEndpoint
+	java:global/smartcitie_db/CountryEndpoint
+	java:app/smartcitie_db/CountryEndpoint
+	java:module/CountryEndpoint
+
+16:34:22,700 INFO  [org.jboss.as.jpa] (MSC service thread 1-7) JBAS011402: Starting Persistence Unit Service 'smartcitie_db.war#smartcitie_db'
+16:34:22,880 INFO  [org.hibernate.annotations.common.Version] (MSC service thread 1-7) HCANN000001: Hibernate Commons Annotations {4.0.1.Final}
+16:34:22,890 INFO  [org.hibernate.Version] (MSC service thread 1-7) HHH000412: Hibernate Core {4.0.1.Final}
+16:34:22,890 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-7) HHH000206: hibernate.properties not found
+16:34:22,891 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-7) HHH000021: Bytecode provider name : javassist
+16:34:22,921 INFO  [org.hibernate.ejb.Ejb3Configuration] (MSC service thread 1-7) HHH000204: Processing PersistenceUnitInfo [
+	name: smartcitie_db
+	...]
+16:34:23,311 INFO  [org.hibernate.service.jdbc.connections.internal.ConnectionProviderInitiator] (MSC service thread 1-7) HHH000130: Instantiating explicit connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+16:34:23,830 INFO  [org.hibernate.dialect.Dialect] (MSC service thread 1-7) HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+16:34:23,850 INFO  [org.hibernate.engine.jdbc.internal.LobCreatorBuilder] (MSC service thread 1-7) HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+16:34:23,860 INFO  [org.hibernate.engine.transaction.internal.TransactionFactoryInitiator] (MSC service thread 1-7) HHH000268: Transaction strategy: org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory
+16:34:23,870 INFO  [org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory] (MSC service thread 1-7) HHH000397: Using ASTQueryTranslatorFactory
+16:34:23,920 INFO  [org.hibernate.validator.util.Version] (MSC service thread 1-7) Hibernate Validator 4.2.0.Final
+16:34:24,542 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000228: Running hbm2ddl schema update
+16:34:24,542 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000102: Fetching database metadata
+16:34:24,562 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000396: Updating schema
+16:34:24,732 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.action
+16:34:24,732 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idaction, action_invoker, class_path]
+16:34:24,732 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:24,742 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [action_pkey]
+16:34:24,772 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.adress
+16:34:24,772 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idadress, lon, profile_idprofile, street, number, city_idcity, lat, otherinfo]
+16:34:24,772 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_adress_city1, fk_adress_profile1]
+16:34:24,782 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [adress_pkey]
+16:34:24,822 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.avatar
+16:34:24,822 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [profile_idprofile, idavatar, path]
+16:34:24,822 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_avatar_profile1]
+16:34:24,822 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [avatar_pkey]
+16:34:24,862 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.city
+16:34:24,862 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idcity, state_idstate, nm_city]
+16:34:24,862 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_city_state1]
+16:34:24,872 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [city_pkey]
+16:34:24,892 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.country
+16:34:24,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idcountry, nm_country]
+16:34:24,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:24,902 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [country_pkey]
+16:34:24,932 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.data_source
+16:34:24,932 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [data_source_driver_iddata_source_driver, enabled, lon, data_source_url, iddata_source, data_source_type_iddata_source_type, de_datasource, version, schema, data_username, data_password, nm_datasource, iddata_source_relatedto, lat]
+16:34:24,942 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_data_source_data_source_type1, fk_data_source_data_source1, fk_data_source_data_source_driver1]
+16:34:24,942 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [data_source_pkey]
+16:34:24,972 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.data_source_driver
+16:34:24,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [data_source_drivercol, class_path, iddata_source_driver]
+16:34:24,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:24,982 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [data_source_driver_pkey]
+16:34:25,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.data_source_driver_output
+16:34:25,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [data_source_drivercol, class_path, iddata_source_driver]
+16:34:25,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,032 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [data_source_driver_output_pkey]
+16:34:25,062 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.data_source_type
+16:34:25,062 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [iddata_source_type, de_source_type]
+16:34:25,072 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,072 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [data_source_type_pkey]
+16:34:25,092 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.driver
+16:34:25,092 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [id, driver_creator, driver_name, driver_description, driver_binaries, driver_classpath]
+16:34:25,102 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_driver]
+16:34:25,102 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [driver_pkey]
+16:34:25,132 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.field
+16:34:25,132 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [field_type_idfield_type, iddata_field, field_mask_idfield_mask, label, nm_field, iddata_info, de_field]
+16:34:25,132 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_data_field_data_info1, fk_field_field_type1, fk_field_field_mask1]
+16:34:25,132 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [field_pkey]
+16:34:25,162 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.field_mask
+16:34:25,162 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [my_mask, idfield_mask, de_mask, nm_mask]
+16:34:25,162 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,162 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [field_mask_pkey]
+16:34:25,202 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.field_type
+16:34:25,202 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [field_typecol, nm_type, idfield_type]
+16:34:25,202 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,212 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [field_type_pkey]
+16:34:25,222 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.group
+16:34:25,225 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [description, idgroup, name]
+16:34:25,228 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,230 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [group_pkey]
+16:34:25,266 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.group_has_action
+16:34:25,276 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [action_action_invoker, action_class_path, group_idgroup]
+16:34:25,276 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_group_has_action_group1, fkb793513bb06e8d9a, fk_group_has_action_action1]
+16:34:25,276 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [group_has_action_pkey]
+16:34:25,296 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.group_has_profile
+16:34:25,306 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [enabled, profile_idprofile, group_idgroup]
+16:34:25,306 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_group_has_profile_profile1, fk_group_has_profile_group1]
+16:34:25,306 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [group_has_profile_pkey]
+16:34:25,326 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.info
+16:34:25,336 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [de_info, nm_info, iddata_source, iddata_info]
+16:34:25,336 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_data_info_data_source1]
+16:34:25,336 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [info_pkey]
+16:34:25,366 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.lang
+16:34:25,366 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [id_lang, token, lang]
+16:34:25,366 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,366 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [lang_pkey]
+16:34:25,396 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.operation_type
+16:34:25,396 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [de_op, idoperation_type]
+16:34:25,396 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,406 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [operation_type_pkey]
+16:34:25,426 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.profile
+16:34:25,426 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idprofile, nm_user, bio, cpf_cnpj, email, telefone, nascimento, password, idprofile_organization, online]
+16:34:25,436 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fked8e89a947bde5d8]
+16:34:25,436 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [profile_pkey]
+16:34:25,476 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.profile_contact
+16:34:25,476 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [enabled, profile_idprofile, profile_idprofile1]
+16:34:25,476 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_profile_has_profile_profile1, fk_profile_has_profile_profile2]
+16:34:25,476 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [profile_contact_pkey]
+16:34:25,506 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.profile_lang
+16:34:25,506 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [id, id_lang, is_main_language, id_profile]
+16:34:25,516 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_profile_lang_2, fk_profile_lang_1]
+16:34:25,516 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [profile_lang_pkey]
+16:34:25,537 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.relationship
+16:34:25,537 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [field_iddata_to, description, field_iddata_from, required]
+16:34:25,557 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_field_has_field_field1, fk_field_has_field_field2]
+16:34:25,557 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [relationship_pkey]
+16:34:25,586 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.security_info
+16:34:25,586 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [id, email_recorey1, telefone_recorey2, telefone_recorey1, id_profile, secret_word]
+16:34:25,596 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_security_info]
+16:34:25,596 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [security_info_pkey]
+16:34:25,626 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.share_log
+16:34:25,626 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [share_from_to_iddata_source, operation_type_idoperation_type, info_log, share_from_to_idprofile_owner, date, idshare_log, share_from_to_idprofile_user, ip]
+16:34:25,626 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fka1b91ae4f45ce5f9, fk_share_log_share_from_to1, fk_share_log_operation_type1]
+16:34:25,636 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [share_log_pkey]
+16:34:25,656 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.share_permissions
+16:34:25,656 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idshare_permissions, de_permission]
+16:34:25,666 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,666 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [share_permissions_pkey]
+16:34:25,686 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.share_type
+16:34:25,696 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idshare_type, de_share, nm_share]
+16:34:25,696 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,696 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [share_type_pkey]
+16:34:25,726 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.share_view
+16:34:25,726 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idshare_type, data_source_driver_iddata_source_driver, req_url, can_share, share_token, res_url, idprofile_owner, iddata_source]
+16:34:25,726 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_profile_has_data_source_profile, fk_share_view_data_source_driver1, fk_share_share_type1, fk_profile_has_data_source_data_source1]
+16:34:25,736 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [share_view_pkey]
+16:34:25,756 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.share_view_with
+16:34:25,756 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idprofile_user, share_permissions_idshare_permissions, idprofile_owner, iddata_source]
+16:34:25,766 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_share_from_to_share_permissions1, fk_profile_has_share_share1, fk_profile_has_share_profile1]
+16:34:25,766 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [share_view_with_pkey]
+16:34:25,796 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.social_network
+16:34:25,796 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [social_network_type_idsocial_network_type, idsocial_network, user_login, profile_idprofile]
+16:34:25,806 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_social_network_social_network_type1, fk_social_network_profile1]
+16:34:25,806 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [social_network_pkey]
+16:34:25,826 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.social_network_type
+16:34:25,826 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idsocial_network_type, name, login_driver]
+16:34:25,836 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: []
+16:34:25,836 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [social_network_type_pkey]
+16:34:25,856 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.state
+16:34:25,856 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [idstate, nm_state, statecol, country_idcountry]
+16:34:25,866 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_state_country1]
+16:34:25,866 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [state_pkey]
+16:34:25,886 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.txn_log
+16:34:25,886 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [value, share_log_idshare_log, field_iddata_field]
+16:34:25,896 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_share_log_has_field_share_log1, fk_share_log_has_field_field1]
+16:34:25,896 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [txn_log_pkey]
+16:34:25,916 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000261: Table found: public.view_rule
+16:34:25,916 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000037: Columns: [rule_query, idview_rules, rule_script_path, idprofile_owner, iddata_source]
+16:34:25,926 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000108: Foreign keys: [fk_profile_has_share_share2]
+16:34:25,926 INFO  [org.hibernate.tool.hbm2ddl.TableMetadata] (MSC service thread 1-7) HHH000126: Indexes: [view_rule_pkey]
+16:34:25,936 ERROR [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000388: Unsuccessful: alter table public.group_has_action add constraint FKB793513BB06E8D9A foreign key (action_class_path, action_action_invoker) references public.action
+16:34:25,946 ERROR [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) ERROR: constraint "fkb793513bb06e8d9a" for relation "group_has_action" already exists
+16:34:25,946 ERROR [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000388: Unsuccessful: alter table public.share_log add constraint FKA1B91AE4F45CE5F9 foreign key (share_from_to_idprofile_owner, share_from_to_iddata_source, share_from_to_idprofile_user) references public.share_view_with
+16:34:25,956 ERROR [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) ERROR: constraint "fka1b91ae4f45ce5f9" for relation "share_log" already exists
+16:34:25,956 INFO  [org.hibernate.tool.hbm2ddl.SchemaUpdate] (MSC service thread 1-7) HHH000232: Schema update complete
+16:34:26,086 INFO  [org.jboss.web] (MSC service thread 1-8) JBAS018210: Registering web context: /smartcitie_db
+16:34:26,096 INFO  [org.jboss.as] (MSC service thread 1-6) JBAS015951: Admin console listening on http://127.0.0.1:9990
+16:34:26,096 INFO  [org.jboss.as] (MSC service thread 1-6) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 18366ms - Started 533 of 612 services (78 services are passive or on-demand)
+16:34:26,186 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "smartcitie_db.war"
+16:34:26,190 INFO  [org.jboss.as.server] (DeploymentScanner-threads - 2) JBAS018559: Deployed "postgresql-9.3-1102.jdbc4.jar"
+16:34:26,192 INFO  [org.jboss.as.controller] (DeploymentScanner-threads - 2) JBAS014774: Service status report
+JBAS014776:    Newly corrected services:
+      service jboss.jdbc-driver.postgresql-9_3-1102_jdbc4_jar (no longer required)
+
+16:36:03,407 INFO  [org.jboss.resteasy.spi.ResteasyDeployment] (http--127.0.0.1-8080-1) Deploying javax.ws.rs.core.Application: class br.com.moretic.rest.RestApplication

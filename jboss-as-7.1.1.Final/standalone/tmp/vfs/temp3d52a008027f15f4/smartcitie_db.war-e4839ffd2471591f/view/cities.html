@@ -1,0 +1,22 @@
+<form name="citiesForm">
+<input ng-model="city.nmCity" type="text" placeholder="nmCity">
+<input ng-model="city.idState" type="text" placeholder="idState">
+<br>
+<button ng-click="adicionarCity(city)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="CitiesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idcity';direcao=!direcao">idcity</a></th>
+		<th><a href="" ng-click="ordenarPor='nmCity';direcao=!direcao">nmCity</a></th>
+		<th><a href="" ng-click="ordenarPor='nmCity';direcao=!direcao">idState</a></th>
+	</tr>
+	<tr ng-repeat="item in cities | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idcity}}</td>
+			<td>{{item.nmCity}}</td>
+			<td>{{item.idState}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{cities}}

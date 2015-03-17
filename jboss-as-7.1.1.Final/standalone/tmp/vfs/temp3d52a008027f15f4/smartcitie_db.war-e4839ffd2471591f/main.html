@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Smartcities Framework</title>
+		<script type="text/javascript">
+			var regiao = 'en';
+			var iLocale = location.search.indexOf("locale=");
+			if( iLocale > 0 ){
+				var strLocale = location.search.substring( iLocale + 7, location.search.length );
+				regiao = strLocale;				
+			}
+			var dojoConfig = {
+				locale: regiao
+			};
+		</script>
+        <script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=drawing,weather"></script>
+        <script type="text/javascript">
+
+            require([
+                "dijit/dijit",
+                "dojo/parser",
+                "maqetta/space",
+                "maqetta/AppStates",                
+                "dojox/io/xhrScriptPlugin",
+				"dojox/data/CsvStore",
+                "dojo/data/ItemFileReadStore",
+				"dojo/store/Memory",
+                "gridx/Grid",
+                "gridx/core/model/cache/Async",                
+				"dijit/layout/BorderContainer",
+                "dijit/layout/ContentPane",
+				"dijit/layout/TabContainer",				
+                "dijit/Toolbar",
+                "dijit/form/Button",
+				"dijit/form/ComboButton",
+				"dijit/form/ComboBox",				
+                "dijit/form/TextBox",
+                "dijit/form/Textarea",
+				"dijit/form/ToggleButton",
+                "dijit/form/DateTextBox",
+                "dijit/form/NumberTextBox",
+                "dijit/form/MultiSelect",
+                "dijit/form/ValidationTextBox",
+                "dijit/form/DropDownButton",
+				"dijit/tree/ObjectStoreModel",
+                "dijit/Tree",
+				"dijit/Menu",
+                "dijit/MenuItem",
+                "dijit/MenuBar",
+                "dijit/PopupMenuBarItem",
+                "dijit/Dialog",                
+                "clipart/Copy",
+                "clipart/Home",
+                "clipart/ShoppingCart",
+                "clipart/ProfilePicture",
+                "clipart/Facebook",
+                "clipart/Twitter",
+                "clipart/Rss",                
+                "clipart/Refresh"                
+            ]);
+
+        </script>
+
+
+        <style>@import "themes/claro/document.css";@import "themes/claro/claro.css";@import "lib/dojo/gridx/resources/claro/Gridx.css";@import "lib/dojo/gridx/resources/claro/Gridx_rtl.css";@import "app.css";
+			html, body{
+				height: 100%;
+			}
+        </style>
+
+    </head>
+    <body data-maq-flow-layout="true" data-maq-comptype="desktop" class="claro" data-maq-ws="collapse" data-maq-appstates="{}" id="myapp">
+
+		<!-- Estruturador de layout -->
+		<div data-dojo-type="dijit/layout/LayoutContainer" data-dojo-props="design:'headline'" style="width:100%;height:100%;">
+			
+			<!-- Cabeçalho : definido no topo -->
+			<div data-dojo-type="dijit/layout/ContentPane" loadingMessage="Aguarde..." title="Pane" doLayout="true" region="top" href="header_smartcities.html" style="margin: 0px; margin-bottom: 0px; padding: 0px; width: 100%; height: 77px;"></div>
+
+			<!-- Área principal : definido no centro -->
+			<div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" region="center" refreshOnShow="false" splitter="false" maxSize="Infinity" doLayout="false" style="border: none; border-radius: 0px; -moz-border-radius: 0px; padding: 0px;">
+				<span data-dojo-type="dijit/layout/TabContainer" tabPosition="left-h" style="min-width: 1em; min-height: 500px; width: auto; height: auto;" controllerWidget="dijit.layout.TabController">
+
+					<!--
+											Módulo: Perfil
+					-->
+
+					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Perfil/48X48-3.png'&gt;&lt;br&gt;<span id='rotuloAbaPerfil'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
+						<span data-dojo-type="dijit/Toolbar">
+							<input id="btProfileInfo" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="false" label="<span id='rotBtProfileInfo'>Dados Pessoais</span>" iconClass="icone-dados-pessoais"></input>
+							<input id="btProfileAddress" type="button" data-dojo-type="dijit/form/Button" tabIndex="1" intermediateChanges="false" label="<span id='rotBtProfileAddress'>Endere&amp;ccedil;o</span>" iconClass="icone-endereco"></input>
+							<input id="btProfileLanguage" type="button" data-dojo-type="dijit/form/Button" tabIndex="2" intermediateChanges="false" label="<span id='rotBtProfileLanguage'>Idioma</span>" iconClass="icone-idioma"></input>
+							<input id="btProfileSecurity" type="button" data-dojo-type="dijit/form/Button" tabIndex="3" intermediateChanges="false" label="<span id='rotBtProfileSecurity'>Seguran&amp;ccedil;a</span>" iconClass="icone-seguranca"></input>
+							<input id="btProfileHistory" type="button" data-dojo-type="dijit/form/Button" tabIndex="4" intermediateChanges="false" label="<span id='rotBtProfileHistory'>Hist&amp;oacute;rico da Conta</span>" iconClass="icone-historico"></input>
+						</span>
+
+						<!-- Container das telas na aba Perfil -->
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="center" splitter="false" maxSize="Infinity" id="conteudo_perfil"></div>
+						</div>
+
+					</div>
+
+
+					<!--
+											Módulo: Ferramentas de Dados
+					-->
+					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Dados/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaDados'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
+						<span data-dojo-type="dijit/Toolbar">
+							<input id="btImportarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtImportarDados'>Importar</span>" iconClass="icone-importar"></input>
+							<input id="btExportarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar"></input>
+							<input id="btExcluirDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcluirDados'>Excluir</span>" iconClass="icone-excluir"></input>
+							<input id="btAtualizarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtAtualizarDados'>Atualizar</span>" iconClass="icone-atualizar"></input>
+							<input id="btCopiarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtCopiarDados'>Copiar</span>" iconClass="icone-copiar"></input>
+							<input id="btTransformarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtTransformarDados'>Transformar</span>" iconClass="icone-transformar"></input>
+							<input id="btCompartilharDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtCompartilharDados'>Compartilhar</span>" iconClass="icone-compartilhar"></input>
+							<input id="btDriversDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtDriversDados'>Drivers</span>" iconClass="icone-drivers"></input>
+							<input id="btTarefaDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtTarefaDados'>Tarefa</span>" iconClass="icone-tarefa"></input>
+							<input id="btHistoricoDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtHistoricoDados'>Hist&amp;oacute;rico</span>" iconClass="icone-historico"></input>
+						</span>
+
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" maxSize="Infinity" style="width: 20%;height:100%;">
+								<h3 id="tituloArvoreFontesDados">Fontes de dados</h3>
+								<div data-dojo-type="dojo/store/Memory" id="Memory_1" jsId="Memory_1" data="[{&quot;id&quot;:&quot;treeRoot&quot;,&quot;label&quot;:&quot;Root&quot;},{&quot;id&quot;:&quot;1&quot;,&quot;label&quot;:&quot;Fonte 1&quot;,&quot;parent&quot;:&quot;treeRoot&quot;},{&quot;id&quot;:&quot;1.1&quot;,&quot;label&quot;:&quot;1.1&quot;,&quot;parent&quot;:&quot;1&quot;,&quot;leaf&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;1.2&quot;,&quot;label&quot;:&quot;1.2&quot;,&quot;parent&quot;:&quot;1&quot;,&quot;leaf&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;2&quot;,&quot;label&quot;:&quot;Fonte 2&quot;,&quot;parent&quot;:&quot;treeRoot&quot;},{&quot;id&quot;:&quot;2.1&quot;,&quot;label&quot;:&quot;2.1&quot;,&quot;parent&quot;:&quot;2&quot;,&quot;leaf&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;2.2&quot;,&quot;label&quot;:&quot;2.2&quot;,&quot;parent&quot;:&quot;2&quot;,&quot;leaf&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;2.3&quot;,&quot;label&quot;:&quot;2.3&quot;,&quot;parent&quot;:&quot;2&quot;,&quot;leaf&quot;:&quot;true&quot;}]">
+									<script type="dojo/method" data-dojo-event="getChildren" data-dojo-args="item">
+										return this.query({parent: this.getIdentity(item)});</script>
+								</div>
+								<div data-dojo-type="dijit/tree/ObjectStoreModel" id="ObjectStoreModel_1" jsId="ObjectStoreModel_1" store="Memory_1" query="{&quot;id&quot;:&quot;treeRoot&quot;}" labelAttr="label">
+									<script type="dojo/method" data-dojo-event="mayHaveChildren" data-dojo-args="item">
+										return !item.leaf;</script>
+								</div>
+								<div data-dojo-type="dijit/Tree" model="ObjectStoreModel_1" autoExpand="false" showRoot="false" childrenAttr="children" openOnClick="false" openOnDblClick="false" persist="false" dndParams="onDndDrop,itemCreator,onDndCancel,checkAcceptance,checkItemAcceptance,dragThreshold,betweenThreshold" dragThreshold="5" betweenThreshold="0" style="min-height: 1em; width: 100%; height: auto;">
+									<script type="dojo/method" data-dojo-event="getIconStyle" data-dojo-args="item, opened">
+										var iconStyle = item.iconStyle;if (opened && item.iconStyleOpen) {	iconStyle = item.iconStyleOpen;};return iconStyle;</script>
+									<script type="dojo/connect" data-dojo-event="onClick" data-dojo-args="item, node, evt">
+										var eventStr = item['onClick'];if (eventStr) { 	dojo.eval(eventStr);}</script>
+									<script type="dojo/connect" data-dojo-event="onDblClick" data-dojo-args="item, node, evt">
+										var eventStr = item['onDblClick'];if (eventStr) { 	dojo.eval(eventStr);}</script>
+									<script type="dojo/connect" data-dojo-event="onClose" data-dojo-args="item, node">
+										var eventStr = item['onClose'];if (eventStr) { 	dojo.eval(eventStr);}</script>
+									<script type="dojo/connect" data-dojo-event="onOpen" data-dojo-args="item, node">
+										var eventStr = item['onOpen'];if (eventStr) { 	dojo.eval(eventStr);}</script>
+								</div>
+							</div>
+
+							<!-- Container das telas na aba Ferramenta de Dados -->
+							<div style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="center" splitter="false" maxSize="Infinity" id="conteudo_ferr_dados"></div>
+
+						</div>
+					</div>
+					<!-- Camada de dados no mapa -->
+					<div id="tabMap" data-dojo-type="dojox/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Mapa/48x48.png'&gt;&lt;br&gt;<span id='rotuloAbaMapa'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
+
+
+						<span data-dojo-type="dijit/Toolbar">
+							<input id="btMapaSave" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtMapaSave'>Salvar</span>" iconClass="icone-salvar"></input>
+							<input id="btMapaLoad" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtMapaLoad'>Atualizar</span>" iconClass="icone-atualizar"></input>
+							<input id="btMapaSearch" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="false" label="<span id='rotBtMapaSearch'>Filtrar</span>" iconClass="icone-buscar"></input>
+							<input id="btMapaConfig" type="button" data-dojo-type="dijit/form/Button" tabIndex="1" intermediateChanges="false" label="<span id='rotBtMapaConfig'>Configurar</span>" iconClass="icon-config-p"></input>
+							<input id="btMapaImagem" type="button" data-dojo-type="dijit/form/Button" tabIndex="1" intermediateChanges="false" label="<span id='rotBtMapaImagem'>Imagem</span>" iconClass="icon-config-p"></input>
+						</span>
+
+						<!-- Container das telas na aba Mapa -->
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="center" splitter="false" maxSize="Infinity" id="conteudo_mapa"></div>
+
+							<div title="?" id="mapLegend" class="plegend">
+								<p>
+									<input type="text" style="width: 70%"/>
+									<input type="image" src="images/icons/Buscar/12X12.png" value="Buscar"/>
+								</p>
+								<h1>Camadas</h1>
+								<p><input type="checkbox"/> Tempo</p>
+								<p><input type="checkbox"/> Transito</p>
+								<p><input type="checkbox"/> Bike</p>
+								<p><input type="checkbox"/> Transporte publico</p>
+
+							</div>
+
+						</div>
+
+
+					</div>
+					<!-- Camada de dados Alarmes -->
+					<div id="tabAlarm" data-dojo-type="dojox/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Alarme/48X48-2.png'&gt;&lt;br&gt;<span id='rotuloAbaAlarmes'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
+
+						<span data-dojo-type="dijit/Toolbar">
+							<input id="btAlertSave" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtAlertSave'>Salvar</span>" iconClass="icone-salvar"></input>                        
+							<input id="btAlertNew" type="button" data-dojo-type="dijit/form/Button" tabIndex="1" intermediateChanges="false" label="<span id='rotBtAlertNew'>Novo</span>" iconClass="icone-novo-alarme"></input>
+							<input id="btAlertLoad" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtAlertLoad'>Atualizar</span>" iconClass="icone-atualizar"></input>
+							<input id="btAlertSearch" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="false" label="<span id='rotBtAlertSearch'>Filtrar</span>" iconClass="icone-filtrar"></input>
+							<input id="btAlertConfig" type="button" data-dojo-type="dijit/form/Button" tabIndex="1" intermediateChanges="false" label="<span id='rotBtAlertConfig'>Configurar</span>" iconClass="icon-config-p"></input>
+						</span>
+
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div id="conteudo_alarmes" style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="center" splitter="false" maxSize="Infinity" ></div>
+						</div>
+
+
+					</div>
+
+					<!-- 
+						Módulo : Faturamento
+					-->
+					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Carrinho/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaFaturamento'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" selected="true" closable="false">
+						<div data-dojo-type="dijit/Toolbar">
+							<input id="btTransacoes" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtTransacoes'>Transa&ccedil;&otilde;es</span>" iconClass="icone-salvar"></input>
+							<input id="btCreditoDebito" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtCreditoDebito'>Cr&eacute;dito & D&eacute;bito</span>" iconClass="icone-credito"></input>
+						</div>
+					
+						<!-- Container das telas no módulo Faturamento -->
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div id="conteudo_faturamento" style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="center" splitter="false" maxSize="Infinity" ></div>
+						</div>
+							
+					</div>
+
+
+					<!-- 
+						Módulo : Círculos
+					-->
+					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Circulo/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaCirculos'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" selected="true" closable="false">
+						<span data-dojo-type="dijit/Toolbar">
+							<input id="btContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtContatos'>Contatos</span>" iconClass="icone-salvar"></input>
+							<input id="btCirculos" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtCirculos'>C&iacute;rculos</span>" iconClass="icone-circulo"></input>
+						</span>
+					
+						<!-- Container das telas no módulo Círculos -->
+						<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 95%;">
+							<div id="conteudo_circulos" style="height:auto;min-height:400px;padding:0px;" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="true" doLayout="true" region="center" splitter="false" maxSize="Infinity" ></div>
+						</div>
+						
+					</div>
+				</span>
+			</div>
+			
+			<!-- Rodapé : definido no fundo/em baixo -->
+			<div data-dojo-type="dijit/layout/ContentPane" title="Pane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" style="margin:0px; padding: 0px; width: 100%; height: 49px;" doLayout="true" region="bottom" href="footer_smartcities.html"></div>
+
+		</div>
+		
+		<div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" title="<span id='tituloModal'></span>" id="myDialog">
+            <div data-dojo-type="dojox/layout/ContentPane" title="foo" id="container_modal" style="width: 600px; height: 380px;">container modal</div>
+        </div>
+    </body>
+</html>
+

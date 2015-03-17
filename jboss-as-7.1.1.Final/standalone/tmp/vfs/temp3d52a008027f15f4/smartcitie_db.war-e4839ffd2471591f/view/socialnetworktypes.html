@@ -1,0 +1,22 @@
+<form name="socialnetworktypesForm">
+<input ng-model="socialnetworktype.name" type="text" placeholder="name">
+<input ng-model="socialnetworktype.loginDriver" type="text" placeholder="loginDriver">
+<br>
+<button ng-click="adicionarSocialNetworkType(socialnetworktype)">Adicionar</button>		
+</form>
+<br>
+<table ng-controller="SocialNetworkTypesCtrl">
+	<input type="text" ng-model="filtro"/>
+	<tr>
+		<th><a href="" ng-click="ordenarPor='idsocialnetworktype';direcao=!direcao">idSocialNetworkType</a></th>
+		<th><a href="" ng-click="ordenarPor='nmSocialNetwork';direcao=!direcao">name</a></th>
+		<th><a href="" ng-click="ordenarPor='nmSocialNetwork';direcao=!direcao">loginDriver</a></th>
+	</tr>
+	<tr ng-repeat="item in socialnetworktypes | filter:filtro | orderBy:ordenarPor:direcao">
+			<td>{{item.idSocialNetworkType}}</td>
+			<td>{{item.name}}</td>
+			<td>{{item.loginDriver}}</td>
+	</tr>
+</table>
+<br><br><br>
+{{socialnetworktypes}}
