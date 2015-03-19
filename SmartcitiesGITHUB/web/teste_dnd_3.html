@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>DND</title>
+		
+		<style>
+			@import "themes/claro/document.css";
+			@import "themes/claro/claro.css";
+			html, body{
+				height: 100%;
+				width: 100%;
+			}
+        </style>
+		<script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
+		
+		<script type="text/javascript">
+			require([
+				"dojo/ready",
+				"dojo/dnd/Container",
+				"dojo/dnd/Selector",
+				"dojo/dnd/Source",
+				"dojo/dnd/Moveable",
+				"dojo/dnd/move",
+				"dojo/dom-construct",
+				"dojo/dom",
+				"dojo/aspect",
+				"dijit/tree/dndSource",
+				"dijit/Tree",
+				"dijit/tree/ObjectStoreModel",
+				"dojo/store/Memory",
+				"dojo/store/Observable",
+				"dojo/domReady!"				
+			], 	function(
+				ready,
+				Container,
+				Selector,
+				Source,
+				Moveable,
+				move,
+				domConstruct,
+				dom,
+				aspect,
+				dndSource,
+				Tree,
+				StoreModel,
+				Memory,
+				Observable
+				){
+				
+					ready( function(){
+						
+						var boxLista = new Source("listaTabelas", {
+							creator: function( item, hint ){
+								var objDom = domConstruct.toDom("<div>"+item.nome+"</div>");
+								return { node: objDom, data: item, type: ["tabela"]};
+							},							
+							//copyOnly: true,
+							accept:["tabela"]							
+						});
+						
+						/**
+						  *		Dados e metadados das tabelas ficam dentro desse array de objetos JS.
+						  *		Basta que o serviço que fornece os dados retorne um array no padrão JSON.
+						  */
+						boxLista.insertNodes( false, 
+						[							
+							{nome:'Pessoa', type:'tabela', campos:["nome","cpf","endereco","dataNasc"]},
+							{nome:'Cidade', type:'tabela', campos:["nome", "estado"]},
+							{nome:'Estado', type:'tabela', campos:["nome", "uf", "pais"]},
+							{nome:'Usuario', type:'tabela', campos:["nome", "senha","permissoes", "tipo"]},
+							{nome:'Permissao', type:'tabela', campos:["descricao", "operacao", "leitura", "escrita", "execucao"]}
+						]
+						);
+						
+						var boxDrop = new Source("dropArea",{
+							creator: function( item, hint ){
+								var campos = "";
+								for( var i = 0; i < item.campos.length; i++ ){
+									campos += "<div style='width:100%;' id='" + item.nome + "_" + item.campos[i] + "'>" +
+										item.campos[i] + "</div>";
+								}
+								var objDom = domConstruct.toDom(
+									"<div style='width:50px;position:absolute;'>" +
+									"<div style='border:1px solid orange;background-color:#EEEEEE;width:100%'>" + item.nome + "</div>" +
+									"<div style='border:1px solid brown;width:100%'>" + campos + "</div>" +
+									"</div>"
+								);
+								return { node: objDom, data: item, type: ["tabela"] };
+							},
+							accept: ["tabela"]
+						});
+						
+						
+						// Ver se tem outro evento ao inves desse: um que ja tenha finalizado toda a operacao de soltar
+						aspect.after( boxDrop, "onDndDrop", function( method, args ){ 
+							console.log("depois de ondnddrop");
+							console.log( args );
+							//console.log( args[0] );
+							
+							for( var i in args ){
+								console.log( "node " + i);
+								/*
+								if( args[i] != "length"){
+									//new Moveable( args[i] );
+									new move.parentConstrainedMoveable( args[i] );
+									console.log("instanciou");
+								}*/
+								new move.parentConstrainedMoveable( args[0] );
+								//args[i].destroy();
+							}
+							
+							console.log("fim do after onDndDrop");
+						}, true);
+						
+						var moveBox1 = new move.parentConstrainedMoveable( "movebox1" , { area: "content"});
+						var moveBox2 = new move.parentConstrainedMoveable( "movebox2" , { area:"padding"});
+						
+						//fim ready
+					});
+			
+				}
+			);
+		</script>
+	</head>
+	<body class="claro">
+	<h3>Primeira coluna: Lista de Itens para serem arrastados para a segunda coluna</h3>
+	<h3>Segunda coluna: Necessario arrastar o item novamente para dentro dela e soltar antes de poder mover livremente</h3>
+	<h3>Terceira coluna: Exemplo do potencial desse tipo de objeto (Moveable)</h3>
+	<h3>Nesse teste é possivel observar uma queda de desempenho na segunda coluna além do comportamento nada intuitivo</h3>
+	<div id="listaTabelas" style="width:200px;height:300px;border:1px solid black;float:left;"></div>
+	
+	<div id="dropArea" style="width:200px;height:300px;border:1px solid black;float:left;"></div>
+	
+	<div id="moveArea" style="width:150px;height:246px;border:1px solid black;float:left;padding-right:53px;padding-bottom:53px;padding-top:1px;padding-left:1px;">
+		<div style="width:50px;height:50px;border:solid 1px blue" id="movebox1"></div>
+		<div style="width:50px;height:50px;border:solid 1px red" id="movebox2"></div>
+	</div>
+	
+	</body>
+	
+</html>
