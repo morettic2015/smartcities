@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>DND</title>
+		
+		<style>
+			@import "themes/claro/document.css";
+			@import "themes/claro/claro.css";
+			html, body{
+				height: 100%;
+				width: 100%;
+			}
+        </style>
+		<script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
+		
+		<script type="text/javascript">
+			require([
+				"dojo/ready",
+				"dojo/dnd/Container",
+				"dojo/dnd/Selector",
+				"dojo/dnd/Source",
+				"dojo/dnd/Moveable",
+				"dojo/dom-construct",
+				"dojo/dom",
+				"dojo/aspect",
+				"dijit/tree/dndSource",
+				"dijit/Tree",
+				"dijit/tree/ObjectStoreModel",
+				"dojo/store/Memory",
+				"dojo/store/Observable",
+				"dojo/domReady!"				
+			], 	function(
+				ready,
+				Container,
+				Selector,
+				Source,
+				Moveable,
+				domConstruct,
+				dom,
+				aspect,
+				dndSource,
+				Tree,
+				StoreModel,
+				Memory,
+				Observable
+				){
+				
+					ready( function(){
+						
+						
+						var container3 = new Source("box3", {type: ["tabela"], 
+							creator: function( item, hint ){
+								var objDom = domConstruct.toDom("<div>"+item.nome+"</div>");
+								return { node: objDom, data: item, type: ["tabela"]};
+							},
+							accept: ["tabela"]
+						} );
+						container3.insertNodes( false, [{ nome:'tabela 1'}] );
+						
+						var container4 = new Source("box4", {
+							accept: ['tabela'],
+							copyOnly: true,
+							creator: function( item, hint ){
+								var objDom = domConstruct.toDom("<div>"+item.nome+"</div>");
+								return { node: objDom, data: item, type: ["tabela"]};
+							}
+
+						});
+						container4.insertNodes( false, [{nome:'item 1 do box 4', type:'tabela'}] );
+						
+						var container5 = new Source("box5",{
+							creator: function( item, hint ){
+								console.log("id item: "+item.get("type"));
+								var objDom = domConstruct.toDom(
+									"<div style='border:1px solid orange;width:50px;position:absolute;'>Tabela " + item.data + "</div>"
+								);
+								return { node: objDom, data: item, type: ["tabela"] };
+							},
+							accept: ["tabela"],
+							checkAcceptance: function(source, nodes){
+								console.log("id: " +this.id);
+								return true;
+							}
+							// tentar sobrescrever o onDropExternal passando o terceiro parametro(copy) com valor true							
+						});
+						
+						aspect.around( container5, "onDropExternal", function( funcOnDropExt ){
+							console.log("sobrescreveu onDropExternal");							
+							var onDropExternalCustom = function( source, nodes, copy ){
+								copy = true;
+								console.log("executou onDropExternal Customizado");
+								var _2a=this._normalizedCreator;
+								if(this.creator){
+									console.log("tem creator");
+									this._normalizedCreator=function( item,_2c){
+										_2c="teste";
+										console.log("2c "+_2c);
+										console.log("item "+item.id);
+										console.log("getitem "+source.getItem( item.id).nome);
+										return _2a.call(this,source.getItem( item.id).data,_2c);
+									};
+								}else{
+									console.log("Nao tem creator");
+									if(copy){
+										console.log("copiar item: true");
+										this._normalizedCreator=function(_2d){
+											var t=source.getItem(_2d.id);
+											var n=_2d.cloneNode(true);
+											n.id=_b.getUniqueId();
+											return {node:n,data:t.data,type:t.type};
+										};
+									}else{
+										this._normalizedCreator=function(_2e){
+											var t=source.getItem(_2e.id);
+											source.delItem(_2e.id);
+											return {node:_2e,data:t.data,type:t.type};
+										};
+									}
+								}
+								/*
+								if (this.baseClass){
+									console.log("baseClass: "+ this.baseClass );
+								}*/
+								this.selectNone();
+								
+								if(!copy&&!this.creator){
+									source.selectNone();
+								}
+								this.insertNodes(true,nodes,this.before,this.current);
+								if(!copy&&this.creator){
+									source.deleteSelectedNodes();
+								}
+								this._normalizedCreator=_2a;
+							}
+							return onDropExternalCustom;
+						});
+						
+						// Testar para transformar um objeto recem dropado em tipo Moveable
+						/*
+						aspect.after( container5, "onDropExternal", function( method, args ){ 
+							console.log("disparou ondrop");
+							console.log( args );
+							console.log( args[0] );
+							for( var i in args ){
+								console.log( "node " + i);
+								new Moveable( args[i] );
+								console.log("instanciou");
+								args[i].destroy();
+							}
+							console.log("ok");
+						}, true);
+						*/
+						
+						//var movel = new Moveable("box6");
+						console.log("arvore");
+						var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Rest", parent:"treeRoot", data:"Rest"},{id:2,label:"endpoint1",parent:1, leaf:true, data:"endpoint1" },{id:3,label:"endpoint2", parent: 1, leaf:true, data:"endpoint2"}];
+						console.log("depois dados");
+						var store = new Memory( {
+							data: arrDadosTeste,
+							getChildren: function( object ){ 
+								return this.query({ parent : object.id });
+							}
+						});
+						console.log("definiu store");
+						
+						aspect.around( store, "put", function(originalPut){
+							// Para dar suporte ao drag and drop
+							return function(obj, options){
+								if(options && options.parent){
+									obj.parent = options.parent.id;
+								}
+								return originalPut.call(store, obj, options);
+							}
+						});
+							
+						store = new Observable( store );
+						
+						// cria model
+						var model = new StoreModel( { 
+							store: store,
+							query: {id: 'treeRoot'},
+							labelAttr: 'label',
+							mayHaveChildren: function( item ){ return !item.leaf; }
+						} );
+						console.log("definiu model");
+						
+						var tree = new Tree( { 
+							model: model,
+							showRoot: false,
+							dndController: dndSource,
+							checkAcceptance: function(source, nodes){
+								return false;
+							}
+						} ).placeAt( dom.byId("arvore") );
+						
+						console.log("tree: " + tree.toString() );
+						console.log("model: " + tree.model );
+						console.log("store: " + tree.model.store);
+						console.log("dnd params : "+ tree.dndParams );
+						
+						
+	/*					
+onDropExternal:function(source,nodes,copy){
+	var _2a=this._normalizedCreator;
+	if(this.creator){
+		this._normalizedCreator=function(_2b,_2c){
+			return _2a.call(this,source.getItem(_2b.id).data,_2c);
+		};
+	}else{
+		if(copy){
+			this._normalizedCreator=function(_2d){
+				var t=source.getItem(_2d.id);
+				var n=_2d.cloneNode(true);
+				n.id=_b.getUniqueId();
+				return {node:n,data:t.data,type:t.type};
+			};
+		}else{
+			this._normalizedCreator=function(_2e){
+				var t=source.getItem(_2e.id);
+				source.delItem(_2e.id);
+				return {node:_2e,data:t.data,type:t.type};
+			};
+		}
+	}
+	this.selectNone();
+	if(!copy&&!this.creator){
+		source.selectNone();
+	}
+	this.insertNodes(true,nodes,this.before,this.current);
+	if(!copy&&this.creator){
+		source.deleteSelectedNodes();
+	}
+	this._normalizedCreator=_2a;
+}
+					*/	
+						
+						
+						
+					});
+			
+				}
+			);
+		</script>
+	</head>
+	<body class="claro">
+	
+	<div id="arvore" style="width:200px;height:300px;border:1px solid black;float:left;"></div>
+	
+	
+	<div id="box3" style="width:100px;height:100px;border:1px solid red;float:left;"></div>
+	
+	<div id="box4" style="width:100px;height:100px;border:1px solid red;float:left;"></div>
+	<div id="box5" style="width:400px;height:400px;border:1px solid #AAA;float:left;position:relative;"></div>
+	<div id="box6" style="width:100px;height:100px;border:1px solid #333;float:left;position:relative;">Movel</div>
+	</body>
+</html>
