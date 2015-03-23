@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>DND</title>
+		
+		<style>
+			@import "themes/claro/document.css";
+			@import "themes/claro/claro.css";
+			html, body{
+				height: 100%;
+				width: 100%;
+			}
+        </style>
+		<script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
+		
+		<script type="text/javascript">
+			require([
+				"dojo/ready",
+				"dojo/dnd/Target",
+				"dojo/dnd/Source",
+				"dojo/dnd/Moveable",
+				"dojo/dnd/move",
+				"dojo/dom-construct",
+				"dojo/dom",
+				"dojo/aspect",
+				"dijit/tree/dndSource",
+				"dijit/Tree",
+				"dijit/tree/ObjectStoreModel",
+				"dojo/store/Memory",
+				"dojo/store/Observable",
+				"dojo/query",
+				"dojo/domReady!"				
+			], 	function(
+				ready,
+				Target,
+				Source,
+				Moveable,
+				move,
+				domConstruct,
+				dom,
+				aspect,
+				dndSource,
+				Tree,
+				StoreModel,
+				Memory,
+				Observable,
+				query
+				){
+				
+					ready( function(){
+						
+						var boxLista = new Source("listaTabelas", {
+							creator: function( item, hint ){
+								var objDom = domConstruct.toDom("<div>"+item.nome+"</div>");
+								return { node: objDom, data: item, type: ["tabela"]};
+							},							
+							//copyOnly: true,
+							accept:["tabela"]							
+						});
+						
+						/**
+						  *		Dados e metadados das tabelas ficam dentro desse array de objetos JS.
+						  *		Basta que o serviço que fornece os dados retorne um array no padrão JSON.
+						  */
+						boxLista.insertNodes( false, 
+						[							
+							{nome:'Pessoa', type:'tabela', campos:["nome","cpf","endereco","dataNasc"]},
+							{nome:'Cidade', type:'tabela', campos:["nome", "estado"]},
+							{nome:'Estado', type:'tabela', campos:["nome", "uf", "pais"]},
+							{nome:'Usuario', type:'tabela', campos:["nome", "senha","permissoes", "tipo"]},
+							{nome:'Permissao', type:'tabela', campos:["descricao", "operacao", "leitura", "escrita", "execucao"]}
+						]
+						);
+												
+						// Listeners do boxLista
+						aspect.after( boxLista, "onMouseDown", function(){							
+							dom.byId("dropArea").style.display = '';
+						});					
+						aspect.after( boxLista, "onMouseUp", function(){							
+							dom.byId("dropArea").style.display = 'none';
+						});
+						
+						// TODO - apos cancelar: oculta o target
+						
+						
+						var boxDrop = new Target("dropArea",{
+							creator: function( item, hint ){
+								var campos = "";
+								for( var i = 0; i < item.campos.length; i++ ){
+									campos += "<div style='width:100%;' id='" + item.nome + "_" + item.campos[i] + "'>" +
+										item.campos[i] + "</div>";
+								}
+								var objDom = domConstruct.toDom(
+									"<div style='width:50px;position:absolute;'>" +
+									"<div style='border:1px solid orange;background-color:#EEEEEE;width:100%'>" + item.nome + "</div>" +
+									"<div style='border:1px solid brown;width:100%'>" + campos + "</div>" +
+									"</div>"
+								);
+								return { node: objDom, data: item, type: ["tabela"] };
+							},
+							accept: ["tabela"]
+						});
+						
+						var objetosDropados = [];
+						
+						aspect.around( boxDrop, "onDndDrop", function( originalCall ){
+							return function(){
+								originalCall.apply( this, arguments );								
+									
+								var fonte = arguments[0];
+								var alvo = arguments[3];
+								
+								if( fonte.node.id == "listaTabelas" ){
+									console.log("fonte listaTabelas");
+									
+									for( var i in alvo.map ){
+										// move os dados para uma global
+										objetosDropados.push( alvo.map[i] );
+										console.log("alvo " + alvo);
+										
+										// cria DOM
+										var camposTabela = "";
+										var dados = alvo.map[i].data;
+										for( var i = 0; i < dados.campos.length; i++ ){
+											camposTabela += "<div style='width:100%;' id='" + dados.nome + "_" + dados.campos[i] + "'>" +
+												dados.campos[i] + "</div>";
+										}
+										var objetoDOM = domConstruct.toDom(
+											"<div style='border:1px solid black;min-width:100px;max-width:150px;width:100px;'>" +
+											"	<div style='background-color:green;'>"+ dados.nome + "</div>" +
+											"	<div style='background-color:white;'>" + camposTabela + "</div>" +
+											"</div>"
+										);
+										
+										domConstruct.place( objetoDOM, "divPai" );
+										// transforma em componente moveable
+										new move.parentConstrainedMoveable( objetoDOM );
+										
+										// apaga o objeto de dentro do alvo
+										
+										var idAlvo = alvo.node.id;
+										console.log(" i : " + alvo.map[i]);
+										
+										//query("#" + alvo.map[i].node  ).forEach( domConstruct.destroy );
+										
+										//domConstruct.destroy( alvo.map[i] );
+										
+										alvo.map = [];
+									}
+									
+								}								
+								
+								console.log("-----");
+								for( var i in arguments ){
+									console.warn(i+" -> " +arguments[i] );
+								}
+								
+								// oculta o target
+								alvo.node.style.display= 'none';								
+							}
+						});						
+						
+						
+						//fim ready
+					});
+			
+				}
+			);
+		</script>
+	</head>
+	<body class="claro">
+	<h3>Nova abordagem: apesar de alguns bugs, está mais próximo do desejado</h3>
+	
+	<div id="listaTabelas" style="width:200px;height:300px;border:1px solid gray;float:left;"></div>
+	
+	<div id="divPai" style="width:400px;height:300px;border: 1px solid black;float:left;position:relative">
+		<div id="dropArea" style="width:100%;height:100%;border:1px solid orange;display:none;position:absolute;"></div>
+	</div>
+	
+	</body>
+	
+</html>
