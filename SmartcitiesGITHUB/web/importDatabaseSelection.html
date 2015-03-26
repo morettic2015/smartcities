@@ -14,6 +14,7 @@
 	
 	<div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" gutters="true" style="width: 100%; height: 80%;">	    
 	    <div id="espacoTreeDBSelection" data-dojo-type="dijit/layout/ContentPane" region="left" splitter="true" maxSize="Infinity" minSize="100" doLayout="false" style="width:30%;padding:0px;">
+			<div id="listaTabelas"></div>
 			<!--
 			<div data-dojo-type="dijit/Tree" id="arvoreItensDatabase" jsId="arvoreItensDatabase" autoExpand="true" showRoot="false" childrenAttr="children" openOnClick="false" openOnDblClick="false" persist="false" dndParams="onDndDrop,itemCreator,onDndCancel,checkAcceptance,checkItemAcceptance,dragThreshold,betweenThreshold" dragThreshold="5" betweenThreshold="0" style="margin: 0px; min-height: 1em; height: 100%; width: 100%;" title="arquivo" model="storeModel">
 		    <script type="dojo/method" data-dojo-event="getIconStyle" data-dojo-args="item, opened">
@@ -29,10 +30,12 @@
 			</div>
 			-->
 		</div>
-	    <div data-dojo-type="dijit/layout/ContentPane" region="center" splitter="false" maxSize="Infinity" doLayout="false">
-			<div data-dojo-type="dojo/dnd/Source" style="width:100%; height:100%; border:1px solid blue">
-				<div class="dojoDndItem">oi</div>
+	    <div  data-dojo-type="dijit/layout/ContentPane" region="center" splitter="false" maxSize="Infinity" doLayout="false" style="padding:0px;">
+			<div id="containerDragDrop" style="width:100%; height:100%;position:relative;">
+				<div id="targetDragDrop" style="width:99%; height:98%; border:2px solid orange;position:absolute;display:none">					
+				</div>
 			</div>
+			
 		</div>
 		<div data-dojo-type="dijit/layout/ContentPane" region="bottom" splitter="true" maxSize="Infinity" minSize="50" style="height: 50px;padding:0px;overflow:hidden;" doLayout="false">
 			<input type="checkbox" data-dojo-type="dijit/form/CheckBox" value=""><label>Propriedades</label><br>

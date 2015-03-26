@@ -1,13 +1,14 @@
 /**************************************
  *		Controle da visão / telas
  *************************************/
- 
-/** 
+
+/**
  *	Globais
  */
 
 var map;			// MAPA DO GOOGLE
 var storePais;
+var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de DB
 
 
 require([
@@ -15,12 +16,17 @@ require([
     "dojo/on",
     "dojo/dom",
 	"dojo/dom-attr",
+	"dojo/dom-construct",
     "dojo/parser",
     "dojo/_base/xhr",
 	"dojo/_base/array",
     "dojo/query",
     "dojo/_base/event",
 	"dojo/i18n!./nls/texts.js",
+	"dojo/aspect",
+	"dojo/dnd/Source",
+	"dojo/dnd/Target",
+	"dojo/dnd/move",
 	"dijit/Tree",
 	"dijit/tree/ObjectStoreModel",
 	"dijit/tree/dndSource"
@@ -30,51 +36,56 @@ require([
                 on,
                 dom,
 				domAttr,
+				domConstruct,
                 parser,
                 xhr,
 				array,
                 query,
                 event,
 				textos,
+				aspect,
+				Source,
+				Target,
+				move,
 				Tree,
 				StoreModel,
 				dndSource
                 ) {
 
             ready(function () {
-				
+
 				/**
 				 *	Configuração do pós-carregamento das páginas em cada ContentPane
 				 */
-				contentPane_Perfil.set("onDownloadEnd", function(){					
+				contentPane_Perfil.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
-				contentPane_FerramentaDados.set("onDownloadEnd", function(){					
+
+				contentPane_FerramentaDados.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
-				contentPane_Mapa.set("onDownloadEnd", function(){					
+
+				contentPane_Mapa.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
-				contentPane_Alarmes.set("onDownloadEnd", function(){					
+
+				contentPane_Alarmes.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
+
 				contentPane_Faturamento.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
+
 				contentPane_Circulos.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
+
 				contentPane_PopUp.set("onDownloadEnd", function(){
 					configuraTela( this.get("href") );
 				});
-				
-				
+
+
 				/**
 				 *	Carrega as telas de splash
 				 */
@@ -84,20 +95,20 @@ require([
 				carregaTelaAlarmes( "alarmesSplash.html" );
 				carregaTelaFaturamento( "faturamentoSplash.html" );
 				carregaTelaCirculos( "circulosSplash.html" );
-				
-				
+
+
                 /**
                  *	Atribuindo Eventos
                  */
-				 
+
 				 // Cabeçalho / Header
 				on(dom.byId("btConfigHeader"), "click", function () {
-                    abrePopUpModal("configuration.html");					
+                    abrePopUpModal("configuration.html");
                 });
 
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
-                    carregaTelaPerfil("profileInfo.html");					
+                    carregaTelaPerfil("profileInfo.html");
                 });
                 on(dom.byId("btProfileAddress"), "click", function () {
                     carregaTelaPerfil("profileAddress.html")
@@ -133,11 +144,11 @@ require([
                 });
                 on(dom.byId("btTarefaDados"), "click", function () {
                     carregaTelaFerramentaDados("task.html")
-                });				
+                });
                 on(dom.byId("btTransformarDados"), "click", function () {
                     carregaTelaFerramentaDados("transform.html")
                 });
-				
+
 				//Módulo Mapa
                 on(dom.byId("btMapaSearch"), "click", function () {
                     abrePopUpModal("mapSearch.html");
@@ -145,22 +156,22 @@ require([
                 on(dom.byId("btMapaLayers"), "click", function () {
                     abrePopUpModal("mapConfig.html");
                     addMarkerToMap("TEXTO INFORMATIVO NONONONO", "INFO TITULO", "42", "-88");
-                });                 
+                });
                 on(dom.byId("btMapaView"), "click", function () {
                     makeGmap();
                 });
                 on(dom.byId("tabMap"), "onShow", function () {
                     makeGmap();
-                });				
-				
+                });
+
 				// Aba/Módulo Faturamento
 				on(dom.byId("btTransacoes"), "click", function () {
                     carregaTelaFaturamento("billingTransactions.html")
                 });
 				on(dom.byId("btCreditoDebito"), "click", function () {
                     carregaTelaFaturamento("billingCreditDebt.html")
-                });				
-				
+                });
+
 				// Aba/Módulo Círculos
 				on(dom.byId("btContatos"), "click", function () {
                     carregaTelaCirculos("circleContacts.html");
@@ -170,12 +181,12 @@ require([
                 });
 
 
-                /* 
+                /*
 					Delegação de evento para conteudo carregado dinamicamente
 				 */
-				 
+
 				// Módulo Ferramenta de Dados
-				
+
                 query("#conteudo_ferr_dados").on("#btTestarConexaoDados:click", function (evt) {
                     event.stop(evt);
                 });
@@ -226,7 +237,7 @@ require([
 					carregaTelaFerramentaDados("dataFileLocate.html", param );
 					event.stop( evt );
 				});
-				query("#conteudo_ferr_dados").on("#iconeLdapImportacao:click", function(evt){					
+				query("#conteudo_ferr_dados").on("#iconeLdapImportacao:click", function(evt){
 					carregaTelaFerramentaDados("importLdapConnection.html" );
 					event.stop( evt );
 				});
@@ -240,9 +251,9 @@ require([
                     carregaTelaFerramentaDados("dataFileLocate.html", param );
                     event.stop(evt);
                 });
-                
-				
-				// Aba/Módulo Faturamento				                
+
+
+				// Aba/Módulo Faturamento
 				query("#conteudo_faturamento").on("#btCCCredito:click", function (evt) {
                     abrePopUpModal("formCartao.html");
                     event.stop(evt);
@@ -259,15 +270,15 @@ require([
                     abrePopUpModal("formBanco.html");
                     event.stop(evt);
                 });
-				
+
 				// Modulo Circulos
 				on( dom.byId("conteudo_circulos"), "#btImportarContatos:click", function () {
                     //abreImportarContato();
 					alert(" importar contato");
                 });
-				
+
 				// Tela de Configuração
-				
+
 				query("#container_modal").on("#flagUS:click", function (evt) {
                     alteraLocale("en");
                     event.stop(evt);
@@ -280,15 +291,15 @@ require([
                     //TODO script de logout
                     event.stop(evt);
                 });
-				
-                
+
+
 				/**
 				 *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
 				 */
-				
+
 				// Cabeçalho / Header
 				dom.byId("headerNomeUsuario").innerHTML = textos.nomeUsuarioGenerico;
-				
+
 				// Main
 				dom.byId("rotuloAbaPerfil").innerHTML = textos.rotAbaPerfil;
 				dom.byId("rotuloAbaDados").innerHTML = textos.rotAbaDados;
@@ -326,24 +337,24 @@ require([
 				dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
 				dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
 				dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
-				
+
 				/**
 				 *	Carregamento das trees de 'Fonte de Dados'
 				 */
 				loadTreeDataSources();
 				loadTreePendencies();
-				
+
             });
-			
-			
-			
+
+
+
 			/*
              * Inicio da Declaracao das funções
              */
-			 
+
             /**
              *  Função para criar o mapa do google.
-             * 
+             *
              * */
 
             function makeGmap() {
@@ -532,46 +543,46 @@ require([
                 });
             }
 
-			
+
             /**
 			 *	Funções para carregar telas dinâmicas
 			 */
-			 
+
             function carregaTelaPerfil( paginaConteudo, parametros ) {
                 parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_Perfil;
 				objContainer.set("href", paginaConteudo);
             }
-			
-			function carregaTelaFerramentaDados( paginaConteudo, parametros ) {				
+
+			function carregaTelaFerramentaDados( paginaConteudo, parametros ) {
 				parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_FerramentaDados;
-				objContainer.set("href", paginaConteudo);				
+				objContainer.set("href", paginaConteudo);
 			}
-			
+
 			function carregaTelaMapa( paginaConteudo, parametros ){
 				parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_Mapa;
 				objContainer.set("href", paginaConteudo);
 			}
-			
+
 			function carregaTelaAlarmes( paginaConteudo, parametros ){
 				parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_Alarmes;
 				objContainer.set("href", paginaConteudo);
 			}
-			
+
             function carregaTelaFaturamento( paginaConteudo, parametros ) {
                 parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_Faturamento;
 				objContainer.set("href", paginaConteudo);
 			}
-						
+
             function carregaTelaCirculos( paginaConteudo, parametros ) {
                 parametrosTela = parametros;	// Setando variável global
 				var objContainer = contentPane_Circulos;
 				objContainer.set("href", paginaConteudo);
-            }			
+            }
 
             /**
              * Função para abrir o modal. Basta passar o nome do html / pagina para carregar o conteudo
@@ -583,12 +594,12 @@ require([
 				objContainer.set("href", paginaConteudo);
                 exibeModal();
             }
-			
+
 			function exibeModal(){
                 myDialog.show();
             }
-			
-			
+
+
 			function configuraTela( pagina ){
 				console.log("Carregou " + pagina);
 				if( pagina == "fonteDadosSplash.html"){
@@ -663,8 +674,12 @@ require([
 				}else if( pagina == "importDatabaseSelection.html" ){
 					setEventsImportDBSelection();
 					i18nImportDatabaseSelection();
-					loadTreeDBSelection(); //teste
-				}else if( pagina == "importKml.html"){					
+					//loadTreeDBSelection();
+					// a arvore foi substituida por uma lista em vista da imcompatibilidade do dijit/tree/dndSource com o dojo/dnd/source
+					loadListaDBSelection();
+					loadDragDropDBSelection();
+					objetosDropadosDBSelection = [];
+				}else if( pagina == "importKml.html"){
 					i18nImportKml();
 					setEventsImportKml();
 				}else if( pagina == "formPaypal.html" ){
@@ -680,10 +695,10 @@ require([
 					i18nImportFtpConnection();
 				}else if( pagina == "importFtpSelection.html" ){
 					setEventsImportFtpSelect();
-					i18nImportFtpSelect();					
-					dom.byId("tipoArquivoImportFtpSelection").innerHTML = parametrosTela.protocolo;					
+					i18nImportFtpSelect();
+					dom.byId("tipoArquivoImportFtpSelection").innerHTML = parametrosTela.protocolo;
 					refreshFileListFTPImport();	// preenchimento do grid
-					loadTreeFtpImport();		// preenchimento da tree					
+					loadTreeFtpImport();		// preenchimento da tree
 				}else if( pagina == "importADConnection.html" ){
 					i18nImportADConnection();
 					setEventsImportADConnection();
@@ -715,23 +730,23 @@ require([
 					i18nPendencyFileSelect();
 					refreshGridPendencyFileSelect();
 				}
-				
+
 			}
-			
+
 			function setEventsPendencyFileSelect(){
-				
+
 			}
-			
+
 			function i18nPendencyFileSelect(){
-				
+
 			}
-			
-			
+
+
 			/**
 			 *	Atribuição de textos e internacionalização das telas
 			 */
 			{ // Profile
-				function i18nProfileInfo(){				
+				function i18nProfileInfo(){
 					dom.byId("rotBtSalvarProfileInfo").innerHTML = textos.rotSalvar;
 					dom.byId("titleProfileInfo").innerHTML = textos.tituloDadosPessoais;
 					dom.byId("nameProfileInfo").innerHTML = textos.rotNomePerfil;
@@ -745,7 +760,7 @@ require([
 					dom.byId("areaCodeProfileInfo").innerHTML = textos.rotCodigoAreaPerfil;
 					dom.byId("avatarProfileInfo").innerHTML = textos.rotAvatarPerfil;
 				}
-				
+
 				function i18nProfileAdress(){
 					dom.byId("rotBtSalvarProfileAddress").innerHTML = textos.rotSalvar;
 					dom.byId("tituloProfileAddress").innerHTML = textos.tituloEnderecoPerfil;
@@ -759,7 +774,7 @@ require([
 					//dom.byId("cmdStateAddress").innerHTML = textos.selecioneEstado;
 					dom.byId("cidadeProfileAddress").innerHTML = textos.rotCidadePerfil;
 					//dom.byId("cmdCityAddress").innerHTML = textos.selecioneCidade;
-					
+
 					//setDadosComboPais();
 				}
 				/*
@@ -786,7 +801,7 @@ require([
 					dom.byId("varianteProfileLanguage").innerHTML = textos.rotVarianteIdiomaPerfil;
 					dom.byId("outrosProfileLanguage").innerHTML = textos.rotOutrosPerfil;
 				}
-				function i18nProfileSecurity(){				
+				function i18nProfileSecurity(){
 					dom.byId("rotBtSalvarProfileSecurity").innerHTML = textos.rotSalvar;
 					dom.byId("tituloProfileSecurity").innerHTML = textos.tituloSegurancaPerfil
 					dom.byId("emailProfileSecurity").innerHTML = textos.rotEmailRecuperaPerfil;
@@ -794,7 +809,7 @@ require([
 					dom.byId("celularProfileSecurity").innerHTML = textos.rotCelularPerfil;
 					dom.byId("fraseProfileSecurity").innerHTML = textos.rotFraseSecretaPerfil;
 				}
-				function i18nProfileHistory(){			
+				function i18nProfileHistory(){
 					dom.byId("tituloProfileHistory").innerHTML = textos.tituloHistoricoPerfil
 					dom.byId("rotDeProfileHistory").innerHTML = textos.rotDe;
 					dom.byId("rotAteProfileHistory").innerHTML = textos.rotAte;
@@ -805,7 +820,7 @@ require([
 					dom.byId("rotColIPProfileHistory").innerHTML = textos.rotIP;
 				}
 			}
-			
+
 			{ // Data Sources
 				function i18nDataImport(){
 					dom.byId("tituloImportacaoDados").innerHTML = textos.tituloImportarDados;
@@ -823,27 +838,27 @@ require([
 					dom.byId("rotChkDadosCopyData").innerHTML = textos.rotCopiarDados;
 					dom.byId("rotChkCompartCopyData").innerHTML = textos.rotCopiarCompartDados;
 				}
-				function i18nDataTransform(){				
+				function i18nDataTransform(){
 					dom.byId("rotBtSalvarTransformData").innerHTML = textos.rotSalvar;
 					dom.byId("rotBtExcluirTransformData").innerHTML = textos.rotExcluir;
 					dom.byId("rotBtVincularTransformData").innerHTML = textos.btVincularCamposDados;
 					dom.byId("rotBtAgruparTransformData").innerHTML = textos.btAgruparCamposDados;
 					dom.byId("rotBtFiltrarTransformData").innerHTML = textos.btFiltrarDados;
 					dom.byId("rotBtLayoutTransformData").innerHTML = textos.btLayoutDados;
-					dom.byId("rotBtTestarTransformData").innerHTML = textos.btTestarDados;				
+					dom.byId("rotBtTestarTransformData").innerHTML = textos.btTestarDados;
 					dom.byId("tituloTransformData").innerHTML = textos.tituloTransformarDados;
 					dom.byId("p1TransformData").innerHTML = textos.p1TransformarDados;
 					dom.byId("nomeTransformData").innerHTML = textos.gNome;
 					dom.byId("gzipTransformData").innerHTML = textos.rotGZIPDados;
 					dom.byId("httpsTransformData").innerHTML = textos.rotHttpsDados;
-					//dom.byId("rotNomeCampoTransform").innerHTML = textos.rotNomeCampoDados;				
+					//dom.byId("rotNomeCampoTransform").innerHTML = textos.rotNomeCampoDados;
 					//dom.byId("opStringTransformData").innerHTML = textos.gString;
 					//dom.byId("opNumericoTransformData").innerHTML = textos.gNumerico;
 					//dom.byId("opBlobTransformData").innerHTML = textos.gBlob;
 					//dom.byId("opLogicoTransformData").innerHTML = textos.gLogico;
 					//dom.byId("opMascaraTransformData").innerHTML = textos.gMascara;
 					dom.byId("rotGridIDTransfomData").innerHTML = textos.gID;
-					dom.byId("rotGridNomeTransformData").innerHTML = textos.rotNomeTransformacaoDados;				
+					dom.byId("rotGridNomeTransformData").innerHTML = textos.rotNomeTransformacaoDados;
 				}
 				function i18nDataShare(){
 					console.log("1");
@@ -859,22 +874,22 @@ require([
 					console.log("6");
 					//dom.byId("opViewPermissionShare").innerHTML = textos.gVisualizar;
 					console.log("7");
-					//dom.byId("opEditPermissionShare").innerHTML = textos.gEditar;				
+					//dom.byId("opEditPermissionShare").innerHTML = textos.gEditar;
 					console.log("8");
 					dom.byId("rotVisibilidadeShareData").innerHTML = textos.rotVisibilidadeDados;
 					console.log("9");
 					//dom.byId("opPublicoVisibShare").innerHTML = textos.gPublico;
 					console.log("10");
-					//dom.byId("opPrivadoVisibShare").innerHTML = textos.gPrivado;				
+					//dom.byId("opPrivadoVisibShare").innerHTML = textos.gPrivado;
 					console.log("11");
-					dom.byId("rotGridIDShareData").innerHTML = textos.gID;					
-					dom.byId("rotGridNomeShareData").innerHTML = textos.gNome;					
+					dom.byId("rotGridIDShareData").innerHTML = textos.gID;
+					dom.byId("rotGridNomeShareData").innerHTML = textos.gNome;
 					dom.byId("rotGridCirculosShareData").innerHTML = textos.rotCirculos;
 					console.log("12");
 					dom.byId("rotGridInfoShareData").innerHTML = textos.gInfo;
 				}
 				function i18nDataDriver(){
-					dom.byId("tituloDataDriver").innerHTML = textos.gDrivers;				
+					dom.byId("tituloDataDriver").innerHTML = textos.gDrivers;
 					dom.byId("p1DataDriver").innerHTML = textos.p1DriversDados;
 					dom.byId("rotNomeDataDriver").innerHTML = textos.gNome;
 					dom.byId("rotDriverDataDriver").innerHTML = textos.gDriver;
@@ -893,7 +908,7 @@ require([
 					dom.byId("p1DataTask").innerHTML = textos.p1TarefasDados;
 					dom.byId("rotDiariamenteDataTask").innerHTML = textos.rotDiariamenteDados;
 					dom.byId("rotSicronDataTask").innerHTML = textos.rotSincronTarefaDados;
-					dom.byId("rotIntervaloDataTask").innerHTML = textos.rotIntervaloTarefaDados;				
+					dom.byId("rotIntervaloDataTask").innerHTML = textos.rotIntervaloTarefaDados;
 					dom.byId("colGridIDDataTask").innerHTML = textos.gID;
 					dom.byId("colGridNomeDataTask").innerHTML = textos.gNome;
 					dom.byId("colGridHoraDataTask").innerHTML = textos.gHora;
@@ -909,7 +924,7 @@ require([
 					dom.byId("rotDeHistoryData").innerHTML = textos.rotDe;
 					dom.byId("rotAteHistoryData").innerHTML = textos.rotAte;
 					dom.byId("rotBtBuscarHistoryData").innerHTML = textos.btBuscar;
-					
+
 					dom.byId("colGridIDHistoryData").innerHTML = textos.gID;
 					dom.byId("colGridDateHistoryData").innerHTML = textos.gData;
 					dom.byId("colGridTimeHistoryData").innerHTML = textos.gHora;
@@ -944,46 +959,46 @@ require([
 					dom.byId("tituloImportKml").innerHTML = textos.rotImportar;
 					dom.byId("rotLinkImportKml").innerHTML = textos.gLink;
 					dom.byId("rotDescricaoImportKml").innerHTML = textos.gDescricao;
-				}				
+				}
 				function i18nImportADConnection(){
 					dom.byId("tituloImportADConnection").innerHTML = textos.rotImportar;
 					dom.byId("rotBtAnteriorADConnection").innerHTML = textos.gAnterior;
-					dom.byId("rotBtProximoADConnection").innerHTML = textos.gProximo;					
+					dom.byId("rotBtProximoADConnection").innerHTML = textos.gProximo;
 					dom.byId("p1ImportADConnection").innerHTML = textos.p1ImportADConnection;
 					dom.byId("rotIPImportADConnection").innerHTML = textos.rotIP;
 					dom.byId("rotUsuarioImportADConnection").innerHTML = textos.gUsuario;
 					dom.byId("rotSenhaImportADConnection").innerHTML = textos.gSenha;
-					dom.byId("rotBtTestarImportADConn").innerHTML = textos.gTestar;					
+					dom.byId("rotBtTestarImportADConn").innerHTML = textos.gTestar;
 				}
 				function i18nImportFtpConnection(){
 					dom.byId("rotBtAnteriorFtpConn").innerHTML = textos.gAnterior;
 					dom.byId("rotBtProximoFtpConn").innerHTML = textos.gProximo;
-					dom.byId("tituloImportFtpConection").innerHTML = textos.rotImportar;					
+					dom.byId("tituloImportFtpConection").innerHTML = textos.rotImportar;
 					dom.byId("p1ImportFtpConection").innerHTML = textos.p1ImportFtpConection;
 					dom.byId("rotTipoImportFtp").innerHTML = textos.gTipo;
 					dom.byId("rotUrlImportFtp").innerHTML = textos.gUrl;
-					dom.byId("rotUsuarioImportFtp").innerHTML = textos.gUsuario;					
+					dom.byId("rotUsuarioImportFtp").innerHTML = textos.gUsuario;
 					dom.byId("rotSenhaImportFtp").innerHTML = textos.gSenha;
 					dom.byId("rotBtTestarFtpConn").innerHTML = textos.gTestar;
 				}
 				function i18nImportFtpSelect(){
 					dom.byId("rotBtAnteriorFtpSelect").innerHTML = textos.gAnterior;
 					dom.byId("rotBtFinalizarFtpSelect").innerHTML = textos.gFinalizar;
-					dom.byId("tituloImportFtpSelection").innerHTML = textos.rotImportar;					
+					dom.byId("tituloImportFtpSelection").innerHTML = textos.rotImportar;
 					dom.byId("p1ImportFtpSelection").innerHTML = textos.p1ImportFtpSelection;
 				}
 				function i18nDataFileLocate(){
 					dom.byId("rotBtAnteriorFileLocate").innerHTML = textos.gAnterior;
 					dom.byId("rotBtProximoFileLocate").innerHTML = textos.gProximo;
-					dom.byId("tituloDataFileLocate").innerHTML = textos.rotImportar;					
+					dom.byId("tituloDataFileLocate").innerHTML = textos.rotImportar;
 					dom.byId("rotArquivoFileLocate").innerHTML = textos.localArquivo;
-					dom.byId("rotNomeFonteFileLocate").innerHTML = textos.nomeFonteDados;					
+					dom.byId("rotNomeFonteFileLocate").innerHTML = textos.nomeFonteDados;
 					dom.byId("rotDescricaoFileLocate").innerHTML = textos.gDescricao;
 				}
 				function i18nImportCsv(){
 					dom.byId("rotBtAnteriorImportCsv").innerHTML = textos.gAnterior;
 					dom.byId("rotBtProximoImportCsv").innerHTML = textos.gFinalizar;
-					dom.byId("tituloImportCSV").innerHTML = textos.rotImportar;					
+					dom.byId("tituloImportCSV").innerHTML = textos.rotImportar;
 					dom.byId("p1ImportCsv").innerHTML = textos.p1ImportCsv;
 				}
 				function i18nImportLdapConnection(){
@@ -1010,9 +1025,9 @@ require([
 					dom.byId("p1ImportWsdl").innerHTML = textos.p1ImportWsdl;
 					dom.byId("rotFiltroImportWsdl").innerHTML = textos.filtroWsdl;
 				}
-				
+
 			}
-			
+
 			{ // Billing
 				function i18nBillingTransactions(){
 					dom.byId("tituloBillingTransactions").innerHTML = textos.tituloHistoricoTransacoes;
@@ -1034,7 +1049,7 @@ require([
 					dom.byId("colGridBancoBillingCredit").innerHTML = textos.gBanco;
 				}
 			}
-			
+
 			{ // Circles
 				function i18nContactCircle(){
 					dom.byId("tituloCircleContacts").innerHTML = textos.tituloContatosCirculos;
@@ -1049,7 +1064,7 @@ require([
 					dom.byId("rotBtImportarCircleContacts").innerHTML = textos.rotImportar;
 					dom.byId("rotBtCirculoCircleContacts").innerHTML = textos.gCirculo;
 				}
-				function i18nCircles(){				
+				function i18nCircles(){
 					dom.byId("tituloCircles").innerHTML = textos.tituloCirculos;
 					dom.byId("rotNomeCircles").innerHTML = textos.gNome;
 					dom.byId("rotBtBuscarCircles").innerHTML = textos.btBuscar;
@@ -1061,7 +1076,7 @@ require([
 					dom.byId("rotBtHistoricoCircles").innerHTML = textos.rotHistorico;
 				}
 			}
-			
+
 			function i18nMapConfig(){
 				dom.byId("tituloModal").innerHTML = textos.tituloMapConfig;
 				dom.byId("rotBtFiltrarMapConfig").innerHTML = textos.rotFiltrar;
@@ -1069,12 +1084,12 @@ require([
 			}
 			function i18nGeneralConfig(){
 				dom.byId("tituloModal").innerHTML = textos.gConfiguracao;
-				dom.byId("tituloConfiguracao").innerHTML = textos.gConfiguracao;				
+				dom.byId("tituloConfiguracao").innerHTML = textos.gConfiguracao;
 				dom.byId("rotConfigRegion").innerHTML = textos.gRegiao;
-				
+
 			}
-			
-			
+
+
 			/*
 			 *	Internacionalização das telas de Splash
 			 */
@@ -1095,8 +1110,8 @@ require([
 				dom.byId("pSplashDataTasks").innerHTML = textos.descTarefasDados;
 				dom.byId("rotSplashDataHistory").innerHTML = textos.rotHistorico;
 				dom.byId("pSplashDataHistory").innerHTML = textos.descHistoricoDados;
-			}			
-			function i18nSplashProfile(){	
+			}
+			function i18nSplashProfile(){
 				dom.byId("rotSplashPersonalInfo").innerHTML = textos.rotDadosPessoais;
 				dom.byId("pSplashPersonalInfo").innerHTML = textos.descDadosPessoais;
 				dom.byId("rotSplashProfileAddress").innerHTML = textos.rotEndereco;
@@ -1107,7 +1122,7 @@ require([
 				dom.byId("pSplashProfileSecurity").innerHTML = textos.descSeguranca;
 				dom.byId("rotSplashProfileHistory").innerHTML = textos.rotHistoricoConta;
 				dom.byId("pSplashProfileHistory").innerHTML = textos.descHistoricoConta;
-			}	
+			}
 			function i18nSplashMap(){
 				dom.byId("rotSplashViewMap").innerHTML = textos.gVisualizar;
 				dom.byId("pSplashViewMap").innerHTML = textos.descVisualizarMapa;
@@ -1141,8 +1156,8 @@ require([
 				dom.byId("pSplashNewContact").innerHTML = textos.descNovoContatoCirculos;
 				dom.byId("rotSplashCircles").innerHTML = textos.rotCirculos;
 				dom.byId("pSplashCircles").innerHTML = textos.descCirculos;
-			}	
-			
+			}
+
 			function i18nFormPaypal(){
 				dom.byId("tituloPaypal").innerHTML = textos.paypal;
 				dom.byId("p1Paypal").innerHTML = textos.p1Paypal;
@@ -1170,9 +1185,9 @@ require([
 				dom.byId("rotBtSalvarFormCartao").innerHTML = textos.rotSalvar;
 				dom.byId("rotBtExcluirFormCartao").innerHTML = textos.rotExcluir;
 			}
-			
-			
-			
+
+
+
 			/**
 			 *	Atribução de eventos às telas carregadas via ajax
 			 */
@@ -1197,7 +1212,7 @@ require([
 				});
 				on( dom.byId("btFinalizarFtpSelection"), "click", function(){
 					// sem implementacao
-					
+
 				});
 			}
 			function setEventsImportADConnection(){
@@ -1209,25 +1224,25 @@ require([
 					carregaTelaFerramentaDados( "importFtpSelection.html", param );
 				});
 			}
-			function setEventsImportDBConnection(){				
-				on( dom.byId("btAnteriorImportDBConnect"), "click", function(){					
+			function setEventsImportDBConnection(){
+				on( dom.byId("btAnteriorImportDBConnect"), "click", function(){
 					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
 				});
-				on( dom.byId("btProximoImportDBConnect"), "click", function(){					
+				on( dom.byId("btProximoImportDBConnect"), "click", function(){
 					carregaTelaFerramentaDados( "importDatabaseSelection.html" );
 				});
 			}
-			function setEventsImportDBSelection(){				
-				on( dom.byId("btAnteriorDBSelection"), "click", function(){					
+			function setEventsImportDBSelection(){
+				on( dom.byId("btAnteriorDBSelection"), "click", function(){
 					carregaTelaFerramentaDados( "databaseImport.html" );
-				});				
-				on( dom.byId("btProximoDBSelection"), "click", function(){					
-					//carregaTelaFerramentaDados( ".html" );					
+				});
+				on( dom.byId("btProximoDBSelection"), "click", function(){
+					//carregaTelaFerramentaDados( ".html" );
 				});
 			}
-			
+
 			function setEventsDataFileLocate(){
-				on( dom.byId("btAnteriorFileLocate"), "click", function(){					
+				on( dom.byId("btAnteriorFileLocate"), "click", function(){
 					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
 				});
 				on( dom.byId("btProximoFileLocate"), "click", function(){
@@ -1262,7 +1277,7 @@ require([
 					var param = parametrosTela;
 					carregaTelaFerramentaDados( "dataFileLocate.html", param );
 				});
-			}			
+			}
 			function setEventsImportLdapConn(){
 				on( dom.byId("btAnteriorLdapConnect"), "click", function(){
 					carregaTelaFerramentaDados("choiceDataFormatImport.html");
@@ -1282,7 +1297,7 @@ require([
 					}
 				});
 				on( dom.byId("btFinalizarImportJson"), "click", function(){
-					
+
 				});
 			}
 			function setEventsImportKml(){
@@ -1296,7 +1311,7 @@ require([
 					carregaTelaFerramentaDados("dataFileLocate.html", param );
 				});
 			}
-			
+
 			function setEventsSplashDataSource(){
 				on(dom.byId("rotSplashImportData"), "click", function () {
                     carregaTelaFerramentaDados("choiceDataFormatImport.html")
@@ -1318,7 +1333,7 @@ require([
                 });
                 on(dom.byId("rotSplashDataTasks"), "click", function () {
                     carregaTelaFerramentaDados("task.html")
-                });				
+                });
                 on(dom.byId("rotSplashTransformData"), "click", function () {
                     carregaTelaFerramentaDados("transform.html")
                 });
@@ -1388,199 +1403,292 @@ require([
 					carregaTelaCirculos("circles.html")
 				});
 			}
-			
+
 			// Eventos nas telas do módulo Círculos
-			function setEventsCircleContacts(){				
-				on( dom.byId("btImportarContatos"), "click", function(){					
+			function setEventsCircleContacts(){
+				on( dom.byId("btImportarContatos"), "click", function(){
 					abrePopUpModal( "opcoesImportacaoContato.html" );
 				});
-			}			
-			
-			
-			
+			}
+
+
+
 			/**
 			 *	Funções para montar as árvores
 			 */
-			 
+
 			function loadTreeFtpImport( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Teste", parent:"treeRoot"},{id:2,label:"item_modificado",parent:1, leaf:true },{id:'pendencies',label:"Pendencias", parent: 'treeRoot'}];
 				poolStore.treeFtpSelect = fillStoreTree( poolStore.treeFtpSelect, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.treeFtpSelect,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeFtpSelection") );
-				
-				tree.onDblClick = function(  ){					
+
+				tree.onDblClick = function(  ){
 					poolStore.treeFtpSelect.put({id:3, label:'adicionou aqui', parent:'treeRoot', leaf:true});
 				}
 			}
-			
+
 			function loadTreeDBSelection( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Tabela1", parent:"treeRoot"},{id:2,label:"campo1",parent:1, leaf:true },{id:3,label:"Tabela2", parent: 'treeRoot'}];
 				poolStore.treeDBSelect = fillStoreTree( poolStore.treeDBSelect, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.treeDBSelect,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeDBSelection") );
-				
-				tree.onDblClick = function(  ){					
+
+				tree.onDblClick = function(  ){
 					poolStore.treeDBSelect.put({id:4, label:'campo2', parent:1, leaf:true});
 				}
 			}
-			
+
 			function loadTreeDataSources( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"FTP", parent:"treeRoot"},{id:2,label:"ftp do senai",parent:1, leaf:true },{id:3,label:"ftp da estacio", parent: 1, leaf:true}];
 				poolStore.treeDataSource = fillStoreTree( poolStore.treeDataSource, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.treeDataSource,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeDataSources") );
-				
-				tree.onDblClick = function(  ){					
+
+				tree.onDblClick = function(  ){
 					poolStore.treeDataSource.put({id:4, label:'campo2', parent:1, leaf:true});
 				}
 			}
-			
+
 			function loadTreePendencies( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Importacao 09/02", parent:"treeRoot"},{id:2,label:"CSV",parent:1 },{id:3,label:"Morettic.csv", parent: 2, leaf:true}];
 				poolStore.treePendencies = fillStoreTree( poolStore.treePendencies, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.treePendencies,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreePendency") );
-				
+
 			}
-			
+
 			function loadTreeDataTransform( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Importacao 09/02", parent:"treeRoot"},{id:2,label:"CSV",parent:1 },{id:3,label:"Morettic.csv", parent: 2, leaf:true}];
 				poolStore.dataSource.st1 = fillStoreTree( poolStore.dataSource.st1, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.dataSource.st1,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeDataTransform") );
-				
+
 			}
-			
+
 			function loadTreeJsonOrigin( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Importacao 09/02", parent:"treeRoot"},{id:2,label:"CSV",parent:1 },{id:3,label:"Morettic.csv", parent: 2, leaf:true}];
 				poolStore.dataSource.st1 = fillStoreTree( poolStore.dataSource.st1, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.dataSource.st1,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeJsonOrigin") );
 			}
-			
+
 			function loadTreeJsonDestiny( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Importacao 09/02", parent:"treeRoot"},{id:2,label:"CSV",parent:1 },{id:3,label:"Morettic.csv", parent: 2, leaf:true}];
 				poolStore.dataSource.st2 = fillStoreTree( poolStore.dataSource.st2, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.dataSource.st2,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeJsonDestiny") );
 			}
-			
+
 			function loadTreeWsdl( arrDados ){
 				var arrDadosTeste = [{id:'treeRoot',label:"Root"},{id:1,label:"Rest", parent:"treeRoot"},{id:2,label:"endpoint1",parent:1, leaf:true },{id:3,label:"endpoint2", parent: 1, leaf:true}];
 				poolStore.dataSource.st1 = fillStoreTree( poolStore.dataSource.st1, arrDadosTeste );
-				
+
 				// cria model
-				var model = new StoreModel( { 
+				var model = new StoreModel( {
 					store: poolStore.dataSource.st1,
 					query: {id: 'treeRoot'},
 					labelAttr: 'label',
 					mayHaveChildren: function( item ){ return !item.leaf; }
 				} );
-				
+
 				// cria tree apontando para um local reservado
-				var tree = new Tree( { 
+				var tree = new Tree( {
 					model: model,
 					showRoot: false,
 					dndController: dndSource
 				} ).placeAt( dom.byId("espacoTreeWsdl") );
 			}
-			
-			
-			function alteraLocale( locale ){				
+
+			function loadListaDBSelection(){
+				var boxLista = new Source("listaTabelas", {
+					creator: function( item, hint ){
+						var objDom = domConstruct.toDom("<div>"+item.nome+"</div>");
+						return { node: objDom, data: item, type: ["tabela"]};
+					},
+					accept:["tabela"]
+				});
+
+				/*
+				 *	Chamada da função que acessa o serviço que fornece os dados.
+				 *	Esta deve retornar um array no padrão JSON com os seguintes dados: nome, type, campos.
+				 *	Ex. [ { nome:'nome', type:'type', campos:['campo1','campo2'] } ]
+				 */
+				 var dados;
+				 // dados = buscarTabelasDB();
+				 dados = [
+					{nome:'Pessoa', type:'tabela', campos:["nome","cpf","endereco","dataNasc"]},
+					{nome:'Cidade', type:'tabela', campos:["nome", "estado"]},
+					{nome:'Estado', type:'tabela', campos:["nome", "uf", "pais"]},
+					{nome:'Usuario', type:'tabela', campos:["nome", "senha","permissoes", "tipo"]},
+					{nome:'Permissao', type:'tabela', campos:["descricao", "operacao", "leitura", "escrita", "execucao"]}
+				];
+
+				boxLista.insertNodes( false, dados );
+
+				// Listeners do boxLista
+				aspect.after( boxLista, "onMouseDown", function(){
+					dom.byId("targetDragDrop").style.display = '';
+				});
+				aspect.after( boxLista, "onMouseUp", function(){
+					dom.byId("targetDragDrop").style.display = 'none';
+				});
+				
+				// TODO - apos cancelar: oculta o target
+			}
+
+			function loadDragDropDBSelection(){
+				var boxDrop = new Target("targetDragDrop",{
+					accept: ["tabela"]
+				});
+				
+				aspect.around( boxDrop, "onDndDrop", function( originalCall ){
+					return function(){
+						originalCall.apply( this, arguments );								
+							
+						var fonte = arguments[0];
+						var alvo = arguments[3];
+						
+						if( fonte.node.id == "listaTabelas" ){							
+							
+							for( var i in alvo.map ){
+								// move os dados para uma global
+								objetosDropadosDBSelection.push( alvo.map[i] );
+								
+								// cria DOM
+								var camposTabela = "";
+								var dados = alvo.map[i].data;
+								for( var i = 0; i < dados.campos.length; i++ ){
+									camposTabela += "<div style='width:100%;' id='" + dados.nome + "_" + dados.campos[i] + "'>" +
+										dados.campos[i] + "<span></div>";
+								}
+								var objetoDOM = domConstruct.toDom(
+									"<div style='border:1px solid #777;min-width:100px;max-width:150px;width:100px;'>" +
+									"	<div style='background-color:#E0E0B0;text-align:center;padding:1px;border-bottom:1px solid #AAA'>"+ dados.nome + "</div>" +
+									"	<div style='background-color:white;padding:2px;'>" + camposTabela + "</div>" +
+									"</div>"
+								);
+								
+								domConstruct.place( objetoDOM, "containerDragDrop" );
+								// transforma em componente moveable
+								new move.parentConstrainedMoveable( objetoDOM, { area:'padding' } );
+								
+								// apaga o objeto de dentro do alvo
+								alvo.map = [];
+								alvo.selectAll().deleteSelectedNodes();
+							}
+							
+						}
+						
+						console.log("-----");
+						for( var i in arguments ){
+							console.warn(i+" -> " +arguments[i] );
+						}
+						
+						// oculta o target ( nesse caso: 'targetDragDrop')
+						alvo.node.style.display= 'none';
+
+					}
+				});
+
+			}
+
+
+			function alteraLocale( locale ){
 				location.search = "?locale=" + locale;
 			}
-			
+
             /*
              *	Fim da declaração das funções
              */
