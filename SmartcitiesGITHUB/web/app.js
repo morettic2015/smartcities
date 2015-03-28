@@ -1650,19 +1650,21 @@ require([
 								var camposTabela = "";
 								var dados = alvo.map[i].data;
 								for( var i = 0; i < dados.campos.length; i++ ){
-									camposTabela += "<div style='width:100%;' id='" + dados.nome + "_" + dados.campos[i] + "'>" +
-										dados.campos[i] + "<span></div>";
+									camposTabela += "<div class='campo-tabela-dnd' style='width:100%;' id='" + dados.nome + "_" + dados.campos[i] + "'>" +
+										dados.campos[i] + "<span class='icone-excluir-campo-dnd' >X</span></div>";
 								}
+								
+								var idTitulo = "titulo_" + dados.nome;
 								var objetoDOM = domConstruct.toDom(
 									"<div style='border:1px solid #777;min-width:100px;max-width:150px;width:100px;'>" +
-									"	<div style='background-color:#E0E0B0;text-align:center;padding:1px;border-bottom:1px solid #AAA'>"+ dados.nome + "</div>" +
-									"	<div style='background-color:white;padding:2px;'>" + camposTabela + "</div>" +
+									"	<div id='" + idTitulo + "'style='background-color:#E0E0B0;text-align:center;padding:1px;border-bottom:1px solid #AAA;cursor:move'>"+ dados.nome + "</div>" +
+									"	<div style='background-color:white;padding:2px;cursor:default'>" + camposTabela + "</div>" +
 									"</div>"
 								);
 								
 								domConstruct.place( objetoDOM, "containerDragDrop" );
 								// transforma em componente moveable
-								new move.parentConstrainedMoveable( objetoDOM, { area:'padding' } );
+								new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: idTitulo } );
 								
 								// apaga o objeto de dentro do alvo
 								alvo.map = [];

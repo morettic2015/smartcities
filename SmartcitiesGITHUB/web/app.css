@@ -408,3 +408,19 @@ img.fundo {
 	width: 100px;
 }
 /*	fim lista de tipo de arquivos */
+
+.campo-tabela-dnd{
+	background-color: inherit;
+}
+.campo-tabela-dnd:hover{
+	background-color: orange;
+}
+.icone-excluir-campo-dnd{
+	background-color: inherit;
+	float:right;
+	cursor:pointer;
+	display: none;
+}
+.campo-tabela-dnd:hover .icone-excluir-campo-dnd{
+	display: block;
+}
