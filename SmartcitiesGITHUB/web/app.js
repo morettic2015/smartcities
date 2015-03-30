@@ -1649,22 +1649,40 @@ require([
 								// cria DOM
 								var camposTabela = "";
 								var dados = alvo.map[i].data;
-								for( var i = 0; i < dados.campos.length; i++ ){
-									camposTabela += "<div class='campo-tabela-dnd' style='width:100%;' id='" + dados.nome + "_" + dados.campos[i] + "'>" +
-										dados.campos[i] + "<span class='icone-excluir-campo-dnd' >X</span></div>";
-								}
+								var nomeTabela = dados.nome;
 								
-								var idTitulo = "titulo_" + dados.nome;
+								
+								//TODO transformar cada div em DOM, setar listener(onmouseup), incluir no DOM pai. Para tentar resolver o problema de chamada da função.
+								
 								var objetoDOM = domConstruct.toDom(
-									"<div style='border:1px solid #777;min-width:100px;max-width:150px;width:100px;'>" +
-									"	<div id='" + idTitulo + "'style='background-color:#E0E0B0;text-align:center;padding:1px;border-bottom:1px solid #AAA;cursor:move'>"+ dados.nome + "</div>" +
-									"	<div style='background-color:white;padding:2px;cursor:default'>" + camposTabela + "</div>" +
+									"<div id='dbi_tabela_" + nomeTabela + "' style='border:1px solid #777;min-width:100px;max-width:150px;width:100px;'>" +
+									"	<div id='dbi_titulo_" + nomeTabela + "' class='titulo-tabela-dnd'>"+ nomeTabela + "<span id='dbi_apagar_tabela_" + nomeTabela + "' class='icone-excluir-tabela-dnd' style='float:right'>X</span></div>" +
+									"	<div id='dbi_campos_" + nomeTabela + "' style='background-color:white;padding:2px;cursor:default'></div>" +
 									"</div>"
 								);
-								
 								domConstruct.place( objetoDOM, "containerDragDrop" );
+								
+								
+								on( dom.byId("dbi_apagar_tabela_" + nomeTabela ), "click", function(){ eraseTableDnd( nomeTabela ) });
+								
+								
+								for( var i = 0; i < dados.campos.length; i++ ){
+									var nomeCampo = dados.campos[i];
+									console.log( i +" nome campo:  " + nomeCampo);
+									var campoTabela = domConstruct.toDom(
+										"<div class='campo-tabela-dnd' style='width:100%;' id='" + nomeCampo + "_" + nomeTabela + "'>" +
+										nomeCampo + "<span id='dbi_excluir_campo_" + nomeCampo +"_" + nomeTabela + "' class='icone-excluir-campo-dnd'>X</span></div>"
+									);
+									domConstruct.place( campoTabela, "dbi_campos_" + nomeTabela );
+									
+									console.log(" confirmacao: " + nomeCampo);
+									on( dom.byId("dbi_excluir_campo_" + nomeCampo + "_" + nomeTabela), "click", function(){ eraseTableFieldDnd( this ) });
+								}
+								
+								console.log( camposTabela );								
+								
 								// transforma em componente moveable
-								new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: idTitulo } );
+								new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: "dbi_titulo" + nomeTabela } );
 								
 								// apaga o objeto de dentro do alvo
 								alvo.map = [];
@@ -1673,17 +1691,57 @@ require([
 							
 						}
 						
-						console.log("-----");
-						for( var i in arguments ){
-							console.warn(i+" -> " +arguments[i] );
-						}
-						
 						// oculta o target ( nesse caso: 'targetDragDrop')
 						alvo.node.style.display= 'none';
 
 					}
 				});
 
+			}
+			
+			function eraseTableDnd( nomeTabela ){
+				console.log( "apagar tabela_" + nomeTabela);
+				var tabela = dom.byId("dbi_tabela_" + nomeTabela);
+				domConstruct.destroy( tabela );
+				console.log("destruiu tabela");
+				
+				var widgetLista = dom.byId("listaTabelas");
+				console.log("coletou widget " + widgetLista);
+				var tabelaRemovida = null;
+				for( var i in objetosDropadosDBSelection ){
+					console.log( "Obj-> Nome tabela: "+objetosDropadosDBSelection[i].data.nome );
+					if( objetosDropadosDBSelection[i].data.nome.indexOf( nomeTabela ) > -1 ){
+						console.log("encontrou " + nomeTabela + " em i = " + i);
+						tabelaRemovida = objetosDropadosDBSelection[i].data;
+						console.log("tabela removida: "+tabelaRemovida.nome);
+						objetosDropadosDBSelection.splice( objetosDropadosDBSelection[i], 1 );	
+							console.log("removeu do array");
+						break;
+					}
+				}
+				var objetos = [
+					{'nome':'Pessoa2', 'type':'tabela', 'campos':["nome","cpf","endereco","dataNasc"]}
+				];
+				console.log( listaTabelas );
+				// fazer teste: adicionar um botao que dispara funcao para adicionar elementos na lista
+				listaTabelas.insertNodes( false, objetos );
+				//widgetLista.insertNodes( false, [ tabelaRemovida ] );
+				console.log("adicionou dom node");
+				
+			}
+			
+			function eraseTableFieldDnd ( objeto ){								
+				var divCampoTabela = dom.byId( objeto.id.replace(/dbi_excluir_campo_/g, "") );
+				if( divCampoTabela.excluido && divCampoTabela.excluido == true ){
+					divCampoTabela.style.textDecoration = "none";
+					divCampoTabela.style.color = "inherit";
+					divCampoTabela.excluido = false;
+				}else{
+					divCampoTabela.style.textDecoration = "line-through";
+					divCampoTabela.style.color = "gray";
+					divCampoTabela.excluido = true;
+				}				
+				
 			}
 
 
