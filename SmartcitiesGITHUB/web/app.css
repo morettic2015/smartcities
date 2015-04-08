@@ -409,6 +409,8 @@ img.fundo {
 }
 /*	fim lista de tipo de arquivos */
 
+
+/* Estilos do Drag and Drop na tela de importacao de BD */
 .campo-tabela-dnd{
 	background-color: inherit;
 }
@@ -417,10 +419,27 @@ img.fundo {
 }
 .icone-excluir-campo-dnd{
 	background-color: inherit;
-	float:right;
-	cursor:pointer;
+	float: right;
+	cursor: pointer;
 	display: none;
 }
 .campo-tabela-dnd:hover .icone-excluir-campo-dnd{
 	display: block;
 }
+.titulo-tabela-dnd{
+	background-color:#E0E0B0;
+	text-align:center;
+	padding:1px;
+	border-bottom:1px solid #AAA;
+	cursor:move
+}
+.icone-excluir-tabela-dnd{
+	background-color: inherit;
+	color: transparent;
+	float: right;
+	cursor: pointer;
+}
+.titulo-tabela-dnd:hover .icone-excluir-tabela-dnd{
+	color: red;
+}
+/* Fim estilos Importacao BD - Dnd */

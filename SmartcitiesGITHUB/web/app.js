@@ -9,6 +9,7 @@
 var map;			// MAPA DO GOOGLE
 var storePais;
 var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de DB
+var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na importacao de DB
 
 
 require([
@@ -29,7 +30,8 @@ require([
 	"dojo/dnd/move",
 	"dijit/Tree",
 	"dijit/tree/ObjectStoreModel",
-	"dijit/tree/dndSource"
+	"dijit/tree/dndSource",
+	"dijit/registry"
 ],
         function (
                 ready,
@@ -49,7 +51,8 @@ require([
 				move,
 				Tree,
 				StoreModel,
-				dndSource
+				dndSource,
+				registry
                 ) {
 
             ready(function () {
@@ -1599,6 +1602,10 @@ require([
 					},
 					accept:["tabela"]
 				});
+				
+				widListaTabelasDBSelection = boxLista; // Guarda na global
+				
+				console.log( "tipo da lista : "+boxLista.declaredClass );
 
 				/*
 				 *	Chamada da função que acessa o serviço que fornece os dados.
@@ -1660,26 +1667,20 @@ require([
 									"	<div id='dbi_campos_" + nomeTabela + "' style='background-color:white;padding:2px;cursor:default'></div>" +
 									"</div>"
 								);
-								domConstruct.place( objetoDOM, "containerDragDrop" );
-								
+								domConstruct.place( objetoDOM, "containerDragDrop" );								
 								
 								on( dom.byId("dbi_apagar_tabela_" + nomeTabela ), "click", function(){ eraseTableDnd( nomeTabela ) });
-								
-								
+																
 								for( var i = 0; i < dados.campos.length; i++ ){
 									var nomeCampo = dados.campos[i];
-									console.log( i +" nome campo:  " + nomeCampo);
 									var campoTabela = domConstruct.toDom(
 										"<div class='campo-tabela-dnd' style='width:100%;' id='" + nomeCampo + "_" + nomeTabela + "'>" +
 										nomeCampo + "<span id='dbi_excluir_campo_" + nomeCampo +"_" + nomeTabela + "' class='icone-excluir-campo-dnd'>X</span></div>"
 									);
 									domConstruct.place( campoTabela, "dbi_campos_" + nomeTabela );
 									
-									console.log(" confirmacao: " + nomeCampo);
 									on( dom.byId("dbi_excluir_campo_" + nomeCampo + "_" + nomeTabela), "click", function(){ eraseTableFieldDnd( this ) });
 								}
-								
-								console.log( camposTabela );								
 								
 								// transforma em componente moveable
 								new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: "dbi_titulo" + nomeTabela } );
@@ -1703,10 +1704,7 @@ require([
 				console.log( "apagar tabela_" + nomeTabela);
 				var tabela = dom.byId("dbi_tabela_" + nomeTabela);
 				domConstruct.destroy( tabela );
-				console.log("destruiu tabela");
 				
-				var widgetLista = dom.byId("listaTabelas");
-				console.log("coletou widget " + widgetLista);
 				var tabelaRemovida = null;
 				for( var i in objetosDropadosDBSelection ){
 					console.log( "Obj-> Nome tabela: "+objetosDropadosDBSelection[i].data.nome );
@@ -1714,21 +1712,25 @@ require([
 						console.log("encontrou " + nomeTabela + " em i = " + i);
 						tabelaRemovida = objetosDropadosDBSelection[i].data;
 						console.log("tabela removida: "+tabelaRemovida.nome);
-						objetosDropadosDBSelection.splice( objetosDropadosDBSelection[i], 1 );	
-							console.log("removeu do array");
+						objetosDropadosDBSelection.splice( i, 1 );	
+							console.log("objetosDropados: " + objetosDropadosDBSelection);
 						break;
+					}else{
+						console.log("Nao encontrou");
 					}
 				}
+				/*
 				var objetos = [
 					{'nome':'Pessoa2', 'type':'tabela', 'campos':["nome","cpf","endereco","dataNasc"]}
 				];
-				console.log( listaTabelas );
+				*/
 				// fazer teste: adicionar um botao que dispara funcao para adicionar elementos na lista
-				listaTabelas.insertNodes( false, objetos );
-				//widgetLista.insertNodes( false, [ tabelaRemovida ] );
+				//listaTabelas.insertNodes( false, objetos );
+				widListaTabelasDBSelection.insertNodes( false, [ tabelaRemovida ] );
 				console.log("adicionou dom node");
 				
 			}
+			
 			
 			function eraseTableFieldDnd ( objeto ){								
 				var divCampoTabela = dom.byId( objeto.id.replace(/dbi_excluir_campo_/g, "") );
