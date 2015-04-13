@@ -8,7 +8,8 @@
 
 var map;			// MAPA DO GOOGLE
 var storePais;
-var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de DB
+var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de BD
+var linhasDBSelection = []				// Array das linhas (relacionamentos) entre tabelas na importacao de BD
 var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na importacao de DB
 
 
@@ -31,7 +32,8 @@ require([
 	"dijit/Tree",
 	"dijit/tree/ObjectStoreModel",
 	"dijit/tree/dndSource",
-	"dijit/registry"
+	"dijit/registry",
+	"dojox/gfx"
 ],
         function (
                 ready,
@@ -52,7 +54,8 @@ require([
 				Tree,
 				StoreModel,
 				dndSource,
-				registry
+				registry,
+				gfx
                 ) {
 
             ready(function () {
@@ -1614,10 +1617,13 @@ require([
 				 */
 				 var dados;
 				 // dados = buscarTabelasDB();
+				 
+				 
 				 dados = [
 					{nome:'Pessoa', type:'tabela', campos:["nome","cpf","endereco","dataNasc"]},
-					{nome:'Cidade', type:'tabela', campos:["nome", "estado"]},
-					{nome:'Estado', type:'tabela', campos:["nome", "uf", "pais"]},
+					{nome:'Cidade', type:'tabela', campos:["idCidade", "nome", "estado"], fk:[{atributo:"estado", entidade:"Estado"}] },	
+																		// fk: [{chave_estrangeira,lookup_table},{...}] 
+					{nome:'Estado', type:'tabela', campos:["idEstado", "nome", "uf", "pais"]},
 					{nome:'Usuario', type:'tabela', campos:["nome", "senha","permissoes", "tipo"]},
 					{nome:'Permissao', type:'tabela', campos:["descricao", "operacao", "leitura", "escrita", "execucao"]}
 				];
@@ -1635,7 +1641,15 @@ require([
 				// TODO - apos cancelar: oculta o target
 			}
 
-			function loadDragDropDBSelection(){
+			function loadDragDropDBSelection(){				
+				var alturaSuperficie = dom.byId("graphicsSurface").clientHeight;
+				var larguraSuperficie = dom.byId("graphicsSurface").clientWidth;
+				var superficieGfx = gfx.createSurface("graphicsSurface", larguraSuperficie - 1, alturaSuperficie - 2);
+				
+				superficieGfx.whenLoaded(function(){												
+					var linha = superficieGfx.createLine({x1:0,y1:0,x2:larguraSuperficie,y2:alturaSuperficie}).setStroke("black");
+				});
+				
 				var boxDrop = new Target("targetDragDrop",{
 					accept: ["tabela"]
 				});
@@ -1653,13 +1667,14 @@ require([
 								// move os dados para uma global
 								objetosDropadosDBSelection.push( alvo.map[i] );
 								
-								// cria DOM
+								/*
+								 * Criação da representação visual das tabelas do banco de dados
+								 */
 								var camposTabela = "";
 								var dados = alvo.map[i].data;
-								var nomeTabela = dados.nome;
+								var nomeTabela = dados.nome;								
 								
-								
-								//TODO transformar cada div em DOM, setar listener(onmouseup), incluir no DOM pai. Para tentar resolver o problema de chamada da função.
+								// Transforma cada div em DOM, seta listener e inclui no DOM pai.
 								
 								var objetoDOM = domConstruct.toDom(
 									"<div id='dbi_tabela_" + nomeTabela + "' style='border:1px solid #777;min-width:100px;max-width:150px;width:100px;'>" +
@@ -1670,7 +1685,8 @@ require([
 								domConstruct.place( objetoDOM, "containerDragDrop" );								
 								
 								on( dom.byId("dbi_apagar_tabela_" + nomeTabela ), "click", function(){ eraseTableDnd( nomeTabela ) });
-																
+								
+								// Prepara os campos para serem inseridos dentro das "tabelas"								
 								for( var i = 0; i < dados.campos.length; i++ ){
 									var nomeCampo = dados.campos[i];
 									var campoTabela = domConstruct.toDom(
@@ -1682,8 +1698,62 @@ require([
 									on( dom.byId("dbi_excluir_campo_" + nomeCampo + "_" + nomeTabela), "click", function(){ eraseTableFieldDnd( this ) });
 								}
 								
-								// transforma em componente moveable
-								new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: "dbi_titulo" + nomeTabela } );
+								// Transforma em componente moveable e comunica o que fazer ao terminar de arrastá-lo
+								var quadroMovel = new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: "dbi_titulo" + nomeTabela, within:true } );
+								aspect.after( quadroMovel, "onMoveStop", function( mover ){
+									
+									console.log("x:" + quadroMovel.node.style.left + " y:" +quadroMovel.node.style.top);
+									
+									//TODO
+									// FK
+									// Se existem chaves estrangeiras no objeto
+									if( dados.fk != null && dados.fk != undefined ){
+										// Para cada chave estrangeiras faça
+										console.log("length fk: " +dados.fk.length);
+										console.log("teste: "+dados.fk[0].entidade);
+										for( var i = 0; dados.fk.length > i; i++ ){
+											console.log("i: " +i);
+											// Para cada objeto na lista de objetos dropados faça
+											console.log("n objetos: "+objetosDropadosDBSelection.length);
+											console.log("teste: "+objetosDropadosDBSelection[0]);
+											for( var ii in objetosDropadosDBSelection[0] ){
+												console.log( objetosDropadosDBSelection[0][ii]);
+											}
+											console.log("data: "+objetosDropadosDBSelection[0].data)
+											for( var j = 0; objetosDropadosDBSelection.length > j; j++ ){
+												console.log( "objeto dropado: "+objetosDropadosDBSelection[j].data.nome);
+												console.log("fk: "+dados.fk[i].entidade)
+												// Se existe a representacao da tabela na lista entao
+												if( objetosDropadosDBSelection[j].data.nome == dados.fk[i].entidade ){
+													console.log("encontrada tabela lookup");
+													// cria linha na superficie de desenho (x1 e y1 referentes ao quadro atual)
+													// (x2 e y2 referentes a tabela lookup)
+													var x1 = quadroMovel.node.style.left;
+													var y1 = quadroMovel.node.style.top;
+													var domTabelaLookup = dom.byId("dbi_tabela_"+objetosDropadosDBSelection[j].data.nome);
+													var x2 = domTabelaLookup.style.left;
+													var y2 = domTabelaLookup.style.top;
+													console.log("x1: "+x1+" y1: "+y1+" - x2: "+x2+" y2: "+y2);
+													//var linha = superficieGfx.createLine({x1: x1,y1: y1,x2: x2,y2: y2}).setStroke("black");
+													//linhasDBSelection.push( linha );
+												
+												}
+											// fimpara
+											}
+										// fimpara
+										}
+									// fimse
+									}
+									
+									// TODO verifica se alguma tabela da lista de objetos dropados contem fk para a tabela atual
+									// PK
+									// Para cada objetos dropados faça
+										// Se nome da tabela na fk é igual ao nome da tabela atual entao
+											// atualiza linha, onde x2 e y2 são da tabela atual
+											// interrompe para (break)
+										// fimse
+									// fimpara
+								});
 								
 								// apaga o objeto de dentro do alvo
 								alvo.map = [];
@@ -1724,7 +1794,7 @@ require([
 					{'nome':'Pessoa2', 'type':'tabela', 'campos':["nome","cpf","endereco","dataNasc"]}
 				];
 				*/
-				// fazer teste: adicionar um botao que dispara funcao para adicionar elementos na lista
+				
 				//listaTabelas.insertNodes( false, objetos );
 				widListaTabelasDBSelection.insertNodes( false, [ tabelaRemovida ] );
 				console.log("adicionou dom node");
