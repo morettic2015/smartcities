@@ -1621,7 +1621,7 @@ require([
 				 
 				 dados = [
 					{nome:'Pessoa', type:'tabela', campos:["nome","cpf","endereco","dataNasc"]},
-					{nome:'Cidade', type:'tabela', campos:["idCidade", "nome", "estado"], fk:[{atributo:"estado", entidade:"Estado"}] },	
+					{nome:'Cidade', type:'tabela', campos:["idCidade", "nome", "estado"], fk:[{atributo:"estado", entidade:"Estado"},{atributo:"nome",entidade:"Pessoa"}] },	
 																		// fk: [{chave_estrangeira,lookup_table},{...}] 
 					{nome:'Estado', type:'tabela', campos:["idEstado", "nome", "uf", "pais"]},
 					{nome:'Usuario', type:'tabela', campos:["nome", "senha","permissoes", "tipo"]},
@@ -1647,7 +1647,7 @@ require([
 				var superficieGfx = gfx.createSurface("graphicsSurface", larguraSuperficie - 1, alturaSuperficie - 2);
 				
 				superficieGfx.whenLoaded(function(){												
-					var linha = superficieGfx.createLine({x1:0,y1:0,x2:larguraSuperficie,y2:alturaSuperficie}).setStroke("black");
+					//var linha = superficieGfx.createLine({x1:0,y1:0,x2:larguraSuperficie,y2:alturaSuperficie}).setStroke("black");
 				});
 				
 				var boxDrop = new Target("targetDragDrop",{
@@ -1700,59 +1700,96 @@ require([
 								
 								// Transforma em componente moveable e comunica o que fazer ao terminar de arrastá-lo
 								var quadroMovel = new move.parentConstrainedMoveable( objetoDOM, { area:'padding', handle: "dbi_titulo" + nomeTabela, within:true } );
-								aspect.after( quadroMovel, "onMoveStop", function( mover ){
-									
-									console.log("x:" + quadroMovel.node.style.left + " y:" +quadroMovel.node.style.top);
-									
-									//TODO
-									// FK
-									// Se existem chaves estrangeiras no objeto
-									if( dados.fk != null && dados.fk != undefined ){
-										// Para cada chave estrangeiras faça
-										console.log("length fk: " +dados.fk.length);
-										console.log("teste: "+dados.fk[0].entidade);
-										for( var i = 0; dados.fk.length > i; i++ ){
-											console.log("i: " +i);
-											// Para cada objeto na lista de objetos dropados faça
-											console.log("n objetos: "+objetosDropadosDBSelection.length);
-											console.log("teste: "+objetosDropadosDBSelection[0]);
-											for( var ii in objetosDropadosDBSelection[0] ){
-												console.log( objetosDropadosDBSelection[0][ii]);
-											}
-											console.log("data: "+objetosDropadosDBSelection[0].data)
-											for( var j = 0; objetosDropadosDBSelection.length > j; j++ ){
-												console.log( "objeto dropado: "+objetosDropadosDBSelection[j].data.nome);
-												console.log("fk: "+dados.fk[i].entidade)
-												// Se existe a representacao da tabela na lista entao
-												if( objetosDropadosDBSelection[j].data.nome == dados.fk[i].entidade ){
-													console.log("encontrada tabela lookup");
-													// cria linha na superficie de desenho (x1 e y1 referentes ao quadro atual)
-													// (x2 e y2 referentes a tabela lookup)
-													var x1 = quadroMovel.node.style.left;
-													var y1 = quadroMovel.node.style.top;
-													var domTabelaLookup = dom.byId("dbi_tabela_"+objetosDropadosDBSelection[j].data.nome);
-													var x2 = domTabelaLookup.style.left;
-													var y2 = domTabelaLookup.style.top;
-													console.log("x1: "+x1+" y1: "+y1+" - x2: "+x2+" y2: "+y2);
-													//var linha = superficieGfx.createLine({x1: x1,y1: y1,x2: x2,y2: y2}).setStroke("black");
-													//linhasDBSelection.push( linha );
-												
-												}
-											// fimpara
+
+								/*
+								 *	Criação das linhas de relacionamento/cardinalidade
+								 */
+								// FK
+								// Se existem chaves estrangeiras no objeto
+								if( dados.fk != null && dados.fk != undefined ){
+									// Para cada chave estrangeiras faça
+									console.log("length fk: " +dados.fk.length);										
+									for( var i = 0; dados.fk.length > i; i++ ){
+										console.log("i: " +i);
+										// Para cada objeto na lista de objetos dropados faça
+										console.log("n objetos: "+objetosDropadosDBSelection.length);
+										console.log("teste: "+objetosDropadosDBSelection[0]);
+										for( var ii in objetosDropadosDBSelection[0] ){
+											console.log( objetosDropadosDBSelection[0][ii]);
+										}
+										console.log("data: "+objetosDropadosDBSelection[0].data)
+										for( var j = 0; objetosDropadosDBSelection.length > j; j++ ){
+											console.log( "objeto dropado: "+objetosDropadosDBSelection[j].data.nome);
+											console.log("fk: "+dados.fk[i].entidade)
+											// Se existe a representacao da tabela na lista entao
+											if( objetosDropadosDBSelection[j].data.nome == dados.fk[i].entidade ){
+												console.log("encontrada tabela lookup");
+												// cria linha na superficie de desenho (x1 e y1 referentes ao quadro atual)
+												// (x2 e y2 referentes a tabela lookup)
+												var x1 = quadroMovel.node.style.left;
+												var y1 = quadroMovel.node.style.top;
+												var domTabelaLookup = dom.byId("dbi_tabela_"+objetosDropadosDBSelection[j].data.nome);
+												var x2 = domTabelaLookup.style.left;
+												var y2 = domTabelaLookup.style.top;
+												console.log("x1: "+x1+" y1: "+y1+" - x2: "+x2+" y2: "+y2);
+												var linha = superficieGfx.createLine({x1: x1,y1: y1,x2: x2,y2: y2}).setStroke("black");
+												var strIdLinha = objetoDOM.id +">"+ domTabelaLookup.id;
+												linhasDBSelection.push( { id: strIdLinha, obj: linha} );
+												console.log("criou linha " + strIdLinha);
+											
 											}
 										// fimpara
 										}
+									// fimpara
+									}
+								// fimse
+								}
+								
+								// TODO verifica se alguma tabela da lista de objetos dropados contem fk para a tabela atual
+								// PK
+								// Para cada objetos dropados faça
+									// Se nome da tabela na fk é igual ao nome da tabela atual entao
+										// atualiza linha, onde x2 e y2 são da tabela atual
+										// interrompe para (break)
 									// fimse
+								// fimpara
+								
+								/*
+								 *	Toda vez que um quadro/tabela é movido atualiza a posicao da linha
+								 */
+								aspect.after( quadroMovel, "onMoveStop", function( mover ){
+									
+									console.log("x:" + quadroMovel.node.style.left + " y:" +quadroMovel.node.style.top);
+									var novoX = quadroMovel.node.style.left;
+									var novoY = quadroMovel.node.style.top;
+									//verifica em cada linha
+									for( var iLinha in linhasDBSelection ){
+										var strIdLinha = linhasDBSelection[iLinha].id;
+										console.log("id linha: " + strIdLinha);
+										var identificadores = strIdLinha.split(">");
+										if( quadroMovel.node.id == identificadores[0] ){											
+											// altera x1 e y1											
+											x2Atual = linhasDBSelection[iLinha].obj.shape.x2;
+											y2Atual = linhasDBSelection[iLinha].obj.shape.y2;
+											
+											// cria nova linha e apaga a antiga
+											superficieGfx.remove( linhasDBSelection[iLinha].obj );											
+											var novaLinha = superficieGfx.createLine({x1: novoX,y1: novoY,x2: x2Atual,y2: y2Atual}).setStroke("black");
+											linhasDBSelection[iLinha].obj = novaLinha;																						
+											
+										}else if( quadroMovel.node.id == identificadores[1] ){
+											// altera x2 e y2
+											x1Atual = linhasDBSelection[iLinha].obj.shape.x1;
+											y1Atual = linhasDBSelection[iLinha].obj.shape.y1;
+											
+											// cria nova linha e apaga a antiga
+											superficieGfx.remove( linhasDBSelection[iLinha].obj );											
+											var novaLinha = superficieGfx.createLine({x1: x1Atual,y1: y1Atual,x2: novoX,y2: novoY}).setStroke("black");
+											linhasDBSelection[iLinha].obj = novaLinha;
+										}
+										
 									}
 									
-									// TODO verifica se alguma tabela da lista de objetos dropados contem fk para a tabela atual
-									// PK
-									// Para cada objetos dropados faça
-										// Se nome da tabela na fk é igual ao nome da tabela atual entao
-											// atualiza linha, onde x2 e y2 são da tabela atual
-											// interrompe para (break)
-										// fimse
-									// fimpara
 								});
 								
 								// apaga o objeto de dentro do alvo
@@ -1771,6 +1808,8 @@ require([
 			}
 			
 			function eraseTableDnd( nomeTabela ){
+				//TODO apagar linha de relacionamento
+				
 				console.log( "apagar tabela_" + nomeTabela);
 				var tabela = dom.byId("dbi_tabela_" + nomeTabela);
 				domConstruct.destroy( tabela );
@@ -1802,7 +1841,7 @@ require([
 			}
 			
 			
-			function eraseTableFieldDnd ( objeto ){								
+			function eraseTableFieldDnd ( objeto ){				
 				var divCampoTabela = dom.byId( objeto.id.replace(/dbi_excluir_campo_/g, "") );
 				if( divCampoTabela.excluido && divCampoTabela.excluido == true ){
 					divCampoTabela.style.textDecoration = "none";
