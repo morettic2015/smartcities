@@ -685,6 +685,7 @@ require([
 					loadListaDBSelection();
 					loadDragDropDBSelection();
 					objetosDropadosDBSelection = [];
+					linhasDBSelection = [];
 				}else if( pagina == "importKml.html"){
 					i18nImportKml();
 					setEventsImportKml();
@@ -1684,7 +1685,7 @@ require([
 								);
 								domConstruct.place( objetoDOM, "containerDragDrop" );								
 								
-								on( dom.byId("dbi_apagar_tabela_" + nomeTabela ), "click", function(){ eraseTableDnd( nomeTabela ) });
+								on( dom.byId("dbi_apagar_tabela_" + nomeTabela ), "click", function(){ eraseTableDnd( nomeTabela, superficieGfx ) });
 								
 								// Prepara os campos para serem inseridos dentro das "tabelas"								
 								for( var i = 0; i < dados.campos.length; i++ ){
@@ -1736,23 +1737,35 @@ require([
 												var strIdLinha = objetoDOM.id +">"+ domTabelaLookup.id;
 												linhasDBSelection.push( { id: strIdLinha, obj: linha} );
 												console.log("criou linha " + strIdLinha);
-											
+												break;
 											}
-										// fimpara
 										}
-									// fimpara
 									}
-								// fimse
 								}
 								
-								// TODO verifica se alguma tabela da lista de objetos dropados contem fk para a tabela atual
-								// PK
-								// Para cada objetos dropados faça
-									// Se nome da tabela na fk é igual ao nome da tabela atual entao
-										// atualiza linha, onde x2 e y2 são da tabela atual
-										// interrompe para (break)
-									// fimse
-								// fimpara
+								
+								// PK - verifica se alguma tabela da lista de objetos dropados faz referência à tabela atual
+								// Para cada objeto dropado faça
+								for( var i = 0; objetosDropadosDBSelection.length > i; i++ ){
+									var chavesEstrangeiras = objetosDropadosDBSelection[i].data.fk
+									if( chavesEstrangeiras != null && chavesEstrangeiras != undefined ){										
+										for( var iFK = 0; chavesEstrangeiras.length > iFK; iFK++ ){
+											// Se nome da tabela na fk é igual ao nome da tabela atual entao											
+											if( chavesEstrangeiras[iFK].entidade == nomeTabela ){
+												// cria linha, onde x2 e y2 são da tabela atual												
+												var domTabelaOrigem = dom.byId("dbi_tabela_"+objetosDropadosDBSelection[i].data.nome);
+												var x1 = domTabelaOrigem.style.left;
+												var y1 = domTabelaOrigem.style.top;
+												var x2 = quadroMovel.node.style.left;
+												var y2 = quadroMovel.node.style.top;
+												var linha = superficieGfx.createLine({x1: x1,y1: y1,x2: x2,y2: y2}).setStroke("black");
+												var strIdLinha = domTabelaOrigem.id +">"+ objetoDOM.id;
+												linhasDBSelection.push( { id: strIdLinha, obj: linha} );
+												console.log("linha criada: " + strIdLinha);
+											}
+										}
+									}
+								}
 								
 								/*
 								 *	Toda vez que um quadro/tabela é movido atualiza a posicao da linha
@@ -1807,10 +1820,8 @@ require([
 
 			}
 			
-			function eraseTableDnd( nomeTabela ){
-				//TODO apagar linha de relacionamento
-				
-				console.log( "apagar tabela_" + nomeTabela);
+			function eraseTableDnd( nomeTabela, superficieGfx ){
+				// Apaga tabela, recupera objeto e inclui de volta na lista
 				var tabela = dom.byId("dbi_tabela_" + nomeTabela);
 				domConstruct.destroy( tabela );
 				
@@ -1828,15 +1839,18 @@ require([
 						console.log("Nao encontrou");
 					}
 				}
-				/*
-				var objetos = [
-					{'nome':'Pessoa2', 'type':'tabela', 'campos':["nome","cpf","endereco","dataNasc"]}
-				];
-				*/
 				
-				//listaTabelas.insertNodes( false, objetos );
+				// Adiciona tabela de volta na lista
 				widListaTabelasDBSelection.insertNodes( false, [ tabelaRemovida ] );
-				console.log("adicionou dom node");
+				
+				//TODO descobrir bug, nao apaga mais de uma linha
+				// Apagar linha de relacionamento se estiver vinculada com a tabela
+				for( var iLinha = 0; linhasDBSelection.length > iLinha; iLinha++ ){
+					if( linhasDBSelection[iLinha].id.indexOf( nomeTabela ) > -1 ){
+						superficieGfx.remove( linhasDBSelection[iLinha].obj );
+						linhasDBSelection.splice( iLinha, 1); // remove objeto da lista						
+					}
+				}
 				
 			}
 			
