@@ -130,13 +130,61 @@ require([
                 });
 
                 // Modulo Ferramenta de dados
-                on(dom.byId("btImportarDados"), "click", function () {
-                    carregaTelaFerramentaDados("choiceDataFormatImport.html")
+				on(dom.byId("mnuImportDataAD"), "click", function () {
+                    carregaTelaFerramentaDados("importADConnection.html")
                 });
-                on(dom.byId("btExportarDados"), "click", function () {
-                    carregaTelaFerramentaDados("choiceDataFormatExport.html")
+				on(dom.byId("mnuImportDataDB"), "click", function () {
+                    carregaTelaFerramentaDados("databaseImport.html")
                 });
-                on(dom.byId("btHistoricoDados"), "click", function () {
+				on(dom.byId("mnuImportDataFtp"), "click", function () {
+                    carregaTelaFerramentaDados("importFtpConection.html")
+                });
+				on(dom.byId("mnuImportDataLdap"), "click", function () {
+                    carregaTelaFerramentaDados("importLdapConnection.html")
+                });
+				on(dom.byId("itemCsvImport"), "click", function () {
+                    var param = { tipoArquivo: "CSV" };
+					carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemHtmlImport"), "click", function () {
+                    var param = { tipoArquivo: "HTML" };
+					carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemJsonImport"), "click", function () {
+                    var param = { tipoArquivo: "JSON" };
+                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemKmlImport"), "click", function () {
+                    var param = { tipo: "KML" };
+					carregaTelaFerramentaDados("importKml.html", param );
+                });
+				on(dom.byId("itemPdfImport"), "click", function () {
+                    var param = { tipoArquivo: "PDF" };
+                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemRssImport"), "click", function () {
+                    var param = { tipo: "RSS" };
+					carregaTelaFerramentaDados("importKml.html", param );
+                });
+				on(dom.byId("itemWsdlImport"), "click", function () {
+                    var param = { tipoArquivo: "WSDL" };
+                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemXlsImport"), "click", function () {
+                    var param = { tipoArquivo: "XLS" };
+                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });
+				on(dom.byId("itemXmlImport"), "click", function () {
+                    var param = { tipoArquivo: "XML" };
+                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                });                
+                on(dom.byId("btCopiarDados"), "click", function () {
+                    carregaTelaFerramentaDados("copyData.html")
+                });
+				on(dom.byId("btTransformarDados"), "click", function () {
+                    carregaTelaFerramentaDados("transform.html")
+                });
+				on(dom.byId("btHistoricoDados"), "click", function () {
                     carregaTelaFerramentaDados("historyData.html")
                 });
                 on(dom.byId("btDriversDados"), "click", function () {
@@ -144,16 +192,11 @@ require([
                 });
                 on(dom.byId("btCompartilharDados"), "click", function () {
                     carregaTelaFerramentaDados("shareData.html")
-                });
-                on(dom.byId("btCopiarDados"), "click", function () {
-                    carregaTelaFerramentaDados("copyData.html")
-                });
+                });                
                 on(dom.byId("btTarefaDados"), "click", function () {
                     carregaTelaFerramentaDados("task.html")
                 });
-                on(dom.byId("btTransformarDados"), "click", function () {
-                    carregaTelaFerramentaDados("transform.html")
-                });
+                
 
 				//Módulo Mapa
                 on(dom.byId("btMapaSearch"), "click", function () {
@@ -196,6 +239,7 @@ require([
                 query("#conteudo_ferr_dados").on("#btTestarConexaoDados:click", function (evt) {
                     event.stop(evt);
                 });
+				/*
                 query("#conteudo_ferr_dados").on("#iconeDatabaseImportacao:click", function (evt) {
                     carregaTelaFerramentaDados("databaseImport.html");
                     event.stop(evt);
@@ -257,6 +301,7 @@ require([
                     carregaTelaFerramentaDados("dataFileLocate.html", param );
                     event.stop(evt);
                 });
+				*/
 
 
 				// Aba/Módulo Faturamento
@@ -1309,7 +1354,7 @@ require([
 			}
 			function setEventsImportKml(){
 				on( dom.byId("btAnteriorImportKml"), "click", function(){
-					carregaTelaFerramentaDados("choiceDataFormatImport.html");
+					carregaTelaFerramentaDados("fonteDadosSplash.html");
 				});
 			}
 			function setEventsImportWsdl(){
@@ -1320,12 +1365,14 @@ require([
 			}
 
 			function setEventsSplashDataSource(){
+				/* TODO Remover? ou terá outra funcao?
 				on(dom.byId("rotSplashImportData"), "click", function () {
                     carregaTelaFerramentaDados("choiceDataFormatImport.html")
                 });
 				on(dom.byId("rotSplashExportData"), "click", function () {
                     carregaTelaFerramentaDados("choiceDataFormatExport.html")
                 });
+				*/
                 on(dom.byId("rotSplashDataHistory"), "click", function () {
                     carregaTelaFerramentaDados("historyData.html")
                 });
@@ -1826,17 +1873,12 @@ require([
 				domConstruct.destroy( tabela );
 				
 				var tabelaRemovida = null;
-				for( var i in objetosDropadosDBSelection ){
-					console.log( "Obj-> Nome tabela: "+objetosDropadosDBSelection[i].data.nome );
-					if( objetosDropadosDBSelection[i].data.nome.indexOf( nomeTabela ) > -1 ){
-						console.log("encontrou " + nomeTabela + " em i = " + i);
+				for( var i in objetosDropadosDBSelection ){					
+					//if( objetosDropadosDBSelection[i].data.nome.indexOf( nomeTabela ) > -1 ){
+					if( objetosDropadosDBSelection[i].data.nome == nomeTabela ){
 						tabelaRemovida = objetosDropadosDBSelection[i].data;
-						console.log("tabela removida: "+tabelaRemovida.nome);
 						objetosDropadosDBSelection.splice( i, 1 );	
-							console.log("objetosDropados: " + objetosDropadosDBSelection);
 						break;
-					}else{
-						console.log("Nao encontrou");
 					}
 				}
 				
@@ -1845,10 +1887,14 @@ require([
 				
 				//TODO descobrir bug, nao apaga mais de uma linha
 				// Apagar linha de relacionamento se estiver vinculada com a tabela
+				console.log(linhasDBSelection.length);
 				for( var iLinha = 0; linhasDBSelection.length > iLinha; iLinha++ ){
+					console.log("iLinha: "+iLinha);
 					if( linhasDBSelection[iLinha].id.indexOf( nomeTabela ) > -1 ){
+						console.log("linha removida: "+ linhasDBSelection[iLinha].id);
 						superficieGfx.remove( linhasDBSelection[iLinha].obj );
-						linhasDBSelection.splice( iLinha, 1); // remove objeto da lista						
+						linhasDBSelection.splice( iLinha, 1); // remove objeto da lista			
+						
 					}
 				}
 				

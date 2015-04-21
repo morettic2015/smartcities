@@ -121,8 +121,62 @@
 					-->
 					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Dados/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaDados'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
 						<span data-dojo-type="dijit/Toolbar">
-							<input id="btImportarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtImportarDados'>Importar</span>" iconClass="icone-importar"></input>
-							<input id="btExportarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar"></input>
+						
+							<div id="btImportarDados" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtImportarDados'>Importar</span>" iconClass="icone-importar" >
+								<div data-dojo-type="dijit/DropDownMenu" id="mnuDrpImportData">
+									<div id="mnuImportDataAD" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Active Directory</div>
+									<div id="mnuImportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Database</div>
+									<div id="mnuImportDataFtp" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">FTP</div>
+									<div id="mnuImportDataLdap" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">LDAP</div>									
+									<div data-dojo-type="dijit/MenuSeparator"></div>
+									<div data-dojo-type="dijit/PopupMenuItem">
+										<span>Arquivo</span>
+										<div data-dojo-type="dijit/DropDownMenu" id="submnuDrpFileImportData">
+											<div id="itemCsvImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Csv</div>
+											<div id="itemHtmlImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Html</div>
+											<div id="itemJsonImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Json</div>
+											<div id="itemKmlImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Kml</div>
+											<div id="itemPdfImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Pdf</div>
+											<div id="itemRssImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Rss</div>
+											<div id="itemWsdlImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Wsdl</div>
+											<div id="itemXlsImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Xls</div>
+											<div id="itemXmlImport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Xml</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div id="btExportarDados" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar" >								
+								<div data-dojo-type="dijit/DropDownMenu" id="mnuDrpExportData">
+									<div id="mnuExportDataAD" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Active Directory</div>
+									<div id="mnuExportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Database</div>
+									<div id="mnuExportDataFtp" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">FTP</div>
+									<div id="mnuExportDataLdap" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">LDAP</div>									
+									<div data-dojo-type="dijit/MenuSeparator"></div>
+									<div data-dojo-type="dijit/PopupMenuItem">
+										<span>Arquivo</span>
+										<div data-dojo-type="dijit/DropDownMenu" id="submnuDrpFileExportData">
+											<div id="itemCsvExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Csv</div>
+											<div id="itemHtmlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Html</div>
+											<div id="itemJsonExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Json</div>
+											<div id="itemKmlxport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Kml</div>
+											<div id="itemPdfExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Pdf</div>
+											<div id="itemRssExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Rss</div>
+											<div id="itemWsdlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Wsdl</div>
+											<div id="itemXlsExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Xls</div>
+											<div id="itemXmlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'">Xml</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div id="btDataTools" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtFerramentasDados'>Ferramentas</span>" iconClass="icone-ferramentas" >
+								<div data-dojo-type="dijit/DropDownMenu" id="mnuDrpDataTools">
+									<div id="mnuFerramentaDadosCopy" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-copiar'">Copiar</div>
+									<div id="mnuFerramentaDadosTransform" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-transformar'">Transformar</div>
+								</div>
+							</div>
+							
 							<input id="btExcluirDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcluirDados'>Excluir</span>" iconClass="icone-excluir"></input>
 							<input id="btAtualizarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtAtualizarDados'>Atualizar</span>" iconClass="icone-atualizar"></input>
 							<input id="btCopiarDados" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtCopiarDados'>Copiar</span>" iconClass="icone-copiar"></input>

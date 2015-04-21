@@ -31,7 +31,8 @@
 .icone-agrupar,
 .icone-anterior,
 .icone-proximo,
-.icone-novo-generico{
+.icone-novo-generico,
+.icone-ferramentas{
     background-repeat: no-repeat;
     width: 12px;
     height: 12px;
@@ -183,6 +184,9 @@
 }
 .icone-novo-generico{
 	background-image: url(images/icons/Novo/Generico/12X12.png);
+}
+.icone-ferramentas{
+	background-image: url(images/config-icon.png);
 }
 
 
