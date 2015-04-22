@@ -178,10 +178,10 @@ require([
                     var param = { tipoArquivo: "XML" };
                     carregaTelaFerramentaDados("dataFileLocate.html", param );
                 });                
-                on(dom.byId("btCopiarDados"), "click", function () {
+                on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     carregaTelaFerramentaDados("copyData.html")
                 });
-				on(dom.byId("btTransformarDados"), "click", function () {
+				on(dom.byId("mnuFerramentaDadosTransform"), "click", function () {
                     carregaTelaFerramentaDados("transform.html")
                 });
 				on(dom.byId("btHistoricoDados"), "click", function () {
@@ -230,11 +230,13 @@ require([
                 });
 
 
-                /*
-					Delegação de evento para conteudo carregado dinamicamente
+                /**
+				 *	Delegação de evento para conteudo carregado dinamicamente
 				 */
 
-				// Módulo Ferramenta de Dados
+				/*
+				 *	Módulo Ferramenta de Dados
+				 */
 
                 query("#conteudo_ferr_dados").on("#btTestarConexaoDados:click", function (evt) {
                     event.stop(evt);
@@ -682,11 +684,14 @@ require([
 				}else if( pagina == "profileHistory.html"){
 					i18nProfileHistory();
 					refreshGridProfileHistory();
-				}else if( pagina == "choiceDataFormatImport.html"){
+				}
+				/*
+				else if( pagina == "choiceDataFormatImport.html"){
 					i18nDataImport();
 				}else if( pagina == "choiceDataFormatExport.html"){
 					i18nDataExport();
-				}else if( pagina == "copyData.html"){
+				}*/
+				else if( pagina == "copyData.html"){
 					i18nCopyData();
 				}else if( pagina == "transform.html"){
 					i18nDataTransform();
@@ -912,16 +917,11 @@ require([
 					dom.byId("rotGridIDTransfomData").innerHTML = textos.gID;
 					dom.byId("rotGridNomeTransformData").innerHTML = textos.rotNomeTransformacaoDados;
 				}
-				function i18nDataShare(){
-					console.log("1");
-					dom.byId("tituloShareData").innerHTML = textos.tituloCompartilharDados;
-					console.log("2");
+				function i18nDataShare(){					
+					dom.byId("tituloShareData").innerHTML = textos.tituloCompartilharDados;					
 					dom.byId("p1ShareData").innerHTML = textos.p1CompartilharDados;
-					console.log("3");
 					dom.byId("rotNomeShareData").innerHTML = textos.gNome;
-					console.log("4");
 					dom.byId("rotEnviarShareData").innerHTML = textos.rotEnviarParaDados;
-					console.log("5");
 					dom.byId("rotPermissaoShareData").innerHTML = textos.rotPermissaoDados;
 					console.log("6");
 					//dom.byId("opViewPermissionShare").innerHTML = textos.gVisualizar;
@@ -937,7 +937,6 @@ require([
 					dom.byId("rotGridIDShareData").innerHTML = textos.gID;
 					dom.byId("rotGridNomeShareData").innerHTML = textos.gNome;
 					dom.byId("rotGridCirculosShareData").innerHTML = textos.rotCirculos;
-					console.log("12");
 					dom.byId("rotGridInfoShareData").innerHTML = textos.gInfo;
 				}
 				function i18nDataDriver(){
@@ -1247,7 +1246,7 @@ require([
 			// Eventos nas telas do módulo Fonte de Dados
 			function setEventsImportFtpConn(){
 				on( dom.byId("btAnteriorFtpConnection"), "click", function(){
-					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
+					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
 				});
 				on( dom.byId("btProximoFtpConnection"), "click", function(){
 					var param = { protocolo: "FTP" };
@@ -1269,7 +1268,7 @@ require([
 			}
 			function setEventsImportADConnection(){
 				on( dom.byId("btAnteriorADConnection"), "click", function(){
-					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
+					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
 				});
 				on( dom.byId("btProximoADConnection"), "click", function(){
 					var param = { protocolo: "Active Directory" };
@@ -1278,7 +1277,7 @@ require([
 			}
 			function setEventsImportDBConnection(){
 				on( dom.byId("btAnteriorImportDBConnect"), "click", function(){
-					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
+					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
 				});
 				on( dom.byId("btProximoImportDBConnect"), "click", function(){
 					carregaTelaFerramentaDados( "importDatabaseSelection.html" );
@@ -1295,7 +1294,7 @@ require([
 
 			function setEventsDataFileLocate(){
 				on( dom.byId("btAnteriorFileLocate"), "click", function(){
-					carregaTelaFerramentaDados( "choiceDataFormatImport.html" );
+					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
 				});
 				on( dom.byId("btProximoFileLocate"), "click", function(){
 					var pagina = "";
@@ -1332,7 +1331,7 @@ require([
 			}
 			function setEventsImportLdapConn(){
 				on( dom.byId("btAnteriorLdapConnect"), "click", function(){
-					carregaTelaFerramentaDados("choiceDataFormatImport.html");
+					carregaTelaFerramentaDados("fonteDadosSplash.html");
 				});
 				on( dom.byId("btProximoLdapConnect"), "click", function(){
 					var param = { tipoArquivo: "LDAP" };
