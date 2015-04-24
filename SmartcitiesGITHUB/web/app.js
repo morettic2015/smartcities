@@ -985,8 +985,7 @@ require([
 				}
 				function i18nImportBancoDados(){
 					dom.byId("rotBtAnteriorImportDB").innerHTML = textos.gAnterior;
-					dom.byId("rotBtProximoImportDB").innerHTML = textos.gProximo;
-					dom.byId("rotBtSalvarImportDB").innerHTML = textos.rotSalvar;
+					dom.byId("rotBtProximoImportDB").innerHTML = textos.gProximo;					
 					dom.byId("tituloDataBaseImport").innerHTML = textos.tituloImportBancoDados;
 					dom.byId("rotNomeFonteDBImport").innerHTML = textos.nomeFonteDados;
 					dom.byId("rotNomeBaseDBImport").innerHTML = textos.nomeBaseDados;
@@ -998,13 +997,12 @@ require([
 					dom.byId("rotBtTestarDBImport").innerHTML = textos.testarConexao;
 				}
 				function i18nImportDatabaseSelection(){
-					dom.byId("rotBtAnteriorDatabaseSelection").innerHTML = textos.gAnterior;
-					dom.byId("rotBtProximoDatabaseSelection").innerHTML = textos.gProximo;
+					dom.byId("rotBtAnteriorDatabaseSelection").innerHTML = textos.gAnterior;					
+					dom.byId("rotBtSalvarDatabaseSelection").innerHTML = textos.rotSalvar;
 					dom.byId("tituloImportDBSelection").innerHTML = textos.tituloImportDBSelection;
 					dom.byId("p1ImportDBSelection").innerHTML = textos.p1ImportDBSelection;
 				}
 				function i18nImportKml(){
-					console.log("import kml i18n");
 					dom.byId("rotBtAnteriorImportKml").innerHTML = textos.gAnterior;
 					dom.byId("rotBtSalvarImportKml").innerHTML = textos.rotSalvar;
 					dom.byId("tituloImportKml").innerHTML = textos.rotImportar;
@@ -1286,10 +1284,7 @@ require([
 			function setEventsImportDBSelection(){
 				on( dom.byId("btAnteriorDBSelection"), "click", function(){
 					carregaTelaFerramentaDados( "databaseImport.html" );
-				});
-				on( dom.byId("btProximoDBSelection"), "click", function(){
-					//carregaTelaFerramentaDados( ".html" );
-				});
+				});				
 			}
 
 			function setEventsDataFileLocate(){

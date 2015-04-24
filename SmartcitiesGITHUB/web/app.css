@@ -2,13 +2,9 @@
 	background-color: #000000;
 }
 
-
-
 .icone-importar,
 .icone-exportar,
 .icone-excluir,
-.icone-copiar,
-.icone-transformar,
 .icone-compartilhar,
 .icone-drivers,
 .icone-salvar,
@@ -40,6 +36,22 @@
 }
 .imgIcon{
     padding-left: 30px;
+}
+.icone-copiar,
+.icone-transformar,
+.icone-item-active-directory,
+.icone-item-database,
+.icone-item-ftp,
+.icone-item-ldap,
+.icone-item-file-black,
+.icone-item-file-blue,
+.icone-item-file-orange,
+.icone-item-file-green,
+.icone-item-file-brown{
+	background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    text-align: center;
 }
 
 .icone-perfil{
@@ -74,6 +86,7 @@
 
 .icone-transformar{
     background-image: url(images/icons/Transformar/12X12.png);
+	
 }
 
 .icone-dados-pessoais{
@@ -187,6 +200,33 @@
 }
 .icone-ferramentas{
 	background-image: url(images/config-icon.png);
+}
+.icone-item-active-directory{
+	background-image: url(images/icons/FontesDados/activedirectory_2.png);
+}
+.icone-item-database{
+	background-image: url(images/icons/FontesDados/database_1.png);
+}
+.icone-item-ftp{
+	background-image: url(images/icons/FontesDados/ftp_2.png);
+}
+.icone-item-ldap{
+	background-image: url(images/icons/FontesDados/ldap_2.png);
+}
+.icone-item-file-black{
+	background-image: url(images/icons/FontesDados/arquivo_1.png);
+}
+.icone-item-file-blue{
+	background-image: url(images/icons/FontesDados/arquivo_4.png);
+}
+.icone-item-file-orange{
+	background-image: url(images/icons/FontesDados/arquivo_3.png);
+}
+.icone-item-file-green{
+	background-image: url(images/icons/FontesDados/arquivo_5.png);
+}
+.icone-item-file-brown{
+	background-image: url(images/icons/FontesDados/arquivo_2.png);
 }
 
 
