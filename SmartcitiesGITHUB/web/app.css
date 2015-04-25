@@ -411,6 +411,9 @@ img.fundo {
 .link-splash{
 	cursor: pointer;
 }
+.link-splash:hover{
+	color: #d24802;
+}
 .splash-imagem{
 	width: 80px;
 	height: 80px;
@@ -420,9 +423,6 @@ img.fundo {
 	position:absolute;
 	margin-left:85px;
 	font-size:12pt;
-}
-.splash-titulo:hover{
-	color: #d24802;
 }
 .splash-descricao{
 	position:absolute;

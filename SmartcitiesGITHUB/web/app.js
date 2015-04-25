@@ -187,13 +187,13 @@ require([
 				on(dom.byId("btHistoricoDados"), "click", function () {
                     carregaTelaFerramentaDados("historyData.html")
                 });
-                on(dom.byId("btDriversDados"), "click", function () {
+                on(dom.byId("mnuFerramentaDadosDrivers"), "click", function () {
                     carregaTelaFerramentaDados("dataDriver.html")
                 });
-                on(dom.byId("btCompartilharDados"), "click", function () {
+                on(dom.byId("mnuFerramentaDadosShare"), "click", function () {
                     carregaTelaFerramentaDados("shareData.html")
                 });                
-                on(dom.byId("btTarefaDados"), "click", function () {
+                on(dom.byId("mnuFerramentaDadosTask"), "click", function () {
                     carregaTelaFerramentaDados("task.html")
                 });
                 
@@ -241,70 +241,6 @@ require([
                 query("#conteudo_ferr_dados").on("#btTestarConexaoDados:click", function (evt) {
                     event.stop(evt);
                 });
-				/*
-                query("#conteudo_ferr_dados").on("#iconeDatabaseImportacao:click", function (evt) {
-                    carregaTelaFerramentaDados("databaseImport.html");
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeKmlImportacao:click", function (evt) {
-                    var param = { tipo: "KML" };
-					carregaTelaFerramentaDados("importKml.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeRssImportacao:click", function(evt){
-					var param = { tipo: "RSS" };
-					carregaTelaFerramentaDados("importKml.html", param );
-					event.stop( evt );
-				});
-				query("#conteudo_ferr_dados").on("#iconeCsvImportacao:click", function (evt) {
-                    var param = { tipoArquivo: "CSV" };
-					carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeXlsImportacao:click", function (evt) {
-					var param = { tipoArquivo: "XLS" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeJsonImportacao:click", function (evt) {
-					var param = { tipoArquivo: "JSON" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeXmlImportacao:click", function (evt) {
-					var param = { tipoArquivo: "XML" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeFtpImportacao:click", function (evt) {
-                    carregaTelaFerramentaDados("importFtpConection.html");
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeActiveDirectoryImport:click", function(evt){
-					carregaTelaFerramentaDados("importADConnection.html");
-					event.stop( evt );
-				});
-				query("#conteudo_ferr_dados").on("#iconeHtmlImportacao:click", function(evt){
-					var param = { tipoArquivo: "HTML" };
-					carregaTelaFerramentaDados("dataFileLocate.html", param );
-					event.stop( evt );
-				});
-				query("#conteudo_ferr_dados").on("#iconeLdapImportacao:click", function(evt){
-					carregaTelaFerramentaDados("importLdapConnection.html" );
-					event.stop( evt );
-				});
-				query("#conteudo_ferr_dados").on("#iconePdfImportacao:click", function (evt) {
-					var param = { tipoArquivo: "PDF" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				query("#conteudo_ferr_dados").on("#iconeWsdlImportacao:click", function (evt) {
-					var param = { tipoArquivo: "WSDL" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
-                    event.stop(evt);
-                });
-				*/
-
 
 				// Aba/Módulo Faturamento
 				query("#conteudo_faturamento").on("#btCCCredito:click", function (evt) {
@@ -375,6 +311,7 @@ require([
 				dom.byId("rotBtDriversDados").innerHTML = textos.rotDrivers;
 				dom.byId("rotBtTarefaDados").innerHTML = textos.rotTarefa;
 				dom.byId("rotBtHistoricoDados").innerHTML = textos.rotHistorico;
+				dom.byId("rotBtFerramentasDados").innerHTML = textos.rotFerramentas;				
 				dom.byId("rotBtMapaSave").innerHTML = textos.rotSalvar;
 				dom.byId("rotBtMapaView").innerHTML = textos.gVisualizar;
 				dom.byId("rotBtMapaSearch").innerHTML = textos.rotFiltrar;
@@ -404,6 +341,10 @@ require([
 			/*
              * Inicio da Declaracao das funções
              */
+			 
+			 function alteraLocale( locale ){
+				location.search = "?locale=" + locale;
+			}
 
             /**
              *  Função para criar o mapa do google.
@@ -739,6 +680,7 @@ require([
 				}else if( pagina == "importKml.html"){
 					i18nImportKml();
 					setEventsImportKml();
+					dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
 				}else if( pagina == "formPaypal.html" ){
 					i18nFormPaypal();
 				}else if( pagina == "formPagseguro.html" ){
@@ -1285,6 +1227,9 @@ require([
 				on( dom.byId("btAnteriorDBSelection"), "click", function(){
 					carregaTelaFerramentaDados( "databaseImport.html" );
 				});				
+				on( dom.byId("btSalvarDBSelection"), "click", function(){
+					saveDatabaseSelection();
+				});
 			}
 
 			function setEventsDataFileLocate(){
@@ -1868,7 +1813,6 @@ require([
 				
 				var tabelaRemovida = null;
 				for( var i in objetosDropadosDBSelection ){					
-					//if( objetosDropadosDBSelection[i].data.nome.indexOf( nomeTabela ) > -1 ){
 					if( objetosDropadosDBSelection[i].data.nome == nomeTabela ){
 						tabelaRemovida = objetosDropadosDBSelection[i].data;
 						objetosDropadosDBSelection.splice( i, 1 );	
@@ -1877,23 +1821,17 @@ require([
 				}
 				
 				// Adiciona tabela de volta na lista
-				widListaTabelasDBSelection.insertNodes( false, [ tabelaRemovida ] );
+				widListaTabelasDBSelection.insertNodes( false, [ tabelaRemovida ] );				
 				
-				//TODO descobrir bug, nao apaga mais de uma linha
-				// Apagar linha de relacionamento se estiver vinculada com a tabela
-				console.log(linhasDBSelection.length);
-				for( var iLinha = 0; linhasDBSelection.length > iLinha; iLinha++ ){
-					console.log("iLinha: "+iLinha);
+				// Apagar linha de relacionamento se estiver vinculada com a tabela				
+				for( var iLinha = linhasDBSelection.length - 1; iLinha >= 0 ; iLinha-- ){ // do ultimo para o primeiro
 					if( linhasDBSelection[iLinha].id.indexOf( nomeTabela ) > -1 ){
-						console.log("linha removida: "+ linhasDBSelection[iLinha].id);
 						superficieGfx.remove( linhasDBSelection[iLinha].obj );
-						linhasDBSelection.splice( iLinha, 1); // remove objeto da lista			
-						
-					}
+						linhasDBSelection.splice( iLinha, 1); // remove objeto da lista						
+					}					
 				}
 				
-			}
-			
+			}			
 			
 			function eraseTableFieldDnd ( objeto ){				
 				var divCampoTabela = dom.byId( objeto.id.replace(/dbi_excluir_campo_/g, "") );
@@ -1909,10 +1847,22 @@ require([
 				
 			}
 
-
-			function alteraLocale( locale ){
-				location.search = "?locale=" + locale;
+			
+			function saveDatabaseSelection(){
+				// examina todos os elementos filhos da div para pegar as tabelas
+					// para cada tabela pegar seus campos ainda habilitados/ativos
+				var container = dom.byId("containerDragDrop");
+				var tabelas = container.childNodes;
+				for( var iNode = 0; tabelas.length > iNode; iNode++ ){					
+					if( tabelas[iNode].id && tabelas[iNode].id != "targetDragDrop" ){
+						console.log("tabela localizada : " + tabelas[iNode].id);
+						// se o div com o campo tiver o atributo 'excluido' e este for igual a true
+							// nao inclui no objeto
+					}
+				}
 			}
+			
+			
 
             /*
              *	Fim da declaração das funções
