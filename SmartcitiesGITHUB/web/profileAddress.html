@@ -5,6 +5,7 @@
 <div style="margin:10px;">
 	<h1><span id='tituloProfileAddress'>Endereço</span></h1>
 	
+	<!--
 	<div class="celula-form-1">
         <span class="rotulo"><span id='ruaProfileAddress'>Rua</span>:</span>
         <input id="txtEnderecoRua" class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtEnderecoRua" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
@@ -26,8 +27,9 @@
     </div>
 
 	<div class="celula-form-1" >
-        <span class="rotulo"><span id='paisProfileAddress'>Pa&iacute;s</span>:</span>
+        <span class="rotulo"><span id='paisProfileAddress'>Pa&iacute;s</span>:</span>-->
 		<!--<span id="slotEnderecoPais" class="campo"></span>-->
+		<!--
         <select id="cmbEnderecoPais" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" dropDownPosition="below" searchDelay="0">
 			<option value=""><span id='cmbCountryProfileAddress'>Selecione o Pa&iacute;s</span></option>
 			<option value="br">Brasil</option>
@@ -53,5 +55,20 @@
 			
 		</select>
     </div>
+	-->
+	<div class="celula-form-1" style="margin-bottom:15px;">
+        <span class="rotulo"><span id='ruaProfileAddress'>Endereço</span>:</span>
+		<div class="campo" style="">
+			<input id="txtEnderecoRua" type="text" data-dojo-type="dijit/form/TextBox" title="txtEnderecoRua" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" style="float:left;width:450px;height:23px;font-size:11pt;margin-right:5px;"></input>
+			<button data-dojo-type="dijit/form/Button" style="float:left">Buscar</button>
+		</div>
+    </div>
+
+	<div class="celula-form-1" style="margin-bottom:10px;">
+        <span class="rotulo"><span id='complProfileAddress'>Complemento</span>:</span>
+        <input id="txtEnderecoComplemento" class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtEnderecoRua" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+    </div>
+	
+	<div id="mapProfileAddress" style="border: 1px solid #909090; height: 300px;">Mapa</div>
 	
 </div>

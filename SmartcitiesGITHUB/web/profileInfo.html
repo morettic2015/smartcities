@@ -5,6 +5,28 @@
 <div style="margin:10px;">
     <h1><span id='titleProfileInfo'>Perfil do usuário</span></h1>
 
+	<div class="celula-form-1" style="margin-bottom: 20px;">
+		<div class="campo">
+			<div style="text-align:center;float: left; margin: 5px;">
+				<img data-dojo-type="clipart/Twitter" title="Twitter"></img><br>Twitter
+			</div>
+			<div style="text-align:center;float: left; margin: 5px;">
+				<img  src="images/icons/48x48/Facebook.png" style="width:15px;height:15px;" title="Facebook"><br>Facebook
+			</div>
+			<div style="text-align:center;float: left; margin: 5px;">
+				<img  src="images/icons/48x48/Gmail.png" style="width:15px;height:15px;" title="Gmail"><br>Gmail
+			</div>
+			<div style="text-align:center;float: left; margin: 5px;">
+				<img  src="images/icons/48x48/Yahoo.png" style="width:15px;height:15px;" title="Yahoo!"><br>Yahoo!
+			</div>
+			<!--
+			<div style="text-align:center;float: left; margin: 5px;">
+				<img  data-dojo-type="clipart/Rss" title="RSS"><br>RSS
+			</div>
+			-->
+        </div>                        
+    </div>
+	
     <div class="celula-form-1">
         <span class="rotulo"><span id='nameProfileInfo'>Nome</span>:</span>
         <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtNome" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
@@ -30,32 +52,12 @@
         <input class="campo" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
     </div>
 
-    <div class="celula-form-1" style="margin-bottom:22px;">
+    <div class="celula-form-1" style="margin-bottom:25px;">
         <span class="rotulo"><span id='bioProfileInfo'>Bio</span>:</span>
         <textarea class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="false" uppercase="true" lowercase="false" propercase="false" style="width: auto; height: auto;" scrollOnFocus="true"></textarea>
     </div>
 
-    <div class="celula-form-1" style="margin-bottom: 20px;">
-		<div class="campo">
-			<div style="text-align:center;float: left; margin: 5px;">
-				<img data-dojo-type="clipart/Twitter" title="Twitter"></img><br>Twitter
-			</div>
-			<div style="text-align:center;float: left; margin: 5px;">
-				<img  src="images/icons/48x48/Facebook.png" style="width:15px;height:15px;" title="Facebook"><br>Facebook
-			</div>
-			<div style="text-align:center;float: left; margin: 5px;">
-				<img  src="images/icons/48x48/Gmail.png" style="width:15px;height:15px;" title="Gmail"><br>Gmail
-			</div>
-			<div style="text-align:center;float: left; margin: 5px;">
-				<img  src="images/icons/48x48/Yahoo.png" style="width:15px;height:15px;" title="Yahoo!"><br>Yahoo!
-			</div>
-			<div style="text-align:center;float: left; margin: 5px;">
-				<img  data-dojo-type="clipart/Rss" title="RSS"><br>RSS
-			</div>
-        </div>
-                 
-                        
-    </div>
+    
    
     <div class="celula-form-1" style="margin-bottom:10px;">
         <span class="rotulo">Eula link:</span>
@@ -64,16 +66,20 @@
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='phoneProfileInfo'>Telefone</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/NumberTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" required="true" invalidMessage="$_unset_$" tooltipPosition="[after]" state="Incomplete"></input>
+        <input class="campo" id="txtTelefoneProfileInfo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" required="true" invalidMessage="$_unset_$" tooltipPosition="[after]" state="Incomplete"></input>
     </div>
 
-    <div class="celula-form-1">
-        <span class="rotulo"><span id='areaCodeProfileInfo'>Code</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/NumberTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" required="true" invalidMessage="$_unset_$" tooltipPosition="[after]" state="Incomplete"></input>
+    <div class="celula-form-1" style="margin-bottom:35px;">
+        <span class="rotulo"><span id='avatarProfileInfo'>Avatar</span>:</span>		
+		<img id="userAvatarImage" class="campo" src="./images/icons/Perfil/48X48-2.png" style="width:48px;height:48px">
+        <input id="userAvatarInput" class="campo" readonly="true" type="file" style="width: 48px;height:48px;cursor:pointer;opacity:0;-moz-opacity:0;filter:alpha(opacity=0);"></input>
     </div>
-
-    <div class="celula-form-1">
-        <span class="rotulo"><span id='avatarProfileInfo'>Avatar</span>:</span>
-        <input class="campo" readonly="true" type="file" style="height: 23px; width: auto;"></input>
+	
+	<div class="celula-form-1">
+        <span class="rotulo"><span id='languageProfileInfo'>Idioma</span>:</span>
+		<div class="campo">
+			<img id="userLocaleBR" class="" src="./images/flags/Brasil.png" style="width:28px;height:20px;float:left;margin-right:5px;">
+			<img id="userLocaleGB" class="" src="./images/flags/Reino Unido.png" style="width:28px;height:20px;float:left">
+		</div>
     </div>
 </div>

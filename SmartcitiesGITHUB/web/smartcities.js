@@ -7,6 +7,7 @@
  */
 var configSmartcities = {};	// Objeto JSON que guarda dados que serão reutilizados nas telas
 var parametrosTela = {}		// Parametros que são passados quando é carregada alguma tela
+var geocoder = null;		// Serviço do Google para buscar a localização(lat. e lon.) de endereços 
 
 // Apagar quando todos estiverem usando o poolStore
 var storeMemory;			// Singleton de dojo/store/Memory
@@ -89,6 +90,22 @@ require([
 	}
 );
 
+function startGeocoder(){
+	if( geocoder == null ){
+		geocoder = new google.maps.Geocoder();
+	}
+	return geocoder;
+}
+
+function searchAddress( strQuery ){
+	geocoder.geocode( {'address': strQuery}, function(resultados, status){
+		if( status == google.maps.GeocoderStatus.OK ){
+			return resultados;
+		}else{
+			return null; 
+		}
+	});
+}
 
 
 // Apaga dados do store Memory e preenche com novos. Cria instância quando necessário
@@ -249,3 +266,5 @@ function fillStoreTree( store, dados ){
 	
 	return store;
 }
+
+

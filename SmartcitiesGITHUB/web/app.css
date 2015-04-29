@@ -381,6 +381,8 @@ img.fundo {
 
 .icone-bandeira{
 	background-color: inherit;
+	width: 28px;
+	height: 20px;
 }
 .icone-bandeira:hover{
 	background-color: #002F66;

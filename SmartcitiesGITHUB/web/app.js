@@ -118,10 +118,7 @@ require([
                 });
                 on(dom.byId("btProfileAddress"), "click", function () {
                     carregaTelaPerfil("profileAddress.html")
-                });
-                on(dom.byId("btProfileLanguage"), "click", function () {
-                    carregaTelaPerfil("profileLanguage.html")
-                });
+                });				
                 on(dom.byId("btProfileSecurity"), "click", function () {
                     carregaTelaPerfil("profileSecurity.html")
                 });
@@ -298,7 +295,6 @@ require([
 				dom.byId("rotuloAbaCirculos").innerHTML = textos.rotAbaCirculos;
 				dom.byId("rotBtProfileInfo").innerHTML = textos.rotDadosPessoais;
 				dom.byId("rotBtProfileAddress").innerHTML = textos.rotEndereco;
-				dom.byId("rotBtProfileLanguage").innerHTML = textos.rotIdioma;
 				dom.byId("rotBtProfileSecurity").innerHTML = textos.rotSeguranca;
 				dom.byId("rotBtProfileHistory").innerHTML = textos.rotHistoricoConta;
 				dom.byId("rotBtImportarDados").innerHTML = textos.rotImportar;
@@ -536,6 +532,83 @@ require([
                     infowindow.open(map, marker);
                 });
             }
+			
+			function showProfileAddressGmap() {
+
+                var floripa = new google.maps.LatLng(-27.594501, -48.550905);
+
+                var MY_MAPTYPE_ID = 'MapaEndereco';
+
+                var mapOptions = {
+                    zoom: 8,
+                    center: floripa,
+                    mapTypeControlOptions: {
+                        mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+                    },
+                    mapTypeId: MY_MAPTYPE_ID
+                };
+
+                map = new google.maps.Map(document.getElementById('mapProfileAddress'), mapOptions);
+
+                var styledMapOptions = {
+                    name: 'Smartcities'
+                };
+
+				var featureOpts = [
+                    {
+                        stylers: [
+                            {hue: '#EB6800'},
+                            {visibility: 'simplified'},
+                            {gamma: 0.7},
+                            {weight: 0.5}
+                        ]
+                    },
+                    {
+                        elementType: 'labels',
+                        stylers: [
+                            {visibility: 'on'}
+                        ]
+                    },
+                    {
+                        featureType: 'water',
+                        stylers: [
+                            {color: '#80B8FF'}
+                        ]
+                    }
+                ];
+				
+                var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+
+                map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+                
+                var contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">Ilha da Magia</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p>Olho lhó ixtepô!</p>' +
+                        '</div>' +
+                        '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                var marker = new google.maps.Marker({
+                    position: floripa,
+                    map: map,
+                    title: 'Flonópix'
+                });
+                google.maps.event.addListener(marker, 'click', function () {
+                    infowindow.open(map, marker);
+                });                
+
+                //Adiciona local das legendas do mapa
+                //var legendaMap = document.getElementById('mapLegend');//recupera div da legenda                
+                //legendaMap.style.visibility="visible"; //Seta o layer pra ser visiveel
+                //map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legendaMap);//Anexa no mapa
+                
+            }
 
 
             /**
@@ -616,23 +689,18 @@ require([
 					setEventsSplashCircles();
 				}else if( pagina == "profileInfo.html" ){
 					i18nProfileInfo();
+					setEventsProfileInfo();
 				}else if( pagina == "profileAddress.html"){
 					i18nProfileAdress();
-				}else if( pagina == "profileLanguage.html"){
-					i18nProfileLanguage();
+					setEventsProfileAddress();
+					showProfileAddressGmap();
+					startGeocoder();
 				}else if( pagina == "profileSecurity.html"){
 					i18nProfileSecurity();
 				}else if( pagina == "profileHistory.html"){
 					i18nProfileHistory();
 					refreshGridProfileHistory();
-				}
-				/*
-				else if( pagina == "choiceDataFormatImport.html"){
-					i18nDataImport();
-				}else if( pagina == "choiceDataFormatExport.html"){
-					i18nDataExport();
-				}*/
-				else if( pagina == "copyData.html"){
+				}else if( pagina == "copyData.html"){
 					i18nCopyData();
 				}else if( pagina == "transform.html"){
 					i18nDataTransform();
@@ -755,8 +823,7 @@ require([
 					dom.byId("confirmPassProfileInfo").innerHTML = textos.rotConfirmaSenhaPerfil;
 					dom.byId("bioProfileInfo").innerHTML = textos.rotBioPerfil;
 					dom.byId("acceptEulaProfileInfo").innerHTML = textos.btAceitoTermosPerfil;
-					dom.byId("phoneProfileInfo").innerHTML = textos.rotTelefonePerfil;
-					dom.byId("areaCodeProfileInfo").innerHTML = textos.rotCodigoAreaPerfil;
+					dom.byId("phoneProfileInfo").innerHTML = textos.rotTelefonePerfil;					
 					dom.byId("avatarProfileInfo").innerHTML = textos.rotAvatarPerfil;
 				}
 
@@ -765,6 +832,7 @@ require([
 					dom.byId("tituloProfileAddress").innerHTML = textos.tituloEnderecoPerfil;
 					dom.byId("ruaProfileAddress").innerHTML = textos.rotRuaPerfil;
 					dom.byId("complProfileAddress").innerHTML = textos.rotComplementoPerfil;
+					/*
 					dom.byId("cepProfileAddress").innerHTML = textos.rotCepPerfil;
 					dom.byId("bairroProfileAddress").innerHTML = textos.rotBairroPerfil;
 					dom.byId("paisProfileAddress").innerHTML = textos.rotPaisPerfil;
@@ -772,7 +840,7 @@ require([
 					dom.byId("estadoProfileAddress").innerHTML = textos.rotEstadoPerfil;
 					//dom.byId("cmdStateAddress").innerHTML = textos.selecioneEstado;
 					dom.byId("cidadeProfileAddress").innerHTML = textos.rotCidadePerfil;
-					//dom.byId("cmdCityAddress").innerHTML = textos.selecioneCidade;
+					//dom.byId("cmdCityAddress").innerHTML = textos.selecioneCidade;*/
 
 					//setDadosComboPais();
 				}
@@ -821,6 +889,7 @@ require([
 			}
 
 			{ // Data Sources
+				/* TODO remover?
 				function i18nDataImport(){
 					dom.byId("tituloImportacaoDados").innerHTML = textos.tituloImportarDados;
 					dom.byId("p1ImportacaoDados").innerHTML = textos.p1ImportacaoDados;
@@ -829,6 +898,7 @@ require([
 					dom.byId("tituloExportacaoDados").innerHTML = textos.tituloExportarDados;
 					dom.byId("p1ExportacaoDados").innerHTML = textos.p1ExportacaoDados;
 				}
+				*/
 				function i18nCopyData(){
 					dom.byId("rotBtCopiarCopyData").innerHTML = textos.rotCopiar;
 					dom.byId("tituloCopyData").innerHTML = textos.tituloCopiarDados;
@@ -1183,6 +1253,19 @@ require([
 			 *	Atribução de eventos às telas carregadas via ajax
 			 */
 
+			// Eventos no modulo Perfil
+			 
+			function setEventsProfileInfo(){
+				console.log("eventos perfil");
+				on( dom.byId("txtTelefoneProfileInfo"), "click", function(){ //TODO verificar esse evento
+					refreshPhoneMask( this, event );
+				});
+			}
+			
+			function setEventsProfileAddress(){
+				//showProfileAddressGmap();
+			}
+			
 			// Eventos nas telas do módulo Fonte de Dados
 			function setEventsImportFtpConn(){
 				on( dom.byId("btAnteriorFtpConnection"), "click", function(){
@@ -1862,8 +1945,39 @@ require([
 				}
 			}
 			
-			
+			function refreshPhoneMask( campo, evento ){
+				var caracter = evento.keyCode;//TODO como pegar o evento?
+				console.log("codigo tecla: "+ caracter)
+				// verifica se caracter pertence ao
+				var caracteresValidos = "0123456789";
+				if( caracteresValidos.indexOf( caracter ) > -1 ){
+					var valorAtual = campo.value;
+					//remove os caracteres especiais ( ) -
+					valorAtual = valorAtual.replace("\)", "").replace("\(", "").replace("\-", "");
+					// insere o novo caracter no final
+					valorAtual += caracter;
+					console.log("valor limpo: " + valorAtual);					
+					// transforma valorAtual em array de caracteres?					
+					// insere ( no primeiro elemento e joga pra direita
+					valorAtual.splice( 0, 0, "(" );
+					// insere ) no quarto elemento e joga pra direita
+					valorAtual.splice( 3, 0, ")" );
+					// insere ' ' espaço no 5º elemento e joga pra direita
+					valorAtual.splice( 4, 0, " " );
+					// insre - no 11º elemnto e joga pra direita
+					valorAtual.splice( 10, 0, "-" );
+					console.log("novo valor: " + valorAtual);
+				}else{
+					console.log("caracter ERRADO " + caracter);
+					return false;
+				}
+			}
 
+			
+			function showFoundedAddresses( strAddress ){
+				var resultadoGeocoder = searchAddress( strAddress );
+				// pega resultados e exibe num menu/lista drop down
+			}
             /*
              *	Fim da declaração das funções
              */
