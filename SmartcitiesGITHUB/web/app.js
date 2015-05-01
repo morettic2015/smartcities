@@ -1257,8 +1257,9 @@ require([
 			 
 			function setEventsProfileInfo(){
 				console.log("eventos perfil");
-				on( dom.byId("txtTelefoneProfileInfo"), "click", function(){ //TODO verificar esse evento
-					refreshPhoneMask( this, event );
+				on( dom.byId("txtTelefoneProfileInfo"), "keypress", function(){ //TODO verificar esse evento
+					var evento = arguments[0] || window.event;
+					refreshPhoneMask( evento, this );
 				});
 			}
 			
@@ -1945,32 +1946,41 @@ require([
 				}
 			}
 			
-			function refreshPhoneMask( campo, evento ){
-				var caracter = evento.keyCode;//TODO como pegar o evento?
-				console.log("codigo tecla: "+ caracter)
-				// verifica se caracter pertence ao
+			function refreshPhoneMask( event, campo ){		
+				var key = event.keyCode || event.charCode;
+				var caracter = String.fromCharCode( key );
 				var caracteresValidos = "0123456789";
-				if( caracteresValidos.indexOf( caracter ) > -1 ){
-					var valorAtual = campo.value;
-					//remove os caracteres especiais ( ) -
-					valorAtual = valorAtual.replace("\)", "").replace("\(", "").replace("\-", "");
-					// insere o novo caracter no final
-					valorAtual += caracter;
-					console.log("valor limpo: " + valorAtual);					
-					// transforma valorAtual em array de caracteres?					
-					// insere ( no primeiro elemento e joga pra direita
-					valorAtual.splice( 0, 0, "(" );
-					// insere ) no quarto elemento e joga pra direita
-					valorAtual.splice( 3, 0, ")" );
-					// insere ' ' espaço no 5º elemento e joga pra direita
-					valorAtual.splice( 4, 0, " " );
-					// insre - no 11º elemnto e joga pra direita
-					valorAtual.splice( 10, 0, "-" );
-					console.log("novo valor: " + valorAtual);
-				}else{
-					console.log("caracter ERRADO " + caracter);
-					return false;
-				}
+				var valorAtual = campo.value;
+				
+				// keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
+				if( key != 8 && key != 46 && key != 37 && key != 39 && key != 9 ){					
+					event.preventDefault();
+					
+					if( caracteresValidos.indexOf( caracter ) > -1 && valorAtual.length < 15 ){
+						var novoValor = valorAtual;						
+						//remove os caracteres especiais ( ) - espaço
+						var regexEspaco = new RegExp( " ", "g");
+						novoValor = valorAtual.replace("\)", "").replace("\(", "").replace("\-", "").replace( regexEspaco, "");
+						// insere o novo caracter no final
+						novoValor += caracter;						
+						// transforma valorAtual em array de caracteres
+						var arrTelefone = novoValor.split("");						
+						arrTelefone.splice( 0, 0, "(" );						
+						arrTelefone.splice( 3, 0, ")" );
+						arrTelefone.splice( 4, 0, " " );
+						if( valorAtual.length < 14 ){							
+							arrTelefone.splice( 9, 0, "-" );
+						}else{
+							arrTelefone.splice( 10, 0, "-" );
+						}
+						
+						valorAtual = arrTelefone.toString();
+						var regexVirgula = new RegExp( ",", "g" );
+						valorAtual = valorAtual.replace( regexVirgula , "");
+						campo.value = valorAtual;
+					}
+				}				
+				
 			}
 
 			
@@ -1978,6 +1988,7 @@ require([
 				var resultadoGeocoder = searchAddress( strAddress );
 				// pega resultados e exibe num menu/lista drop down
 			}
+			
             /*
              *	Fim da declaração das funções
              */
