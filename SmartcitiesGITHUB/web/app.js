@@ -1255,16 +1255,21 @@ require([
 
 			// Eventos no modulo Perfil
 			 
-			function setEventsProfileInfo(){
-				console.log("eventos perfil");
-				on( dom.byId("txtTelefoneProfileInfo"), "keypress", function(){ //TODO verificar esse evento
+			function setEventsProfileInfo(){				
+				on( dom.byId("txtConfirmPassProfile"), "blur", function(){					
+					var obj = registry.byId( this.id );
+					obj.set("regExp", "^" + dom.byId("txtPasswordProfile").value + "$");
+				});				
+				on( dom.byId("txtTelefoneProfileInfo"), "keypress", function(){
 					var evento = arguments[0] || window.event;
 					refreshPhoneMask( evento, this );
 				});
 			}
 			
 			function setEventsProfileAddress(){
-				//showProfileAddressGmap();
+				on( dom.byId("btBuscarEnderecoProfile"), "click", function(){
+					showFoundedAddresses( dom.byId("txtEnderecoRua").value );
+				});
 			}
 			
 			// Eventos nas telas do módulo Fonte de Dados
@@ -1985,7 +1990,10 @@ require([
 
 			
 			function showFoundedAddresses( strAddress ){
-				var resultadoGeocoder = searchAddress( strAddress );
+				console.log( strAddress);
+				var objGeoRequest = { 'address': strAddress };
+				var resultadoGeocoder = searchAddress( objGeoRequest );				
+				console.log("ok " + resultadoGeocoder);
 				// pega resultados e exibe num menu/lista drop down
 			}
 			

@@ -100,8 +100,10 @@ function startGeocoder(){
 function searchAddress( strQuery ){
 	geocoder.geocode( {'address': strQuery}, function(resultados, status){
 		if( status == google.maps.GeocoderStatus.OK ){
+			console.log(" status OK")
 			return resultados;
 		}else{
+			console.log(" nao OK")
 			return null; 
 		}
 	});

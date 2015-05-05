@@ -29,35 +29,33 @@
 	
     <div class="celula-form-1">
         <span class="rotulo"><span id='nameProfileInfo'>Nome</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtNome" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+        <input id="txtNameProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" title="hint" required="true" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="true" selectOnClick="false"></input>
     </div>
 	
     <div class="celula-form-1">
         <span class="rotulo"><span id='emailProfileInfo'>Email</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtNome" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+        <input id="txtEmailProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" title="hint" required="true" regExp="[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)+" invalidMessage="email invalido" intermediateChanges="false" trim="true" lowercase="true" selectOnClick="false"></input>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='birthProfileInfo'>Data de Nasc.</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/DateTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$"></input>
+        <input id="txtBirthdateProfile" class="campo" type="text" data-dojo-type="dijit/form/DateTextBox" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$"></input>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='passwordProfileInfo'>Senha</span>:</span>
-        <input class="campo" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+        <input id="txtPasswordProfile" class="campo" type="password" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='confirmPassProfileInfo'>Confirme a senha</span>:</span>
-        <input class="campo" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+        <input id="txtConfirmPassProfile" class="campo" type="password" data-dojo-type="dijit/form/ValidationTextBox" required="true" invalidMessage="<span id='msgInvalidaConfirmaSenha'>Verify</span>" ></input>
     </div>
 
     <div class="celula-form-1" style="margin-bottom:25px;">
         <span class="rotulo"><span id='bioProfileInfo'>Bio</span>:</span>
-        <textarea class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="false" uppercase="true" lowercase="false" propercase="false" style="width: auto; height: auto;" scrollOnFocus="true"></textarea>
+        <textarea id="txtBioProfile" class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="false" uppercase="true" lowercase="false" propercase="false" style="width: auto; height: auto;" scrollOnFocus="true"></textarea>
     </div>
-
-    
    
     <div class="celula-form-1" style="margin-bottom:10px;">
         <span class="rotulo">Eula link:</span>
@@ -66,7 +64,7 @@
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='phoneProfileInfo'>Telefone</span>:</span>
-        <input class="campo" id="txtTelefoneProfileInfo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" required="true" invalidMessage="$_unset_$" tooltipPosition="[after]" state="Incomplete"></input>
+        <input id="txtPhoneProfile" class="campo" id="txtTelefoneProfileInfo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" required="true" invalidMessage="$_unset_$" tooltipPosition="[after]" state="Incomplete"></input>
     </div>
 
     <div class="celula-form-1" style="margin-bottom:35px;">
