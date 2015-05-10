@@ -1990,10 +1990,37 @@ require([
 
 			
 			function showFoundedAddresses( strAddress ){
-				console.log( strAddress);
-				var objGeoRequest = { 'address': strAddress };
-				var resultadoGeocoder = searchAddress( objGeoRequest );				
-				console.log("ok " + resultadoGeocoder);
+				//var resultadoGeocoder = searchAddress( strAddress );
+				domConstruct.empty("boxResultsProfileAddress");
+				var resultados; 
+				geocoder.geocode({'address': strAddress}, function( results, status ){
+					if( status == google.maps.GeocoderStatus.OK ){
+						console.log(" status OK : " + results);
+						resultados = results;
+					}else{
+						console.log(" status: " + status);
+						resultados = null; 
+					}
+					console.log("resultados: "+ resultados);
+					if( resultados != null ){
+						console.log("diferente de nulo. tamanho: "+ resultados.length);
+						for( var iRes = 0; iRes < resultados.length; iRes++ ){
+							console.log(">" + resultados[iRes].formatted_address);
+							
+							// cria uma div para cada resuultado
+							var boxEndereco = domConstruct.toDom(
+								"<div id='' class='item-listagem'>" + resultados[iRes].formatted_address +
+								"</div>"
+							);
+							
+							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );
+						}						
+						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
+					}
+				});
+					
+				
+				//console.log("ok " + resultadoGeocoder);
 				// pega resultados e exibe num menu/lista drop down
 			}
 			

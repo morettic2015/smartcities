@@ -89,11 +89,11 @@
 		<div data-dojo-type="dijit/layout/LayoutContainer" data-dojo-props="design:'headline'" style="width:100%;height:100%;">
 			
 			<!-- Cabeçalho : definido no topo -->
-			<div data-dojo-type="dijit/layout/ContentPane" loadingMessage="Aguarde..." title="Pane" doLayout="true" region="top" href="header_smartcities.html" style="margin: 0px; margin-bottom: 0px; padding: 0px; width: 100%; height: 77px;"></div>
+			<div data-dojo-type="dijit/layout/ContentPane" loadingMessage="Aguarde..." title="Pane" doLayout="false" region="top" href="header_smartcities.html" style="margin: 0px; margin-bottom: 0px; padding: 0px; width: 100%; height: 77px;"></div>
 
 			<!-- Área principal : definido no centro -->
-			<div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" region="center" refreshOnShow="false" splitter="false" maxSize="Infinity" doLayout="false" style="border: none; border-radius: 0px; -moz-border-radius: 0px; padding: 0px;">
-				<span data-dojo-type="dijit/layout/TabContainer" tabPosition="left-h" style="min-width: 1em; min-height: 500px; width: auto; height: auto;" controllerWidget="dijit.layout.TabController">
+			<!--<div data-dojo-type="dijit/layout/ContentPane" extractContent="false"  refreshOnShow="false"  doLayout="false" style="border: none; border-radius: 0px; -moz-border-radius: 0px; padding: 0px;"> -->
+				<span data-dojo-type="dijit/layout/TabContainer" tabPosition="left-h" style="min-width: 1em; min-height: 500px;" controllerWidget="dijit.layout.TabController" doLayout="true" region="center" splitter="false" maxSize="Infinity">
 
 					<!--
 											Módulo: Perfil
@@ -285,7 +285,7 @@
 					<!-- 
 						Módulo : Círculos
 					-->
-					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Circulo/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaCirculos'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" selected="true" closable="false">
+					<div data-dojo-type="dijit/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Circulo/48X48.png'&gt;&lt;br&gt;<span id='rotuloAbaCirculos'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true">
 						<span data-dojo-type="dijit/Toolbar">
 							<input id="btContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtContatos'>Contatos</span>" iconClass="icone-salvar"></input>
 							<input id="btCirculos" type="button" data-dojo-type="dijit/form/Button" tabIndex="0" intermediateChanges="true" label="<span id='rotBtCirculos'>C&iacute;rculos</span>" iconClass="icone-circulo"></input>
@@ -298,7 +298,7 @@
 						
 					</div>
 				</span>
-			</div>
+			<!-- </div> -->
 			
 			<!-- Rodapé : definido no fundo/em baixo -->
 			<div data-dojo-type="dijit/layout/ContentPane" title="Pane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" style="margin:0px; padding: 0px; width: 100%; height: 49px;" doLayout="true" region="bottom" href="footer_smartcities.html" ></div>

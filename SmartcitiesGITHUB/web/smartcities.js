@@ -40,14 +40,19 @@ require([
 	"dojo/store/Memory",
 	"dojo/data/ObjectStore",
 	"dijit/tree/ObjectStoreModel",
-	"dojo/store/JsonRest"
+	"dojo/store/JsonRest",
+	"dojo/Deferred",
+	"dojo/when",
+	"dojo/promise/Promise"
 	],
 	function(
 		ready,
 		Memory,
 		ObjectStore,
 		ObjectStoreModel,
-		JsonRestStore
+		JsonRestStore,
+		Deferred,
+		when
 	){
 		ready( function(){
 			
@@ -98,15 +103,28 @@ function startGeocoder(){
 }
 
 function searchAddress( strQuery ){
-	geocoder.geocode( {'address': strQuery}, function(resultados, status){
+	// geocode é assincrono, o resultado talvez seja um promise
+	//var assinc = new Deferred( function(reason){});
+	
+	when( 
+		geocoder.geocode({'address': strQuery}, function( results, status){}) ,
+		function( resultados ){
+			console.log("terminou o geocode... " + resultados)
+		}
+	);
+	/*
+	geocoder.geocode( {'address': strQuery}, function( results, status){
 		if( status == google.maps.GeocoderStatus.OK ){
-			console.log(" status OK")
-			return resultados;
+			console.log(" status OK : " + results);
+			resultados = results;
 		}else{
 			console.log(" nao OK")
-			return null; 
-		}
-	});
+			resultados = null; 
+		}		
+	});*/
+	
+	//return assinc.promise;
+	return null;
 }
 
 

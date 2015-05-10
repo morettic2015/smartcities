@@ -28,7 +28,8 @@
 .icone-anterior,
 .icone-proximo,
 .icone-novo-generico,
-.icone-ferramentas{
+.icone-ferramentas,
+.icone-pendencia{
     background-repeat: no-repeat;
     width: 12px;
     height: 12px;
@@ -228,6 +229,9 @@
 .icone-item-file-brown{
 	background-image: url(images/icons/FontesDados/arquivo_2.png);
 }
+.icone-pendencia{
+	background-image: url(images/icons/Pendencia/12X12.png);
+}
 
 
 .bt-paypal:link{
@@ -388,6 +392,8 @@ img.fundo {
 	background-color: #002F66;
 }
 
+
+
 /* Formatação para telas de splash */
 .lista-splash{
 	max-width:800px;
@@ -489,3 +495,26 @@ img.fundo {
 	color: red;
 }
 /* Fim estilos Importacao BD - Dnd */
+
+/* Itens da lista de resultados dinâmica */
+.item-listagem{
+	background-color: white;
+	padding-bottom: 0px;
+	padding-top: 4px;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 20px;
+	font-size: 9pt;
+	cursor: pointer;
+}
+.item-listagem:hover{
+	background-color: #E1E1E1;
+}
+
+/* Componentes visiveis / invisiveis */
+.componente-invisivel{
+	display: none;
+}
+.componente-visivel{
+	display: block;
+}
