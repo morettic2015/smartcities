@@ -9,8 +9,11 @@
 var map;			// MAPA DO GOOGLE
 var storePais;
 var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de BD
-var linhasDBSelection = []				// Array das linhas (relacionamentos) entre tabelas na importacao de BD
+var linhasDBSelection = [];				// Array das linhas (relacionamentos) entre tabelas na importacao de BD
 var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na importacao de DB
+var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
+var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
+var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
 
 
 require([
@@ -590,6 +593,7 @@ require([
                         '</div>' +
                         '</div>';
 
+				/*
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
@@ -601,7 +605,8 @@ require([
                 });
                 google.maps.event.addListener(marker, 'click', function () {
                     infowindow.open(map, marker);
-                });                
+                }); 
+				*/				
 
                 //Adiciona local das legendas do mapa
                 //var legendaMap = document.getElementById('mapLegend');//recupera div da legenda                
@@ -832,6 +837,8 @@ require([
 					dom.byId("tituloProfileAddress").innerHTML = textos.tituloEnderecoPerfil;
 					dom.byId("ruaProfileAddress").innerHTML = textos.rotRuaPerfil;
 					dom.byId("complProfileAddress").innerHTML = textos.rotComplementoPerfil;
+					dom.byId("btBuscarEnderecoProfile").innerHTML = textos.rotFiltrar;
+					
 					/*
 					dom.byId("cepProfileAddress").innerHTML = textos.rotCepPerfil;
 					dom.byId("bairroProfileAddress").innerHTML = textos.rotBairroPerfil;
@@ -1266,10 +1273,20 @@ require([
 				});
 			}
 			
-			function setEventsProfileAddress(){
+			function setEventsProfileAddress(){				
+				on( dom.byId("btSalvarEnderecoPerfil"), "click", function(){
+					saveProfileAddress();
+				});
 				on( dom.byId("btBuscarEnderecoProfile"), "click", function(){
 					showFoundedAddresses( dom.byId("txtEnderecoRua").value );
 				});
+				on( dom.byId("txtEnderecoRua"), "keypress", function(){
+					var evento = arguments[0] || window.event;
+					manageKeyProfileAddressSearch( evento, this );
+				});
+				query("#boxResultsProfileAddress").on(".item-listagem:click", function (){
+					selectProfileAddress( this.id );
+                });
 			}
 			
 			// Eventos nas telas do módulo Fonte de Dados
@@ -1987,7 +2004,6 @@ require([
 				}				
 				
 			}
-
 			
 			function showFoundedAddresses( strAddress ){
 				//var resultadoGeocoder = searchAddress( strAddress );
@@ -2001,15 +2017,16 @@ require([
 						console.log(" status: " + status);
 						resultados = null; 
 					}
-					console.log("resultados: "+ resultados);
+					
 					if( resultados != null ){
-						console.log("diferente de nulo. tamanho: "+ resultados.length);
+						resProfileGeocoder = resultados;
+						
 						for( var iRes = 0; iRes < resultados.length; iRes++ ){
 							console.log(">" + resultados[iRes].formatted_address);
 							
 							// cria uma div para cada resuultado
 							var boxEndereco = domConstruct.toDom(
-								"<div id='' class='item-listagem'>" + resultados[iRes].formatted_address +
+								"<div id='resultAddress_" + iRes + "' class='item-listagem'>" + resultados[iRes].formatted_address +
 								"</div>"
 							);
 							
@@ -2018,11 +2035,52 @@ require([
 						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
 					}
 				});
-					
 				
-				//console.log("ok " + resultadoGeocoder);
-				// pega resultados e exibe num menu/lista drop down
 			}
+			
+			function manageKeyProfileAddressSearch( evento, campo ){
+				var key = evento.keyCode || evento.charCode;
+				if( key == 13 ){ // ENTER
+					showFoundedAddresses( campo.value );
+				}else if( key == 27 ){ // ESC
+					campo.value = "";
+					domAttr.set("boxResultsProfileAddress", "class", "componente-invisivel");
+				}
+			}
+			
+			function selectProfileAddress( strId ){
+				var idDesmontado = strId.split("_");
+				var indice = idDesmontado[1];
+				var strAddress = resProfileGeocoder[indice].formatted_address;
+				var objLatLng = resProfileGeocoder[indice].geometry.location;
+				selectedAddress = { endereco_formatado: strAddress,
+									latlng: objLatLng };
+				console.log( selectedAddress);
+				dom.byId("txtEnderecoRua").value = strAddress;
+				domAttr.set("boxResultsProfileAddress", "class", "componente-invisivel");
+				
+				updateAddressMarker( objLatLng );
+			}
+			
+			function updateAddressMarker( objLatLng ){
+				map.setZoom(17);
+				map.panTo( objLatLng );				
+				if( profileAddressMarker == null ){
+					profileAddressMarker = new google.maps.Marker({
+						map: map,
+						position: objLatLng,
+						title: textos.seuEndereco
+					});
+				}else{
+					profileAddressMarker.setPosition( objLatLng );
+				}
+			}
+					
+			function saveProfileAddress(){
+				//enviar dados ( selectedAddress )
+				alert("saveProfileAddress - nao implementado");
+			}
+			
 			
             /*
              *	Fim da declaração das funções
