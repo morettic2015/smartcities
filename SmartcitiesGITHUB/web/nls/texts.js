@@ -108,6 +108,7 @@ define({
 		rotData: "Data",
 		rotTipo: "Tipo",
 		rotIP: "IP",
+		verifiqueSenha: "A senha não coincide",
 		
 		// Módulo Dados
 		tituloImportarDados: "Importa&ccedil;&atilde;o de Dados",
@@ -155,6 +156,7 @@ define({
 		p1HistoricoDados: "Utilize o filtro abaixo para visualizar as transações de dados realizadas.",
 		fonteDados: "Fonte de Dados",
 		fontesDados: "Fontes de Dados",
+		importacoesPendentes: "Importa&ccedil;&otilde;es Pendentes",
 		
 		tituloImportBancoDados: "Importar Banco de Dados (Passo 2 de 3)",
 		nomeFonteDados: "Nome da fonte de dados",

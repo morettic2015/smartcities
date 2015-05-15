@@ -107,6 +107,7 @@ define({
 	rotData: "Date",
 	rotTipo: "Type",
 	rotIP: "IP",
+	verifiqueSenha: "The password does not match",
 	
 	// Módulo Dados	
 	tituloImportarDados: "Data Import",
@@ -154,6 +155,7 @@ define({
 	p1HistoricoDados: "Use the filter below to view the data transactions made.",
 	fonteDados: "Data Source",
 	fontesDados: "Data Sources",
+	importacoesPendentes: "Pending Imports",
 	
 	tituloImportBancoDados: "Import Database (Step 2 of 3)",
 	nomeFonteDados: "Data source's name",

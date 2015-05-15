@@ -326,12 +326,18 @@ require([
 				dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
 				dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
 				dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
+				dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
 
 				/**
 				 *	Carregamento das trees de 'Fonte de Dados'
 				 */
 				loadTreeDataSources();
 				loadTreePendencies();
+				
+				/*
+				 *	Informa o tabcontainer que deve ser atualizado o tamanho
+				 */
+				tabContainerPrincipal.resize();
 
             });
 
@@ -560,7 +566,7 @@ require([
 				var featureOpts = [
                     {
                         stylers: [
-                            {hue: '#EB6800'},
+                            {hue: '#A9F5E1'},
                             {visibility: 'simplified'},
                             {gamma: 0.7},
                             {weight: 0.5}
@@ -575,7 +581,7 @@ require([
                     {
                         featureType: 'water',
                         stylers: [
-                            {color: '#80B8FF'}
+                            {color: '#A9F5E1'}
                         ]
                     }
                 ];
@@ -830,6 +836,8 @@ require([
 					dom.byId("acceptEulaProfileInfo").innerHTML = textos.btAceitoTermosPerfil;
 					dom.byId("phoneProfileInfo").innerHTML = textos.rotTelefonePerfil;					
 					dom.byId("avatarProfileInfo").innerHTML = textos.rotAvatarPerfil;
+					dom.byId("languageProfileInfo").innerHTML = textos.rotIdiomaPerfil;
+					registry.byId("txtConfirmPassProfile").set("invalidMessage", textos.verifiqueSenha );
 				}
 
 				function i18nProfileAdress(){
