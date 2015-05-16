@@ -509,6 +509,7 @@ require([
 
                 //Adiciona local das legendas do mapa
                 var legendaMap = document.getElementById('mapLegend');//recupera div da legenda
+				legendaMap.style.display = "block";
                 //
                 //  var searchMap = document.getElementById('mapSearch');//recupera div da legenda
                 //legendaMap.style.visibility="visible"; //Seta o layer pra ser visiveel
@@ -1061,7 +1062,11 @@ require([
 					dom.byId("rotBtAnteriorFtpSelect").innerHTML = textos.gAnterior;
 					dom.byId("rotBtFinalizarFtpSelect").innerHTML = textos.gFinalizar;
 					dom.byId("tituloImportFtpSelection").innerHTML = textos.rotImportar;
-					dom.byId("p1ImportFtpSelection").innerHTML = textos.p1ImportFtpSelection;
+					dom.byId("p1ImportFtpSelection").innerHTML = textos.p1ImportFtpSelection;					
+					dom.byId("rotColNomeArquivo").innerHTML = textos.gNome;
+					dom.byId("rotColTipoArquivo").innerHTML = textos.gTipo;
+					dom.byId("rotColTamanhoArquivo").innerHTML = textos.gTamanho;
+					dom.byId("rotColDataModificacao").innerHTML = textos.dataModificacao;					
 				}
 				function i18nDataFileLocate(){
 					dom.byId("rotBtAnteriorFileLocate").innerHTML = textos.gAnterior;
@@ -1070,6 +1075,8 @@ require([
 					dom.byId("rotArquivoFileLocate").innerHTML = textos.localArquivo;
 					dom.byId("rotNomeFonteFileLocate").innerHTML = textos.nomeFonteDados;
 					dom.byId("rotDescricaoFileLocate").innerHTML = textos.gDescricao;
+					registry.byId("btUploadFileLocate").set("label", textos.enviarDestePC);
+					registry.byId("btPendencyDirectory").set("label", textos.abrirDiretorioPendencias);
 				}
 				function i18nImportCsv(){
 					dom.byId("rotBtAnteriorImportCsv").innerHTML = textos.gAnterior;
@@ -2018,19 +2025,23 @@ require([
 				domConstruct.empty("boxResultsProfileAddress");
 				var resultados; 
 				geocoder.geocode({'address': strAddress}, function( results, status ){
-					if( status == google.maps.GeocoderStatus.OK ){
-						console.log(" status OK : " + results);
+					console.log(" Status da busca: " + status);
+					if( status == google.maps.GeocoderStatus.OK ){						
 						resultados = results;
 					}else{
-						console.log(" status: " + status);
 						resultados = null; 
 					}
+					resProfileGeocoder = resultados;
 					
-					if( resultados != null ){
-						resProfileGeocoder = resultados;
+					if( resultados != null ){						
 						
 						for( var iRes = 0; iRes < resultados.length; iRes++ ){
 							console.log(">" + resultados[iRes].formatted_address);
+							console.log("  tipo: " + resultados[iRes].geometry.location_type);
+							// se for ROOFTOP - o resultado é preciso
+							// se for RANGE_INTERPOLATED - é aceitavel, pois o numero pode nao estar cadastrado ainda no sistema
+							// GEOMETRIC_CENTER - "Verifique se o nome da rua e número foram informados." - não aceita como endereço
+							// APPROXIMATE - "O local informado é muito abrangente." - não aceita como endereço
 							
 							// cria uma div para cada resuultado
 							var boxEndereco = domConstruct.toDom(
@@ -2040,6 +2051,13 @@ require([
 							
 							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );
 						}						
+						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
+					}else{
+						var boxMensagem = domConstruct.toDom(
+							"<div id='resultAddress_zero' class='item-listagem'>" + textos.enderecoNaoEncontrado +
+							"</div>"
+						);
+						domConstruct.place( boxMensagem, "boxResultsProfileAddress" );
 						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
 					}
 				});
@@ -2058,16 +2076,17 @@ require([
 			
 			function selectProfileAddress( strId ){
 				var idDesmontado = strId.split("_");
-				var indice = idDesmontado[1];
-				var strAddress = resProfileGeocoder[indice].formatted_address;
-				var objLatLng = resProfileGeocoder[indice].geometry.location;
-				selectedAddress = { endereco_formatado: strAddress,
-									latlng: objLatLng };
-				console.log( selectedAddress);
-				dom.byId("txtEnderecoRua").value = strAddress;
+				if( resProfileGeocoder != null ){
+					var indice = idDesmontado[1];
+					var strAddress = resProfileGeocoder[indice].formatted_address;
+					var objLatLng = resProfileGeocoder[indice].geometry.location;
+					selectedAddress = { endereco_formatado: strAddress,
+										latlng: objLatLng };
+					dom.byId("txtEnderecoRua").value = strAddress;
+					
+					updateAddressMarker( objLatLng );
+				}
 				domAttr.set("boxResultsProfileAddress", "class", "componente-invisivel");
-				
-				updateAddressMarker( objLatLng );
 			}
 			
 			function updateAddressMarker( objLatLng ){
