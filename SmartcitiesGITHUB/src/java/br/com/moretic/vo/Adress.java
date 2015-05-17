@@ -30,7 +30,7 @@ public class Adress implements java.io.Serializable {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "city_idcity", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "city_idcity", nullable = true, insertable = false, updatable = false)
 	private City city;
 	
 	@Column(name = "city_idcity", nullable = false, insertable = true, updatable = true)
