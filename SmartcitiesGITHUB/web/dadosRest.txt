@@ -1,0 +1,6 @@
+Dados REST
+
+Dados no POST de ProfileInfo:
+name, email, birthDate, password, bio, telephone, avatar, lang
+
+Dados no POST de ...

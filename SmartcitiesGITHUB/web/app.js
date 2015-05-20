@@ -61,7 +61,7 @@ require([
 				gfx
                 ) {
 
-            ready(function () {
+            ready(function () {				
 
 				/**
 				 *	Configuração do pós-carregamento das páginas em cada ContentPane
@@ -1277,7 +1277,10 @@ require([
 
 			// Eventos no modulo Perfil
 			 
-			function setEventsProfileInfo(){				
+			function setEventsProfileInfo(){	
+				on( dom.byId("btSalvarProfileInfo"), "click", function(){
+					saveProfileInfo();
+				});
 				on( dom.byId("txtConfirmPassProfile"), "blur", function(){					
 					var obj = registry.byId( this.id );
 					obj.set("regExp", "^" + dom.byId("txtPasswordProfile").value + "$");
@@ -2020,12 +2023,13 @@ require([
 				
 			}
 			
+			/* Realiza a busca do endereço, verifica resultados e exibe num box especial */
 			function showFoundedAddresses( strAddress ){
 				//var resultadoGeocoder = searchAddress( strAddress );
 				domConstruct.empty("boxResultsProfileAddress");
 				var resultados; 
 				geocoder.geocode({'address': strAddress}, function( results, status ){
-					console.log(" Status da busca: " + status);
+					
 					if( status == google.maps.GeocoderStatus.OK ){						
 						resultados = results;
 					}else{
@@ -2033,24 +2037,39 @@ require([
 					}
 					resProfileGeocoder = resultados;
 					
-					if( resultados != null ){						
+					if( resultados != null ){
 						
-						for( var iRes = 0; iRes < resultados.length; iRes++ ){
-							console.log(">" + resultados[iRes].formatted_address);
-							console.log("  tipo: " + resultados[iRes].geometry.location_type);
+						var enderecosValidos = 0;
+						for( var iRes = 0; iRes < resultados.length; iRes++ ){		
+							//console.log(">" + resultados[iRes].formatted_address);
+							//console.log("  tipo: " + resultados[iRes].geometry.location_type);
 							// se for ROOFTOP - o resultado é preciso
 							// se for RANGE_INTERPOLATED - é aceitavel, pois o numero pode nao estar cadastrado ainda no sistema
 							// GEOMETRIC_CENTER - "Verifique se o nome da rua e número foram informados." - não aceita como endereço
 							// APPROXIMATE - "O local informado é muito abrangente." - não aceita como endereço
+							var tipoLocal = resultados[iRes].geometry.location_type;
+							if( tipoLocal != "ROOFTOP" && tipoLocal != "RANGE_INTERPOLATED" ){								
+								continue;
+							}
+							enderecosValidos++;
 							
-							// cria uma div para cada resuultado
+							// cria uma div para cada resultado
 							var boxEndereco = domConstruct.toDom(
 								"<div id='resultAddress_" + iRes + "' class='item-listagem'>" + resultados[iRes].formatted_address +
 								"</div>"
 							);
 							
-							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );
-						}						
+							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );							
+						}	
+						
+						if( enderecosValidos == 0 ){
+							var boxMensagem = domConstruct.toDom(
+								"<div id='resultAddress_zero' class='item-listagem'>" + textos.enderecoAbrangente +
+								"</div>"
+							);
+							domConstruct.place( boxMensagem, "boxResultsProfileAddress" );
+						}
+						
 						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
 					}else{
 						var boxMensagem = domConstruct.toDom(
@@ -2075,9 +2094,9 @@ require([
 			}
 			
 			function selectProfileAddress( strId ){
-				var idDesmontado = strId.split("_");
-				if( resProfileGeocoder != null ){
-					var indice = idDesmontado[1];
+				var idDesmontado = strId.split("_");				
+				var indice = idDesmontado[1];
+				if( indice != "zero" ){
 					var strAddress = resProfileGeocoder[indice].formatted_address;
 					var objLatLng = resProfileGeocoder[indice].geometry.location;
 					selectedAddress = { endereco_formatado: strAddress,
@@ -2106,8 +2125,56 @@ require([
 			function saveProfileAddress(){
 				//enviar dados ( selectedAddress )
 				alert("saveProfileAddress - nao implementado");
+			}			
+			
+			function saveProfileInfo(){
+				var name = dom.byId("txtNameProfile").value;				
+				var email = dom.byId("txtEmailProfile").value;				
+				var birthDate = dom.byId("txtBirthdateProfile").value;				
+				var password = dom.byId("txtPasswordProfile").value;
+				var confirmPass = dom.byId("txtConfirmPassProfile").value;
+				var bio = dom.byId("txtBioProfile").value;				
+				var telephone = dom.byId("txtTelefoneProfileInfo").value;
+				var avatar = dom.byId("userAvatarInput").value;
+				var lang = dom.byId("selectedFlagProfileInfo").value;
+				
+				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +avatar);
+				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,avatar,lang) ){ 
+					
+					
+					var url = "/" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
+					console.log("chama url " + url);
+					//TODO colocar a chamada  no smartcities.js
+					/*
+					xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
+						.then( function( data ){
+							console.log( "requisicao ok: " +data);
+						}, function( err ){
+							console.log("erro : " + err);
+						});
+					*/
+				}else{
+					console.log("ATENCAO: nao salvou profileInfo");
+				}
 			}
 			
+			function isValidProfileInfo(name,email,birthDate,password,confirmPass,bio,telephone,avatar,lang){
+				dom.byId("txtNameProfile").focus();
+				dom.byId("txtEmailProfile").focus();
+				dom.byId("txtBirthdateProfile").focus();
+				dom.byId("txtPasswordProfile").focus();
+				dom.byId("txtConfirmPassProfile").focus();
+				dom.byId("txtTelefoneProfileInfo").focus();
+				dom.byId("btSalvarProfileInfo").focus();
+				
+				var isValid = false;
+				if(name != "" && email != "" && birthDate != "" && password != "" && confirmPass != "" && bio != "" && telephone != "" && avatar != "" && lang != "" ){
+					if( password == confirmPass ){
+						isValid = true;
+					}
+				}				
+				return isValid;
+			}
 			
             /*
              *	Fim da declaração das funções

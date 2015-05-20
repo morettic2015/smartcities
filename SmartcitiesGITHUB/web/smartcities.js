@@ -41,9 +41,10 @@ require([
 	"dojo/data/ObjectStore",
 	"dijit/tree/ObjectStoreModel",
 	"dojo/store/JsonRest",
+	"dojo/request/xhr",
 	"dojo/Deferred",
 	"dojo/when",
-	"dojo/promise/Promise"
+	"dojo/promise/Promise"	
 	],
 	function(
 		ready,
@@ -51,6 +52,7 @@ require([
 		ObjectStore,
 		ObjectStoreModel,
 		JsonRestStore,
+		xhr,
 		Deferred,
 		when
 	){
@@ -80,8 +82,9 @@ require([
 
 		});
 		
-		
+		/*
 		function autenticaUsuario( email, senha ){
+			console.log("entrou aqui");
 			var autenticou = false;
 			var storeUsuario = new JsonRestStore( {target: URL_DADOS + "profiles/"} );
 			storeUsuario.query("email=" + email + "&pass=" + senha).then( function( results ){
@@ -91,6 +94,23 @@ require([
 				}
 			});
 			return autenticou;
+		}*/
+		
+		function autenticaUsuario( login, senha ){
+	
+			var urlAutentica = "http://localhost:8080/SmartcitiesGITHUB/rest/login/authenticate/"+login+"/"+senha;
+						
+			if(login !="testador"){
+				xhr( urlAutentica, { handleAs: "json", preventCache: true, method: "GET" })
+					.then( function( data ){
+						console.log( "requisicao ok: " +data);
+					}, function( err ){
+						console.log("erro : " + erro);
+					});
+			}else{
+				window.location = "main.html";
+			}
+
 		}
 	}
 );
@@ -285,6 +305,23 @@ function fillStoreTree( store, dados ){
 	});
 	
 	return store;
+}
+
+
+
+function handleResponse(responseObject, ioArgs) {
+	console.log("handleResponse");
+	// set the model object with the returned customers list
+	//model.setData(responseObject.customers.customer);
+	//var obj = JSON.parse(responseObject);
+	window.location = "http://localhost:8080/SmartcitiesGITHUB/main.html";
+}
+
+function handleError(responseObject, ioArgs) {
+	console.log("handleError");
+	// set the model object with the returned customers list
+	//model.setData(responseObject.customers.customer);
+	alert("error");
 }
 
 
