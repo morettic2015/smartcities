@@ -1,6 +1,26 @@
 Dados REST
+==========
 
-Dados no POST de ProfileInfo:
-name, email, birthDate, password, bio, telephone, avatar, lang
+Requisições POST
 
-Dados no POST de ...
+Perfil
+	Tela 1: profileInfo.html
+	Uri: 	/rest/p1/
+	Campos: /name/email/birthDate/password/bio/telephone/avatar/lang
+
+	Tela 2:	profileAddress.html
+	Uri: 	/rest/p2/
+	Campos: /latLng/address/complement
+	
+	Tela 3:	profileSecurity.html
+	Uri: 	/rest/p3/
+	Campos:	/email/telephone/celphone/passphrase
+
+Ferramenta de Dados
+	Tela 1:
+	Uri: 	/rest/d1/
+	Campos:
+	
+	Tela 2:	
+	Uri: 	/rest/d2/
+	Campos:	

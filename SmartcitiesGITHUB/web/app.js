@@ -23,7 +23,7 @@ require([
 	"dojo/dom-attr",
 	"dojo/dom-construct",
     "dojo/parser",
-    "dojo/_base/xhr",
+    "dojo/request/xhr",
 	"dojo/_base/array",
     "dojo/query",
     "dojo/_base/event",
@@ -709,6 +709,7 @@ require([
 					startGeocoder();
 				}else if( pagina == "profileSecurity.html"){
 					i18nProfileSecurity();
+					setEventsProfileAddress();
 				}else if( pagina == "profileHistory.html"){
 					i18nProfileHistory();
 					refreshGridProfileHistory();
@@ -1305,6 +1306,12 @@ require([
 				query("#boxResultsProfileAddress").on(".item-listagem:click", function (){
 					selectProfileAddress( this.id );
                 });
+			}
+			
+			function setEventsProfileAddress(){
+				on( dom.byId("btSalvarSegurancaPerfil"), "click", function(){
+					saveProfileSecurity();
+				});
 			}
 			
 			// Eventos nas telas do módulo Fonte de Dados
@@ -2122,9 +2129,13 @@ require([
 				}
 			}
 					
-			function saveProfileAddress(){
-				//enviar dados ( selectedAddress )
-				alert("saveProfileAddress - nao implementado");
+			function saveProfileAddress(){				
+				var address = selectedAddress.endereco_formatado;
+				var latLng = selectedAddress.latlng;
+				var complement = dom.byId("txtEnderecoComplemento").value;
+				//valida os campos e chama rest
+				var url = "http://localhost:8080/rest/p2/" + latLng +"/"+ address +"/"+ complement;
+				alert("Imcompleto: saveProfileAddress");
 			}			
 			
 			function saveProfileInfo(){
@@ -2138,27 +2149,54 @@ require([
 				var avatar = dom.byId("userAvatarInput").value;
 				var lang = dom.byId("selectedFlagProfileInfo").value;
 				
-				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +avatar);
-				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,avatar,lang) ){ 
+				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +lang);
+				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
 					
-					
-					var url = "/" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
+					var url = "http://localhost:8080/rest/p1" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
 					console.log("chama url " + url);
-					//TODO colocar a chamada  no smartcities.js
-					/*
+					//TODO colocar a chamada  no modulo restServices.js
+					
 					xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
 						.then( function( data ){
 							console.log( "requisicao ok: " +data);
-						}, function( err ){
-							console.log("erro : " + err);
+							alert("Perfil salvo com sucesso.");
+						}, function( err ){							
+							alert("Não foi possível salvar. Causa: " + err);
 						});
-					*/
+					
 				}else{
-					console.log("ATENCAO: nao salvou profileInfo");
+					alert("ATENCAO: verifique seus dados novamente.");
 				}
 			}
 			
-			function isValidProfileInfo(name,email,birthDate,password,confirmPass,bio,telephone,avatar,lang){
+			function saveProfileSecurity(){
+				var email = dom.byId("txtSegurancaEmail").value;				
+				var telephone = dom.byId("txtSegurancaTelefone").value;				
+				var celphone = dom.byId("txtSegurancaCelular").value;				
+				var passphrase = dom.byId("txtSegurancaFrase").value;				
+				
+				console.log(telephone+" - " + email+" - " + celphone+" - " + passphrase);
+				//if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
+				// valida campos
+				
+					var url = "http://localhost:8080/rest/p3" + email +"/"+ telephone +"/"+ celphone +"/"+ passphrase;
+					console.log("chama url " + url);
+					//TODO colocar a chamada  no modulo restServices.js
+					
+					xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
+						.then( function( data ){
+							console.log( "requisicao ok: " +data);
+							alert("Dados salvos com sucesso.");
+						}, function( err ){							
+							alert("Não foi possível salvar. Causa: " + err);
+						});
+				/*	
+				}else{
+					alert("ATENCAO: verifique seus dados novamente.");
+				}*/
+			}
+			
+			function isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang){
 				dom.byId("txtNameProfile").focus();
 				dom.byId("txtEmailProfile").focus();
 				dom.byId("txtBirthdateProfile").focus();
@@ -2168,7 +2206,7 @@ require([
 				dom.byId("btSalvarProfileInfo").focus();
 				
 				var isValid = false;
-				if(name != "" && email != "" && birthDate != "" && password != "" && confirmPass != "" && bio != "" && telephone != "" && avatar != "" && lang != "" ){
+				if(name != "" && email != "" && birthDate != "" && password != "" && confirmPass != "" && telephone != "" && lang != "" ){
 					if( password == confirmPass ){
 						isValid = true;
 					}

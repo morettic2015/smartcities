@@ -82,36 +82,6 @@ require([
 
 		});
 		
-		/*
-		function autenticaUsuario( email, senha ){
-			console.log("entrou aqui");
-			var autenticou = false;
-			var storeUsuario = new JsonRestStore( {target: URL_DADOS + "profiles/"} );
-			storeUsuario.query("email=" + email + "&pass=" + senha).then( function( results ){
-				// verifica se no results (deve ser um array) vem algum resultado
-				if( results.length > 0 ){
-					autenticou = true;
-				}
-			});
-			return autenticou;
-		}*/
-		
-		function autenticaUsuario( login, senha ){
-	
-			var urlAutentica = "http://localhost:8080/SmartcitiesGITHUB/rest/login/authenticate/"+login+"/"+senha;
-						
-			if(login !="testador"){
-				xhr( urlAutentica, { handleAs: "json", preventCache: true, method: "GET" })
-					.then( function( data ){
-						console.log( "requisicao ok: " +data);
-					}, function( err ){
-						console.log("erro : " + erro);
-					});
-			}else{
-				window.location = "main.html";
-			}
-
-		}
 	}
 );
 
