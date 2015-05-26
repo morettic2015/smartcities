@@ -17,9 +17,10 @@ Perfil
 	Campos:	/email/telephone/celphone/passphrase
 
 Ferramenta de Dados
-	Tela 1:
-	Uri: 	/rest/d1/
-	Campos:
+	Tela 1: importADConnection.html (Active Directory)
+	Uri: 	/rest/d1/	( o metodo deverá salvar um fonte de dados e uma lista de pendencias vinculadas à essa)
+	Campos(Data Source):	/ip/user/password
+	Campos(Pendency):		/fileName/fileType/fileSize/pendencyDate
 	
 	Tela 2:	
 	Uri: 	/rest/d2/
