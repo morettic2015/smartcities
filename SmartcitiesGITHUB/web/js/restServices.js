@@ -5,8 +5,10 @@ define([
 		xhr
 	){
 	return{
+		urlServer: "http://localhost:8080/SmartcitiesGITHUB/rest/",
+
 		autenticaUsuario: function( user, pass ){			
-			var urlAutentica = "http://localhost:8080/SmartcitiesGITHUB/rest/login/authenticate/"+user+"/"+pass;
+			var urlAutentica = this.urlServer + "login/authenticate/"+user+"/"+pass;
 						
 			if(user !="testador"){
 				xhr( urlAutentica, { handleAs: "json", preventCache: true, method: "GET" })
@@ -22,6 +24,21 @@ define([
 			}else{
 				window.location = "main.html";
 			}
+		},
+		
+		salvaObjeto: function( url ){
+			return xhr( this.urlServer + url,
+				{ 
+					handleAs: "json",
+					preventCache: true,
+					method: "POST"
+				}
+			).then( function( data ){
+				console.log( "requisicao ok: " +data);
+				return "Dados salvos com sucesso.";
+			}, function( err ){				
+				return "Não foi possível salvar. Causa: " + err;
+			});	
 		}
 	}
 

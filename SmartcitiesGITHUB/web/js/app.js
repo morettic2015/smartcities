@@ -80,7 +80,8 @@ require([
 	"dijit/tree/ObjectStoreModel",
 	"dijit/tree/dndSource",
 	"dijit/registry",
-	"dojox/gfx"
+	"dojox/gfx",
+	"js/restServices.js"
 ],
         function (
                 ready,
@@ -102,7 +103,8 @@ require([
 				StoreModel,
 				dndSource,
 				registry,
-				gfx
+				gfx,
+				restServices
                 ) {
 
             ready(function () {				
@@ -2080,7 +2082,15 @@ require([
 			
 			/* Realiza a busca do endereço, verifica resultados e exibe num box especial */
 			function showFoundedAddresses( strAddress ){
-				//var resultadoGeocoder = searchAddress( strAddress );
+				if( geocoder == null ){
+					try{
+						geocoder = startGeocoder();						
+					}catch( ex ){
+						console.log("Nao startou Geocoder = " + geocoder + " . "+ex);
+						alert("Ocorreu um erro ao tentar realizar a busca.");
+						return false;
+					}
+				}
 				domConstruct.empty("boxResultsProfileAddress");
 				var resultados; 
 				geocoder.geocode({'address': strAddress}, function( results, status ){
@@ -2175,16 +2185,7 @@ require([
 				}else{
 					profileAddressMarker.setPosition( objLatLng );
 				}
-			}
-					
-			function saveProfileAddress(){				
-				var address = selectedAddress.endereco_formatado;
-				var latLng = selectedAddress.latlng;
-				var complement = dom.byId("txtEnderecoComplemento").value;
-				//valida os campos e chama rest
-				var url = "http://localhost:8080/rest/p2/" + latLng +"/"+ address +"/"+ complement;
-				alert("Imcompleto: saveProfileAddress");
-			}			
+			}		
 			
 			function saveProfileInfo(){
 				var name = dom.byId("txtNameProfile").value;				
@@ -2200,20 +2201,34 @@ require([
 				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +lang);
 				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
 					
-					var url = "http://localhost:8080/rest/p1" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
+					var url = "p1/" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
 					console.log("chama url " + url);
-					//TODO colocar a chamada  no modulo restServices.js
-					
-					xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
-						.then( function( data ){
-							console.log( "requisicao ok: " +data);
-							alert("Perfil salvo com sucesso.");
-						}, function( err ){							
-							alert("Não foi possível salvar. Causa: " + err);
-						});
+
+                    var resultado = restServices.salvaObjeto();
+                    resultado.then( function(texto){
+                        alert(texto);
+                    });
 					
 				}else{
 					alert("ATENCAO: verifique seus dados novamente.");
+				}
+			}
+			
+			function saveProfileAddress(){
+				if( selectedAddress != null ){
+					var address = selectedAddress.endereco_formatado;
+					var latLng = selectedAddress.latlng;
+					var complement = dom.byId("txtEnderecoComplemento").value;
+					
+					var url = "p2/" + latLng +"/"+ address +"/"+ complement;
+
+                    var resultado = restServices.salvaObjeto();
+                    resultado.then( function(texto){
+                        alert(texto);
+                    });
+
+				}else{
+					alert("ATENCAO: você deve informar seu endereço.");
 				}
 			}
 			
@@ -2224,24 +2239,18 @@ require([
 				var passphrase = dom.byId("txtSegurancaFrase").value;				
 				
 				console.log(telephone+" - " + email+" - " + celphone+" - " + passphrase);
-				//if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
-				// valida campos
-				
-					var url = "http://localhost:8080/rest/p3" + email +"/"+ telephone +"/"+ celphone +"/"+ passphrase;
+				if( isValidProfileSecurity( email, telephone, celphone, passphrase ) ){
+					var url = "p3/" + email +"/"+ telephone +"/"+ celphone +"/"+ passphrase;
 					console.log("chama url " + url);
-					//TODO colocar a chamada  no modulo restServices.js
 					
-					xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
-						.then( function( data ){
-							console.log( "requisicao ok: " +data);
-							alert("Dados salvos com sucesso.");
-						}, function( err ){							
-							alert("Não foi possível salvar. Causa: " + err);
-						});
-				/*	
+					var resultado = restServices.salvaObjeto();
+					resultado.then( function(texto){
+						alert(texto);
+					});
+					
 				}else{
-					alert("ATENCAO: verifique seus dados novamente.");
-				}*/
+					alert("ATENCAO: preencha os campos obrigatórios.");
+				}
 			}
 			
 			function isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang){
@@ -2259,6 +2268,20 @@ require([
 						isValid = true;
 					}
 				}				
+				return isValid;
+			}
+			
+			function isValidProfileSecurity( email, telephone, celphone, passphrase ){
+				dom.byId("txtSegurancaEmail").focus();
+				dom.byId("txtSegurancaTelefone").focus();
+				dom.byId("txtSegurancaCelular").focus();
+				dom.byId("txtSegurancaFrase").focus();
+				dom.byId("btSalvarSegurancaPerfil").focus();
+				
+				var isValid = false;
+				if( email != "" && telephone != "" && celphone != "" && passphrase != "" ){
+					isValid = true;
+				}
 				return isValid;
 			}
 			
