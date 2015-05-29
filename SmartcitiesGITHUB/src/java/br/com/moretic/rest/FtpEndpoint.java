@@ -47,7 +47,7 @@ public class FtpEndpoint {
 
             files = ftpClient.listRoot();
         } catch (Exception exception) {
-            files = new ArrayList<>();
+            files = new ArrayList<String>();
             System.err.append("FTP SERVICE ERROR");
             System.err.append(exception.toString());
         }
@@ -56,7 +56,7 @@ public class FtpEndpoint {
     }
 
 }
-
+     
 class FtpProfile {
 
     public String user, pass, url;
