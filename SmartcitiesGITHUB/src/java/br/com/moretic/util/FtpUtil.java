@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPHTTPClient;
 
 /**
  *
@@ -46,7 +45,7 @@ public class FtpUtil {
 
     public List<String> listRoot() throws IOException {
 
-        files = new ArrayList<>();
+        files = new ArrayList<String>();
 
         for (FTPFile f : ftp.listFiles("/")) {
             files.add(f.getName());
