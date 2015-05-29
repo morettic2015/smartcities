@@ -14,7 +14,51 @@ var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na 
 var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
 var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
 var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
+var dataImportObject = null				// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
 
+/**
+ *	Constantes: uri dos arquivos/telas
+ */
+var PROFILE_SPLASH = "profile/perfilSplash.html";
+var PROFILE_INFO = "profile/profileInfo.html";
+var PROFILE_ADDRESS = "profile/profileAddress.html";
+var PROFILE_SECURITY = "profile/profileSecurity.html";
+var PROFILE_HISTORY = "profile/profileHistory.html";
+var DATASOURCE_SPLASH = "dataSource/fonteDadosSplash.html";
+var DATAIMPORT_COPY = "dataSource/copyData.html";
+var DATAIMPORT_DB_CONNECTION = "dataSource/databaseImport.html";
+var DATAIMPORT_DB_SELECTION = "dataSource/importDatabaseSelection.html";
+var DATAIMPORT_DRIVER = "dataSource/dataDriver.html";
+var DATAIMPORT_FILE_LOCATE = "dataSource/dataFileLocate.html";
+var DATAIMPORT_HISTORY = "dataSource/historyData.html";
+var DATAIMPORT_AD_CONNECTION = "dataSource/importADConnection.html";
+var DATAIMPORT_CSV = "dataSource/importCsv.html";
+var DATAIMPORT_FTP_CONNECTION = "dataSource/importFtpConection.html";
+var DATAIMPORT_FTP_SELECTION = "dataSource/importFtpSelection.html";
+var DATAIMPORT_JSON = "dataSource/importJson.html";
+var DATAIMPORT_KML = "dataSource/importKml.html";
+var DATAIMPORT_LDAP_CONNECTION = "dataSource/importLdapConnection.html";
+var DATAIMPORT_WSDL = "dataSource/importWsdl.html";
+var DATAIMPORT_PENDENCY_FILES = "dataSource/pendencyFileSelect.html";
+var DATAIMPORT_SHARE = "dataSource/shareData.html";
+var DATAIMPORT_TASK = "dataSource/task.html";
+var DATAIMPORT_TRANSFORM = "dataSource/transform.html";
+var MAP_SPLASH = "map/mapSplash.html";
+var MAP_CONFIG = "map/mapConfig.html";
+var MAP_SEARCH = "map/mapSearch.html";
+var ALARMS_SPLASH = "alarms/alarmesSplash.html";
+var BILLING_SPLASH = "billing/faturamentoSplash.html";
+var BILLING_CREDITDEBT = "billing/billingCreditDebt.html";
+var BILLING_TRANSACTIONS = "billing/billingTransactions.html";
+var BILLING_PAYPAL = "billing/formPaypal.html";
+var BILLING_PAGSEGURO = "billing/formPagseguro.html";
+var BILLING_BANK = "billing/formBanco.html";
+var BILLING_CARD = "billing/formCartao.html";
+var CIRCLES_SPLASH = "circles/circulosSplash.html";
+var CIRCLES_MANAGE = "circles/circles.html";
+var CIRCLES_CONTACTS = "circles/circleContacts.html";
+var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
+var CONFIGURATION = "configuration.html";
 
 require([
     "dojo/ready",
@@ -23,7 +67,7 @@ require([
 	"dojo/dom-attr",
 	"dojo/dom-construct",
     "dojo/parser",
-    "dojo/_base/xhr",
+    "dojo/request/xhr",
 	"dojo/_base/array",
     "dojo/query",
     "dojo/_base/event",
@@ -36,7 +80,8 @@ require([
 	"dijit/tree/ObjectStoreModel",
 	"dijit/tree/dndSource",
 	"dijit/registry",
-	"dojox/gfx"
+	"dojox/gfx",
+	"js/restServices.js"
 ],
         function (
                 ready,
@@ -58,10 +103,11 @@ require([
 				StoreModel,
 				dndSource,
 				registry,
-				gfx
+				gfx,
+				restServices
                 ) {
 
-            ready(function () {
+            ready(function () {				
 
 				/**
 				 *	Configuração do pós-carregamento das páginas em cada ContentPane
@@ -98,12 +144,12 @@ require([
 				/**
 				 *	Carrega as telas de splash
 				 */
-				carregaTelaPerfil( "perfilSplash.html" );
-				carregaTelaFerramentaDados( "fonteDadosSplash.html" );
-				carregaTelaMapa( "mapSplash.html" );
-				carregaTelaAlarmes( "alarmesSplash.html" );
-				carregaTelaFaturamento( "faturamentoSplash.html" );
-				carregaTelaCirculos( "circulosSplash.html" );
+				carregaTelaPerfil( PROFILE_SPLASH );
+				carregaTelaFerramentaDados( DATASOURCE_SPLASH );
+				carregaTelaMapa( MAP_SPLASH );
+				carregaTelaAlarmes( ALARMS_SPLASH );
+				carregaTelaFaturamento( BILLING_SPLASH );
+				carregaTelaCirculos( CIRCLES_SPLASH );
 
 
                 /**
@@ -112,98 +158,98 @@ require([
 
 				 // Cabeçalho / Header
 				on(dom.byId("btConfigHeader"), "click", function () {
-                    abrePopUpModal("configuration.html");
+                    abrePopUpModal(CONFIGURATION);
                 });
 
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
-                    carregaTelaPerfil("profileInfo.html");
+                    carregaTelaPerfil(PROFILE_INFO);
                 });
                 on(dom.byId("btProfileAddress"), "click", function () {
-                    carregaTelaPerfil("profileAddress.html")
+                    carregaTelaPerfil(PROFILE_ADDRESS)
                 });				
                 on(dom.byId("btProfileSecurity"), "click", function () {
-                    carregaTelaPerfil("profileSecurity.html")
+                    carregaTelaPerfil(PROFILE_SECURITY);
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
-                    carregaTelaPerfil("profileHistory.html")
+                    carregaTelaPerfil(PROFILE_HISTORY)
                 });
 
                 // Modulo Ferramenta de dados
 				on(dom.byId("mnuImportDataAD"), "click", function () {
-                    carregaTelaFerramentaDados("importADConnection.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_AD_CONNECTION)
                 });
 				on(dom.byId("mnuImportDataDB"), "click", function () {
-                    carregaTelaFerramentaDados("databaseImport.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_DB_CONNECTION)
                 });
 				on(dom.byId("mnuImportDataFtp"), "click", function () {
-                    carregaTelaFerramentaDados("importFtpConection.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_FTP_CONNECTION)
                 });
 				on(dom.byId("mnuImportDataLdap"), "click", function () {
-                    carregaTelaFerramentaDados("importLdapConnection.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_LDAP_CONNECTION)
                 });
 				on(dom.byId("itemCsvImport"), "click", function () {
                     var param = { tipoArquivo: "CSV" };
-					carregaTelaFerramentaDados("dataFileLocate.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemHtmlImport"), "click", function () {
                     var param = { tipoArquivo: "HTML" };
-					carregaTelaFerramentaDados("dataFileLocate.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemJsonImport"), "click", function () {
                     var param = { tipoArquivo: "JSON" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemKmlImport"), "click", function () {
                     var param = { tipo: "KML" };
-					carregaTelaFerramentaDados("importKml.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_KML, param );
                 });
 				on(dom.byId("itemPdfImport"), "click", function () {
                     var param = { tipoArquivo: "PDF" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemRssImport"), "click", function () {
                     var param = { tipo: "RSS" };
-					carregaTelaFerramentaDados("importKml.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_KML, param );
                 });
 				on(dom.byId("itemWsdlImport"), "click", function () {
                     var param = { tipoArquivo: "WSDL" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemXlsImport"), "click", function () {
                     var param = { tipoArquivo: "XLS" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });
 				on(dom.byId("itemXmlImport"), "click", function () {
                     var param = { tipoArquivo: "XML" };
-                    carregaTelaFerramentaDados("dataFileLocate.html", param );
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
                 });                
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
-                    carregaTelaFerramentaDados("copyData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_COPY);
                 });
 				on(dom.byId("mnuFerramentaDadosTransform"), "click", function () {
-                    carregaTelaFerramentaDados("transform.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM);
                 });
 				on(dom.byId("btHistoricoDados"), "click", function () {
-                    carregaTelaFerramentaDados("historyData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_HISTORY);
                 });
                 on(dom.byId("mnuFerramentaDadosDrivers"), "click", function () {
-                    carregaTelaFerramentaDados("dataDriver.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_DRIVER);
                 });
                 on(dom.byId("mnuFerramentaDadosShare"), "click", function () {
-                    carregaTelaFerramentaDados("shareData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_SHARE);
                 });                
                 on(dom.byId("mnuFerramentaDadosTask"), "click", function () {
-                    carregaTelaFerramentaDados("task.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_TASK);
                 });
                 
 
 				//Módulo Mapa
                 on(dom.byId("btMapaSearch"), "click", function () {
-                    abrePopUpModal("mapSearch.html");
+                    abrePopUpModal(MAP_SEARCH);
                 });
                 on(dom.byId("btMapaLayers"), "click", function () {
-                    abrePopUpModal("mapConfig.html");
+                    abrePopUpModal(MAP_CONFIG);
                     addMarkerToMap("TEXTO INFORMATIVO NONONONO", "INFO TITULO", "42", "-88");
                 });
                 on(dom.byId("btMapaView"), "click", function () {
@@ -215,18 +261,18 @@ require([
 
 				// Aba/Módulo Faturamento
 				on(dom.byId("btTransacoes"), "click", function () {
-                    carregaTelaFaturamento("billingTransactions.html")
+                    carregaTelaFaturamento(BILLING_TRANSACTIONS)
                 });
 				on(dom.byId("btCreditoDebito"), "click", function () {
-                    carregaTelaFaturamento("billingCreditDebt.html")
+                    carregaTelaFaturamento(BILLING_CREDITDEBT)
                 });
 
 				// Aba/Módulo Círculos
 				on(dom.byId("btContatos"), "click", function () {
-                    carregaTelaCirculos("circleContacts.html");
+                    carregaTelaCirculos(CIRCLES_CONTACTS);
                 });
 				on(dom.byId("btCirculos"), "click", function () {
-                    carregaTelaCirculos("circles.html");
+                    carregaTelaCirculos(CIRCLES_MANAGE);
                 });
 
 
@@ -244,19 +290,19 @@ require([
 
 				// Aba/Módulo Faturamento
 				query("#conteudo_faturamento").on("#btCCCredito:click", function (evt) {
-                    abrePopUpModal("formCartao.html");
+                    abrePopUpModal(BILLING_CARD);
                     event.stop(evt);
                 });
 				query("#conteudo_faturamento").on("#btPaypalCredito:click", function (evt) {
-                    abrePopUpModal("formPaypal.html");
+                    abrePopUpModal(BILLING_PAYPAL);
                     event.stop(evt);
                 });
 				query("#conteudo_faturamento").on("#btPagseguroCredito:click", function (evt) {
-                    abrePopUpModal("formPagseguro.html");
+                    abrePopUpModal(BILLING_PAGSEGURO);
                     event.stop(evt);
                 });
 				query("#conteudo_faturamento").on("#btBancoCredito:click", function (evt) {
-                    abrePopUpModal("formBanco.html");
+                    abrePopUpModal(BILLING_BANK);
                     event.stop(evt);
                 });
 
@@ -681,74 +727,75 @@ require([
 
 			function configuraTela( pagina ){
 				console.log("Carregou " + pagina);
-				if( pagina == "fonteDadosSplash.html"){
+				if( pagina == DATASOURCE_SPLASH){
 					i18nSplashDataSource();
 					setEventsSplashDataSource();
-				}else if( pagina == "perfilSplash.html" ){
+				}else if( pagina == PROFILE_SPLASH ){
 					i18nSplashProfile();
 					setEventsSplashProfile();
-				}else if( pagina == "mapSplash.html" ){
+				}else if( pagina == MAP_SPLASH ){
 					i18nSplashMap();
 					setEventsSplashMap();
-				}else if( pagina == "alarmesSplash.html" ){
+				}else if( pagina == ALARMS_SPLASH ){
 					i18nSplashAlarms();
 					setEventsSplashAlarms();
-				}else if( pagina == "faturamentoSplash.html" ){
+				}else if( pagina == BILLING_SPLASH ){
 					i18nSplashBilling();
 					setEventsSplashBilling();
-				}else if( pagina == "circulosSplash.html" ){
+				}else if( pagina == CIRCLES_SPLASH ){
 					i18nSplashCircles();
 					setEventsSplashCircles();
-				}else if( pagina == "profileInfo.html" ){
+				}else if( pagina == PROFILE_INFO ){
 					i18nProfileInfo();
 					setEventsProfileInfo();
-				}else if( pagina == "profileAddress.html"){
+				}else if( pagina == PROFILE_ADDRESS){
 					i18nProfileAdress();
 					setEventsProfileAddress();
 					showProfileAddressGmap();
 					startGeocoder();
-				}else if( pagina == "profileSecurity.html"){
+				}else if( pagina == PROFILE_SECURITY){
 					i18nProfileSecurity();
-				}else if( pagina == "profileHistory.html"){
+					setEventsProfileSecurity();
+				}else if( pagina == PROFILE_HISTORY){
 					i18nProfileHistory();
 					refreshGridProfileHistory();
-				}else if( pagina == "copyData.html"){
+				}else if( pagina == DATAIMPORT_COPY){
 					i18nCopyData();
-				}else if( pagina == "transform.html"){
+				}else if( pagina == DATAIMPORT_TRANSFORM){
 					i18nDataTransform();
 					loadTreeDataTransform();
 					refreshGridDataTransform();
-				}else if( pagina == "shareData.html"){
+				}else if( pagina == DATAIMPORT_SHARE){
 					i18nDataShare();
 					refreshGridDataShare();
-				}else if( pagina == "dataDriver.html"){
+				}else if( pagina == DATAIMPORT_DRIVER){
 					i18nDataDriver();
 					refreshGridDataDriver();
-				}else if( pagina == "task.html"){
+				}else if( pagina == DATAIMPORT_TASK){
 					i18nDataTask();
 					refreshGridTasks();
-				}else if( pagina == "historyData.html"){
+				}else if( pagina == DATAIMPORT_HISTORY){
 					i18nDataHistory();
 					refreshGridDataHistory();
-				}else if( pagina == "billingTransactions.html"){
+				}else if( pagina == BILLING_TRANSACTIONS){
 					i18nBillingTransactions();
-				}else if( pagina == "billingCreditDebt.html"){
+				}else if( pagina == BILLING_CREDITDEBT){
 					i18nBillingCredit();
-				}else if( pagina == "circleContacts.html"){
+				}else if( pagina == CIRCLES_CONTACTS){
 					i18nContactCircle();
 					setEventsCircleContacts();
 					refreshGridCircleContacts();
-				}else if( pagina == "circles.html"){
+				}else if( pagina == CIRCLES_MANAGE){
 					i18nCircles();
 					refreshGridCircles();
-				}else if( pagina == "mapConfig.html" ){
+				}else if( pagina == MAP_CONFIG ){
 					i18nMapConfig();
-				}else if( pagina == "configuration.html" ){
+				}else if( pagina == CONFIGURATION ){
 					i18nGeneralConfig();
-				}else if( pagina == "databaseImport.html" ){
+				}else if( pagina == DATAIMPORT_DB_CONNECTION ){
 					i18nImportBancoDados();
 					setEventsImportDBConnection();
-				}else if( pagina == "importDatabaseSelection.html" ){
+				}else if( pagina == DATAIMPORT_DB_SELECTION ){
 					setEventsImportDBSelection();
 					i18nImportDatabaseSelection();
 					//loadTreeDBSelection();
@@ -757,54 +804,54 @@ require([
 					loadDragDropDBSelection();
 					objetosDropadosDBSelection = [];
 					linhasDBSelection = [];
-				}else if( pagina == "importKml.html"){
+				}else if( pagina == DATAIMPORT_KML){
 					i18nImportKml();
 					setEventsImportKml();
 					dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
-				}else if( pagina == "formPaypal.html" ){
+				}else if( pagina == BILLING_PAYPAL ){
 					i18nFormPaypal();
-				}else if( pagina == "formPagseguro.html" ){
+				}else if( pagina == BILLING_PAGSEGURO ){
 					i18nFormPagseguro();
-				}else if( pagina == "formBanco.html" ){
+				}else if( pagina == BILLING_BANK ){
 					i18nFormBanco();
-				}else if( pagina == "formCartao.html" ){
+				}else if( pagina == BILLING_CARD ){
 					i18nFormCartao();
-				}else if( pagina == "importFtpConection.html" ){
+				}else if( pagina == DATAIMPORT_FTP_CONNECTION ){
 					setEventsImportFtpConn();
 					i18nImportFtpConnection();
-				}else if( pagina == "importFtpSelection.html" ){
+				}else if( pagina == DATAIMPORT_FTP_SELECTION ){
 					setEventsImportFtpSelect();
 					i18nImportFtpSelect();
 					dom.byId("tipoArquivoImportFtpSelection").innerHTML = parametrosTela.protocolo;
 					refreshFileListFTPImport();	// preenchimento do grid
 					loadTreeFtpImport();		// preenchimento da tree
-				}else if( pagina == "importADConnection.html" ){
+				}else if( pagina == DATAIMPORT_AD_CONNECTION ){
 					i18nImportADConnection();
 					setEventsImportADConnection();
-				}else if( pagina == "dataFileLocate.html" ){
+				}else if( pagina == DATAIMPORT_FILE_LOCATE ){
 					dom.byId("tipoArquivoDataFileLocate").innerHTML = parametrosTela.tipoArquivo;
 					dom.byId("hdnTipoArquivo").value = parametrosTela.tipoArquivo;
 					setEventsDataFileLocate();
 					i18nDataFileLocate();
-				}else if( pagina == "importCsv.html" ){
+				}else if( pagina == DATAIMPORT_CSV ){
 					dom.byId("tipoArquivoCSV_XLS").innerHTML = parametrosTela.tipoArquivo;
 					setEventsImportCsv();
 					i18nImportCsv();
-				}else if( pagina == "importLdapConnection.html" ){
+				}else if( pagina == DATAIMPORT_LDAP_CONNECTION ){
 					setEventsImportLdapConn();
 					i18nImportLdapConnection();
-				}else if( pagina == "importJson.html" ){
+				}else if( pagina == DATAIMPORT_JSON ){
 					dom.byId("tipoArquivoJson_Xml").innerHTML = parametrosTela.tipoArquivo;
 					setEventsImportJson();
 					i18nImportJson();
 					loadTreeJsonOrigin();
 					loadTreeJsonDestiny();
-				}else if( pagina == "importWsdl.html" ){
+				}else if( pagina == DATAIMPORT_WSDL ){
 					setEventsImportWsdl();
 					i18nImportWsdl();
 					loadTreeWsdl();
 					refreshGridWsdl();
-				}else if( pagina == "pendencyFileSelect.html" ){
+				}else if( pagina == DATAIMPORT_PENDENCY_FILES ){
 					setEventsPendencyFileSelect();
 					i18nPendencyFileSelect();
 					refreshGridPendencyFileSelect();
@@ -1277,7 +1324,10 @@ require([
 
 			// Eventos no modulo Perfil
 			 
-			function setEventsProfileInfo(){				
+			function setEventsProfileInfo(){	
+				on( dom.byId("btSalvarProfileInfo"), "click", function(){
+					saveProfileInfo();
+				});
 				on( dom.byId("txtConfirmPassProfile"), "blur", function(){					
 					var obj = registry.byId( this.id );
 					obj.set("regExp", "^" + dom.byId("txtPasswordProfile").value + "$");
@@ -1304,21 +1354,27 @@ require([
                 });
 			}
 			
+			function setEventsProfileSecurity(){
+				on( dom.byId("btSalvarSegurancaPerfil"), "click", function(){
+					saveProfileSecurity();
+				});
+			}
+			
 			// Eventos nas telas do módulo Fonte de Dados
 			function setEventsImportFtpConn(){
 				on( dom.byId("btAnteriorFtpConnection"), "click", function(){
-					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
+					carregaTelaFerramentaDados( DATASOURCE_SPLASH );
 				});
 				on( dom.byId("btProximoFtpConnection"), "click", function(){
 					var param = { protocolo: "FTP" };
-					carregaTelaFerramentaDados( "importFtpSelection.html", param );
+					carregaTelaFerramentaDados( DATAIMPORT_FTP_SELECTION, param );
 				});
 			}
 			function setEventsImportFtpSelect(){
 				on( dom.byId("btAnteriorFtpSelection"), "click", function(){
-					var pagina = "importFtpConection.html";
+					var pagina = DATAIMPORT_FTP_CONNECTION;
 					if( parametrosTela && parametrosTela.protocolo == "Active Directory" ){
-						pagina = "importADConnection.html";
+						pagina = DATAIMPORT_AD_CONNECTION;
 					}
 					carregaTelaFerramentaDados( pagina );
 				});
@@ -1329,24 +1385,28 @@ require([
 			}
 			function setEventsImportADConnection(){
 				on( dom.byId("btAnteriorADConnection"), "click", function(){
-					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
+					carregaTelaFerramentaDados( DATASOURCE_SPLASH );
 				});
 				on( dom.byId("btProximoADConnection"), "click", function(){
+					saveActiveDirectory();					
+					//TODO carrega tela se tudo acima estiver ok
+					// provavelemnte deve ser passado um parametro que identifica o objeto salvo,
+					// para que seja realizado o vinculo com as pendencias na tela seguinte
 					var param = { protocolo: "Active Directory" };
-					carregaTelaFerramentaDados( "importFtpSelection.html", param );
+					carregaTelaFerramentaDados( DATAIMPORT_FTP_SELECTION, param );
 				});
 			}
 			function setEventsImportDBConnection(){
 				on( dom.byId("btAnteriorImportDBConnect"), "click", function(){
-					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
+					carregaTelaFerramentaDados( DATASOURCE_SPLASH );
 				});
 				on( dom.byId("btProximoImportDBConnect"), "click", function(){
-					carregaTelaFerramentaDados( "importDatabaseSelection.html" );
+					carregaTelaFerramentaDados( DATAIMPORT_DB_SELECTION );
 				});
 			}
 			function setEventsImportDBSelection(){
 				on( dom.byId("btAnteriorDBSelection"), "click", function(){
-					carregaTelaFerramentaDados( "databaseImport.html" );
+					carregaTelaFerramentaDados( DATAIMPORT_DB_CONNECTION );
 				});				
 				on( dom.byId("btSalvarDBSelection"), "click", function(){
 					saveDatabaseSelection();
@@ -1355,24 +1415,24 @@ require([
 
 			function setEventsDataFileLocate(){
 				on( dom.byId("btAnteriorFileLocate"), "click", function(){
-					carregaTelaFerramentaDados( "fonteDadosSplash.html" );
+					carregaTelaFerramentaDados( DATASOURCE_SPLASH );
 				});
 				on( dom.byId("btProximoFileLocate"), "click", function(){
 					var pagina = "";
 					if( parametrosTela.tipoArquivo == "CSV" ){
-						pagina = "importCsv.html";
+						pagina = DATAIMPORT_CSV;
 					}else if( parametrosTela.tipoArquivo == "HTML" ){
 						pagina = "";
 					}else if( parametrosTela.tipoArquivo == "JSON" ){
-						pagina = "importJson.html";
+						pagina = DATAIMPORT_JSON;
 					}else if( parametrosTela.tipoArquivo == "PDF" ){
 						pagina = "";
 					}else if( parametrosTela.tipoArquivo == "XLS" ){
-						pagina = "importCsv.html";
+						pagina = DATAIMPORT_CSV;
 					}else if( parametrosTela.tipoArquivo == "XML" ){
-						pagina = "importJson.html";
+						pagina = DATAIMPORT_JSON;
 					}else if( parametrosTela.tipoArquivo == "WSDL" ){
-						pagina = "importWsdl.html";
+						pagina = DATAIMPORT_WSDL;
 					}
 					var param = parametrosTela;
 					carregaTelaFerramentaDados( pagina, param );
@@ -1381,31 +1441,31 @@ require([
 					// sem implementacao
 				});
 				on( dom.byId("btPendencyDirectory"), "click", function(){
-					abrePopUpModal( "pendencyFileSelect.html" );
+					abrePopUpModal( DATAIMPORT_PENDENCY_FILES );
 				});
 			}
 			function setEventsImportCsv(){
 				on( dom.byId("btAnteriorImportCsv"), "click", function(){
 					var param = parametrosTela;
-					carregaTelaFerramentaDados( "dataFileLocate.html", param );
+					carregaTelaFerramentaDados( DATAIMPORT_FILE_LOCATE, param );
 				});
 			}
 			function setEventsImportLdapConn(){
 				on( dom.byId("btAnteriorLdapConnect"), "click", function(){
-					carregaTelaFerramentaDados("fonteDadosSplash.html");
+					carregaTelaFerramentaDados(DATASOURCE_SPLASH);
 				});
 				on( dom.byId("btProximoLdapConnect"), "click", function(){
 					var param = { tipoArquivo: "LDAP" };
-					carregaTelaFerramentaDados("importJson.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_JSON, param );
 				});
 			}
 			function setEventsImportJson(){
 				on( dom.byId("btAnteriorImportJson"), "click", function(){
 					if( parametrosTela && parametrosTela.tipoArquivo == "LDAP"){
-						carregaTelaFerramentaDados("importLdapConnection.html");
+						carregaTelaFerramentaDados(DATAIMPORT_LDAP_CONNECTION);
 					}else{
 						var param = parametrosTela;
-						carregaTelaFerramentaDados("dataFileLocate.html", param );
+						carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
 					}
 				});
 				on( dom.byId("btFinalizarImportJson"), "click", function(){
@@ -1414,18 +1474,18 @@ require([
 			}
 			function setEventsImportKml(){
 				on( dom.byId("btAnteriorImportKml"), "click", function(){
-					carregaTelaFerramentaDados("fonteDadosSplash.html");
+					carregaTelaFerramentaDados(DATASOURCE_SPLASH);
 				});
 			}
 			function setEventsImportWsdl(){
 				on( dom.byId("btAnteriorImportWsdl"), "click", function(){
 					var param = parametrosTela;
-					carregaTelaFerramentaDados("dataFileLocate.html", param );
+					carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
 				});
 			}
 
 			function setEventsSplashDataSource(){
-				/* TODO Remover? ou terá outra funcao?
+				/* TODO Remover? ou terá outra utilidade?
 				on(dom.byId("rotSplashImportData"), "click", function () {
                     carregaTelaFerramentaDados("choiceDataFormatImport.html")
                 });
@@ -1434,39 +1494,39 @@ require([
                 });
 				*/
                 on(dom.byId("rotSplashDataHistory"), "click", function () {
-                    carregaTelaFerramentaDados("historyData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_HISTORY)
                 });
                 on(dom.byId("rotSplashDrivers"), "click", function () {
-                    carregaTelaFerramentaDados("dataDriver.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_DRIVER)
                 });
                 on(dom.byId("rotSplashShareData"), "click", function () {
-                    carregaTelaFerramentaDados("shareData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_SHARE)
                 });
                 on(dom.byId("rotSplashCopyData"), "click", function () {
-                    carregaTelaFerramentaDados("copyData.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_COPY)
                 });
                 on(dom.byId("rotSplashDataTasks"), "click", function () {
-                    carregaTelaFerramentaDados("task.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_TASK)
                 });
                 on(dom.byId("rotSplashTransformData"), "click", function () {
-                    carregaTelaFerramentaDados("transform.html")
+                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM)
                 });
 			}
 			function setEventsSplashProfile(){
 				on( dom.byId("rotSplashPersonalInfo"), "click", function(){
-					carregaTelaPerfil("profileInfo.html");
+					carregaTelaPerfil(PROFILE_INFO);
 				});
 				on( dom.byId("rotSplashProfileAddress"), "click", function(){
-					carregaTelaPerfil("profileAddress.html");
+					carregaTelaPerfil(PROFILE_ADDRESS);
 				});
 				on( dom.byId("rotSplashProfileLanguage"), "click", function(){
-					carregaTelaPerfil("profileLanguage.html");
+					carregaTelaPerfil(PROFILE_INFO);
 				});
 				on( dom.byId("rotSplashProfileSecurity"), "click", function(){
-					carregaTelaPerfil("profileSecurity.html");
+					carregaTelaPerfil(PROFILE_SECURITY);
 				});
 				on( dom.byId("rotSplashProfileHistory"), "click", function(){
-					carregaTelaPerfil("profileHistory.html");
+					carregaTelaPerfil(PROFILE_HISTORY);
 				});
 			}
 			function setEventsSplashMap(){
@@ -1474,10 +1534,10 @@ require([
 					makeGmap();
 				});
 				on( dom.byId("rotSplashSearchMap"), "click", function(){
-					abrePopUpModal("mapSearch.html");
+					abrePopUpModal(MAP_SEARCH);
 				});
 				on( dom.byId("rotSplashMapLayers"), "click", function(){
-					abrePopUpModal("mapConfig.html");
+					abrePopUpModal(MAP_CONFIG);
                     addMarkerToMap("TEXTO INFORMATIVO NONONONO", "INFO TITULO", "42", "-88");
 				});
 				on( dom.byId("rotSplashExportMap"), "click", function(){
@@ -1497,31 +1557,31 @@ require([
 			}
 			function setEventsSplashBilling(){
 				on( dom.byId("rotSplashCredit"), "click", function(){
-					carregaTelaFaturamento("billingCreditDebt.html");
+					carregaTelaFaturamento(BILLING_CREDITDEBT);
 				});
 				on( dom.byId("rotSplashDebit"), "click", function(){
-					carregaTelaFaturamento("billingCreditDebt.html");
+					carregaTelaFaturamento(BILLING_CREDITDEBT);
 				});
 				on( dom.byId("rotSplashTransactions"), "click", function(){
-					carregaTelaFaturamento("billingTransactions.html");
+					carregaTelaFaturamento(BILLING_TRANSACTIONS);
 				});
 			}
 			function setEventsSplashCircles(){
 				on( dom.byId("rotSplashImportContacts"), "click", function(){
-					abrePopUpModal( "opcoesImportacaoContato.html" );
+					abrePopUpModal( CIRCLES_IMPORTOPTIONS );
 				});
 				on( dom.byId("rotSplashNewContact"), "click", function(){
-					carregaTelaCirculos("circleContacts.html")
+					carregaTelaCirculos(CIRCLES_CONTACTS)
 				});
 				on( dom.byId("rotSplashCircles"), "click", function(){
-					carregaTelaCirculos("circles.html")
+					carregaTelaCirculos(CIRCLES_MANAGE)
 				});
 			}
 
 			// Eventos nas telas do módulo Círculos
 			function setEventsCircleContacts(){
 				on( dom.byId("btImportarContatos"), "click", function(){
-					abrePopUpModal( "opcoesImportacaoContato.html" );
+					abrePopUpModal( CIRCLES_IMPORTOPTIONS );
 				});
 			}
 
@@ -2020,12 +2080,21 @@ require([
 				
 			}
 			
+			/* Realiza a busca do endereço, verifica resultados e exibe num box especial */
 			function showFoundedAddresses( strAddress ){
-				//var resultadoGeocoder = searchAddress( strAddress );
+				if( geocoder == null ){
+					try{
+						geocoder = startGeocoder();						
+					}catch( ex ){
+						console.log("Nao startou Geocoder = " + geocoder + " . "+ex);
+						alert("Ocorreu um erro ao tentar realizar a busca.");
+						return false;
+					}
+				}
 				domConstruct.empty("boxResultsProfileAddress");
 				var resultados; 
 				geocoder.geocode({'address': strAddress}, function( results, status ){
-					console.log(" Status da busca: " + status);
+					
 					if( status == google.maps.GeocoderStatus.OK ){						
 						resultados = results;
 					}else{
@@ -2033,24 +2102,39 @@ require([
 					}
 					resProfileGeocoder = resultados;
 					
-					if( resultados != null ){						
+					if( resultados != null ){
 						
-						for( var iRes = 0; iRes < resultados.length; iRes++ ){
-							console.log(">" + resultados[iRes].formatted_address);
-							console.log("  tipo: " + resultados[iRes].geometry.location_type);
+						var enderecosValidos = 0;
+						for( var iRes = 0; iRes < resultados.length; iRes++ ){		
+							//console.log(">" + resultados[iRes].formatted_address);
+							//console.log("  tipo: " + resultados[iRes].geometry.location_type);
 							// se for ROOFTOP - o resultado é preciso
 							// se for RANGE_INTERPOLATED - é aceitavel, pois o numero pode nao estar cadastrado ainda no sistema
 							// GEOMETRIC_CENTER - "Verifique se o nome da rua e número foram informados." - não aceita como endereço
 							// APPROXIMATE - "O local informado é muito abrangente." - não aceita como endereço
+							var tipoLocal = resultados[iRes].geometry.location_type;
+							if( tipoLocal != "ROOFTOP" && tipoLocal != "RANGE_INTERPOLATED" ){								
+								continue;
+							}
+							enderecosValidos++;
 							
-							// cria uma div para cada resuultado
+							// cria uma div para cada resultado
 							var boxEndereco = domConstruct.toDom(
 								"<div id='resultAddress_" + iRes + "' class='item-listagem'>" + resultados[iRes].formatted_address +
 								"</div>"
 							);
 							
-							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );
-						}						
+							domConstruct.place( boxEndereco, "boxResultsProfileAddress" );							
+						}	
+						
+						if( enderecosValidos == 0 ){
+							var boxMensagem = domConstruct.toDom(
+								"<div id='resultAddress_zero' class='item-listagem'>" + textos.enderecoAbrangente +
+								"</div>"
+							);
+							domConstruct.place( boxMensagem, "boxResultsProfileAddress" );
+						}
+						
 						domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
 					}else{
 						var boxMensagem = domConstruct.toDom(
@@ -2075,9 +2159,9 @@ require([
 			}
 			
 			function selectProfileAddress( strId ){
-				var idDesmontado = strId.split("_");
-				if( resProfileGeocoder != null ){
-					var indice = idDesmontado[1];
+				var idDesmontado = strId.split("_");				
+				var indice = idDesmontado[1];
+				if( indice != "zero" ){
 					var strAddress = resProfileGeocoder[indice].formatted_address;
 					var objLatLng = resProfileGeocoder[indice].geometry.location;
 					selectedAddress = { endereco_formatado: strAddress,
@@ -2101,13 +2185,125 @@ require([
 				}else{
 					profileAddressMarker.setPosition( objLatLng );
 				}
-			}
+			}		
+			
+			function saveProfileInfo(){
+				var name = dom.byId("txtNameProfile").value;				
+				var email = dom.byId("txtEmailProfile").value;				
+				var birthDate = dom.byId("txtBirthdateProfile").value;				
+				var password = dom.byId("txtPasswordProfile").value;
+				var confirmPass = dom.byId("txtConfirmPassProfile").value;
+				var bio = dom.byId("txtBioProfile").value;				
+				var telephone = dom.byId("txtTelefoneProfileInfo").value;
+				var avatar = dom.byId("userAvatarInput").value;
+				var lang = dom.byId("selectedFlagProfileInfo").value;
+				
+				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +lang);
+				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
 					
-			function saveProfileAddress(){
-				//enviar dados ( selectedAddress )
-				alert("saveProfileAddress - nao implementado");
+					var url = "p1/" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
+					console.log("chama url " + url);
+
+                    var resultado = restServices.salvaObjeto();
+                    resultado.then( function(texto){
+                        alert(texto);
+                    });
+					
+				}else{
+					alert("ATENCAO: verifique seus dados novamente.");
+				}
 			}
 			
+			function saveProfileAddress(){
+				if( selectedAddress != null ){
+					var address = selectedAddress.endereco_formatado;
+					var latLng = selectedAddress.latlng;
+					var complement = dom.byId("txtEnderecoComplemento").value;
+					
+					var url = "p2/" + latLng +"/"+ address +"/"+ complement;
+
+                    var resultado = restServices.salvaObjeto();
+                    resultado.then( function(texto){
+                        alert(texto);
+                    });
+
+				}else{
+					alert("ATENCAO: você deve informar seu endereço.");
+				}
+			}
+			
+			function saveProfileSecurity(){
+				var email = dom.byId("txtSegurancaEmail").value;				
+				var telephone = dom.byId("txtSegurancaTelefone").value;				
+				var celphone = dom.byId("txtSegurancaCelular").value;				
+				var passphrase = dom.byId("txtSegurancaFrase").value;				
+				
+				console.log(telephone+" - " + email+" - " + celphone+" - " + passphrase);
+				if( isValidProfileSecurity( email, telephone, celphone, passphrase ) ){
+					var url = "p3/" + email +"/"+ telephone +"/"+ celphone +"/"+ passphrase;
+					console.log("chama url " + url);
+					
+					var resultado = restServices.salvaObjeto();
+					resultado.then( function(texto){
+						alert(texto);
+					});
+					
+				}else{
+					alert("ATENCAO: preencha os campos obrigatórios.");
+				}
+			}
+			
+			function isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang){
+				dom.byId("txtNameProfile").focus();
+				dom.byId("txtEmailProfile").focus();
+				dom.byId("txtBirthdateProfile").focus();
+				dom.byId("txtPasswordProfile").focus();
+				dom.byId("txtConfirmPassProfile").focus();
+				dom.byId("txtTelefoneProfileInfo").focus();
+				dom.byId("btSalvarProfileInfo").focus();
+				
+				var isValid = false;
+				if(name != "" && email != "" && birthDate != "" && password != "" && confirmPass != "" && telephone != "" && lang != "" ){
+					if( password == confirmPass ){
+						isValid = true;
+					}
+				}				
+				return isValid;
+			}
+			
+			function isValidProfileSecurity( email, telephone, celphone, passphrase ){
+				dom.byId("txtSegurancaEmail").focus();
+				dom.byId("txtSegurancaTelefone").focus();
+				dom.byId("txtSegurancaCelular").focus();
+				dom.byId("txtSegurancaFrase").focus();
+				dom.byId("btSalvarSegurancaPerfil").focus();
+				
+				var isValid = false;
+				if( email != "" && telephone != "" && celphone != "" && passphrase != "" ){
+					isValid = true;
+				}
+				return isValid;
+			}
+			
+			function saveActiveDirectory(){
+				var ip = dom.byId("txtIpActiveDirectory").value;
+				var user = dom.byId("txtUserActiveDirectory").value;
+				var password = dom.byId("txtPasswordActiverDir").value;
+				
+				var url = "http://localhost:8080/rest/d1/" + ip +"/"+ user +"/"+ password;
+				console.log("chama url " + url);
+				//TODO colocar a chamada  no modulo restServices.js
+				
+				xhr( url, { handleAs: "json", preventCache: true, method: "POST" })
+					.then( function( data ){
+						console.log( "requisicao ok: " +data);
+						alert("Dados salvos com sucesso.");
+					}, function( err ){							
+						alert("Não foi possível salvar. Causa: " + err);
+					});					
+				
+			}
+				
 			
             /*
              *	Fim da declaração das funções

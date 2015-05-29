@@ -14,24 +14,24 @@
 	
 	<div class="celula-form-1">
         <span class="rotulo"><span id="rotTipoImportFtp">Tipo</span>:</span>
-        <select class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" selectOnClick="false" searchDelay="0" style="width:100px;">
+        <select id="cbTypeFtp" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" selectOnClick="false" searchDelay="0" style="width:100px;">
 			<option value="">FTP</option>
 			<option value="">SFTP</option>
 		</select>
     </div>
 	<div class="celula-form-1">
         <span class="rotulo"><span id="rotUrlImportFtp">Url</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:300px;"></input>
+        <input id="txtUrlFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:300px;"></input>
     </div>
 	<div class="celula-form-1">
 		<span class="rotulo"><span id="rotUsuarioImportFtp">Usuario</span>:</span>
-		<input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input>	
+		<input id="txtUserFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input>	
     </div>	
 	<div class="celula-form-1">
         <span class="rotulo"><span id="rotSenhaImportFtp">Senha</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input><br>
+        <input id="txtPasswordFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input><br>
     </div>
 	<div class="celula-form-1">        
-        <input class="campo" type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtTestarFtpConn'>Testar</span>" ></input>
+        <input id="btTestFtp" class="campo" type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtTestarFtpConn'>Testar</span>" ></input>
     </div>
 </div>
