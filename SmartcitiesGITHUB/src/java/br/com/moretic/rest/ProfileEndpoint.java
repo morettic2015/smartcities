@@ -24,6 +24,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import br.com.moretic.vo.Profile;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
@@ -42,9 +44,7 @@ public class ProfileEndpoint {
 
     //@Context
     //private HttpServletRequest request;
-    
     //@Context HttpServletRequest req, @Context HttpServletResponse res
-
     @PersistenceContext(unitName = "smartcitie_db")
     private EntityManager em;
 
@@ -69,11 +69,11 @@ public class ProfileEndpoint {
     @GET
     @Path("/authenticate/{email}/{pass}")
     @Produces("application/json")
-    public Response authenticate(@PathParam("email") String email, @PathParam("pass") String pass, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException {
-        boolean hasErros = false,hasErrosEmail = false,hasErrosPass = false;
-       
+    public Response authenticate(@PathParam("email") String email, @PathParam("pass") String pass, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+        boolean hasErros = false, hasErrosEmail = false, hasErrosPass = false;
+
         HttpSession session = req.getSession();
-       
+
         //Calcula MD5 HASH para comparar no server side
         String md5Pass = "OZZY OSBOURNE";
         Profile entity = null;
@@ -87,8 +87,8 @@ public class ProfileEndpoint {
 
         hasErrosEmail = !ValidatorUtil.isEmail(email);
 
-        hasErros = hasErrosEmail||hasErrosPass;
-        
+        hasErros = hasErrosEmail || hasErrosPass;
+
         if (!hasErros) {
             TypedQuery<Profile> findByIdQuery = em
                     .createQuery(
@@ -102,7 +102,10 @@ public class ProfileEndpoint {
             } catch (NoResultException nre) {
                 entity = null;
             }
-
+            //Pega o ip do cliente
+            InetAddress IP = InetAddress.getLocalHost();
+            System.out.println("CLIENT IP := " + IP.getHostAddress());
+            
             session.setAttribute(PROFILE, entity);
         }
         if (hasErros || entity == null) {
