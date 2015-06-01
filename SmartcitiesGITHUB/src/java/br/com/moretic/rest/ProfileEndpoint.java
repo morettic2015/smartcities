@@ -23,10 +23,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import br.com.moretic.vo.Profile;
+import br.com.moretic.vo.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 
@@ -100,12 +101,12 @@ public class ProfileEndpoint {
             try {
                 entity = findByIdQuery.getSingleResult();
             } catch (NoResultException nre) {
-                entity = null;
+                entity = new Profile();
             }
             //Pega o ip do cliente
             InetAddress IP = InetAddress.getLocalHost();
             System.out.println("CLIENT IP := " + IP.getHostAddress());
-            
+
             session.setAttribute(PROFILE, entity);
         }
         if (hasErros || entity == null) {
@@ -164,4 +165,53 @@ public class ProfileEndpoint {
 
         return Response.noContent().build();
     }
+
+    @POST
+    @Path("/p1/{name}/{email}/{birthday}/{password}/{bio}/{telephone}/{avatar}/{lang}/{id}/{identity}")
+    @Produces("application/json")
+    public Response p1(@PathParam("name") String name,
+            @PathParam("email") String email,
+            @PathParam("birthday") String birthday,
+            @PathParam("password") String password,
+            @PathParam("bio") String bio,
+            @PathParam("telephone") String telephone,
+            @PathParam("avatar") String avatar,
+            @PathParam("lang") String lang,
+            @PathParam("id") Integer id,
+            @PathParam("identity") String identity) throws NoSuchAlgorithmException, UnknownHostException {
+
+        Profile user;
+        //Novo usuario id = -1
+
+        if (id == -1) {
+            user = new Profile();
+        } else {
+            user = em.find(Profile.class, id);
+        }
+
+        try {
+            user.setBio(bio.getBytes());
+            user.setEmail(email);
+            user.setIdprofile(id);
+            user.setOnline(true);
+            user.setNascimento(new Date()); //pegar a data e transformar mm/dd/yyyy
+            user.setCpfCnpj(identity);
+
+            em.merge(user);
+
+            Avatar a1 = new Avatar();
+
+            a1.setPath(avatar);
+            a1.setProfile(user);
+
+            em.persist(a1);
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+
+        return Response.ok(user).build();
+    }
+
 }
