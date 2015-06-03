@@ -5,6 +5,9 @@
  */
 package br.com.moretic.util;
 
+import br.com.moretic.vo.FileType;
+import br.com.moretic.vo.FtpVO;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +46,63 @@ public class FtpUtil {
         this.ftp.disconnect();
     }
 
-    public List<String> listRoot() throws IOException {
+    /* public List<String> listRoot() throws IOException {
 
-        files = new ArrayList<String>();
+     files = new ArrayList<String>();
 
-        for (FTPFile f : ftp.listFiles("/")) {
-            files.add(f.getName());
+     for (FTPFile f : ftp.listFiles("/")) {
+     files.add(f.getName());
+     f.getType();
+     System.out.println(f.getName());
+     }
+
+     return files;
+     }*/
+    /**
+     * Le diretorios e subdiretorios atraves de recursividade
+     */
+    public FtpVO readDir(String dir) throws IOException {
+
+        FtpVO ftpVo = new FtpVO(dir);
+
+        for (FTPFile f : ftp.listFiles(dir)) {
+
+            if (f.isDirectory()) {
+                // ftpVo.setType(FileType.DIR);
+                ftpVo.addFile(readDir(f.getName()));
+                ftpVo.setSize(f.getSize());
+                // ftpVo.setFullPath(dir+"/"+f.);
+            } else {
+                FtpVO mvo = new FtpVO(f.getName());
+                mvo.setType(FileType.FILE);
+                ftpVo.addFile(mvo);
+            }
             System.out.println(f.getName());
         }
 
-        return files;
+        return ftpVo;
     }
 
-    public static void main(String[] args) throws Exception {
-        new FtpUtil("connectgeo", "M1y+P5UOxQ9bJ7ko", "connectgeo.com.br", 21).listRoot();
+    public boolean copyFile(String remote, String local, String search) throws IOException {
+
+        for (FTPFile f : ftp.listFiles(remote)) {
+
+            if (f.getName().equalsIgnoreCase(search)) {
+                
+                FileOutputStream fos = new FileOutputStream(local+"/"+f.getName());
+                this.ftp.retrieveFile(f.getName(), fos);
+
+                return true;
+            } else if (f.isDirectory()) {
+
+                copyFile(f.getName(), local, search);
+
+                // ftpVo.setFullPath(dir+"/"+f.);
+            }
+
+        }
+
+        return false;
     }
+
 }
-

@@ -16,8 +16,10 @@ define([
                                     //Achouo usuario
                                     if (data.nmUser != null) {
                                         window.location = "main.html";
-                                    }else{
-                                        alert("email or password dont match.")
+                                    } else {
+                                        contentPane_PopUp.set("href", "error/loginError.html");
+                                        myDialog.set("title", "Error");
+                                        myDialog.show();
                                     }
                                 }, function (err) {
                                     console.log("erro : " + err);

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author lmrosario
  */
-@WebFilter(filterName = "SmartProxyFilter", urlPatterns = {"/main.html"}, dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.INCLUDE})
+@WebFilter(filterName = "SmartProxyFilter", urlPatterns = {"/main.html","/rest/ftp/*"}, dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.INCLUDE})
 public class SmartProxyFilter implements Filter {
 
     private static final boolean debug = true;

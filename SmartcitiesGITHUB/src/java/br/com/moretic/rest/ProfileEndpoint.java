@@ -74,7 +74,9 @@ public class ProfileEndpoint {
         boolean hasErros = false, hasErrosEmail = false, hasErrosPass = false;
 
         HttpSession session = req.getSession();
-
+        session.setMaxInactiveInterval(1800);//Session de meia hora pro caboclo
+        
+        Profile f = new Profile();
         //Calcula MD5 HASH para comparar no server side
         String md5Pass = "OZZY OSBOURNE";
         Profile entity = null;
@@ -110,7 +112,9 @@ public class ProfileEndpoint {
             session.setAttribute(PROFILE, entity);
         }
         if (hasErros || entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
+            session.invalidate();//destroy a session do maluco
+            return Response.ok(f).build();//retorna vo VAZIO
+            
         }
         return Response.ok(entity).build();
     }
@@ -214,4 +218,15 @@ public class ProfileEndpoint {
         return Response.ok(user).build();
     }
 
+    @GET
+    @Produces("application/json")
+    public Response facebook(@Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+  
+        HttpSession session = req.getSession();
+
+        
+        return Response.ok(null).build();
+    }
+
+  
 }
