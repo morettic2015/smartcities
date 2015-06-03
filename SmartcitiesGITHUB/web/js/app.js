@@ -1336,6 +1336,12 @@ require([
 					var evento = arguments[0] || window.event;
 					refreshPhoneMask( evento, this );
 				});
+                on( dom.byId("txtCpfCnpjProfile"), "blur", function(){
+                    var obj = registry.byId( this.id );
+                    //obj.set( "validator", validateCpfCnpj( this ) );
+                    // usar essa função como validador
+
+                });
 			}
 			
 			function setEventsProfileAddress(){				
@@ -1358,6 +1364,14 @@ require([
 				on( dom.byId("btSalvarSegurancaPerfil"), "click", function(){
 					saveProfileSecurity();
 				});
+                on( dom.byId("txtSegurancaTelefone"), "keypress", function(){
+                    var evento = arguments[0] || window.event;
+                    refreshPhoneMask( evento, this );
+                });
+                on( dom.byId("txtSegurancaCelular"), "keypress", function(){
+                    var evento = arguments[0] || window.event;
+                    refreshPhoneMask( evento, this );
+                });
 			}
 			
 			// Eventos nas telas do módulo Fonte de Dados
@@ -2188,20 +2202,21 @@ require([
 			}		
 			
 			function saveProfileInfo(){
-				var name = dom.byId("txtNameProfile").value;				
-				var email = dom.byId("txtEmailProfile").value;				
-				var birthDate = dom.byId("txtBirthdateProfile").value;				
-				var password = dom.byId("txtPasswordProfile").value;
-				var confirmPass = dom.byId("txtConfirmPassProfile").value;
-				var bio = dom.byId("txtBioProfile").value;				
-				var telephone = dom.byId("txtTelefoneProfileInfo").value;
-				var avatar = dom.byId("userAvatarInput").value;
-				var lang = dom.byId("selectedFlagProfileInfo").value;
-				
-				console.log(name+" - " + email+" - " + birthDate+" - " + password+" - " +confirmPass +" - " +bio +" - " +telephone +" - " +lang);
-				if( isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang) ){ 					
-					
-					var url = "p1/" + name +"/"+ email +"/"+ birthDate +"/"+ password +"/"+ bio +"/"+ telephone +"/"+ avatar +"/"+ lang;
+                var id = dom.byId("hdnIdProfile");
+				var name = registry.byId("txtNameProfile");
+				var email = registry.byId("txtEmailProfile");
+				var birthDate = registry.byId("txtBirthdateProfile");
+                var cpfCnpj = registry.byId("txtCpfCnpjProfile");
+				var password = registry.byId("txtPasswordProfile");
+				var confirmPass = registry.byId("txtConfirmPassProfile");
+				var bio = registry.byId("txtBioProfile");
+				var telephone = registry.byId("txtTelefoneProfileInfo");
+				var avatar = dom.byId("userAvatarInput");
+				var lang = dom.byId("selectedFlagProfileInfo");
+                var camposValidar = [name,email,birthDate,cpfCnpj,password,confirmPass,telephone];
+
+				if( areFieldsValids( camposValidar ) ){
+					var url = "profile/p1/" + id.value +"/"+ name.value +"/"+ email.value +"/"+ birthDate.value +"/"+ cpfCnpj.value +"/"+ password.value +"/"+ bio.value +"/"+ telephone.value +"/"+ avatar.value +"/"+ lang.value;
 					console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto();
@@ -2220,7 +2235,7 @@ require([
 					var latLng = selectedAddress.latlng;
 					var complement = dom.byId("txtEnderecoComplemento").value;
 					
-					var url = "p2/" + latLng +"/"+ address +"/"+ complement;
+					var url = "profile/p2/" + latLng +"/"+ address +"/"+ complement;
 
                     var resultado = restServices.salvaObjeto();
                     resultado.then( function(texto){
@@ -2233,57 +2248,49 @@ require([
 			}
 			
 			function saveProfileSecurity(){
-				var email = dom.byId("txtSegurancaEmail").value;				
-				var telephone = dom.byId("txtSegurancaTelefone").value;				
-				var celphone = dom.byId("txtSegurancaCelular").value;				
-				var passphrase = dom.byId("txtSegurancaFrase").value;				
+				var email = registry.byId("txtSegurancaEmail");
+				var telephone = registry.byId("txtSegurancaTelefone");
+				var celphone = registry.byId("txtSegurancaCelular");
+				var passphrase = registry.byId("txtSegurancaFrase");
 				
 				console.log(telephone+" - " + email+" - " + celphone+" - " + passphrase);
-				if( isValidProfileSecurity( email, telephone, celphone, passphrase ) ){
-					var url = "p3/" + email +"/"+ telephone +"/"+ celphone +"/"+ passphrase;
+
+                var campos = [ email, telephone, celphone, passphrase ];
+                if( areFieldsValids( campos ) ){
+					var url = "profile/p3/" + email.value +"/"+ telephone.value +"/"+ celphone.value +"/"+ passphrase.value;
 					console.log("chama url " + url);
 					
-					var resultado = restServices.salvaObjeto();
+					var resultado = restServices.salvaObjeto( url );
 					resultado.then( function(texto){
 						alert(texto);
 					});
 					
 				}else{
-					alert("ATENCAO: preencha os campos obrigatórios.");
+					alert("ATENCAO: verifique seus dados novamente.");
 				}
 			}
-			
-			function isValidProfileInfo(name,email,birthDate,password,confirmPass,telephone,lang){
-				dom.byId("txtNameProfile").focus();
-				dom.byId("txtEmailProfile").focus();
-				dom.byId("txtBirthdateProfile").focus();
-				dom.byId("txtPasswordProfile").focus();
-				dom.byId("txtConfirmPassProfile").focus();
-				dom.byId("txtTelefoneProfileInfo").focus();
-				dom.byId("btSalvarProfileInfo").focus();
-				
-				var isValid = false;
-				if(name != "" && email != "" && birthDate != "" && password != "" && confirmPass != "" && telephone != "" && lang != "" ){
-					if( password == confirmPass ){
-						isValid = true;
-					}
-				}				
-				return isValid;
-			}
-			
-			function isValidProfileSecurity( email, telephone, celphone, passphrase ){
-				dom.byId("txtSegurancaEmail").focus();
-				dom.byId("txtSegurancaTelefone").focus();
-				dom.byId("txtSegurancaCelular").focus();
-				dom.byId("txtSegurancaFrase").focus();
-				dom.byId("btSalvarSegurancaPerfil").focus();
-				
-				var isValid = false;
-				if( email != "" && telephone != "" && celphone != "" && passphrase != "" ){
-					isValid = true;
-				}
-				return isValid;
-			}
+
+            /**
+             *  Verifica se os widgets possuem 'erro' ou estão 'incompletos'
+             *  @param fields - É um array de dijit/form/ValidationTextBox
+             */
+            function areFieldsValids( fields ) {
+                for( var iCampos in fields){
+                    dom.byId(fields[iCampos].id).focus();
+                    console.log("field "+iCampos);
+                }
+                dom.byId(fields[0].id).focus();
+
+                var isValid = true;
+                for( var iCampos in fields){
+                    console.log("State do campo " + fields[iCampos].get("id") + " : " +fields[iCampos].get("state"));
+                    if(fields[iCampos].get("state") == "Error" || fields[iCampos].get("state") == "Incomplete"){
+                        isValid = false;
+                        break;
+                    }
+                }
+                return isValid;
+            }
 			
 			function saveActiveDirectory(){
 				var ip = dom.byId("txtIpActiveDirectory").value;
@@ -2303,7 +2310,221 @@ require([
 					});					
 				
 			}
-				
+
+
+
+
+            function campo_numerico (){
+                if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;
+            }
+
+            /*function cnpj_cpf verifica qual das funcoes tem que chamar cpf ou cnpj*/
+
+            function cnpj_cpf(campo,documento,f,formi){
+                form = formi;
+
+                for (Count = 0; Count < 2; Count++){
+
+                    if (form.rad[Count].checked)
+                        break;
+                }
+
+
+                if (Count == 0){
+                    mascara_cpf (campo,documento,f);
+                }
+
+                else{
+                    mascara_cnpj (campo,documento,f);
+                }
+            }
+
+            function mascara_cnpj (campo,documento,f){
+                var mydata = '';
+                mydata = mydata + documento;
+
+                if (mydata.length == 2){
+                    mydata   = mydata + '.';
+
+                    ct_campo = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo;
+                }
+
+                if (mydata.length == 6){
+                    mydata   = mydata + '.';
+
+                    ct_campo = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo;
+                }
+
+                if (mydata.length == 10){
+                    mydata      = mydata + '/';
+
+                    ct_campo1 = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo1;
+                }
+
+                if (mydata.length == 15){
+                    mydata      = mydata + '-';
+
+                    ct_campo1 = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo1;
+                }
+
+                if (mydata.length == 18){
+
+                    valida_cnpj(f,campo);
+                }
+            }
+
+            function mascara_cpf (campo,documento,f){
+                var mydata = '';
+                mydata = mydata + documento;
+
+                if (mydata.length == 3){
+                    mydata   = mydata + '.';
+
+                    ct_campo = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo;
+                }
+
+                if (mydata.length == 7){
+                    mydata   = mydata + '.';
+
+                    ct_campo = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo;
+                }
+
+                if (mydata.length == 11){
+                    mydata      = mydata + '-';
+
+                    ct_campo1 = eval("document."+f+"."+campo+".value = mydata");
+                    ct_campo1;
+                }
+
+                if (mydata.length == 14){
+
+                    valida_cpf(f,campo);
+                }
+
+            }
+
+            function validateCpfCnpj( domObj ){
+                var valorCampo = domObj.value;
+                var regexPonto = new RegExp(".", "g");
+                valorCampo = valorCampo.replace("\/","").replace( regexPonto, "");
+                var result = true;
+                if( valorCampo.length == 11 ) {
+                    result = validaCpf( valorCampo );
+                }else if( valorCampo.length == 14 ){
+                    result = validaCnpj( valorCampo );
+                }else{
+                    result = false;
+                }
+                return result;
+            }
+
+            //function valida_cnpj(f,campo){
+            function validaCnpj( strNumero ){
+                //Autor/fonte: Leandro Alexandre
+                //Adaptação por: Maurício J Gomes
+                /*
+                pri = eval("document."+f+"."+campo+".value.substring(0,2)");
+                seg = eval("document."+f+"."+campo+".value.substring(3,6)");
+                ter = eval("document."+f+"."+campo+".value.substring(7,10)");
+                qua = eval("document."+f+"."+campo+".value.substring(11,15)");
+                qui = eval("document."+f+"."+campo+".value.substring(16,18)");
+                */
+
+                var i;
+                var result = true;
+
+                s = strNumero;
+
+                c = s.substr(0,12);
+                var dv = s.substr(12,2);
+                var d1 = 0;
+
+                for (i = 0; i < 12; i++){
+                    d1 += c.charAt(11-i)*(2+(i % 8));
+                }
+
+                if (d1 == 0){
+                   result = false;
+                }
+                d1 = 11 - (d1 % 11);
+
+                if (d1 > 9) d1 = 0;
+
+                if (dv.charAt(0) != d1){
+                    result = false;
+                }
+
+                d1 *= 2;
+                for (i = 0; i < 12; i++){
+                    d1 += c.charAt(11-i)*(2+((i+1) % 8));
+                }
+
+                d1 = 11 - (d1 % 11);
+                if (d1 > 9) d1 = 0;
+
+                if (dv.charAt(1) != d1){
+                    result = false;
+                }
+
+                return result;
+            }
+
+            //function valida_cpf(f,campo){
+            function validaCpf( strNumero ){
+                //Autor/fonte: Leandro Alexandre
+                //Adaptação por: Maurício J Gomes
+                /*
+                pri = eval("document."+f+"."+campo+".value.substring(0,3)");
+                seg = eval("document."+f+"."+campo+".value.substring(4,7)");
+                ter = eval("document."+f+"."+campo+".value.substring(8,11)");
+                qua = eval("document."+f+"."+campo+".value.substring(12,14)");
+                */
+
+                var i;
+                var result = true;
+
+                s = strNumero;
+                c = s.substr(0,9);
+                var dv = s.substr(9,2);
+                var d1 = 0;
+
+                for (i = 0; i < 9; i++){
+                    d1 += c.charAt(i)*(10-i);
+                }
+
+                if (d1 == 0){
+                    result = false;
+                }
+
+                d1 = 11 - (d1 % 11);
+                if (d1 > 9) d1 = 0;
+
+                if (dv.charAt(0) != d1){
+                    result = false;
+                }
+
+                d1 *= 2;
+                for (i = 0; i < 9; i++){
+                    d1 += c.charAt(i)*(11-i);
+                }
+
+                d1 = 11 - (d1 % 11);
+                if (d1 > 9) d1 = 0;
+
+                if (dv.charAt(1) != d1){
+                    result = false;
+                }
+
+                return result;
+            }
+
+
 			
             /*
              *	Fim da declaração das funções
