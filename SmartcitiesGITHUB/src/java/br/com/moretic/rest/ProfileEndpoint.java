@@ -23,10 +23,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import br.com.moretic.vo.Profile;
+import br.com.moretic.vo.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.UUID;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 
@@ -73,7 +76,9 @@ public class ProfileEndpoint {
         boolean hasErros = false, hasErrosEmail = false, hasErrosPass = false;
 
         HttpSession session = req.getSession();
+        session.setMaxInactiveInterval(1800);//Session de meia hora pro caboclo
 
+        Profile f = new Profile();
         //Calcula MD5 HASH para comparar no server side
         String md5Pass = "OZZY OSBOURNE";
         Profile entity = null;
@@ -92,7 +97,7 @@ public class ProfileEndpoint {
         if (!hasErros) {
             TypedQuery<Profile> findByIdQuery = em
                     .createQuery(
-                            "SELECT DISTINCT p FROM Profile p WHERE p.email=:pEmail AND p.password=:pPass", Profile.class);
+                            "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.profile LEFT JOIN FETCH p.shareViews LEFT JOIN FETCH p.profileContactsForProfileIdprofile LEFT JOIN FETCH p.groupHasProfiles LEFT JOIN FETCH p.profiles LEFT JOIN FETCH p.socialNetworks LEFT JOIN FETCH p.avatars LEFT JOIN FETCH p.profileContactsForProfileIdprofile1 LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.email=:pEmail AND p.password=:pPass", Profile.class);
 
             findByIdQuery.setParameter("pEmail", email);
             findByIdQuery.setParameter("pPass", md5Pass);
@@ -100,16 +105,18 @@ public class ProfileEndpoint {
             try {
                 entity = findByIdQuery.getSingleResult();
             } catch (NoResultException nre) {
-                entity = null;
+                entity = new Profile();
             }
             //Pega o ip do cliente
             InetAddress IP = InetAddress.getLocalHost();
             System.out.println("CLIENT IP := " + IP.getHostAddress());
-            
+
             session.setAttribute(PROFILE, entity);
         }
         if (hasErros || entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
+            session.invalidate();//destroy a session do maluco
+            return Response.ok(f).build();//retorna vo VAZIO
+
         }
         return Response.ok(entity).build();
     }
@@ -164,4 +171,74 @@ public class ProfileEndpoint {
 
         return Response.noContent().build();
     }
+
+    @POST
+    @Path("/p1/{name}/{email}/{birthday}/{password}/{bio}/{telephone}/{avatar}/{lang}/{id}/{identity}")
+    @Produces("application/json")
+    public Response p1(@PathParam("name") String name,
+            @PathParam("email") String email,
+            @PathParam("birthday") String birthday,
+            @PathParam("password") String password,
+            @PathParam("bio") String bio,
+            @PathParam("telephone") String telephone,
+            @PathParam("avatar") String avatar,
+            @PathParam("lang") String lang,
+            @PathParam("id") Integer id,
+            @PathParam("identity") String identity) throws NoSuchAlgorithmException, UnknownHostException {
+
+        Profile user;
+        //Novo usuario id = -1
+
+        if (id == -1) {
+            user = new Profile();
+        } else {
+            user = em.find(Profile.class, id);
+        }
+
+        try {
+            user.setBio(bio.getBytes());
+            user.setEmail(email);
+            user.setIdprofile(id);
+            user.setOnline(true);
+            user.setNascimento(new Date()); //pegar a data e transformar mm/dd/yyyy
+            user.setCpfCnpj(identity);
+
+            em.merge(user);
+
+            Avatar a1 = new Avatar();
+
+            a1.setPath(avatar);
+            a1.setProfile(user);
+
+            em.persist(a1);
+        } catch (Exception e) {
+
+        } finally {
+
+        }
+
+        return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/facebook/{email}/{pass}/")
+
+    public void facebook(@PathParam("email") String email, @PathParam("pass") String pass, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
+
+        String password = UUID.randomUUID().toString().substring(0, 8);
+
+        Profile p = new Profile();
+        p.setEmail(email);
+        p.setNmUser(pass);
+        p.setPassword(MD5Crypt.getHash(pass));
+
+        em.persist(p);
+
+        HttpSession session = req.getSession();
+        session.setAttribute(PROFILE, p);
+        
+        res.sendRedirect("/smartcities/main.html");
+
+    }
+
 }
