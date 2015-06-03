@@ -24,10 +24,12 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import br.com.moretic.vo.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.UUID;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 
@@ -75,7 +77,7 @@ public class ProfileEndpoint {
 
         HttpSession session = req.getSession();
         session.setMaxInactiveInterval(1800);//Session de meia hora pro caboclo
-        
+
         Profile f = new Profile();
         //Calcula MD5 HASH para comparar no server side
         String md5Pass = "OZZY OSBOURNE";
@@ -95,7 +97,7 @@ public class ProfileEndpoint {
         if (!hasErros) {
             TypedQuery<Profile> findByIdQuery = em
                     .createQuery(
-                            "SELECT DISTINCT p FROM Profile p WHERE p.email=:pEmail AND p.password=:pPass", Profile.class);
+                            "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.profile LEFT JOIN FETCH p.shareViews LEFT JOIN FETCH p.profileContactsForProfileIdprofile LEFT JOIN FETCH p.groupHasProfiles LEFT JOIN FETCH p.profiles LEFT JOIN FETCH p.socialNetworks LEFT JOIN FETCH p.avatars LEFT JOIN FETCH p.profileContactsForProfileIdprofile1 LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.email=:pEmail AND p.password=:pPass", Profile.class);
 
             findByIdQuery.setParameter("pEmail", email);
             findByIdQuery.setParameter("pPass", md5Pass);
@@ -114,7 +116,7 @@ public class ProfileEndpoint {
         if (hasErros || entity == null) {
             session.invalidate();//destroy a session do maluco
             return Response.ok(f).build();//retorna vo VAZIO
-            
+
         }
         return Response.ok(entity).build();
     }
@@ -219,14 +221,24 @@ public class ProfileEndpoint {
     }
 
     @GET
-    @Produces("application/json")
-    public Response facebook(@Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
-  
-        HttpSession session = req.getSession();
+    @Path("/facebook/{email}/{pass}/")
 
+    public void facebook(@PathParam("email") String email, @PathParam("pass") String pass, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
+
+        String password = UUID.randomUUID().toString().substring(0, 8);
+
+        Profile p = new Profile();
+        p.setEmail(email);
+        p.setNmUser(pass);
+        p.setPassword(MD5Crypt.getHash(pass));
+
+        em.persist(p);
+
+        HttpSession session = req.getSession();
+        session.setAttribute(PROFILE, p);
         
-        return Response.ok(null).build();
+        res.sendRedirect("/smartcities/main.html");
+
     }
 
-  
 }

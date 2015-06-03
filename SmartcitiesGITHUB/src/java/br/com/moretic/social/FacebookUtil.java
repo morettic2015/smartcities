@@ -15,13 +15,13 @@ import java.net.URL;
  *
  * @author LuisAugusto
  */
-public class FacebookUtil {
+final class FacebookUtil {
 
-    private static final String client_secret = "";
-    private static final String client_id = "618780288218697";
-    private static final String redirect_uri = "http://localhost:8080/smartcities/loginfbresponse";
+    private static final String client_secret = "84b4de4ec8db88ad215393d40c982c20";
+    private static final String client_id = "880918378640520";
+    private static final String redirect_uri = "http://localhost:8080/smartcities/rest/facebook";
 
-    public void obterUsuarioFacebook(String code)
+    public String getFBProfile(String code)
             throws MalformedURLException, IOException {
 
         String retorno = readURL(new URL(this.getAuthURL(code)));
@@ -44,15 +44,18 @@ public class FacebookUtil {
             }
         }
 
-   //     JSONObject resp = new JSONObject(readURL(new URL(
-   //             "https://graph.facebook.com/me?access_token=" + accessToken)));
+        return readURL(new URL("https://graph.facebook.com/me?access_token=" + accessToken));
 
-      
+        /*JSONObject resp = new JSONObject());
+
+         UsuarioFacebook usuarioFacebook = new UsuarioFacebook(resp);
+         System.out.println(usuarioFacebook.toString());*/
     }
+
 
     private String readURL(URL url) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream is = url.openStream();
+        InputStream is = url.openStream();
         int r;
         while ((r = is.read()) != -1) {
             baos.write(r);
@@ -60,16 +63,20 @@ public class FacebookUtil {
         return new String(baos.toByteArray());
     }
 
-    public String getLoginRedirectURL() {
+    private String getLoginRedirectURL() {
         return "https://graph.facebook.com/oauth/authorize?client_id="
                 + client_id + "&display=page&redirect_uri=" + redirect_uri
                 + "&scope=email,publish_actions";
     }
 
-    public String getAuthURL(String authCode) {
+    private String getAuthURL(String authCode) {
         return "https://graph.facebook.com/oauth/access_token?client_id="
                 + client_id + "&redirect_uri=" + redirect_uri
                 + "&client_secret=" + client_secret + "&code=" + authCode;
     }
 
 }
+/*
+ https://graph.facebook.com/oauth/authorize?client_id=880918378640520&display=page&redirect_uri=http://localhost:8080/smartcities/&scope=email,publish_actions
+
+ **/
