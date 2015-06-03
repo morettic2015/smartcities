@@ -5,15 +5,15 @@ Requisições POST
 
 Perfil
 	Tela 1: profileInfo.html
-	Uri: 	/rest/p1/
-	Campos: /name/email/birthDate/password/bio/telephone/avatar/lang
+	Uri: 	/rest/profile/p1/
+	Campos: /id/name/email/birthDate/cpfCnpj/password/bio/telephone/avatar/lang
 
 	Tela 2:	profileAddress.html
-	Uri: 	/rest/p2/
+	Uri: 	/rest/profile/p2/
 	Campos: /latLng/address/complement
 	
 	Tela 3:	profileSecurity.html
-	Uri: 	/rest/p3/
+	Uri: 	/rest/profile/p3/
 	Campos:	/email/telephone/celphone/passphrase
 
 Ferramenta de Dados
