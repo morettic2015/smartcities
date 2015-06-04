@@ -333,7 +333,7 @@ require([
 				 */
 
 				// Cabeçalho / Header
-				dom.byId("headerNomeUsuario").innerHTML = textos.nomeUsuarioGenerico;
+				//dom.byId("headerNomeUsuario").innerHTML = textos.nomeUsuarioGenerico;
 
 				// Main
 				dom.byId("rotuloAbaPerfil").innerHTML = textos.rotAbaPerfil;
