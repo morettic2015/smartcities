@@ -391,6 +391,9 @@ img.fundo {
 .icone-bandeira:hover{
 	background-color: #002F66;
 }
+.icone-bandeira-ativa{
+    background-color: orange;
+}
 
 
 

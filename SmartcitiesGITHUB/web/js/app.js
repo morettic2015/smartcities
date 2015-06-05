@@ -1341,6 +1341,9 @@ require([
                 on( dom.byId("userAvatarInput"), "change", function(){
                     // passa valor para o src da imagem
                 });
+                query(".icone-bandeira").on( "click", function(){
+                    selectProfileLocale( this );
+                });
 			}
 			
 			function setEventsProfileAddress(){				
@@ -2312,7 +2315,15 @@ require([
 				
 			}
 
-
+            function selectProfileLocale( tag ){
+                console.log("tag " + tag);
+                var locale = tag.id.replace("userLocale","");
+                dom.byId("selectedFlagProfileInfo").value = locale;
+                //tag.class = "icone-bandeira-ativa";
+                //TODO muda class da bandeira selecionada
+                // e muda das outras para o padrao
+                alert( locale );
+            }
 
 
             function campo_numerico (){
