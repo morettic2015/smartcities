@@ -44,4 +44,3 @@
     <span style="left: 224px;" class="item-menu-principal">Ferramenta de Dados</span> -->
 </div>
 <div style="height: 10px; background-color: #e5e5e5;"></div>
-~´/
