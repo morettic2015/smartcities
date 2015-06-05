@@ -59,6 +59,7 @@ var CIRCLES_MANAGE = "circles/circles.html";
 var CIRCLES_CONTACTS = "circles/circleContacts.html";
 var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
 var CONFIGURATION = "configuration.html";
+var HEADER_MAIN = "header_smartcities.jsp";
 
 require([
     "dojo/ready",
@@ -140,6 +141,10 @@ require([
 					configuraTela( this.get("href") );
 				});
 
+                headerMain.set("onDownloadEnd", function(){
+                    configuraTela( this.get("href") );
+                });
+
 
 				/**
 				 *	Carrega as telas de splash
@@ -155,11 +160,6 @@ require([
                 /**
                  *	Atribuindo Eventos
                  */
-
-				 // Cabeçalho / Header
-				on(dom.byId("btConfigHeader"), "click", function () {
-                    abrePopUpModal(CONFIGURATION);
-                });
 
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
@@ -331,9 +331,6 @@ require([
 				/**
 				 *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
 				 */
-
-				// Cabeçalho / Header
-				//dom.byId("headerNomeUsuario").innerHTML = textos.nomeUsuarioGenerico;
 
 				// Main
 				dom.byId("rotuloAbaPerfil").innerHTML = textos.rotAbaPerfil;
@@ -855,17 +852,16 @@ require([
 					setEventsPendencyFileSelect();
 					i18nPendencyFileSelect();
 					refreshGridPendencyFileSelect();
-				}
+				}else if( pagina == HEADER_MAIN ){
+                    setEventsHeader();
+                }
 
 			}
 
-			function setEventsPendencyFileSelect(){
 
-			}
 
-			function i18nPendencyFileSelect(){
 
-			}
+
 
 
 			/**
@@ -952,16 +948,7 @@ require([
 			}
 
 			{ // Data Sources
-				/* TODO remover?
-				function i18nDataImport(){
-					dom.byId("tituloImportacaoDados").innerHTML = textos.tituloImportarDados;
-					dom.byId("p1ImportacaoDados").innerHTML = textos.p1ImportacaoDados;
-				}
-				function i18nDataExport(){
-					dom.byId("tituloExportacaoDados").innerHTML = textos.tituloExportarDados;
-					dom.byId("p1ExportacaoDados").innerHTML = textos.p1ExportacaoDados;
-				}
-				*/
+
 				function i18nCopyData(){
 					dom.byId("rotBtCopiarCopyData").innerHTML = textos.rotCopiar;
 					dom.byId("tituloCopyData").innerHTML = textos.tituloCopiarDados;
@@ -1155,7 +1142,9 @@ require([
 					dom.byId("p1ImportWsdl").innerHTML = textos.p1ImportWsdl;
 					dom.byId("rotFiltroImportWsdl").innerHTML = textos.filtroWsdl;
 				}
+                function i18nPendencyFileSelect(){
 
+                }
 			}
 
 			{ // Billing
@@ -1321,6 +1310,13 @@ require([
 			/**
 			 *	Atribução de eventos às telas carregadas via ajax
 			 */
+
+            // Header/Cabeçalho
+            function setEventsHeader(){
+                on(dom.byId("btConfigHeader"), "click", function () {
+                    abrePopUpModal(CONFIGURATION);
+                });
+            }
 
 			// Eventos no modulo Perfil
 			 
@@ -1500,6 +1496,9 @@ require([
 					carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param );
 				});
 			}
+            function setEventsPendencyFileSelect(){
+
+            }
 
 			function setEventsSplashDataSource(){
 				/* TODO Remover? ou terá outra utilidade?
@@ -1601,7 +1600,6 @@ require([
 					abrePopUpModal( CIRCLES_IMPORTOPTIONS );
 				});
 			}
-
 
 
 			/**
