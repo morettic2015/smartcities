@@ -67,6 +67,7 @@ require([
     "dojo/dom",
 	"dojo/dom-attr",
 	"dojo/dom-construct",
+        "dojo/dom-class",
     "dojo/parser",
     "dojo/request/xhr",
 	"dojo/_base/array",
@@ -90,6 +91,7 @@ require([
                 dom,
 				domAttr,
 				domConstruct,
+                domClass,
                 parser,
                 xhr,
 				array,
@@ -1343,6 +1345,7 @@ require([
                 });
                 query(".icone-bandeira").on( "click", function(){
                     selectProfileLocale( this );
+
                 });
 			}
 			
@@ -2220,7 +2223,11 @@ require([
                 var camposValidar = [name,email,birthDate,cpfCnpj,password,confirmPass,telephone];
 
 				if( areFieldsValids( camposValidar ) ){
-					var url = "profile/p1/" + id.value +"/"+ name.value +"/"+ email.value +"/"+ birthDate.value +"/"+ cpfCnpj.value +"/"+ password.value +"/"+ bio.value +"/"+ telephone.value +"/"+ avatar.value +"/"+ lang.value;
+                    var strId = id.value;
+                    if( strId == undefined || strId == null || strId == "" ){
+                        strId = "-1";
+                    }
+					var url = "profile/p1/" + strId +"/"+ name.value +"/"+ email.value +"/"+ birthDate.value +"/"+ cpfCnpj.value +"/"+ password.value +"/"+ bio.value +"/"+ telephone.value +"/"+ avatar.value +"/"+ lang.value;
 					console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto();
@@ -2281,13 +2288,11 @@ require([
             function areFieldsValids( fields ) {
                 for( var iCampos in fields){
                     dom.byId(fields[iCampos].id).focus();
-                    console.log("field "+iCampos);
                 }
                 dom.byId(fields[0].id).focus();
 
                 var isValid = true;
                 for( var iCampos in fields){
-                    console.log("State do campo " + fields[iCampos].get("id") + " : " +fields[iCampos].get("state"));
                     if(fields[iCampos].get("state") == "Error" || fields[iCampos].get("state") == "Incomplete"){
                         isValid = false;
                         break;
@@ -2316,13 +2321,15 @@ require([
 			}
 
             function selectProfileLocale( tag ){
-                console.log("tag " + tag);
                 var locale = tag.id.replace("userLocale","");
                 dom.byId("selectedFlagProfileInfo").value = locale;
-                //tag.class = "icone-bandeira-ativa";
-                //TODO muda class da bandeira selecionada
-                // e muda das outras para o padrao
-                alert( locale );
+                // Deixa todas as bandeiras com a aparencia padrão
+                // e destaca a bandeira selecionada
+                var flagNodes = query(".icone-bandeira-ativa");
+                for( var iNode = 0; iNode < flagNodes.length; iNode++ ){
+                    domClass.remove( flagNodes[iNode] , "icone-bandeira-ativa");
+                }
+                domClass.add( tag, "icone-bandeira-ativa");
             }
 
 
