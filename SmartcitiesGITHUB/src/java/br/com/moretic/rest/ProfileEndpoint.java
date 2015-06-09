@@ -236,9 +236,21 @@ public class ProfileEndpoint {
 
         HttpSession session = req.getSession();
         session.setAttribute(PROFILE, p);
-        
+
         res.sendRedirect("/smartcities/main.html");
 
+    }
+
+    /**
+     *
+     * @param req
+     * @return
+     */
+    public static  Profile getProfileSession(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
+        
+        return ((p==null)?new Profile():p);
     }
 
 }

@@ -6,7 +6,9 @@
 package br.com.moretic.util;
 
 import br.com.moretic.vo.FileType;
+import br.com.moretic.vo.FtpClient;
 import br.com.moretic.vo.FtpVO;
+import br.com.moretic.vo.Profile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,8 +25,17 @@ public class FtpUtil {
 
     private FTPClient ftp;
     private List<String> files;
+    private String pProxy,pUser,pPass,pHost;
+    private int port;
+            
 
     public FtpUtil(String proxyUser, String proxyPassword, String proxyHost, int proxyPort) throws IOException, Exception {
+      
+        this.pHost = proxyHost;
+        this.pPass = proxyPassword;
+        this.port = proxyPort;
+        this.pUser = proxyUser;
+        
         if (proxyHost == null) {
             System.err.append("NO HOST TO CONNECT");
             throw new Exception("NO HOST TO CONNECT");
@@ -42,6 +53,10 @@ public class FtpUtil {
         ftp.setFileType(FTP.BINARY_FILE_TYPE);
     }
 
+    public FtpClient getVo(Profile p){
+        return new FtpClient(pUser,pPass,pHost,port,p);
+    }
+    
     public void closeConnection() throws IOException {
         this.ftp.disconnect();
     }

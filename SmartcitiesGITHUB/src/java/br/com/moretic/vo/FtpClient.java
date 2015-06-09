@@ -32,10 +32,10 @@ public class FtpClient implements Serializable {
 
     @Column(name = "fuser")
     private String user;
-    
+
     @Column(name = "fhost")
     private String host;
-    
+
     @Basic
     private int port;
 
@@ -54,6 +54,17 @@ public class FtpClient implements Serializable {
 
     public void setIdFtpClient(int idFtpClient) {
         this.idFtpClient = idFtpClient;
+    }
+
+    @Column(name = "profile_idprofile", nullable = false, insertable = true, updatable = true)
+    private Integer idProfile;
+
+    public Integer getIdProfile() {
+        return idProfile;
+    }
+
+    public void setIdProfile(Integer idProfile) {
+        this.idProfile = idProfile;
     }
 
     @JsonIgnore
@@ -75,6 +86,7 @@ public class FtpClient implements Serializable {
         this.host = host;
         this.port = port;
         this.owner = owner;
+        this.idProfile = owner.getIdprofile();
     }
 
     public String getUser() {
