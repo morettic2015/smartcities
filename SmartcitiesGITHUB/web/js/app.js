@@ -1334,14 +1334,22 @@ require([
 					var evento = arguments[0] || window.event;
 					refreshPhoneMask( evento, this );
 				});
+                registry.byId( "txtCpfCnpjProfile").set( "validator", function(){
+                    return validateCpfCnpj( this );
+                });
+                /*
                 on( dom.byId("txtCpfCnpjProfile"), "blur", function(){
                     var obj = registry.byId( this.id );
-                    //obj.set( "validator", validateCpfCnpj( this ) );
-                    // usar essa função como validador
-
-                });
+                    obj.set( "validator", function(){
+                        validateCpfCnpj( this );
+                    });
+                });*/
                 on( dom.byId("userAvatarInput"), "change", function(){
-                    // passa valor para o src da imagem
+                    //TODO passa valor para o src da imagem
+                    // depois de carregar a imagem/upload
+                    // para algum componente(?)
+                    console.log( this.value );
+                    dom.byId("userAvatarImage").src = this.value;
                 });
                 query(".icone-bandeira").on( "click", function(){
                     selectProfileLocale( this );
@@ -2430,8 +2438,9 @@ require([
 
             function validateCpfCnpj( domObj ){
                 var valorCampo = domObj.value;
-                var regexPonto = new RegExp(".", "g");
-                valorCampo = valorCampo.replace("\/","").replace( regexPonto, "");
+                var regexPonto = new RegExp("\\.", "g");
+                var regexHifen = new RegExp("\-", "g");
+                valorCampo = valorCampo.replace("\/","").replace( regexPonto, "").replace(regexHifen,"");
                 var result = true;
                 if( valorCampo.length == 11 ) {
                     result = validaCpf( valorCampo );
@@ -2443,17 +2452,9 @@ require([
                 return result;
             }
 
-            //function valida_cnpj(f,campo){
             function validaCnpj( strNumero ){
                 //Autor/fonte: Leandro Alexandre
                 //Adaptação por: Maurício J Gomes
-                /*
-                pri = eval("document."+f+"."+campo+".value.substring(0,2)");
-                seg = eval("document."+f+"."+campo+".value.substring(3,6)");
-                ter = eval("document."+f+"."+campo+".value.substring(7,10)");
-                qua = eval("document."+f+"."+campo+".value.substring(11,15)");
-                qui = eval("document."+f+"."+campo+".value.substring(16,18)");
-                */
 
                 var i;
                 var result = true;
@@ -2494,20 +2495,13 @@ require([
                 return result;
             }
 
-            //function valida_cpf(f,campo){
             function validaCpf( strNumero ){
                 //Autor/fonte: Leandro Alexandre
                 //Adaptação por: Maurício J Gomes
-                /*
-                pri = eval("document."+f+"."+campo+".value.substring(0,3)");
-                seg = eval("document."+f+"."+campo+".value.substring(4,7)");
-                ter = eval("document."+f+"."+campo+".value.substring(8,11)");
-                qua = eval("document."+f+"."+campo+".value.substring(12,14)");
-                */
 
                 var i;
                 var result = true;
-
+                console.log("strNumero "+strNumero);
                 s = strNumero;
                 c = s.substr(0,9);
                 var dv = s.substr(9,2);
