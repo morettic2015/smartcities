@@ -122,8 +122,25 @@ lFiles+-View sourceoptions
 
 # o codigo 1 e o id do usuario para recuperar os dados do usuario no formulario!!!!! endereco da requisicao que vc vai fazer passando o id do usuario!!!!
 
-FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMPOS DO FORMULARIO COM O QUE ESTIVER DISPONIVEL
+FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMPOS DO FORMULARIO COM O QUE ESTIVER DISPONIVEL 1 e o id do usuario logado
 http://localhost:8080/smartcities/rest/profiles/1
+
+{
+idprofile: 1,
+idProfileOrganization: null,
+nmUser: "Lam Mxrettx",
+email: "malacma@gmail.com",
+password: "8ddef0f4588c24e8d08307977c2d826b",
+cpfCnpj: null,
+online: null,
+bio: null,
+nascimento: null,
+telefone: null,
+securityInfo: [ ],
+profileLang: [ ]
+}
+
+retorno
 
 <script>
             var pProfile = {id:1};
