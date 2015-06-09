@@ -25,3 +25,92 @@ Ferramenta de Dados
 	Tela 2:	
 	Uri: 	/rest/d2/
 	Campos:	
+
+
+
+URL PARA REQUEST DO KML
+
+http://localhost:8080/smartcities/rest/importer/kml/www.com/nononono
+
+RETORNO
+
+{
+id: 1,
+kmlUrl: "www.com",
+kmlDesc: "nononono",
+idProfile: 1
+}
+
+
+URL PARA ACESSAR O FTP
+
+http://localhost:8080/smartcities/rest/ftp/ls/anonymous/me@me.com/ftp.kernel.org/21
+
+JSON DE RETORNO DO FTP PRECISA COLOCAR NA ARVORE ESSES DADOS DE RETORNO!!!!!!!
+
+{
+nodeName: "/",
+fullPath: null,
+type: "DIR",
+lFiles: [
+{
+nodeName: "pub",
+fullPath: null,
+type: "DIR",
+lFiles: [
+{
+nodeName: "dist",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "linux",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "media",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "scm",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "site",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "software",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+},
+{
+nodeName: "tools",
+fullPath: null,
+type: "DIR",
+lFiles: [ ],
+size: 0
+}
+],
+size: 4096
+}
+],
+size: 4096
+}
+lFiles+-View sourceoptions
