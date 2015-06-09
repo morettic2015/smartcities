@@ -222,45 +222,43 @@ public class ProfileEndpoint {
 
     @GET
     @Path("/facebook/{email}/{pname}/{avatar}")
-    public void facebook(@PathParam("email") String email, @PathParam("pname") String pname,@PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
+    public void facebook(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
 
         //String password = UUID.randomUUID().toString().substring(0, 8);
-
         Profile p = new Profile();
         p.setEmail(email);
         p.setNmUser(pname);
         p.setPassword(MD5Crypt.getHash(email));
 
-        
         em.persist(p);
-        
+
         Avatar a = new Avatar();
         a.setIdProfile(p.getIdprofile());
-        a.setPath(avatar.replaceAll("ø","/"));
+        a.setPath(avatar.replaceAll("ø", "/"));
         a.setProfile(p);
-        
+
         //Salva o avatar
         em.persist(a);
 
-        
         p.getAvatars().add(a);
         HttpSession session = req.getSession();
         session.setAttribute(PROFILE, p);
 
-        res.sendRedirect("/smartcities/main.html");
+        res.sendRedirect(SMARTCITIESMAINHTML);
 
     }
+    public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";
 
     /**
      *
      * @param req
      * @return
      */
-    public static  Profile getProfileSession(HttpServletRequest req) {
+    public static Profile getProfileSession(HttpServletRequest req) {
         HttpSession session = req.getSession();
         Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
-        
-        return ((p==null)?new Profile():p);
+
+        return ((p == null) ? new Profile() : p);
     }
 
 }
