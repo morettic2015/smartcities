@@ -124,3 +124,10 @@ lFiles+-View sourceoptions
 
 FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMPOS DO FORMULARIO COM O QUE ESTIVER DISPONIVEL
 http://localhost:8080/smartcities/rest/profiles/1
+
+<script>
+            var pProfile = {id:1};
+        </script>
+
+
+variavel global json para pegar o id """"pProfile.id"""""""
