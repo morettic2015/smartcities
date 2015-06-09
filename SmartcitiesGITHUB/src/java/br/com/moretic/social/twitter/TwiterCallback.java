@@ -11,6 +11,7 @@ import static br.com.moretic.social.facebook.FacebookProxyFilter.FACEBOOKREST;
 import br.com.moretic.vo.Profile;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -85,7 +86,7 @@ public class TwiterCallback extends HttpServlet {
             } catch (NoResultException nre) {
                 try {
 
-                    String url = FacebookProxyFilter.FACEBOOKREST + "/" + user.getScreenName() + "@twitter.com/" + user.getName() + "/";
+                    String url = FacebookProxyFilter.FACEBOOKREST + "/" + user.getScreenName() + "@twitter.com/" + user.getName() + "/" + URLEncoder.encode(avatarUrl.replaceAll("/","ø"),"UTF-8") ;
                     ((HttpServletResponse) response).sendRedirect(url);
 
                 } catch (Exception ex1) {

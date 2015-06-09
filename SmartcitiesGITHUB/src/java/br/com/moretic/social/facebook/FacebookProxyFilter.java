@@ -14,9 +14,11 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
@@ -72,7 +74,7 @@ public class FacebookProxyFilter implements Filter {
             code = rreq.getParameter("code");
 
         } catch (Exception e) {//sem codigo vai pro index seu negro
-            ((HttpServletResponse) response).sendRedirect("/smartcities/index.html");
+            ((HttpServletResponse) response).sendRedirect(SMARTCITIESINDEXHTML);
             e.printStackTrace();
         }
 
@@ -91,18 +93,23 @@ public class FacebookProxyFilter implements Filter {
             entity = findByIdQuery.getSingleResult();
             session.setAttribute(ProfileEndpoint.PROFILE, entity);
 
-            ((HttpServletResponse) response).sendRedirect("/smartcities/main.html");
+            ((HttpServletResponse) response).sendRedirect(SMARTCITIESMAINHTML);
         } catch (NoResultException nre) {
             try {
+                String uIdFb = profileJson.getString("id");
+                //graph.facebook.com/10205211352462356/picture
+                String urlImg = "http://graph.facebook.com/" + uIdFb + "/picture/";
+              
+               
 
-                String url = FACEBOOKREST + "/" + profileJson.getString("email") + "/" + profileJson.getString("name") + "/";
+                String url = FACEBOOKREST + "/" + profileJson.getString("email") + "/" + profileJson.getString("name") + "/" + URLEncoder.encode(urlImg.replaceAll("/","ø"),"UTF-8") ;
                 ((HttpServletResponse) response).sendRedirect(url);
 
             } catch (Exception ex1) {
 
                 Logger.getLogger(FacebookProxyFilter.class.getName()).log(Level.SEVERE, null, ex1);
 
-                ((HttpServletResponse) response).sendRedirect("/smartcities/index.html");
+                ((HttpServletResponse) response).sendRedirect(SMARTCITIESINDEXHTML);
                 // em.getTransaction().rollback();
             }
 
@@ -111,7 +118,12 @@ public class FacebookProxyFilter implements Filter {
         //System.out.print(profileJson);
         //Verifica se o usuario e valido
         // req.getRequestDispatcher("/login.jsp").forward(request, response);
+        //System.out.print(profileJson);
+        //Verifica se o usuario e valido
+        // req.getRequestDispatcher("/login.jsp").forward(request, response);
     }
+    public static final String SMARTCITIESINDEXHTML = "/smartcities/index.html";
+    public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";
     public static final String FACEBOOKREST = "/smartcities/rest/profiles/facebook";
 
     /**

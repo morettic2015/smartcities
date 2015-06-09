@@ -66,7 +66,7 @@ final class FacebookUtil {
     private String getLoginRedirectURL() {
         return "https://graph.facebook.com/oauth/authorize?client_id="
                 + client_id + "&display=page&redirect_uri=" + redirect_uri
-                + "&scope=email,publish_actions";
+                + "&scope=email,publish_actions,picture";
     }
 
     private String getAuthURL(String authCode) {
