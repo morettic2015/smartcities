@@ -27,6 +27,7 @@
              */
 
             Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
+            int id = p.getIdprofile();
             String avatarUrl = "./images/icons/Perfil/48X48.png";
             if (p.getAvatars().size() > 0) {
                 avatarUrl = p.getAvatars().iterator().next().getPath();
@@ -45,6 +46,9 @@
 
 
         %>
+        <script>
+            var pProfile = {id:<% out.print(id);%>};
+        </script>
         <div style="float: right;margin-left:4px;">
             <span class="usuario-cabecalho" id="headerNomeUsuario"><% out.print(p.getNmUser()); %></span>
             <br>

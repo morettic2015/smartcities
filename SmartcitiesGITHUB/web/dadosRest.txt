@@ -29,6 +29,7 @@ Ferramenta de Dados
 
 
 URL PARA REQUEST DO KML
+ESSE ENDERECO SALVA UM KML NO BANCO DE DADOS E TESTA SE O FORMATO ESTA CORRETO @TODO
 
 http://localhost:8080/smartcities/rest/importer/kml/www.com/nononono
 
@@ -47,6 +48,8 @@ URL PARA ACESSAR O FTP
 http://localhost:8080/smartcities/rest/ftp/ls/anonymous/me@me.com/ftp.kernel.org/21
 
 JSON DE RETORNO DO FTP PRECISA COLOCAR NA ARVORE ESSES DADOS DE RETORNO!!!!!!!
+MONTA A ARVORE O JSON JA VEM EM FORMATO DE ARVORE SE PRECISAR MUDAR O NOME DOS CAMPOS EU MUDO
+OLHA ISSO RAPIDO!
 
 {
 nodeName: "/",
@@ -114,3 +117,10 @@ size: 4096
 size: 4096
 }
 lFiles+-View sourceoptions
+
+
+
+# o codigo 1 e o id do usuario para recuperar os dados do usuario no formulario!!!!! endereco da requisicao que vc vai fazer passando o id do usuario!!!!
+
+FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMPOS DO FORMULARIO COM O QUE ESTIVER DISPONIVEL
+http://localhost:8080/smartcities/rest/profiles/1
