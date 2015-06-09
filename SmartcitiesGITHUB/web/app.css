@@ -389,9 +389,11 @@ img.fundo {
 	height: 20px;
 }
 .icone-bandeira:hover{
-	background-color: #002F66;
+	background-color: #305F96;
 }
-
+.icone-bandeira-ativa{
+    background-color: #202053;
+}
 
 
 /* Formatação para telas de splash */

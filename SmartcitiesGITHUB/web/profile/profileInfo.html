@@ -4,6 +4,7 @@
 
 <div style="margin:10px;">
     <h1><span id='titleProfileInfo'>Perfil do usuário</span></h1>
+    <input id="hdnIdProfile" type="hidden" />
 
 	<div class="celula-form-1" style="margin-bottom: 20px;">
 		<div class="campo">
@@ -29,7 +30,7 @@
 	
     <div class="celula-form-1">
         <span class="rotulo"><span id='nameProfileInfo'>Nome</span>:</span>
-        <input id="txtNameProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="true" selectOnClick="false"></input>
+        <input id="txtNameProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="true" selectOnClick="false"/>
     </div>
 	
     <div class="celula-form-1">
@@ -40,6 +41,11 @@
     <div class="celula-form-1">
         <span class="rotulo"><span id='birthProfileInfo'>Data de Nasc.</span>:</span>
         <input id="txtBirthdateProfile" class="campo" type="text" data-dojo-type="dijit/form/DateTextBox" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$"></input>
+    </div>
+
+    <div class="celula-form-1">
+        <span class="rotulo"><span id='cpfCnpjProfileInfo'>CPF/CNPJ</span>:</span>
+        <input id="txtCpfCnpjProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" invalidMessage="$_unset_$"></input>
     </div>
 
     <div class="celula-form-1">
@@ -54,7 +60,7 @@
 
     <div class="celula-form-1" style="margin-bottom:25px;">
         <span class="rotulo"><span id='bioProfileInfo'>Bio</span>:</span>
-        <textarea id="txtBioProfile" class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="false" uppercase="true" lowercase="false" propercase="false" style="width: auto; height: auto;" scrollOnFocus="true"></textarea>
+        <textarea id="txtBioProfile" class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="false" uppercase="false" style="width: auto; height: auto;" scrollOnFocus="true"></textarea>
     </div>
    
     <div class="celula-form-1" style="margin-bottom:10px;">
@@ -70,15 +76,15 @@
     <div class="celula-form-1" style="margin-bottom:35px;">
         <span class="rotulo"><span id='avatarProfileInfo'>Avatar</span>:</span>		
 		<img id="userAvatarImage" class="campo" src="./images/icons/Perfil/48X48-2.png" style="width:48px;height:48px">
-        <input id="userAvatarInput" class="campo" readonly="true" type="file" style="width: 48px;height:48px;cursor:pointer;opacity:0;-moz-opacity:0;filter:alpha(opacity=0);"></input>
+        <input id="userAvatarInput" class="campo" type="file" style="width: 48px;height:48px;cursor:pointer;opacity:0;-moz-opacity:0;filter:alpha(opacity=0);"/>
     </div>
 	
 	<div class="celula-form-1">
         <span class="rotulo"><span id='languageProfileInfo'>Idioma</span>:</span>
 		<div class="campo">
-			<input type="hidden" id="selectedFlagProfileInfo" value="US">
-			<img id="userLocaleBR" class="" src="./images/flags/Brasil.png" style="width:28px;height:20px;float:left;margin-right:5px;">
-			<img id="userLocaleGB" class="" src="./images/flags/Reino Unido.png" style="width:28px;height:20px;float:left">
+			<input type="hidden" id="selectedFlagProfileInfo" value="US"/>
+			<img id="userLocalePT-BR" class="icone-bandeira" src="./images/flags/Brasil.png" style="width:28px;height:20px;float:left;margin-right:5px;">
+			<img id="userLocaleEN-UK" class="icone-bandeira" src="./images/flags/Reino Unido.png" style="width:28px;height:20px;float:left">
 		</div>
     </div>
 </div>

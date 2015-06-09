@@ -6,10 +6,8 @@
         <title>Smartcities Login</title>
         <script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
         <script type="text/javascript">
-
-            // Mauricio
-
-            require([
+        
+			require([
                 "dijit/dijit",
                 "dojo/parser",
                 "maqetta/space",
@@ -27,7 +25,7 @@
 
         </style>
 
-        <script type="text/javascript" src="js/smartcities.js"></script>
+		<script type="text/javascript" src="js/smartcities.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </head>
     <body data-maq-flow-layout="true" data-maq-comptype="sketchhifi" class="claro" data-maq-ws="collapse" topmargin="" data-maq-appstates="{}" id="myapp">
@@ -51,35 +49,31 @@
                                         <td style="float: right;">
                                             Email</td>
                                         <td>
-                                            <input id="txtUser" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+                                          <input id="txtUser" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="float: right;">
                                             Password</td>
                                         <td>
-                                            <input id="txtPass" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+                                          <input id="txtPass" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
                                         </td>
                                     </tr>
-                                    <!--  
-                                    
-                                     @TODO IMPLEMENTAR O LEMBRAR DA MINHA CARA!!!!!
-                                    
                                     <tr>
-                                          <td></td>
-                                          <td>
-                                            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon"></input>Remember</td>
-                                      </tr>
-                                    -->
+                                        <td></td>
+                                        <td>
+                                          <input type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon"></input>Remember</td>
+                                    </tr>
+
                                     <tr>
                                         <td colspan="2" align="center">
-                                            <input id="btLogin" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Log in" iconClass="dijitNoIcon" ></input>
+                                          <input id="btLogin" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Log in" iconClass="dijitNoIcon" ></input>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td style="border: 0px solid black;padding:5px;" colspan="2" align="center">
-                                            <span id="linkRegister" style="text-decoration:underline;color:#005773;cursor:pointer;">Register via social network</span>
+                                            <span id="linkRegister" style="text-decoration:underline;color:#005773;cursor:pointer;">Login or Register</span>
                                             <!--<fieldset>
                                               <input type="image" id="btYahooMain" src="images/icons/54X54/Yahoo.png" alt="" style="width: 24px;height: 24px;margin:5px;"/>
                                               <input type="image" id="btGmailMain" src="images/icons/54X54/Gmail.png" alt="" style="width: 24px;height: 24px;margin:5px;"/>
@@ -102,15 +96,14 @@
         </div>
 
 
-        <!--
-<div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" title="?" id="myDialog">
-    <div data-dojo-type="dijit.layout.ContentPane" title="foo" id="container_modal" style="width: 600px; height: 380px;">container modal</div>
-</div>-->
-
-        <div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" id="myDialog">
+		<!--
+        <div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" title="?" id="myDialog">
+            <div data-dojo-type="dijit.layout.ContentPane" title="foo" id="container_modal" style="width: 600px; height: 380px;">container modal</div>
+        </div>-->
+		
+		<div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" id="myDialog">
             <div data-dojo-type="dijit/layout/ContentPane" data-dojo-id="contentPane_PopUp" title="foo" id="container_modal" style="width: 500px; height: 200px;padding:0px;">container modal</div>
         </div>
 
-        </img>
-    </body>
-</html>
+    </img>
+</body></html>
