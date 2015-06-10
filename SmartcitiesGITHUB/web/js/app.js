@@ -2214,8 +2214,12 @@ require([
 				}else{
 					profileAddressMarker.setPosition( objLatLng );
 				}
-			}		
-			
+			}
+
+            /**
+             *  Rotinas de envio dos objetos a serem salvos
+             *
+             */
 			function saveProfileInfo(){
                 var id = dom.byId("hdnIdProfile");
 				var name = registry.byId("txtNameProfile");
@@ -2239,8 +2243,13 @@ require([
 					console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto();
-                    resultado.then( function(texto){
-                        alert(texto);
+                    resultado.then( function( dados ){
+                        if( dados instanceof String ){
+                            alert( dados );
+                        }else if( dados instanceof Object ){
+                            alert("Dados salvos com sucesso.");
+                        }
+
                     });
 					
 				}else{
@@ -2289,25 +2298,6 @@ require([
 				}
 			}
 
-            /**
-             *  Verifica se os widgets possuem 'erro' ou estão 'incompletos'
-             *  @param fields - É um array de dijit/form/ValidationTextBox
-             */
-            function areFieldsValids( fields ) {
-                for( var iCampos in fields){
-                    dom.byId(fields[iCampos].id).focus();
-                }
-                dom.byId(fields[0].id).focus();
-
-                var isValid = true;
-                for( var iCampos in fields){
-                    if(fields[iCampos].get("state") == "Error" || fields[iCampos].get("state") == "Incomplete"){
-                        isValid = false;
-                        break;
-                    }
-                }
-                return isValid;
-            }
 			
 			function saveActiveDirectory(){
 				var ip = dom.byId("txtIpActiveDirectory").value;
@@ -2327,6 +2317,76 @@ require([
 					});					
 				
 			}
+
+            function saveKML(){
+                var kmlUrl = "";
+                var kmlDescricao = "";
+                var url = "importer/kml/" + kmlUrl +"/"+ kmlDescricao;
+
+                var resultado = restServices.salvaObjeto( url );
+                resultado.then( function( dados ){
+                    if( dados instanceof String ){
+                        alert( dados );
+                    }else if( dados instanceof Object ){
+                        // Retorna { id: 1, kmlUrl: "www.com", kmlDesc: "nononono", idProfile: 1 }
+                        alert("Dados salvos com sucesso.");
+                    }
+                });
+            }
+
+            function saveFTP(){
+                var usuario = "";
+                var senha = "";
+                var endereco = "";
+                var porta = "";
+                var url = "ftp/ls/" + usuario +"/"+ senha +"/"+ endereco +"/"+ porta;
+
+                var resultado = restServices.salvaObjeto( url );
+                resultado.then( function( dados ){
+                    if( dados instanceof String ){
+                        alert( dados );
+                    }else if( dados instanceof Object ){
+                        // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
+                        alert("Dados salvos com sucesso.");
+                    }
+                });
+            }
+
+            function loadProfileData( idProfile ){
+                var url = "profiles/" + idProfile;
+                var resultado = restServices.carregaObjeto(url);
+                resultado.then( function( dados ){
+                    if( dados instanceof String ){
+                        alert( dados ); // Exibe o erro
+                    }else if( dados instanceof Object ){
+                        // Retorna { idprofile: 1, idProfileOrganization: null, nmUser: "Lam Mxrettx",
+                        // email: "malacma@gmail.com", password: "8ddef0f4588c24e8d08307977c2d826b",
+                        // cpfCnpj: null, online: null, bio: null, nascimento: null, telefone: null,
+                        // securityInfo: [ ], profileLang: [ ] }
+                        // Faz algo
+                    }
+                });
+            }
+
+            /**
+             *  Verifica se os widgets possuem 'erro' ou estão 'incompletos'
+             *  @param fields - É um array de dijit/form/ValidationTextBox
+             */
+            function areFieldsValids( fields ) {
+                for( var iCampos in fields){
+                    dom.byId(fields[iCampos].id).focus();
+                }
+                dom.byId(fields[0].id).focus();
+
+                var isValid = true;
+                for( var iCampos in fields){
+                    if(fields[iCampos].get("state") == "Error" || fields[iCampos].get("state") == "Incomplete"){
+                        isValid = false;
+                        break;
+                    }
+                }
+                return isValid;
+            }
 
             function selectProfileLocale( tag ){
                 var locale = tag.id.replace("userLocale","");
