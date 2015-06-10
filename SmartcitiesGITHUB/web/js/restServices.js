@@ -13,7 +13,7 @@ define([
                         xhr(urlAutentica, {handleAs: "json", preventCache: true, method: "GET"})
                                 .then(function (data) {
                                     console.log("requisicao ok: " + data);
-                                    //Achouo usuario
+                                    //Achou usuario
                                     if (data.nmUser != null) {
                                         window.location = "main.html";
                                     } else {
@@ -40,13 +40,25 @@ define([
                                 method: "POST"
                             }
                     ).then(function (data) {
-                        console.log("requisicao ok: " + data);
-                        return "Dados salvos com sucesso.";
+                        return data;
                     }, function (err) {
                         return "Não foi possível salvar. Causa: " + err;
                     });
                 },
-                salvaProfileAddress: function (latLng, address, complement) {
+                carregaObjeto: function (url){
+                    return xhr( this.urlServer + url,
+                        {
+                            handleAs: "json",
+                            preventCache: true,
+                            method: "GET"
+                        }
+                    ).then(function(data){
+                        return data;
+                    }, function(erro){
+                        return "Não foi possivel carregar. Causa: " + erro;
+                    });
+                },
+				salvaProfileAddress: function (latLng, address, complement) {
                     return xhr(this.urlServer + "profiles/address/" + encodeURI(latLng) + "/" + encodeURI(address) + "/" + encodeURI(complement),
                             {
                                 handleAs: "json",
@@ -59,6 +71,7 @@ define([
                         myDialog.set("title", "Sucess");
                         myDialog.set("width", "240px");
                         myDialog.set("height", "80px");
+						myDialog.resize();
                         myDialog.show();
                         return "En.";
                     }, function (err) {
@@ -67,4 +80,4 @@ define([
                 }
             }
 
-        });
+    });
