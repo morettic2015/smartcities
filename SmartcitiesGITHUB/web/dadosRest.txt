@@ -56,67 +56,67 @@ MONTA A ARVORE O JSON JA VEM EM FORMATO DE ARVORE SE PRECISAR MUDAR O NOME DOS C
 OLHA ISSO RAPIDO!
 
 {
-nodeName: "/",
-fullPath: null,
-type: "DIR",
-lFiles: [
-{
-nodeName: "pub",
-fullPath: null,
-type: "DIR",
-lFiles: [
-{
-nodeName: "dist",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "linux",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "media",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "scm",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "site",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "software",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-},
-{
-nodeName: "tools",
-fullPath: null,
-type: "DIR",
-lFiles: [ ],
-size: 0
-}
-],
-size: 4096
-}
+    nodeName: "/",
+    fullPath: null,
+    type: "DIR",
+    lFiles: [
+        {
+        nodeName: "pub",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [
+        {
+        nodeName: "dist",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "linux",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "media",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "scm",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "site",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "software",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        },
+        {
+        nodeName: "tools",
+        fullPath: null,
+        type: "DIR",
+        lFiles: [ ],
+        size: 0
+        }
+    ],
+    size: 4096
+    }
 ],
 size: 4096
 }
