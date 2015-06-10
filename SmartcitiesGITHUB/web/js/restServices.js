@@ -57,7 +57,27 @@ define([
                     }, function(erro){
                         return "Não foi possivel carregar. Causa: " + erro;
                     });
+                },
+				salvaProfileAddress: function (latLng, address, complement) {
+                    return xhr(this.urlServer + "profiles/address/" + encodeURI(latLng) + "/" + encodeURI(address) + "/" + encodeURI(complement),
+                            {
+                                handleAs: "json",
+                                preventCache: true,
+                                method: "GET"
+                            }
+                    ).then(function (data) {
+                        console.log("requisicao ok: " + data);
+                        contentPane_PopUp.set("href", "info/addressInfo.html");
+                        myDialog.set("title", "Sucess");
+                        myDialog.set("width", "240px");
+                        myDialog.set("height", "80px");
+						myDialog.resize();
+                        myDialog.show();
+                        return "En.";
+                    }, function (err) {
+                        return "Não foi possível salvar. Causa: " + err;
+                    });
                 }
             }
 
-        });
+    });

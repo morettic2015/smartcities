@@ -29,6 +29,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
@@ -67,6 +68,52 @@ public class ProfileEndpoint {
         }
         em.remove(entity);
         return Response.noContent().build();
+    }
+
+    /**
+     * http://localhost:8080/smartcities/rest/profile/address/(-27.596618,%20-48.54527010000004)/Rua%20General%20Bitencourt,%20397%20-%20Centro,%20Florian%C3%B3polis%20-%20SC,%2088020-100,%20Brasil/123
+     *
+     *
+     *
+     * @param latLon
+     * @param addrs
+     * @param compl
+     * @param req
+     * @param res
+     * @return
+     */
+    @GET
+    @Path("/address/{latLon}/{addrs}/{compl}")
+    @Produces("application/json")
+    public Response address(@PathParam("latLon") String latLon, @PathParam("addrs") String addrs, @PathParam("compl") String compl, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+
+        Profile p = getProfileSession(req);
+
+        Adress adrs = new Adress();
+        adrs.setIdProfile(p.getIdprofile());
+        adrs.setOtherinfo(compl);
+        adrs.setStreet(addrs);
+        adrs.setProfile(p);
+
+        String[] formatLatLon = latLon.substring(1, latLon.length() - 1).split(",");
+
+        adrs.setLat(formatLatLon[0]);
+        adrs.setLon(formatLatLon[1]);
+
+        //Remove o endereço anterior e mantem um só
+        TypedQuery<Adress> findByIdQuery = em.createQuery("SELECT DISTINCT a FROM Adress a WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+        findByIdQuery.setParameter("entityId", p.getIdprofile());
+        Adress entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+            em.remove(entity);
+        } catch (NoResultException nre) {
+            entity = null;
+        }
+
+        em.persist(adrs);
+
+        return Response.ok(adrs).build();
     }
 
     @GET
@@ -133,6 +180,18 @@ public class ProfileEndpoint {
         Profile entity;
         try {
             entity = findByIdQuery.getSingleResult();
+
+            TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+            
+            findByIdQuery.setParameter("entityId", id);
+            
+            List<Adress> entityAddrs;
+            
+            findByIdProf.setParameter("entityId", id);
+            entityAddrs = findByIdProf.getResultList();
+           
+            entity.getAdresses().addAll(entityAddrs);
+            
         } catch (NoResultException nre) {
             entity = null;
         }
@@ -221,24 +280,44 @@ public class ProfileEndpoint {
     }
 
     @GET
-    @Path("/facebook/{email}/{pass}/")
+    @Path("/facebook/{email}/{pname}/{avatar}")
+    public void facebook(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
 
-    public void facebook(@PathParam("email") String email, @PathParam("pass") String pass, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
-
-        String password = UUID.randomUUID().toString().substring(0, 8);
-
+        //String password = UUID.randomUUID().toString().substring(0, 8);
         Profile p = new Profile();
         p.setEmail(email);
-        p.setNmUser(pass);
-        p.setPassword(MD5Crypt.getHash(pass));
+        p.setNmUser(pname);
+        p.setPassword(MD5Crypt.getHash(email));
 
         em.persist(p);
 
+        Avatar a = new Avatar();
+        a.setIdProfile(p.getIdprofile());
+        a.setPath(avatar.replaceAll("ø", "/"));
+        a.setProfile(p);
+
+        //Salva o avatar
+        em.persist(a);
+
+        p.getAvatars().add(a);
         HttpSession session = req.getSession();
         session.setAttribute(PROFILE, p);
-        
-        res.sendRedirect("/smartcities/main.html");
 
+        res.sendRedirect(SMARTCITIESMAINHTML);
+
+    }
+    public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";
+
+    /**
+     *
+     * @param req
+     * @return
+     */
+    public static Profile getProfileSession(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
+
+        return ((p == null) ? new Profile() : p);
     }
 
 }
