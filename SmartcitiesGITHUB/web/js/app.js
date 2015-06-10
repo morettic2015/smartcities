@@ -2266,12 +2266,11 @@ require([
                     var latLng = selectedAddress.latlng;
                     var complement = dom.byId("txtEnderecoComplemento").value;
 
-                    var url = "profile/p2/" + latLng + "/" + address + "/" + complement;
 
-                    var resultado = restServices.salvaObjeto();
-                    resultado.then(function (texto) {
-                        alert(texto);
-                    });
+                    // url =  encodeURI(url);
+
+                    restServices.salvaProfileAddress(latLng, address, complement);
+                    
 
                 } else {
                     alert("ATENCAO: você deve informar seu endereço.");

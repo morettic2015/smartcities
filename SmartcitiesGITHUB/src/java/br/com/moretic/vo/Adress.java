@@ -33,7 +33,7 @@ public class Adress implements java.io.Serializable {
 	@JoinColumn(name = "city_idcity", nullable = true, insertable = false, updatable = false)
 	private City city;
 	
-	@Column(name = "city_idcity", nullable = false, insertable = true, updatable = true)
+	@Column(name = "city_idcity", nullable = true, insertable = true, updatable = true)
 	private Integer idCity;
 
 	@JsonIgnore

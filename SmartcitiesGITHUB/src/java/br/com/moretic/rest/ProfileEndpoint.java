@@ -69,6 +69,52 @@ public class ProfileEndpoint {
         return Response.noContent().build();
     }
 
+    /**
+     * http://localhost:8080/smartcities/rest/profile/address/(-27.596618,%20-48.54527010000004)/Rua%20General%20Bitencourt,%20397%20-%20Centro,%20Florian%C3%B3polis%20-%20SC,%2088020-100,%20Brasil/123
+     *
+     *
+     *
+     * @param latLon
+     * @param addrs
+     * @param compl
+     * @param req
+     * @param res
+     * @return
+     */
+    @GET
+    @Path("/address/{latLon}/{addrs}/{compl}")
+    @Produces("application/json")
+    public Response address(@PathParam("latLon") String latLon, @PathParam("addrs") String addrs, @PathParam("compl") String compl, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+
+        Profile p = getProfileSession(req);
+
+        Adress adrs = new Adress();
+        adrs.setIdProfile(p.getIdprofile());
+        adrs.setOtherinfo(compl);
+        adrs.setStreet(addrs);
+        adrs.setProfile(p);
+
+        String[] formatLatLon = latLon.substring(1, latLon.length() - 1).split(",");
+
+        adrs.setLat(formatLatLon[0]);
+        adrs.setLon(formatLatLon[1]);
+
+        //Remove o endereço anterior e mantem um só
+        TypedQuery<Adress> findByIdQuery = em.createQuery("SELECT DISTINCT a FROM Adress a WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+        findByIdQuery.setParameter("entityId", p.getIdprofile());
+        Adress entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+            em.remove(entity);
+        } catch (NoResultException nre) {
+            entity = null;
+        }
+        
+        em.persist(adrs);
+
+        return Response.ok(adrs).build();
+    }
+
     @GET
     @Path("/authenticate/{email}/{pass}")
     @Produces("application/json")
