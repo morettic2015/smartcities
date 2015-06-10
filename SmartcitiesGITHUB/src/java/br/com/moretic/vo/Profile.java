@@ -314,8 +314,8 @@ public class Profile implements java.io.Serializable {
         this.shareViewWiths = shareViewWiths;
     }
 
-    @XmlTransient
-    @JsonIgnore
+    //@XmlTransient
+    //@JsonIgnore
     public Set<Adress> getAdresses() {
         return this.adresses;
     }

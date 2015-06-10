@@ -130,18 +130,30 @@ FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMP
 http://localhost:8080/smartcities/rest/profiles/1
 
 {
-idprofile: 1,
-idProfileOrganization: null,
-nmUser: "Lam Mxrettx",
-email: "malacma@gmail.com",
-password: "8ddef0f4588c24e8d08307977c2d826b",
-cpfCnpj: null,
-online: null,
-bio: null,
-nascimento: null,
-telefone: null,
-securityInfo: [ ],
-profileLang: [ ]
+    idprofile: 1,
+    idProfileOrganization: null,
+    nmUser: "Lam Mxrettx",
+    email: "malacma@gmail.com",
+    password: "8ddef0f4588c24e8d08307977c2d826b",
+    cpfCnpj: null,
+    online: null,
+    bio: null,
+    nascimento: null,
+    telefone: null,
+    adresses: [
+        {
+        idadress: 1,
+        idCity: null,
+        idProfile: 1,
+        street: "Avenida Jornalista RubÃ©ns de Arruda Ramos, 1540 - Centro, FlorianÃ³polis - SC, 88015-700, Brasil",
+        number: null,
+        otherinfo: "apto 102",
+        lat: "-27.5875638",
+        lon: " -48.555164200000036"
+        }
+    ],
+    securityInfo: [ ],
+    profileLang: [ ]
 }
 
 retorno

@@ -29,6 +29,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
@@ -109,7 +110,7 @@ public class ProfileEndpoint {
         } catch (NoResultException nre) {
             entity = null;
         }
-        
+
         em.persist(adrs);
 
         return Response.ok(adrs).build();
@@ -179,6 +180,18 @@ public class ProfileEndpoint {
         Profile entity;
         try {
             entity = findByIdQuery.getSingleResult();
+
+            TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+            
+            findByIdQuery.setParameter("entityId", id);
+            
+            List<Adress> entityAddrs;
+            
+            findByIdProf.setParameter("entityId", id);
+            entityAddrs = findByIdProf.getResultList();
+           
+            entity.getAdresses().addAll(entityAddrs);
+            
         } catch (NoResultException nre) {
             entity = null;
         }
