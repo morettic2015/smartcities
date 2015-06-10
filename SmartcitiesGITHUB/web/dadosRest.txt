@@ -16,7 +16,11 @@ Perfil
 	Uri: 	/rest/profile/p3/
 	Campos:	/email/telephone/celphone/passphrase
 
-Ferramenta de Dados
+Ferramenta de Dados 
+
+#TODO REFACTOR
+#OS IMPORT TEM O PREFIXO /rest/importer/kml /rest/importer/ftp /rest/importer/ac
+
 	Tela 1: importADConnection.html (Active Directory)
 	Uri: 	/rest/d1/	( o metodo deverá salvar um fonte de dados e uma lista de pendencias vinculadas à essa)
 	Campos(Data Source):	/ip/user/password
