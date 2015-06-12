@@ -1,4 +1,3 @@
-
 /**************************************
  *		Controle da visão / telas
  *************************************/
@@ -2215,12 +2214,8 @@ require([
 				}else{
 					profileAddressMarker.setPosition( objLatLng );
 				}
-			}
-
-            /**
-             *  Rotinas de envio dos objetos a serem salvos
-             *
-             */
+			}		
+			
 			function saveProfileInfo(){
                 var id = dom.byId("hdnIdProfile");
 				var name = registry.byId("txtNameProfile");
