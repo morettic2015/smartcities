@@ -2371,30 +2371,24 @@ require([
                 });
             }
 
-           /* loadGenericData("", function trataRetorno(a) {
-            }, "POST");
+            //loadGenericData( "url", "POST", function handleData( data ){
+            //  do something with data
+            // });
 
-            function loadGenericData(url, metodo, submitType) {
-                var url = "profiles/" + idProfile;
-                var resultado = restServices.carregaObjeto(url);
-                resultado.then(function (dados) {
-                    if (dados instanceof String) {
-                        alert(dados); // Exibe o erro
-                    } else if (dados instanceof Object) {
-                        // Retorna { idprofile: 1, idProfileOrganization: null, nmUser: "Lam Mxrettx",
-                        // email: "malacma@gmail.com", password: "8ddef0f4588c24e8d08307977c2d826b",
-                        // cpfCnpj: null, online: null, bio: null, nascimento: null, telefone: null,
-                        // securityInfo: [ ], profileLang: [ ] }
-                        // Faz algo
-
-                        metodo(dados);
+            function loadGenericData( url, submitType, handler ){
+                var result = restServices.loadObject( url, submitType );
+                result.then( function( data ){
+                    if( data instanceof String ){
+                        alert( data ); // Show the error
+                    }else if( data instanceof Object ){
+                        handler( data );
                     }
                 });
-            }*/
+            }
             
             function loadProfileData(idProfile) {
                 var url = "profiles/" + idProfile;
-                var resultado = restServices.carregaObjeto(url);
+                var resultado = restServices.loadObject(url, "GET");
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
                         alert(dados); // Exibe o erro
