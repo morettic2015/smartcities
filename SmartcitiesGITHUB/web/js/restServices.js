@@ -45,12 +45,12 @@ define([
                         return "Não foi possível salvar. Causa: " + err;
                     });
                 },
-                carregaObjeto: function (url) {
+                loadObject: function ( url, submitType ) {
                     return xhr(this.urlServer + url,
                             {
                                 handleAs: "json",
                                 preventCache: true,
-                                method: "GET"
+                                method: submitType
                             }
                     ).then(function (data) {
                         return data;
