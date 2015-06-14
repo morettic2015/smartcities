@@ -2255,7 +2255,15 @@ require([
                     if (strId == undefined || strId == null || strId == "") {
                         strId = "-1";
                     }
-                    var url = "profile/bio/" + strId + "/" + name.value + "/" + email.value + "/" + birthDate.value + "/" + cpfCnpj.value + "/" + password.value + "/" + bio.value + "/" + telephone.value + "/" + avatar.value + "/" + lang.value;
+                    // Put date into the format dd-mm-aaaa
+                    var objBirthDate = new Date( birthDate.value );
+                    var birthDay = objBirthDate.getDate().toString();
+                    birthDay = ( birthDay.length == 1) ? "0" + birthDay : birthDay;
+                    var birthYear = objBirthDate.getFullYear().toString();
+                    var birthMonth = (objBirthDate.getMonth()+1).toString();
+                    birthMonth = ( birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
+                    var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
+                    var url = "profile/bio/" + strId + "/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + cpfCnpj.value + "/" + password.value + "/" + bio.value + "/" + telephone.value + "/" + avatar.value + "/" + lang.value;
                     console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
