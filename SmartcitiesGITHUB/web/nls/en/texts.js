@@ -157,25 +157,30 @@ define({
 	fontesDados: "Data Sources",
 	importacoesPendentes: "Pending Imports",
 	
-	tituloImportBancoDados: "Import Database (Step 2 of 3)",
+	tituloImportBancoDados: "Import Database (Step 1 of 2)",
 	nomeFonteDados: "Data source's name",
 	nomeBaseDados: "Database name",
 	tipoBaseDados: "Database type",
 	testarConexao: "Test Connection",
 	tituloImportKml: "Import KML",	
-	p1ImportADConnection: "Fill the fields and test the connection (step 2 of 3)",
-	p1ImportFtpSelection: "Select the directory, pick the file types and check the listed files to import (Step 3 of 3)",
+	p1ImportADConnection: "Fill the fields and test the connection (step 1 of 2)",
+	p1ImportFtpSelection: "Select the directory, pick the file types and check the listed files to import (Step 2 of 2)",
 	tituloImportDBSelection: "Import Database",
-	p1ImportDBSelection: "Drag the tables (Step 3 of 3)",
+	p1ImportDBSelection: "Drag the tables (Step 2 of 2)",
 	localArquivo: "File Url",
-	p1ImportCsv: "Select the desired fields and use the arrows to insert them into the data source (Step 3 of 3)",
-	p1ImportFtpConection: "Fill the fields and test the connection (Step 2 of 3)",
-	p1ImportJson: "Select the desired fields and use the arrows to insert them into the data source (Step 3 of 3)",
-	importarLdap: "Import LDAP (Step 2 of 3)",
+	p1ImportCsv: "Select the desired fields and use the arrows to insert them into the data source (Step 2 of 2)",
+	p1ImportFtpConection: "Fill the fields and test the connection (Step 1 of 2)",
+	p1ImportJson: "Select the desired fields and use the arrows to insert them into the data source (Step 2 of 2)",
+	importarLdap: "Import LDAP (Step 1 of 2)",
 	pesquisaLdap: "LDAP query",
 	tituloImportImportWsdl: "Import data from Web Services",
-	p1ImportWsdl: "Select the data service and type a query to search (Step 3 of 3)",
+	p1ImportWsdl: "Select the data service and type a query to search (Step 2 of 2)",
 	filtroWsdl: "Query",
+	dataModificacao: "Date Modified",
+	enviarDestePC: "Upload from this computer",
+	abrirDiretorioPendencias: "Open directory of pendencies",
+	enderecoNaoEncontrado: "No addresses was found",
+	enderecoAbrangente: "The result is too wide. Inform the street and number",
 	
 	// Módulo Mapa
 	tituloMapConfig: "Map configuration",
@@ -251,6 +256,6 @@ define({
 	gFinalizar: "Finish",
 	gCredito: "Credit",
 	gDebito: "Debit",
-	gCamadas: "Layers"
-		
+	gCamadas: "Layers",
+	gTamanho: "Size"
 });

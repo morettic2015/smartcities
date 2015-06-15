@@ -2268,12 +2268,11 @@ require([
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
-                        if (dados instanceof String) {
+                        if ( typeof dados == "string" ) {
                             alert(dados);
                         } else if (dados instanceof Object) {
                             alert("Dados salvos com sucesso.");
                         }
-
                     });
 
                 } else {
@@ -2316,8 +2315,12 @@ require([
                     console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
-                    resultado.then(function (texto) {
-                        alert(texto);
+                    resultado.then(function (dados) {
+                        if ( typeof dados == "string" ) {
+                            alert(dados);
+                        } else if (dados instanceof Object) {
+                            alert("Dados salvos com sucesso.");
+                        }
                     });
 
                 } else {

@@ -40,8 +40,10 @@ define([
                                 method: "POST"
                             }
                     ).then(function (data) {
+                            alert("aqui");
                         return data;
                     }, function (err) {
+                            alert("deu pau");
                         return "Não foi possível salvar. Causa: " + err;
                     });
                 },
@@ -73,9 +75,9 @@ define([
                         myDialog.set("height", "80px");
                         myDialog.resize();
                         myDialog.show();
-                        return "En.";
+                        alert( "En.");
                     }, function (err) {
-                        return "Não foi possível salvar. Causa: " + err;
+                        alert( "Não foi possível salvar. Causa: " + err);
                     });
                 }
             }
