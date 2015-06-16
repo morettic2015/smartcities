@@ -84,13 +84,14 @@ public class FacebookProxyFilter implements Filter {
         //MONTA UM JSON DO OBJETO
         JSONObject profileJson = new JSONObject(profile);
 
-        TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
+        TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
         findByIdQuery.setParameter("entityId", profileJson.getString("email"));
 
         Profile entity = null;
         try {
             //Ja existe recupera e fechou
             entity = findByIdQuery.getSingleResult();
+            entity.getAvatars();
             session.setAttribute(ProfileEndpoint.PROFILE, entity);
 
             ((HttpServletResponse) response).sendRedirect(SMARTCITIESMAINHTML);
