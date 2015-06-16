@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
  *
  * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
  */
-@WebFilter(filterName = "SmartProxyFilter", urlPatterns = {"/main.html", "/rest/ftp/*"}, dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.INCLUDE})
+@WebFilter(filterName = "SmartProxyFilter", urlPatterns = {"/main.html", "/configuration.html", "/header_smartcities.jsp", "/rest/ftp/*", "/rest/importer/*"}, dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.INCLUDE})
 public class SmartProxyFilter implements Filter {
 
     private static final boolean debug = true;
