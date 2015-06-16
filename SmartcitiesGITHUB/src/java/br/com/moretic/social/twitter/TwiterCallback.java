@@ -73,7 +73,7 @@ public class TwiterCallback extends HttpServlet {
             String avatarUrl = user.getProfileImageURL().toString();
             System.out.println(user.getScreenName());
 
-            TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
+            TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
             findByIdQuery.setParameter("entityId", user.getScreenName() + "@twitter.com");
 
             Profile entity = null;
