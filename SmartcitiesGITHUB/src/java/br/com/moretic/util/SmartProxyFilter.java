@@ -69,11 +69,12 @@ public class SmartProxyFilter implements Filter {
         //Verifica se o usuario e valido
         if (session.getAttribute(ProfileEndpoint.PROFILE) == null) {
             // req.getRequestDispatcher("/login.jsp").forward(request, response);
-            ((HttpServletResponse) response).sendRedirect("index.html");
+            ((HttpServletResponse) response).sendRedirect(INDEXHTML);
         } else {
             chain.doFilter(request, response);
         };
     }
+    public static final String INDEXHTML = "index.html";
 
     /**
      * Return the filter configuration object for this filter.

@@ -1,5 +1,6 @@
 package br.com.moretic.rest;
 
+import br.com.moretic.social.twitter.TwiterCallback;
 import br.com.moretic.util.MD5Crypt;
 import br.com.moretic.util.ValidatorUtil;
 import java.util.List;
@@ -182,16 +183,16 @@ public class ProfileEndpoint {
             entity = findByIdQuery.getSingleResult();
 
             TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
-            
+
             findByIdQuery.setParameter("entityId", id);
-            
+
             List<Adress> entityAddrs;
-            
+
             findByIdProf.setParameter("entityId", id);
             entityAddrs = findByIdProf.getResultList();
-           
+
             entity.getAdresses().addAll(entityAddrs);
-            
+
         } catch (NoResultException nre) {
             entity = null;
         }
@@ -306,7 +307,19 @@ public class ProfileEndpoint {
         res.sendRedirect(SMARTCITIESMAINHTML);
 
     }
-    public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";
+
+    @GET
+    @Path("/logout")
+    public void logoff(@Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
+
+        HttpSession session = req.getSession();
+        session.invalidate();
+        
+        res.sendRedirect(TwiterCallback.SMARTCITIESINDEXHTML);
+
+    }
+
+    public static final String SMARTCITIESMAINHTML = TwiterCallback.SMARTCITIESMAINHTML;
 
     /**
      *
