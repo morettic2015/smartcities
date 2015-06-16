@@ -2334,7 +2334,7 @@ require([
                 var user = dom.byId("txtUserActiveDirectory").value;
                 var password = dom.byId("txtPasswordActiverDir").value;
 
-                var url = "http://localhost:8080/rest/d1/" + ip + "/" + user + "/" + password;
+                var url = "importer/ac/" + ip + "/" + user + "/" + password;
                 console.log("chama url " + url);
                 //TODO colocar a chamada  no modulo restServices.js
 
@@ -2369,7 +2369,7 @@ require([
                 var senha = "";
                 var endereco = "";
                 var porta = "";
-                var url = "ftp/ls/" + usuario + "/" + senha + "/" + endereco + "/" + porta;
+                var url = "importer/ftp/ls/" + usuario + "/" + senha + "/" + endereco + "/" + porta;
 
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
@@ -2382,7 +2382,26 @@ require([
                 });
             }
 
-            //loadGenericData( "url", "POST", function handleData( data ){
+            function saveCSV() {
+                // TODO no urlCSV replace em / por ø
+                var urlCSV = "";
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = "";
+                var http = "";
+                var url = "importer/csv/" + urlCSV + "/" + description + "/" + http;
+
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    if (dados instanceof String) {
+                        alert(dados);
+                    } else if (dados instanceof Object) {
+                        alert("Dados salvos com sucesso.");
+                    }
+                });
+            }
+
+            //exemplo de chamada
+            // loadGenericData( "url", "POST", function handleData( data ){
             //  do something with data
             // });
 

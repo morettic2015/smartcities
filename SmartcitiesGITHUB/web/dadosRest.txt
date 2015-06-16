@@ -1,15 +1,15 @@
-Dados REST
+﻿Dados REST
 ==========
 
 Requisições POST
 
 Perfil
 	Tela 1: profileInfo.html
-	Uri: 	/rest/profile/p1/
+	Uri: 	/rest/profile/bio/
 	Campos: /id/name/email/birthDate/cpfCnpj/password/bio/telephone/avatar/lang
 
 	Tela 2:	profileAddress.html
-	Uri: 	/rest/profile/p2/
+	Uri: 	/rest/profile/address/
 	Campos: /latLng/address/complement
 	
 	Tela 3:	profileSecurity.html
@@ -18,149 +18,139 @@ Perfil
 
 Ferramenta de Dados 
 
-#TODO REFACTOR
-#OS IMPORT TEM O PREFIXO /rest/importer/kml /rest/importer/ftp /rest/importer/ac
-
 	Tela 1: importADConnection.html (Active Directory)
-	Uri: 	/rest/d1/	( o metodo deverá salvar um fonte de dados e uma lista de pendencias vinculadas à essa)
+	Uri: 	/rest/importer/ac	( o metodo deverá salvar um fonte de dados e uma lista
+					 de pendencias vinculadas à essa)
 	Campos(Data Source):	/ip/user/password
-	Campos(Pendency):		/fileName/fileType/fileSize/pendencyDate
+	Campos(Pendency):	/fileName/fileType/fileSize/pendencyDate
 	
-	Tela 2:	
-	Uri: 	/rest/d2/
-	Campos:	
+	Tela 2:	importFtpSelection.html
+	Uri: 	/rest/importer/ftp/ls/
+	Campos:	/user/password/url/port
+	Retorno
+		{
+			nodeName: "/",
+			fullPath: null,
+			type: "DIR",
+			lFiles: [
+				{
+				nodeName: "pub",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [
+				{
+				nodeName: "dist",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "linux",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "media",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "scm",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "site",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "software",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				},
+				{
+				nodeName: "tools",
+				fullPath: null,
+				type: "DIR",
+				lFiles: [ ],
+				size: 0
+				}
+			],
+			size: 4096
+			}
+		],
+		size: 4096
+		}
+		
 
 
 
-URL PARA REQUEST DO KML
-ESSE ENDERECO SALVA UM KML NO BANCO DE DADOS E TESTA SE O FORMATO ESTA CORRETO @TODO
+	Tela 3:	importCSV.html
+	Uri: 	rest/importer/csv/
+	Campos:	url/descr/http
 
-http://localhost:8080/smartcities/rest/importer/kml/www.com/nononono
-
-RETORNO
-
-{
-id: 1,
-kmlUrl: "www.com",
-kmlDesc: "nononono",
-idProfile: 1
-}
-
-
-URL PARA ACESSAR O FTP
-
-http://localhost:8080/smartcities/rest/ftp/ls/anonymous/me@me.com/ftp.kernel.org/21
-
-JSON DE RETORNO DO FTP PRECISA COLOCAR NA ARVORE ESSES DADOS DE RETORNO!!!!!!!
-MONTA A ARVORE O JSON JA VEM EM FORMATO DE ARVORE SE PRECISAR MUDAR O NOME DOS CAMPOS EU MUDO
-OLHA ISSO RAPIDO!
-
-{
-    nodeName: "/",
-    fullPath: null,
-    type: "DIR",
-    lFiles: [
-        {
-        nodeName: "pub",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [
-        {
-        nodeName: "dist",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "linux",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "media",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "scm",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "site",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "software",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        },
-        {
-        nodeName: "tools",
-        fullPath: null,
-        type: "DIR",
-        lFiles: [ ],
-        size: 0
-        }
-    ],
-    size: 4096
-    }
-],
-size: 4096
-}
-lFiles+-View sourceoptions
+	Tela 4: importkml.hml
+	Uri:	/rest/importer/kml
+	Campos:	/url/desc
+	RETORNO
+		{
+		id: 1,
+		kmlUrl: "www.com",
+		kmlDesc: "nononono",
+		idProfile: 1
+		}
 
 
 
-# o codigo 1 e o id do usuario para recuperar os dados do usuario no formulario!!!!! endereco da requisicao que vc vai fazer passando o id do usuario!!!!
-
-FAZ UMA REQUISICAO QUANDO ABRE CADA UMA DAS PAGINAS DE PERFIL E COMPLETA OS CAMPOS DO FORMULARIO COM O QUE ESTIVER DISPONIVEL 1 e o id do usuario logado
-http://localhost:8080/smartcities/rest/profiles/1
-
-{
-    idprofile: 1,
-    idProfileOrganization: null,
-    nmUser: "Lam Mxrettx",
-    email: "malacma@gmail.com",
-    password: "8ddef0f4588c24e8d08307977c2d826b",
-    cpfCnpj: null,
-    online: null,
-    bio: null,
-    nascimento: null,
-    telefone: null,
-    adresses: [
-        {
-        idadress: 1,
-        idCity: null,
-        idProfile: 1,
-        street: "Avenida Jornalista RubÃ©ns de Arruda Ramos, 1540 - Centro, FlorianÃ³polis - SC, 88015-700, Brasil",
-        number: null,
-        otherinfo: "apto 102",
-        lat: "-27.5875638",
-        lon: " -48.555164200000036"
-        }
-    ],
-    securityInfo: [ ],
-    profileLang: [ ]
-}
-
-retorno
-
-<script>
-            var pProfile = {id:1};
-        </script>
 
 
-variavel global json para pegar o id """"pProfile.id"""""""
+Requisições GET
+
+	Tela 1: profielInfo.hml
+	Uri:	/rest/profiles/
+	Campos:	id
+	Retorno:
+		{
+			idprofile: 1,
+			idProfileOrganization: null,
+			nmUser: "Lam Mxrettx",
+			email: "malacma@gmail.com",
+			password: "8ddef0f4588c24e8d08307977c2d826b",
+			cpfCnpj: null,
+			online: null,
+			bio: null,
+			nascimento: null,
+			telefone: null,
+			adresses: [
+				{
+				idadress: 1,
+				idCity: null,
+				idProfile: 1,
+				street: "Avenida Jornalista RubÃ©ns de Arruda Ramos, 1540 - Centro, FlorianÃ³polis - SC, 88015-700, Brasil",
+				number: null,
+				otherinfo: "apto 102",
+				lat: "-27.5875638",
+				lon: " -48.555164200000036"
+				}
+			],
+			securityInfo: [ ],
+			profileLang: [ ]
+		}
+
+	retorno
+		<script>
+			var pProfile = {id:1};
+		</script>
+		variavel global json para pegar o id """"pProfile.id"""""""
