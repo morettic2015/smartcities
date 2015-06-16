@@ -7,6 +7,7 @@ package br.com.moretic.util;
 
 import br.com.moretic.rest.ProfileEndpoint;
 import static br.com.moretic.rest.ProfileEndpoint.PROFILE;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -26,72 +28,23 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author lmrosario
+ *
+ * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
  */
 @WebFilter(filterName = "SmartProxyFilter", urlPatterns = {"/main.html", "/rest/ftp/*"}, dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.REQUEST, DispatcherType.INCLUDE})
 public class SmartProxyFilter implements Filter {
 
     private static final boolean debug = true;
+    private static String contextPath;
+
+    public static String getContextPath() {
+        return contextPath;
+    }
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-
-    public SmartProxyFilter() {
-    }
-
-    private void doBeforeProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("SmartProxyFilter:DoBeforeProcessing");
-        }
-
-        // Write code here to process the request and/or response before
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-	/*
-         for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-         String name = (String)en.nextElement();
-         String values[] = request.getParameterValues(name);
-         int n = values.length;
-         StringBuffer buf = new StringBuffer();
-         buf.append(name);
-         buf.append("=");
-         for(int i=0; i < n; i++) {
-         buf.append(values[i]);
-         if (i < n-1)
-         buf.append(",");
-         }
-         log(buf.toString());
-         }
-         */
-    }
-
-    private void doAfterProcessing(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        if (debug) {
-            log("SmartProxyFilter:DoAfterProcessing");
-        }
-
-	// Write code here to process the request and/or response after
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed. 
-	/*
-         for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-         String name = (String)en.nextElement();
-         Object value = request.getAttribute(name);
-         log("attribute: " + name + "=" + value.toString());
-
-         }
-         */
-        // For example, a filter might append something to the response.
-	/*
-         PrintWriter respOut = new PrintWriter(response.getWriter());
-         respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
-    }
 
     /**
      *
@@ -109,15 +62,10 @@ public class SmartProxyFilter implements Filter {
         // doBeforeProcessing(request, response);
         HttpSession session = ((HttpServletRequest) request).getSession();
 
-        //System.out.println(session);
+        //atribui ao contexto do servlet o caminho completo
+        ServletContext servletContext = filterConfig.getServletContext();
+        contextPath = servletContext.getRealPath("/upload");
 
-        //Destroy a session do usuario se o parametro logout estiver na requisicao
-       /* String logout = (((HttpServletRequest) request).getParameter("logout") != null) ? "EXIT" : null;
-        //desloga
-        if (logout != null) {
-            session.invalidate();
-        }
-        */
         //Verifica se o usuario e valido
         if (session.getAttribute(ProfileEndpoint.PROFILE) == null) {
             // req.getRequestDispatcher("/login.jsp").forward(request, response);
