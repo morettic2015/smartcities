@@ -154,3 +154,12 @@ Requisições GET
 			var pProfile = {id:1};
 		</script>
 		variavel global json para pegar o id """"pProfile.id"""""""
+
+
+
+{
+fullPath: "C:\Users\LuisAugusto\Documents\jboss\standalone\tmp\vfs\temp\temp382ad431a57d8525\smartcities.war-eef71a2c458cf95c\upload\Sacramentorealestatetransactions (1).csv",
+bytes: 113183,
+name: "Sacramentorealestatetransactions (1).csv",
+contentType: "application/octet-stream"
+}
