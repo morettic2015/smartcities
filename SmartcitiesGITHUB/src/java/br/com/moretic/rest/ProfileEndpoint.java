@@ -170,6 +170,15 @@ public class ProfileEndpoint {
     }
 
     @GET
+    @Produces("application/json")
+    @Path("/ctx")
+    public Response getUserContext(@Context HttpServletRequest req, @Context HttpServletResponse res) {
+        Profile p = getProfileSession(req);
+
+        return findById(p.getIdprofile());
+    }
+
+    @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") int id) {
@@ -314,7 +323,7 @@ public class ProfileEndpoint {
 
         HttpSession session = req.getSession();
         session.invalidate();
-        
+
         res.sendRedirect(TwiterCallback.SMARTCITIESINDEXHTML);
 
     }

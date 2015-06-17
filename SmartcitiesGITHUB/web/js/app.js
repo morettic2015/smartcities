@@ -14,7 +14,8 @@ var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na 
 var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
 var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
 var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
-var dataImportObject = null				// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
+var dataImportObject = null;				// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
+var myProfile;   //Perfil do usuario com todos os dados dele
 
 /**
  *	Constantes: uri dos arquivos/telas
@@ -165,10 +166,41 @@ require([
 
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
-                    carregaTelaPerfil(PROFILE_INFO);
+                    carregaTelaPerfil(PROFILE_INFO, function () {
+
+                        dom.byId("txtNameProfile").value = myProfile.nmUser;
+
+                        dom.byId("txtEmailProfile").value = myProfile.email;
+
+                        dom.byId("txtBirthdateProfile").value = myProfile.nascimento;
+
+                        dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
+
+                        dom.byId("txtPasswordProfile").value = myProfile.password;
+
+                        dom.byId("txtConfirmPassProfile").value = myProfile.password;
+
+                        dom.byId("txtBioProfile").value = myProfile.bio;
+
+                        dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
+
+                        //dom.byId("userAvatarInput").value = myProfile.nmUser;
+
+                    });
+
+
                 });
                 on(dom.byId("btProfileAddress"), "click", function () {
-                    carregaTelaPerfil(PROFILE_ADDRESS)
+                    carregaTelaPerfil(PROFILE_ADDRESS, function () {
+
+                        if (myProfile.adresses.length > 0) {
+                            dom.byId("txtEnderecoRua").value = myProfile.adresses[0].street;
+                            dom.byId("txtEnderecoComplemento").value = myProfile.adresses[0].otherinfo;
+                            //TODO MARCAR A POSIção DO USUARIO NO MAPA
+                            addMarkerToMap(myProfile.adresses[0].street, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
+                        }
+
+                    });
                 });
                 on(dom.byId("btProfileSecurity"), "click", function () {
                     carregaTelaPerfil(PROFILE_SECURITY);
@@ -673,9 +705,22 @@ require([
              */
 
             function carregaTelaPerfil(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
+                //parametrosTela = parametros;	// Setando variável global
+
+
+                loadUserCTX();
+
+                contentPane_Perfil.set("onDownloadEnd", function () {
+                    configuraTela(this.get("href"));
+                    parametros();
+                });
+
                 var objContainer = contentPane_Perfil;
                 objContainer.set("href", paginaConteudo);
+
+
+                // 
+
             }
 
             function carregaTelaFerramentaDados(paginaConteudo, parametros) {
@@ -2256,19 +2301,19 @@ require([
                         strId = "-1";
                     }
                     // Put date into the format dd-mm-aaaa
-                    var objBirthDate = new Date( birthDate.value );
+                    var objBirthDate = new Date(birthDate.value);
                     var birthDay = objBirthDate.getDate().toString();
-                    birthDay = ( birthDay.length == 1) ? "0" + birthDay : birthDay;
+                    birthDay = (birthDay.length == 1) ? "0" + birthDay : birthDay;
                     var birthYear = objBirthDate.getFullYear().toString();
-                    var birthMonth = (objBirthDate.getMonth()+1).toString();
-                    birthMonth = ( birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
+                    var birthMonth = (objBirthDate.getMonth() + 1).toString();
+                    birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                     var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
                     var url = "profile/bio/" + strId + "/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + cpfCnpj.value + "/" + password.value + "/" + bio.value + "/" + telephone.value + "/" + avatar.value + "/" + lang.value;
                     console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
-                        if ( typeof dados == "string" ) {
+                        if (typeof dados == "string") {
                             alert(dados);
                         } else if (dados instanceof Object) {
                             alert("Dados salvos com sucesso.");
@@ -2280,6 +2325,17 @@ require([
                 }
             }
 
+
+
+            function loadUserCTX() {
+
+
+                restServices.loadCtx();
+
+
+
+
+            }
             function saveProfileAddress() {
                 if (selectedAddress != null) {
                     var address = selectedAddress.endereco_formatado;
@@ -2316,7 +2372,7 @@ require([
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
-                        if ( typeof dados == "string" ) {
+                        if (typeof dados == "string") {
                             alert(dados);
                         } else if (dados instanceof Object) {
                             alert("Dados salvos com sucesso.");
@@ -2405,19 +2461,19 @@ require([
             //  do something with data
             // });
 
-            function loadGenericData( url, submitType, handler ){
-                var result = restServices.loadObject( url, submitType );
-                result.then( function( data ){
-                    if( data instanceof String ){
-                        alert( data ); // Show the error
-                    }else if( data instanceof Object ){
-                        handler( data );
+            function loadGenericData(url, submitType, handler) {
+                var result = restServices.loadObject(url, submitType);
+                result.then(function (data) {
+                    if (data instanceof String) {
+                        alert(data); // Show the error
+                    } else if (data instanceof Object) {
+                        handler(data);
                     }
                 });
             }
-            
+
             function loadProfileData(idProfile) {
-                var url = "profiles/" + idProfile;
+                var url = "profiles/ctx";
                 var resultado = restServices.loadObject(url, "GET");
                 resultado.then(function (dados) {
                     if (dados instanceof String) {

@@ -1,83 +1,30 @@
 <div data-dojo-type="dijit/layout/LayoutContainer" data-dojo-props="design:'sidebar'" style="height:100%;">
 
-	<div id="boxResultsProfileAddress" class="componente-invisivel" style="z-index:1000;background-color:white;min-width:450px;max-width:800px;width:auto;min-height:25px;height:auto;position:absolute;top:25px;border:1px solid gray;top:97px;left:11%;"></div>
+    <div id="boxResultsProfileAddress" class="componente-invisivel" style="z-index:1000;background-color:white;min-width:450px;max-width:800px;width:auto;min-height:25px;height:auto;position:absolute;top:25px;border:1px solid gray;top:97px;left:11%;"></div>
 
-	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" style="height:140px;padding:0px;z-index:999" >
-		<span data-dojo-type="dijit/Toolbar">
-			<input id="btSalvarEnderecoPerfil" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSalvarProfileAddress'>Salvar</span>" iconClass="icone-salvar"></input>
-		</span>
-		
-		<h1 style="margin-left:10px;"><span id='tituloProfileAddress'>Endereço</span></h1>
-		
-		<div class="celula-form-1" style="margin-bottom:15px;">
-			<span class="rotulo"><span id='ruaProfileAddress'>Endereço</span>:</span>
-			<div class="campo" style="width:85%">
-				<input id="txtEnderecoRua" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" style="float:left;width:450px;height:23px;font-size:11pt;margin-right:5px;"></input>
-				<button id="btBuscarEnderecoProfile" data-dojo-type="dijit/form/Button" style="float:left">Buscar</button>
-				
-			</div>
-		</div>
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" style="height:140px;padding:0px;z-index:999" >
+        <span data-dojo-type="dijit/Toolbar">
+            <input id="btSalvarEnderecoPerfil" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSalvarProfileAddress'>Salvar</span>" iconClass="icone-salvar"></input>
+        </span>
 
-		<div class="celula-form-1" style="margin-bottom:10px;">
-			<span class="rotulo"><span id='complProfileAddress'>Complemento</span>:</span>
-			<input id="txtEnderecoComplemento" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
-		</div>
-		
-	</div>
-	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="">
-		<div id="mapProfileAddress" style="border: 1px solid #909090; height: 100%;">Mapa</div>
-	</div>
+        <h1 style="margin-left:10px;"><span id='tituloProfileAddress'>Endereço</span></h1>
+
+        <div class="celula-form-1" style="margin-bottom:15px;">
+            <span class="rotulo"><span id='ruaProfileAddress'>Endereço</span>:</span>
+            <div class="campo" style="width:85%">
+                <input id="txtEnderecoRua" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" style="float:left;width:450px;height:23px;font-size:11pt;margin-right:5px;"></input>
+                <button id="btBuscarEnderecoProfile" data-dojo-type="dijit/form/Button" style="float:left">Buscar</button>
+
+            </div>
+        </div>
+
+        <div class="celula-form-1" style="margin-bottom:10px;">
+            <span class="rotulo"><span id='complProfileAddress'>Complemento</span>:</span>
+            <input id="txtEnderecoComplemento" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+        </div>
+
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="">
+        <div id="mapProfileAddress" style="border: 1px solid #909090; height: 100%;">Mapa</div>
+    </div>
 </div>
-
-	
-	<!--
-	<div class="celula-form-1">
-        <span class="rotulo"><span id='ruaProfileAddress'>Rua</span>:</span>
-        <input id="txtEnderecoRua" class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtEnderecoRua" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
-    </div>
-
-	<div class="celula-form-1">
-        <span class="rotulo"><span id='complProfileAddress'>Complemento</span>:</span>
-        <input id="txtEnderecoComplemento" class="campo" type="text" data-dojo-type="dijit/form/TextBox" title="txtEnderecoRua" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
-    </div>
-
-	<div class="celula-form-1">
-        <span class="rotulo"><span id='cepProfileAddress'>Cep</span>:</span>
-        <input id="txtEnderecoCep" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
-    </div>
-
-	<div class="celula-form-1">
-        <span class="rotulo"><span id='bairroProfileAddress'>Bairro</span>:</span>
-        <input id="txtEnderecoBairro" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
-    </div>
-
-	<div class="celula-form-1" >
-        <span class="rotulo"><span id='paisProfileAddress'>Pa&iacute;s</span>:</span>-->
-		<!--<span id="slotEnderecoPais" class="campo"></span>-->
-		<!--
-        <select id="cmbEnderecoPais" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" dropDownPosition="below" searchDelay="0">
-			<option value=""><span id='cmbCountryProfileAddress'>Selecione o Pa&iacute;s</span></option>
-			<option value="br">Brasil</option>
-			<option value="ar">Argentina</option>
-		</select>
-    </div>
-
-	<div class="celula-form-1" >
-        <span class="rotulo"><span id='estadoProfileAddress'>Estado</span>:</span>
-        <select id="cmbEnderecoEstado" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" dropDownPosition="below" searchDelay="0">
-			<option value=""><span id='cmdStateAddress'>Selecione o Estado</span></option>
-			<option value="sc">Santa Catarina</option>
-			<option value="rs">Rio Grande do Sul</option>
-		</select>
-    </div>
-
-	<div class="celula-form-1" >
-        <span class="rotulo"><span id='cidadeProfileAddress'>Cidade</span>:</span>
-        <select id="cmbEnderecoCidade" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" dropDownPosition="below" searchDelay="0">
-			<option value=""><span id='cmdCityAddress'>Selecione a Cidade</span></option>
-				<option value="florianopolis">Florianopolis</option>
-				<option value="saojose">São Jose</option>
-			
-		</select>
-    </div>
-	-->

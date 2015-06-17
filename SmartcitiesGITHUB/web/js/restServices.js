@@ -75,11 +75,26 @@ define([
                         myDialog.set("height", "80px");
                         myDialog.resize();
                         myDialog.show();
-                        alert( "En.");
+                        //alert( "En.");
                     }, function (err) {
                         alert( "Não foi possível salvar. Causa: " + err);
                     });
+                },
+                loadCtx: function () {
+                    return xhr(this.urlServer + "profiles/ctx",
+                            {
+                                handleAs: "json",
+                                preventCache: true,
+                                method: "GET"
+                            }
+                    ).then(function (data) {
+                        //alert(data.email);
+                        myProfile = eval(data);
+                        return data;
+                    }, function (err) {
+                       // alert( "Não foi possível salvar. Causa: " + err);
+                        return null;
+                    });
                 }
             }
-
         });
