@@ -197,7 +197,7 @@ require([
                             dom.byId("txtEnderecoRua").value = myProfile.adresses[0].street;
                             dom.byId("txtEnderecoComplemento").value = myProfile.adresses[0].otherinfo;
                             //TODO MARCAR A POSIção DO USUARIO NO MAPA
-                            addMarkerToMap(myProfile.adresses[0].street, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
+                            addMarkerToMap(myProfile.adresses[0].street+ "<br>" + myProfile.adresses[0].otherinfo, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
                         }
 
                     });
