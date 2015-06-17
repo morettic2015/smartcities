@@ -190,7 +190,7 @@ public class ProfileEndpoint {
         Profile entity;
         try {
             entity = findByIdQuery.getSingleResult();
-
+            //Carrega os endereços
             TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
 
             findByIdQuery.setParameter("entityId", id);
@@ -201,6 +201,17 @@ public class ProfileEndpoint {
             entityAddrs = findByIdProf.getResultList();
 
             entity.getAdresses().addAll(entityAddrs);
+            //Carrega os dados de segurança
+            TypedQuery<SecurityInfo> findByIdSec = em.createQuery("SELECT DISTINCT a FROM SecurityInfo a  WHERE a.idProfile = :entityId ORDER BY a.emailRecorey1", SecurityInfo.class);
+
+            findByIdSec.setParameter("entityId", id);
+
+            List<SecurityInfo> entitySec;
+
+            findByIdSec.setParameter("entityId", id);
+            entitySec = findByIdSec.getResultList();
+
+            entity.getSecurityInfo().addAll(entitySec);
 
         } catch (NoResultException nre) {
             entity = null;

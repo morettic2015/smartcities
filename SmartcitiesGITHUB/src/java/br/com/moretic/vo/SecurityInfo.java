@@ -24,16 +24,16 @@ public class SecurityInfo implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="security_seq") 
 	private int id;
 	
-	@Column(name = "telefone_recorey1", nullable = false, length = 50)
+	@Column(name = "telefone_recorey1", nullable = true, length = 50)
 	private String telefoneRecorey1;
 	
-	@Column(name = "telefone_recorey2", nullable = false, length = 50)
+	@Column(name = "telefone_recorey2", nullable = true, length = 50)
 	private String telefoneRecorey2;
 	
-	@Column(name = "email_recorey1", nullable = false, length = 50)
+	@Column(name = "email_recorey1", nullable = true, length = 50)
 	private String emailRecorey1;
 	
-	@Column(name = "secret_word", nullable = false, length = 100)
+	@Column(name = "secret_word", nullable = true, length = 100)
 	private String secretWord;
 
 	@JsonIgnore

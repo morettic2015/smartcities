@@ -203,7 +203,16 @@ require([
                     });
                 });
                 on(dom.byId("btProfileSecurity"), "click", function () {
-                    carregaTelaPerfil(PROFILE_SECURITY);
+                    carregaTelaPerfil(PROFILE_SECURITY,function(){
+                                alert(myProfile.securityInfo.length);
+                        if (myProfile.securityInfo.length > 0) {
+                           dom.byId("txtSegurancaEmail").value = myProfile.securityInfo[0].emailRecorey1;
+                           dom.byId("txtSegurancaFrase").value = myProfile.securityInfo[0].secretWord;
+                           dom.byId("txtSegurancaCelular").value = myProfile.securityInfo[0].telefoneRecorey1;
+                           dom.byId("txtSegurancaTelefone").value = myProfile.securityInfo[0].telefoneRecorey2;
+                         }
+                                
+                    });
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
                     carregaTelaPerfil(PROFILE_HISTORY)
@@ -706,7 +715,7 @@ require([
 
             function carregaTelaPerfil(paginaConteudo, parametros) {
                 //parametrosTela = parametros;	// Setando variável global
-
+                        ///COMENTARIO
 
                 loadUserCTX();
 
