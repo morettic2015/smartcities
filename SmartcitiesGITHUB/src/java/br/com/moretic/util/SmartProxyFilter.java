@@ -31,23 +31,33 @@ import javax.servlet.http.HttpSession;
  *
  * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
  */
-@WebFilter( filterName = "SmartProxyFilter",
-            urlPatterns = { "/main.html", 
-                            "/configuration.html", 
-                            "/header_smartcities.jsp", 
-                            "/rest/importer/upload/*",
-                            "/rest/ftp/*", 
-                            "/rest/importer/*"}, 
-            dispatcherTypes = {
-                            DispatcherType.FORWARD, 
-                            DispatcherType.ERROR, 
-                            DispatcherType.REQUEST, 
-                            DispatcherType.INCLUDE})
+@WebFilter(filterName = "SmartProxyFilter",
+        urlPatterns = { "/main.html",
+                        "/configuration.html",
+                        "/header_smartcities.jsp",
+                        "/rest/importer/upload/*",
+                        //"/upload/*",
+                        "/rest/ftp/*",
+                        "/rest/importer/*"},
+        dispatcherTypes = {
+            DispatcherType.FORWARD,
+            DispatcherType.ERROR,
+            DispatcherType.REQUEST,
+            DispatcherType.INCLUDE})
 
 public class SmartProxyFilter implements Filter {
 
     private static final boolean debug = true;
     private static String contextPath;
+    private static String contextUri;
+
+    public static String getContextUri() {
+        return contextUri;
+    }
+
+    public static void setContextUri(String contextUri) {
+        SmartProxyFilter.contextUri = contextUri;
+    }
 
     public static String getContextPath() {
         return contextPath;
@@ -76,16 +86,50 @@ public class SmartProxyFilter implements Filter {
 
         //atribui ao contexto do servlet o caminho completo
         ServletContext servletContext = filterConfig.getServletContext();
-        contextPath = servletContext.getRealPath("/upload");
+
+        //Path to sys upload
+        contextPath = servletContext.getRealPath(UPLOAD);
+        ;
+        //App fulll path
+        contextUri = getHostInfo((HttpServletRequest)request);
 
         //Verifica se o usuario e valido
         if (session.getAttribute(ProfileEndpoint.PROFILE) == null) {
             // req.getRequestDispatcher("/login.jsp").forward(request, response);
-            ((HttpServletResponse) response).sendRedirect(INDEXHTML);
+            ((HttpServletResponse) response).sendRedirect(getHostCTX((HttpServletRequest) request)+INDEXHTML);
         } else {
             chain.doFilter(request, response);
         };
     }
+    
+    private static final String getHostInfo(HttpServletRequest request ){
+        StringBuilder requestURL = new StringBuilder(request.getScheme());
+        requestURL.append("://");
+        requestURL.append(request.getServerName());
+        requestURL.append(":");
+        requestURL.append(request.getServerPort());
+        requestURL.append("/");
+        requestURL.append(((HttpServletRequest) request).getContextPath());
+        requestURL.append(UPLOAD);
+        
+        return requestURL.toString();
+    }
+    
+     private static final String getHostCTX(HttpServletRequest request ){
+        StringBuilder requestURL = new StringBuilder(request.getScheme());
+        requestURL.append("://");
+        requestURL.append(request.getServerName());
+        requestURL.append(":");
+        requestURL.append(request.getServerPort());
+        requestURL.append("/");
+        requestURL.append(((HttpServletRequest) request).getContextPath());
+        requestURL.append("/");
+        
+        return requestURL.toString();
+    }
+    
+    public static final String UPLOAD = "/upload";
+    
     public static final String INDEXHTML = "index.html";
 
     /**

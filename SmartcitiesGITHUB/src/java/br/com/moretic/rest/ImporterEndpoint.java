@@ -43,23 +43,40 @@ public class ImporterEndpoint {
     private EntityManager em;
 
     /**
+     * http://www.cpc.ncep.noaa.govøproductsøpredictionsøthreatsøTemp_D8_14.kml
+     * http://www.cpc.ncep.noaa.gov/products/predictions/threats/Prcp_D3_7.kml
      * Creates a new instance of ImporterEndpoint
+     * @param source
+     * @param res
+     * @throws java.security.NoSuchAlgorithmException
      */
     @GET
     @Path("/kml/{source}/{description}")
     @Produces("application/json")
-    public Response kml(@PathParam("source") String source, @PathParam("description") String description, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+    public Response kml(@PathParam("source") String source, @PathParam("description") String description, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
 
         Profile p = ProfileEndpoint.getProfileSession(req);
 
         Profile pOwner = em.find(Profile.class, p.getIdprofile());
+        String path = SmartProxyFilter.getContextPath();
+        //replace da url
+        source = "http://" + source.replaceAll("ø", "/");
+        //nome do arquivo
+        String fName = makeFileName(pOwner.getIdprofile(), source);
+       
+        path += fName;
+        File f = copyFileFromWeb(source, path);
         //@TODO Validar com parser XML o fonte KML 
-        KmlSource kml = new KmlSource(source, description, pOwner);
+        String localFileURL = SmartProxyFilter.getContextUri()+"/"+fName;
+        
+        KmlSource kml = new KmlSource(localFileURL, description, pOwner);
 
         em.persist(kml);
 
         return Response.ok(kml).build();
     }
+
+    //
 
     @GET
     @Path("/csv/{source}/{description}/{protocol}")

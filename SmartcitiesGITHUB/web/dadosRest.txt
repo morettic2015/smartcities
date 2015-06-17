@@ -111,8 +111,8 @@ Ferramenta de Dados
 		kmlDesc: "nononono",
 		idProfile: 1
 		}
-
-
+#KML
+http://localhost:8080/smartcities/rest/importer/kml/www.cpc.ncep.noaa.gov%C3%B8products%C3%B8predictions%C3%B8threats%C3%B8Temp_D8_14.kml/teste%20sdasdasd%20asdasdasdasd
 
 
 
@@ -157,9 +157,12 @@ Requisições GET
 
 
 
+
+#callback do arquivo de upload,              
 {
-fullPath: "C:\Users\LuisAugusto\Documents\jboss\standalone\tmp\vfs\temp\temp382ad431a57d8525\smartcities.war-eef71a2c458cf95c\upload\Sacramentorealestatetransactions (1).csv",
-bytes: 113183,
-name: "Sacramentorealestatetransactions (1).csv",
-contentType: "application/octet-stream"
+fullPath: "C:\Users\LuisAugusto\Documents\jboss\standalone\tmp\vfs\temp\temp382ad431a57d8525\smartcities.war-96652f50d3c43600\upload\RELEASE-NOTES.txt",
+bytes: 2364,
+name: "RELEASE-NOTES.txt",
+myUrl: "http://localhost:8080//smartcities/upload/RELEASE-NOTES.txt",
+contentType: "text/plain"
 }

@@ -27,8 +27,8 @@ import org.json.JSONObject;
 public class UploadProxy extends HttpServlet {
 
     private boolean isMultipart;
-    private String filePath;
-    private int maxFileSize = 500 * 1024;
+    //private String filePath;
+    private int maxFileSize = 500 * 1024 * 1024;
     private int maxMemSize = 4 * 1024;
     private File file;
 
@@ -46,7 +46,7 @@ public class UploadProxy extends HttpServlet {
             throws ServletException, java.io.IOException {
         // Check that we have a file upload request
         isMultipart = ServletFileUpload.isMultipartContent(request);
-
+        //Set content type to JSON
         response.setContentType("application/json");
 
         java.io.PrintWriter out = response.getWriter();
@@ -58,7 +58,6 @@ public class UploadProxy extends HttpServlet {
         factory.setSizeThreshold(maxMemSize);
         // Location to save data that is larger than maxMemSize.
         factory.setRepository(new File(SmartProxyFilter.getContextPath()));
-
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
         // maximum file size to be uploaded.
@@ -67,13 +66,12 @@ public class UploadProxy extends HttpServlet {
         try {
             // Parse the request to get file items.
             List fileItems = upload.parseRequest(request);
-
             // Process the uploaded file items
             Iterator i = fileItems.iterator();
-
+            //JSON
             JSONObject js = new JSONObject();
-
-            while (i.hasNext()) {
+            //List files
+            if (i.hasNext()) {
                 FileItem fi = (FileItem) i.next();
                 if (!fi.isFormField()) {
                     // Get the uploaded file parameters
@@ -93,6 +91,7 @@ public class UploadProxy extends HttpServlet {
                     js.put(FULL_PATH, fPath);
                     js.put(BYTES, sizeInBytes);
                     js.put(CONTENT_TYPE, contentType);
+                    js.put(MY_URL, SmartProxyFilter.getContextUri()+"/"+fileName);
 
                     out.println(js.toString());
                 }
@@ -101,6 +100,7 @@ public class UploadProxy extends HttpServlet {
             System.out.println(ex);
         }
     }
+    public static final String MY_URL = "myUrl";
     public static final String CONTENT_TYPE = "contentType";
     public static final String BYTES = "bytes";
     public static final String FULL_PATH = "fullPath";
