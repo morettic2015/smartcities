@@ -166,3 +166,41 @@ name: "RELEASE-NOTES.txt",
 myUrl: "http://localhost:8080//smartcities/upload/RELEASE-NOTES.txt",
 contentType: "text/plain"
 }
+
+
+
+{
+idprofile: 1,
+idProfileOrganization: null,
+nmUser: "Lamm",
+email: "malacma@twitter.com",
+password: "7b4ddeb031fa1d8660bf4b6368f54eb5",
+cpfCnpj: "02890362914",
+online: null,
+bio: "TG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0gTG9yZW0gaXN1b20gbG9yZW0g",
+nascimento: "2014-11-26",
+telefone: "48 96004929",
+adresses: [
+{
+idadress: 1,
+idCity: null,
+idProfile: 1,
+street: "Avenida Mauro Ramos, 122 - Centro, FlorianÃ³polis - SC, 88020-302, Brasil",
+number: null,
+otherinfo: "casa",
+lat: "-27.600056",
+lon: " -48.54550330000001"
+}
+],
+securityInfo: [
+{
+id: 1,
+telefoneRecorey1: "333333491",
+telefoneRecorey2: "91275675",
+emailRecorey1: "malacma@hotmail.com",
+secretWord: "QUem e quem",
+idProfile: 1
+}
+],
+profileLang: [ ]
+}

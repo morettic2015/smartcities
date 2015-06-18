@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -69,6 +72,48 @@ public class ProfileEndpoint {
         }
         em.remove(entity);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/security/{email}/{fone}/{cel}/{phrase}")
+    @Produces("application/json")
+    public Response security(@PathParam("email") String email, @PathParam("fone") String fone, @PathParam("cel") String cel, @PathParam("phrase") String phrase, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException {
+
+        Profile p = getProfileSession(req);
+        TypedQuery<Profile> findPByIdQuery = em
+                .createQuery(
+                        "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.profile LEFT JOIN FETCH p.shareViews LEFT JOIN FETCH p.profileContactsForProfileIdprofile LEFT JOIN FETCH p.groupHasProfiles LEFT JOIN FETCH p.profiles LEFT JOIN FETCH p.socialNetworks LEFT JOIN FETCH p.avatars LEFT JOIN FETCH p.profileContactsForProfileIdprofile1 LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
+                        Profile.class);
+        findPByIdQuery.setParameter("entityId", p.getIdprofile());
+        p = findPByIdQuery.getSingleResult();
+
+        ArrayList<SecurityInfo> alsi = new ArrayList<SecurityInfo>(p.getSecurityInfo());
+        SecurityInfo si = new SecurityInfo();
+        if (alsi.size() > 0) {
+            si = alsi.get(0);
+            si.setEmailRecorey1(email);
+            si.setTelefoneRecorey1(fone);
+            si.setTelefoneRecorey2(cel);
+            si.setSecretWord(phrase);
+            si.setProfile(p);
+            si.setIdProfile(p.getIdprofile());
+            em.merge(si);
+        } else {
+            //si = new SecurityInfo();
+            si.setEmailRecorey1(email);
+            si.setTelefoneRecorey1(fone);
+            si.setTelefoneRecorey2(cel);
+            si.setSecretWord(phrase);
+            si.setProfile(p);
+            si.setIdProfile(p.getIdprofile());
+            em.persist(si);
+        }
+        p = null;
+        findPByIdQuery = null;
+        alsi = null;
+        si = null;
+
+        return findById(p.getIdprofile());
     }
 
     /**
@@ -351,6 +396,117 @@ public class ProfileEndpoint {
         Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
 
         return ((p == null) ? new Profile() : p);
+    }
+
+    /**
+     *
+     *
+     * http://localhost:8080/smartcities/rest/profiles/bio/Lam/malacma@gmail.com/10-06-2015/028.903.629-14/SENHAasdasd/ENgenheiro%20de%20software%20/a/a
+     * http://localhost:8080/smartcities/rest/profiles/bio/Lamm/malacma@twitter.com/10-06-2015/028.903.629.14/SENHA/Engenheiro%20de%20Software/(48)9600-49294/PT-BR/Engenheiro
+     * Update user profile
+     */
+    @GET
+    @Produces("application/json")
+    @Path("/bio/{pname}/{email}/{birth}/{cpfCnpj}/{passwd}/{fone}/{lang}/{bio}/{avatar}")
+    public Response updateProfile(@PathParam("cpfCnpj") String cpfCnpj,
+            @PathParam("passwd") String passwd,
+            @PathParam("email") String email,
+            @PathParam("pname") String pname,
+            @PathParam("birth") String birth,
+            @PathParam("fone") String fone,
+            @PathParam("lang") String lang,
+            @PathParam("bio") String bio,
+            @PathParam("avatar") String avatar,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) throws ParseException, NoSuchAlgorithmException {
+
+        Profile f = getProfileSession(req);
+
+        TypedQuery<Profile> findPByIdQuery = em
+                .createQuery(
+                        "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.profile LEFT JOIN FETCH p.shareViews LEFT JOIN FETCH p.profileContactsForProfileIdprofile LEFT JOIN FETCH p.groupHasProfiles LEFT JOIN FETCH p.profiles LEFT JOIN FETCH p.socialNetworks LEFT JOIN FETCH p.avatars LEFT JOIN FETCH p.profileContactsForProfileIdprofile1 LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
+                        Profile.class);
+        findPByIdQuery.setParameter("entityId", f.getIdprofile());
+        f = findPByIdQuery.getSingleResult();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        f.setCpfCnpj(cpfCnpj);
+        f.setBio(bio.getBytes());
+        f.setEmail(email);
+        f.setNmUser(pname);
+        f.setTelefone(fone);
+        f.setNascimento(sdf.parse(birth));
+
+        //Atualiza o password apenas se for diferente do hash atual
+        if (!passwd.equals(f.getPassword())) {
+            f.setPassword(MD5Crypt.getHash(passwd));
+        }
+        /*  TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+         findByIdProf.setParameter("entityId", f.getIdprofile());
+         List<Adress> entityAddrs;
+         entityAddrs = findByIdProf.getResultList();*/
+
+        //Adiciona todos
+        //  f.getAdresses().addAll(entityAddrs);
+        TypedQuery<Lang> findByIdQuery = em.createQuery("SELECT DISTINCT a FROM Lang a WHERE a.token = :entityId ORDER BY a.token", Lang.class);
+        findByIdQuery.setParameter("entityId", lang);
+        Lang entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+
+        } catch (NoResultException nre) {
+            entity = new Lang();
+            entity.setLang(lang);
+            entity.setToken(lang);
+            em.persist(entity);
+        }
+
+        ArrayList<ProfileLang> apl = new ArrayList<ProfileLang>(f.getProfileLang());
+
+        boolean achou = false;
+        for (ProfileLang pl : apl) {
+            if (pl.getLang().getToken().equals(lang)) {
+                achou = true;
+                continue;
+            }
+            pl.setIsMainLanguage(false);
+            em.merge(pl);
+        }
+        if (!achou) {
+
+            ProfileLang pl = new ProfileLang();
+            pl.setIsMainLanguage(true);
+            pl.setIdProfile(f.getIdprofile());
+            pl.setIdLang(entity.getIdLang());
+            pl.setLang(entity);
+            pl.setProfile(f);
+
+            em.persist(pl);
+
+            f.getProfileLang().add(pl);
+            pl = null;
+
+        }
+
+        //Salva o vinculo do perfil com a linguagem
+        //Limpa a lista depois grava
+        //Atualiza o usuario
+        em.merge(f);
+
+        //f= null;
+        apl.clear();
+        apl = null;
+        entity = null;
+        //entityAddrs.clear();
+        // entityAddrs = null;
+        findByIdQuery = null;
+        // findByIdProf = null;
+        findPByIdQuery = null;
+        sdf = null;
+
+        return findById(f.getIdprofile());
+
     }
 
 }

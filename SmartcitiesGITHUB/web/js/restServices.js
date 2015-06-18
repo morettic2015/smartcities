@@ -37,13 +37,13 @@ define([
                             {
                                 handleAs: "json",
                                 preventCache: true,
-                                method: "POST"
+                                method: "GET"
                             }
                     ).then(function (data) {
-                            alert("aqui");
+                            //alert("aqui");
                         return data;
                     }, function (err) {
-                            alert("deu pau");
+                            //alert("deu pau");
                         return "Não foi possível salvar. Causa: " + err;
                     });
                 },

@@ -172,7 +172,15 @@ require([
 
                         dom.byId("txtEmailProfile").value = myProfile.email;
 
-                        dom.byId("txtBirthdateProfile").value = myProfile.nascimento;
+                        var objBirthDate = new Date(myProfile.nascimento);
+                        var birthDay = objBirthDate.getDate().toString();
+                        birthDay = (birthDay.length == 1) ? "0" + birthDay : birthDay;
+                        var birthYear = objBirthDate.getFullYear().toString();
+                        var birthMonth = (objBirthDate.getMonth() + 1).toString();
+                        birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
+                        var strBirthDate = birthDay + "/" + birthMonth + "/" + birthYear;
+
+                        dom.byId("txtBirthdateProfile").value = strBirthDate;
 
                         dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
 
@@ -180,7 +188,7 @@ require([
 
                         dom.byId("txtConfirmPassProfile").value = myProfile.password;
 
-                        dom.byId("txtBioProfile").value = myProfile.bio;
+                        dom.byId("txtBioProfile").value = myProfile.bioText;
 
                         dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
 
@@ -197,21 +205,21 @@ require([
                             dom.byId("txtEnderecoRua").value = myProfile.adresses[0].street;
                             dom.byId("txtEnderecoComplemento").value = myProfile.adresses[0].otherinfo;
                             //TODO MARCAR A POSIção DO USUARIO NO MAPA
-                            addMarkerToMap(myProfile.adresses[0].street+ "<br>" + myProfile.adresses[0].otherinfo, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
+                            addMarkerToMap(myProfile.adresses[0].street + "<br>" + myProfile.adresses[0].otherinfo, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
                         }
 
                     });
                 });
                 on(dom.byId("btProfileSecurity"), "click", function () {
-                    carregaTelaPerfil(PROFILE_SECURITY,function(){
-                                alert(myProfile.securityInfo.length);
+                    carregaTelaPerfil(PROFILE_SECURITY, function () {
+                        //alert(myProfile.securityInfo.length);
                         if (myProfile.securityInfo.length > 0) {
-                           dom.byId("txtSegurancaEmail").value = myProfile.securityInfo[0].emailRecorey1;
-                           dom.byId("txtSegurancaFrase").value = myProfile.securityInfo[0].secretWord;
-                           dom.byId("txtSegurancaCelular").value = myProfile.securityInfo[0].telefoneRecorey1;
-                           dom.byId("txtSegurancaTelefone").value = myProfile.securityInfo[0].telefoneRecorey2;
-                         }
-                                
+                            dom.byId("txtSegurancaEmail").value = myProfile.securityInfo[0].emailRecorey1;
+                            dom.byId("txtSegurancaFrase").value = myProfile.securityInfo[0].secretWord;
+                            dom.byId("txtSegurancaCelular").value = myProfile.securityInfo[0].telefoneRecorey1;
+                            dom.byId("txtSegurancaTelefone").value = myProfile.securityInfo[0].telefoneRecorey2;
+                        }
+
                     });
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
@@ -715,7 +723,7 @@ require([
 
             function carregaTelaPerfil(paginaConteudo, parametros) {
                 //parametrosTela = parametros;	// Setando variável global
-                        ///COMENTARIO
+                ///COMENTARIO
 
                 loadUserCTX();
 
@@ -2302,6 +2310,7 @@ require([
                 var telephone = registry.byId("txtTelefoneProfileInfo");
                 var avatar = dom.byId("userAvatarInput");
                 var lang = dom.byId("selectedFlagProfileInfo");
+                var bio = dom.byId("txtBioProfile");
                 var camposValidar = [name, email, birthDate, cpfCnpj, password, confirmPass, telephone];
 
                 if (areFieldsValids(camposValidar)) {
@@ -2317,15 +2326,23 @@ require([
                     var birthMonth = (objBirthDate.getMonth() + 1).toString();
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                     var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
-                    var url = "profile/bio/" + strId + "/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + cpfCnpj.value + "/" + password.value + "/" + bio.value + "/" + telephone.value + "/" + avatar.value + "/" + lang.value;
-                    console.log("chama url " + url);
+
+                    var vAvatar = avatar.value == "" ? "blank" : avatar.value;
+
+                    var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
+                    //console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         if (typeof dados == "string") {
                             alert(dados);
                         } else if (dados instanceof Object) {
-                            alert("Dados salvos com sucesso.");
+                            contentPane_PopUp.set("href", "info/profileInfo.html");
+                            myDialog.set("title", "Sucess");
+                            myDialog.set("width", "240px");
+                            myDialog.set("height", "80px");
+                            myDialog.resize();
+                            myDialog.show();
                         }
                     });
 
@@ -2376,7 +2393,7 @@ require([
 
                 var campos = [email, telephone, celphone, passphrase];
                 if (areFieldsValids(campos)) {
-                    var url = "profile/p3/" + email.value + "/" + telephone.value + "/" + celphone.value + "/" + passphrase.value;
+                    var url = "profiles/security/" + email.value + "/" + escape(telephone.value) + "/" + escape(celphone.value) + "/" + encodeURIComponent(passphrase.value);
                     console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
