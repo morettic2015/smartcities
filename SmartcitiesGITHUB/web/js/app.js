@@ -226,16 +226,18 @@ require([
                     carregaTelaPerfil(PROFILE_HISTORY, function () {
 
                         if (myProfile.lLog.length > 0) {
-                           
+                           // gridProfileHistory.store = new ObjectStore({ objectStore:new Memory({ data: myProfile.lLog.length }) });
+                           // gridProfileHistory.render();
+
                             //Adiciona os itens no grid
-                            for(i=0;i<myProfile.lLog.length;i++){
-                                newLine = {
+                           for(i=0;i<myProfile.lLog.length;i++){
+                                var newLine = {
                                     id: myProfile.lLog[i].id,
                                     data:myProfile.lLog[i].dTime,
                                     tipo:myProfile.lLog[i].action,
                                     ip:myProfile.lLog[i].ipAddrs
                                 }
-                                gridProfileHistory.store.add(newLine);
+                                gridProfileHistory.store.put(newLine);
                             }
                          }
                     });
