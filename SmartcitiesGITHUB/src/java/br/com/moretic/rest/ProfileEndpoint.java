@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 
@@ -108,10 +110,12 @@ public class ProfileEndpoint {
             si.setIdProfile(p.getIdprofile());
             em.persist(si);
         }
-        p = null;
+        //p = null;
         findPByIdQuery = null;
         alsi = null;
         si = null;
+
+        logAction("SECURITY INFO UPDATED", req, res);
 
         return findById(p.getIdprofile());
     }
@@ -159,6 +163,7 @@ public class ProfileEndpoint {
 
         em.persist(adrs);
 
+        logAction("ADDRESS UPDATED", req, res);
         return Response.ok(adrs).build();
     }
 
@@ -211,6 +216,7 @@ public class ProfileEndpoint {
             return Response.ok(f).build();//retorna vo VAZIO
 
         }
+        logAction("LOGIN", req, res);
         return Response.ok(entity).build();
     }
 
@@ -237,26 +243,28 @@ public class ProfileEndpoint {
             entity = findByIdQuery.getSingleResult();
             //Carrega os endereços
             TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
-
             findByIdQuery.setParameter("entityId", id);
-
             List<Adress> entityAddrs;
-
             findByIdProf.setParameter("entityId", id);
             entityAddrs = findByIdProf.getResultList();
-
             entity.getAdresses().addAll(entityAddrs);
+
             //Carrega os dados de segurança
             TypedQuery<SecurityInfo> findByIdSec = em.createQuery("SELECT DISTINCT a FROM SecurityInfo a  WHERE a.idProfile = :entityId ORDER BY a.emailRecorey1", SecurityInfo.class);
-
             findByIdSec.setParameter("entityId", id);
-
             List<SecurityInfo> entitySec;
-
             findByIdSec.setParameter("entityId", id);
             entitySec = findByIdSec.getResultList();
-
             entity.getSecurityInfo().addAll(entitySec);
+
+            //Carrega a lista de logs
+            TypedQuery<UserLog> findByIdSecUserLog = em.createQuery("SELECT DISTINCT a FROM UserLog a  WHERE a.idProfile = :entityId ORDER BY a.dTime", UserLog.class);
+            findByIdSecUserLog.setParameter("entityId", id);
+            List<UserLog> entityUserLog;
+            findByIdSecUserLog.setParameter("entityId", id);
+            entityUserLog = findByIdSecUserLog.getResultList();
+            entity.getlLog().clear();
+            entity.getlLog().addAll(entityUserLog);
 
         } catch (NoResultException nre) {
             entity = null;
@@ -349,6 +357,8 @@ public class ProfileEndpoint {
     @Path("/facebook/{email}/{pname}/{avatar}")
     public void facebook(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
 
+        logAction("SOCIAL NETWORK LOGIN", req, res);
+
         //String password = UUID.randomUUID().toString().substring(0, 8);
         Profile p = new Profile();
         p.setEmail(email);
@@ -376,7 +386,7 @@ public class ProfileEndpoint {
     @GET
     @Path("/logout")
     public void logoff(@Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
-
+        logAction("LOG OFF", req, res);
         HttpSession session = req.getSession();
         session.invalidate();
 
@@ -505,8 +515,37 @@ public class ProfileEndpoint {
         findPByIdQuery = null;
         sdf = null;
 
+        logAction("UPDATE PROFILE", req, res);
+
         return findById(f.getIdprofile());
 
+    }
+
+    @GET
+    @Path("/log/{action}/")
+    public void logAction(@PathParam("action") String action,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) {
+
+        try {
+            Profile p = getProfileSession(req);
+
+            p = em.find(Profile.class, p.getIdprofile());
+
+            if (p == null) {
+                return;
+            }
+
+            UserLog log = new UserLog();
+            log.setAction(action);
+            log.setProfile(p);
+            log.setIdProfile(p.getIdprofile());
+            log.setIpAddrs(req.getRemoteAddr());
+
+            em.persist(log);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

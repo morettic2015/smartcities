@@ -6,12 +6,9 @@
 package br.com.moretic.util;
 
 import br.com.moretic.rest.ProfileEndpoint;
-import static br.com.moretic.rest.ProfileEndpoint.PROFILE;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,13 +29,12 @@ import javax.servlet.http.HttpSession;
  * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
  */
 @WebFilter(filterName = "SmartProxyFilter",
-        urlPatterns = { "/main.html",
-                        "/configuration.html",
-                        "/header_smartcities.jsp",
-                        "/rest/importer/upload/*",
-                        //"/upload/*",
-                        "/rest/ftp/*",
-                        "/rest/importer/*"},
+        urlPatterns = {"/main.html",
+            "/configuration.html",
+            "/rest/importer/upload/*",
+            //"/upload/*",
+            "/rest/ftp/*",
+            "/rest/importer/*"},
         dispatcherTypes = {
             DispatcherType.FORWARD,
             DispatcherType.ERROR,
@@ -77,6 +73,8 @@ public class SmartProxyFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
+    @SuppressWarnings("empty-statement")
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
@@ -90,32 +88,33 @@ public class SmartProxyFilter implements Filter {
         //Path to sys upload
         contextPath = servletContext.getRealPath(UPLOAD);
         ;
-        //App fulll path
-        contextUri = getHostInfo((HttpServletRequest)request);
+        //App fulll path request
+        contextUri = getHostInfo((HttpServletRequest) request);
 
         //Verifica se o usuario e valido
         if (session.getAttribute(ProfileEndpoint.PROFILE) == null) {
             // req.getRequestDispatcher("/login.jsp").forward(request, response);
-            ((HttpServletResponse) response).sendRedirect(getHostCTX((HttpServletRequest) request)+INDEXHTML);
+            ((HttpServletResponse) response).sendRedirect(getHostCTX((HttpServletRequest) request) + INDEXHTML);
         } else {
             chain.doFilter(request, response);
         };
+        doAfterProcessing(request, response);
     }
-    
-    private static final String getHostInfo(HttpServletRequest request ){
+
+    private static String getHostInfo(HttpServletRequest request) {
         StringBuilder requestURL = new StringBuilder(request.getScheme());
         requestURL.append("://");
         requestURL.append(request.getServerName());
         requestURL.append(":");
         requestURL.append(request.getServerPort());
-        requestURL.append("/");
+    //    requestURL.append("/");
         requestURL.append(((HttpServletRequest) request).getContextPath());
         requestURL.append(UPLOAD);
-        
+
         return requestURL.toString();
     }
-    
-     private static final String getHostCTX(HttpServletRequest request ){
+
+    private static String getHostCTX(HttpServletRequest request) {
         StringBuilder requestURL = new StringBuilder(request.getScheme());
         requestURL.append("://");
         requestURL.append(request.getServerName());
@@ -124,16 +123,18 @@ public class SmartProxyFilter implements Filter {
         requestURL.append("/");
         requestURL.append(((HttpServletRequest) request).getContextPath());
         requestURL.append("/");
-        
+
         return requestURL.toString();
     }
-    
+
     public static final String UPLOAD = "/upload";
-    
+
     public static final String INDEXHTML = "index.html";
 
     /**
      * Return the filter configuration object for this filter.
+     *
+     * @return
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
@@ -146,24 +147,6 @@ public class SmartProxyFilter implements Filter {
      */
     public void setFilterConfig(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
-    }
-
-    /**
-     * Destroy method for this filter
-     */
-    public void destroy() {
-    }
-
-    /**
-     * Init method for this filter
-     */
-    public void init(FilterConfig filterConfig) {
-        this.filterConfig = filterConfig;
-        if (filterConfig != null) {
-            if (debug) {
-                log("SmartProxyFilter:Initializing filter");
-            }
-        }
     }
 
     /**
@@ -180,52 +163,42 @@ public class SmartProxyFilter implements Filter {
         return (sb.toString());
     }
 
-    private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
-        if (stackTrace != null && !stackTrace.equals("")) {
-            try {
-                response.setContentType("text/html");
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
-                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
-
-                // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
-                pw.print("</pre></body>\n</html>"); //NOI18N
-                pw.close();
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        } else {
-            try {
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                t.printStackTrace(ps);
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        }
-    }
-
-    public static String getStackTrace(Throwable t) {
-        String stackTrace = null;
-        try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
-            pw.close();
-            sw.close();
-            stackTrace = sw.getBuffer().toString();
-        } catch (Exception ex) {
-        }
-        return stackTrace;
-    }
-
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);
+    }
+
+    private void doAfterProcessing(ServletRequest request, ServletResponse response) throws MalformedURLException, IOException {
+        log(((HttpServletResponse) response).getHeaderNames().toString());
+       /* StringBuilder requestURL = new StringBuilder(request.getScheme());
+        requestURL.append("://");
+        requestURL.append(request.getServerName());
+        requestURL.append(":");
+        requestURL.append(request.getServerPort());
+    //    requestURL.append("/");
+        requestURL.append(((HttpServletRequest) request).getContextPath());
+        
+        requestURL.append("/rest/profiles/log/");
+        
+        requestURL.append(((HttpServletRequest)request).getRequestURI().replaceAll("/", "-"));*/
+        
+        //URL myUrl = new URL(requestURL.toString());
+        //myUrl.getContent();
+        
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        this.filterConfig = filterConfig;
+        if (filterConfig != null) {
+            if (debug) {
+                log("NewFilter:Initializing filter");
+            }
+        }
+    }
+
+    @Override
+    public void destroy() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

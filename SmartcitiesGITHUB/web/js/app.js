@@ -223,7 +223,22 @@ require([
                     });
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
-                    carregaTelaPerfil(PROFILE_HISTORY)
+                    carregaTelaPerfil(PROFILE_HISTORY, function () {
+
+                        if (myProfile.lLog.length > 0) {
+                           
+                            //Adiciona os itens no grid
+                            for(i=0;i<myProfile.lLog.length;i++){
+                                newLine = {
+                                    id: myProfile.lLog[i].id,
+                                    data:myProfile.lLog[i].dTime,
+                                    tipo:myProfile.lLog[i].action,
+                                    ip:myProfile.lLog[i].ipAddrs
+                                }
+                                gridProfileHistory.store.add(newLine);
+                            }
+                         }
+                    });
                 });
 
                 // Modulo Ferramenta de dados
@@ -2398,11 +2413,12 @@ require([
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
-                        if (typeof dados == "string") {
-                            alert(dados);
-                        } else if (dados instanceof Object) {
-                            alert("Dados salvos com sucesso.");
-                        }
+                        contentPane_PopUp.set("href", "info/profileInfo.html");
+                        myDialog.set("title", "Sucess");
+                        myDialog.set("width", "240px");
+                        myDialog.set("height", "80px");
+                        myDialog.resize();
+                        myDialog.show();
                     });
 
                 } else {
