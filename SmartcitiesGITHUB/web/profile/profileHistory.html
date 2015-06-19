@@ -8,15 +8,36 @@
     </span>
     <div data-dojo-type="dijit/layout/ContentPane" title="" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false">
 
-        <table data-dojo-type="gridx/Grid" id="gridProfileHistory" jsId="gridProfileHistory" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
-               structure:[
-               {width:'auto',name:'<span id=\'rotColIDProfileHistory\'>ID</span>',field:'id'},
-               {width:'auto',name:'<span id=\'rotColDataProfileHistory\'>data</span>',field:'dTime'},
-               {width:'auto',name:'<span id=\'rotColTipoProfileHistory\'>tipo</span>',field:'action'},
-               {width:'auto',name:'<span id=\'rotColIPProfileHistory\'>ip</span>',field:'ipAddrs'}
-               ],store:storeMemory">
-        </table>
+          <table data-dojo-type="gridx/Grid" id="gridProfileHistory" jsId="gridProfileHistory" style="min-width: 1em; min-height: 1em; width: 100%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+                 structure:[
+                 {width:'auto',name:'<span id=\'rotColIDProfileHistory\'>ID</span>',field:'id'},
+                 {width:'auto',name:'<span id=\'rotColDataProfileHistory\'>data</span>',field:'dTime'},
+                 {width:'auto',name:'<span id=\'rotColTipoProfileHistory\'>tipo</span>',field:'action'},
+                 {width:'auto',name:'<span id=\'rotColIPProfileHistory\'>ip</span>',field:'ipAddrs'}
+                 ],store:storeMemory">
+          </table>
+        
 
+       <!-- <table data-dojo-type="gridx/Grid"
+               data-dojo-id="gridProfileHistory"
+               data-dojo-props="rowsPerPage:20,clientSort:true,rowSelector:'20px'" style="width: 400px; height: 200px;">
+               <thead>
+                <tr>
+                    <th width="96%" field="id">
+                        <span id='rotColIDProfileHistory'>ID</span>
+                    </th>
+                    <th width="96%" field="dTime">
+                        <span id='rotColDataProfileHistory'>DATE</span>
+                    </th>
+                    <th width="96%" field="action">
+                        <span id='rotColTipoProfileHistory'>ACTION</span>
+                    </th>
+                    <th width="96%" field="ipAddrs">
+                        <span id='rotColIPProfileHistory'>IP</span>
+                    </th>
+                </tr>
+            </thead>
+        </table>-->
     </div>
 
 </div>

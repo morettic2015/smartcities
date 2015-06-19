@@ -224,22 +224,42 @@ require([
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
                     carregaTelaPerfil(PROFILE_HISTORY, function () {
+                        alert(myProfile.lLog.length);
+                        var gridDataMovdel = [];
 
                         if (myProfile.lLog.length > 0) {
-                           // gridProfileHistory.store = new ObjectStore({ objectStore:new Memory({ data: myProfile.lLog.length }) });
-                           // gridProfileHistory.render();
-
                             //Adiciona os itens no grid
-                           for(i=0;i<myProfile.lLog.length;i++){
+
+                            for (i = 0; i < myProfile.lLog.length; i++) {
+                                //Make date from timestamp
+                                var mDate = new Date(myProfile.lLog[i].dTime);
+                                var dday = mDate.getDate();
+                                var dmonth = mDate.getMonth() + 1;
+                                var dyear = mDate.getFullYear();
+                                var dhour = mDate.getHours();
+                                var dmin = mDate.getMinutes();
+                                var dsec = mDate.getSeconds();
+                                //var dmil = mDate.getMiliseconds();
+                                //Format date
+                                var dFullYMDHMSM = dday + "-" + dmonth + "-" + dyear + " " + dhour + ":" + dmin + ":" + dsec;// + ":" +dmil;
+                                //Makes a new lline object
                                 var newLine = {
                                     id: myProfile.lLog[i].id,
-                                    data:myProfile.lLog[i].dTime,
-                                    tipo:myProfile.lLog[i].action,
-                                    ip:myProfile.lLog[i].ipAddrs
+                                    dTime: dFullYMDHMSM,
+                                    action: myProfile.lLog[i].action,
+                                    ipAddrs: myProfile.lLog[i].ipAddrs
                                 }
-                                gridProfileHistory.store.put(newLine);
+                                //Coloca no model o novo objeto
+                                gridDataMovdel.push(newLine);
+
                             }
-                         }
+                            gridProfileHistory.model.clearCache();
+                            gridProfileHistory.model.store.setData(gridDataMovdel);
+                            gridProfileHistory.body.refresh();
+                            // grid.startup();
+                            
+                           //gridProfileHistory.sort.sort('dTime', true);
+                        }
                     });
                 });
 
