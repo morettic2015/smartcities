@@ -317,6 +317,8 @@ img.fundo {
     font-weight : normal;
     font-family : Tahoma,Geneva,sans-serif;
     font-size : 10pt;
+    float:right;
+
 }
 
 .fundo-azul {
