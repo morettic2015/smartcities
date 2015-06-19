@@ -13,7 +13,8 @@ public enum DatabaseDriverType {
     
     ORACLE("oracle.jdbc.driver.OracleDriver"),
     MYSQL("com.mysql.jdbc.Drive"),
-    POSTGRES("asdasdasdasd");
+    POSTGRES("asdasdasdasd"),
+    HSQLDB("org.hsqldb.jdbcDriver");
 
     private DatabaseDriverType(String dbType) {
         type = dbType;

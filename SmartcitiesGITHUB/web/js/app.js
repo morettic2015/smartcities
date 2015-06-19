@@ -224,7 +224,7 @@ require([
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
                     carregaTelaPerfil(PROFILE_HISTORY, function () {
-                        alert(myProfile.lLog.length);
+                        //alert(myProfile.lLog.length);
                         var gridDataMovdel = [];
 
                         if (myProfile.lLog.length > 0) {
@@ -257,8 +257,8 @@ require([
                             gridProfileHistory.model.store.setData(gridDataMovdel);
                             gridProfileHistory.body.refresh();
                             // grid.startup();
-                            
-                           //gridProfileHistory.sort.sort('dTime', true);
+
+                            //gridProfileHistory.sort.sort('dTime', true);
                         }
                     });
                 });
@@ -1424,6 +1424,13 @@ require([
             function setEventsProfileInfo() {
                 on(dom.byId("btSalvarProfileInfo"), "click", function () {
                     saveProfileInfo();
+                });
+                on(dom.byId("btToggleEULA"), "click", function () {
+                    //var obj = registry.byId(this.id);
+                    //obj.set("regExp", "^" + dom.byId("txtPasswordProfile").value + "$");
+                    contentPane_PopUp.set("href", "info/eula.html");
+                    myDialog.set("title", "End User License Agreement");
+                    myDialog.show();
                 });
                 on(dom.byId("txtConfirmPassProfile"), "blur", function () {
                     var obj = registry.byId(this.id);

@@ -42,7 +42,7 @@ public class DatabaseImportUtil {
     public ArrayList<String> getTablesFromConnection(Connection conn) throws SQLException {
         lTables = new ArrayList<String>();
         md = conn.getMetaData();
-        ResultSet rs = md.getTables(null, null, "%", null);
+        rs = md.getTables(null, null, "%", null);
         while (rs.next()) {
 
             lTables.add(rs.getString(3));
