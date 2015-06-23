@@ -2,6 +2,7 @@ package br.com.moretic.rest;
 
 import br.com.moretic.social.twitter.TwiterCallback;
 import br.com.moretic.util.MD5Crypt;
+import br.com.moretic.util.SmartProxyFilter;
 import br.com.moretic.util.ValidatorUtil;
 import java.util.List;
 
@@ -265,6 +266,15 @@ public class ProfileEndpoint {
             entityUserLog = findByIdSecUserLog.getResultList();
             entity.getlLog().clear();
             entity.getlLog().addAll(entityUserLog);
+            
+             //Carrega a lista de avatars
+            TypedQuery<Avatar> findByIdAvatar = em.createQuery("SELECT DISTINCT a FROM Avatar a  WHERE a.idProfile = :entityId ORDER BY a.idavatar", Avatar.class);
+            findByIdAvatar.setParameter("entityId", id);
+            List<Avatar> entitAvatar;
+            findByIdAvatar.setParameter("entityId", id);
+            entitAvatar = findByIdAvatar.getResultList();
+            entity.getAvatars().clear();
+            entity.getAvatars().addAll(entitAvatar);
 
         } catch (NoResultException nre) {
             entity = null;
@@ -496,6 +506,24 @@ public class ProfileEndpoint {
 
             f.getProfileLang().add(pl);
             pl = null;
+
+        }
+
+        if (!avatar.endsWith("blank")) {
+            avatar = SmartProxyFilter.getContextUri() + "/" + avatar;
+
+            Avatar a1 = new Avatar();
+            a1.setPath(avatar);
+            a1.setProfile(f);
+            a1.setIdProfile(f.getIdprofile());
+
+            ArrayList<Avatar> lAvatars = new ArrayList<Avatar>(f.getAvatars());
+
+            for (Avatar a : lAvatars) {
+                em.remove(a);//Remove todos apenas um avatar para cada usuario
+            }
+            
+            em.persist(a1);
 
         }
 

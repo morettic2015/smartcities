@@ -314,8 +314,8 @@ public class Profile implements java.io.Serializable {
         this.socialNetworks = socialNetworks;
     }
 
-    @XmlTransient
-    @JsonIgnore
+    //@XmlTransient
+    //@JsonIgnore
     public Set<Avatar> getAvatars() {
         return this.avatars;
     }

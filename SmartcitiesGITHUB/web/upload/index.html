@@ -1,15 +1,29 @@
-<html>
-    <head>
-        <title>File Uploading Form</title>
-    </head>
-    <body>
-        <h3>File Upload:</h3>
-        Select a file to upload: <br />
-        <form action="../rest/importer/upload" method="post"
-              enctype="multipart/form-data">
-            <input type="file" name="file" size="50" />
-            <br />
-            <input type="submit" value="Upload File" />
-        </form>
-    </body>
-</html>
+<!DOCTYPE HTML>
+<!-- JS AJAX UPLOAD-->
+<script src="js/upload.js"></script>
+<!-- The form starts -->
+<form action="rest/importer/upload" method="post" enctype="multipart/form-data" id="form-id">
+    <p id="upload-status"></p>
+    <p id="progress"></p>
+    <!-- The file to upload -->
+    <p><input id="file-id" type="file" name="our-file" />
+
+        <!--
+          Also by default, we disable the upload button.
+          If Ajax uploads are supported we'll enable it.
+        -->
+        <input type="hidden" value="Upload" id="upload-button-id" disabled="disabled" /></p>
+
+    <!-- A different field, just for the sake of the example -->
+    <input name="other-field" type="hidden" id="other-field-id" />
+
+    <!-- And finally a submit button -->
+    <p><input type="submit" value="Upload" class="dijitButton"/></p>
+
+    <!-- Placeholders for messages set by event handlers -->
+
+    <pre id="result"></pre>
+    <script>
+        initFormUPLOAD();
+    </script>
+</form>

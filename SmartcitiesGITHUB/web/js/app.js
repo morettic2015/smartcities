@@ -192,7 +192,8 @@ require([
 
                         dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
 
-                        //dom.byId("userAvatarInput").value = myProfile.nmUser;
+                        dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
+                        dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
 
                     });
 
@@ -1456,6 +1457,21 @@ require([
                     // para algum componente(?)
                     console.log(this.value);
                     dom.byId("userAvatarImage").src = this.value;
+
+                });
+                query(".icone-bandeira").on("click", function () {
+                    selectProfileLocale(this);
+
+                });
+                on(dom.byId("userAvatarImage"), "click", function () {
+                    //TODO passa valor para o src da imagem
+                    // depois de carregar a imagem/upload
+                    // para algum componente(?)
+                    //console.log(this.value);
+                    //dom.byId("userAvatarImage").src = this.value;
+                    contentPane_PopUp.set("href", "upload/index.html");
+                    myDialog.set("title", "File Upload");
+                    myDialog.show();
                 });
                 query(".icone-bandeira").on("click", function () {
                     selectProfileLocale(this);
@@ -2371,7 +2387,9 @@ require([
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                     var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
 
-                    var vAvatar = avatar.value == "" ? "blank" : avatar.value;
+                    var vAvatar = myProfile.uploadBean == "undefined" ? "blank" : myProfile.uploadBean.name;
+
+                    dom.byId("userAvatarImage").src = myProfile.uploadBean.myUrl;
 
                     var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
                     //console.log("chama url " + url);
