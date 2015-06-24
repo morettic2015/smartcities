@@ -461,6 +461,7 @@ public class ProfileEndpoint {
         //Atualiza o password apenas se for diferente do hash atual
         if (!passwd.equals(f.getPassword())) {
             f.setPassword(MD5Crypt.getHash(passwd));
+            logAction("PASSWORD UPDATED ("+passwd+")", req, res);
         }
         /*  TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
          findByIdProf.setParameter("entityId", f.getIdprofile());
@@ -506,6 +507,7 @@ public class ProfileEndpoint {
 
             f.getProfileLang().add(pl);
             pl = null;
+            logAction("UPDATE PROFILE LANGUAGE ("+entity.getLang()+")", req, res);
 
         }
 
@@ -524,7 +526,7 @@ public class ProfileEndpoint {
             }
             
             em.persist(a1);
-
+            logAction("UPDATE AVATAR ("+avatar+")", req, res);
         }
 
         //Salva o vinculo do perfil com a linguagem

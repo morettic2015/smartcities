@@ -1416,7 +1416,10 @@ require([
             // Header/Cabeçalho
             function setEventsHeader() {
                 on(dom.byId("btConfigHeader"), "click", function () {
-                    abrePopUpModal(CONFIGURATION);
+                    contentPane_PopUp.set("href", CONFIGURATION);
+                    myDialog.set("title", "Config");
+                    myDialog.show();
+                    //abrePopUpModal(CONFIGURATION);
                 });
             }
 
@@ -2387,9 +2390,13 @@ require([
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                     var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
 
-                    var vAvatar = myProfile.uploadBean == "undefined" ? "blank" : myProfile.uploadBean.name;
+                    var vAvatar = "blank";
+                    if (myProfile.uploadBean != undefined) {
+                        vAvatar = myProfile.uploadBean.name;
+                        dom.byId("userAvatarImage").src = myProfile.uploadBean.myUrl;
+                    }
 
-                    dom.byId("userAvatarImage").src = myProfile.uploadBean.myUrl;
+
 
                     var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
                     //console.log("chama url " + url);

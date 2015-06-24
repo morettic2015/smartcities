@@ -1,31 +1,40 @@
 <span data-dojo-type="dijit/Toolbar">
-	<input id="btAnteriorFileLocate" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtAnteriorFileLocate'>Anterior</span>" iconClass="icone-anterior" ></input>
-	<input id="btProximoFileLocate" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtProximoFileLocate'>Proximo</span>" iconClass="icone-proximo" ></input>
+    <input id="btAnteriorFileLocate" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtAnteriorFileLocate'>Anterior</span>" iconClass="icone-anterior" ></input>
+    <input id="btProximoFileLocate" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtProximoFileLocate'>Proximo</span>" iconClass="icone-proximo" ></input>
 </span>
 
 <input type="hidden" id="hdnTipoArquivo" value="">
 
 <div style="margin:10px;">
-	<h1>
-		<span id="tituloDataFileLocate">Importar</span>&nbsp;<span id="tipoArquivoDataFileLocate">Arquivo</span>
-	</h1>
-	
-	<div class="celula-form-1" style="margin-bottom:10px;">
+    <h1>
+        <span id="tituloDataFileLocate">Importar</span>&nbsp;<span id="tipoArquivoDataFileLocate">Arquivo</span>
+    </h1>
+
+    <div class="celula-form-1" style="margin-bottom:10px;">
         <span class="rotulo" style="right:85%;"><span id="rotArquivoFileLocate">Url do arquivo</span>:</span>
-		<div class="campo" style="left:16%;">
-			<input id="txtUrlFileLocate" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:440px;"></input>
-			<button id="btUploadFileLocate" data-dojo-type="dijit/form/Button" label="Upload" style="position:relative" data-dojo-props="iconClass:'icone-exportar',showLabel:false">Upload</button>
-			<button id="btPendencyDirectory" data-dojo-type="dijit/form/Button" label="Pasta de Pend&ecirc;ncias" style="position:relative" data-dojo-props="iconClass:'icone-pendencia',showLabel:false">pasta</button>
-		</div>
+        <div class="campo" style="left:16%;">
+            <!-- <input id="txtUrlFileLocate" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:440px;"></input> -->
+            <button id="btUploadFileLocate" onclick="loadUpload()" data-dojo-type="dijit/form/Button" label="Upload" style="position:relative" data-dojo-props="iconClass:'icone-exportar',showLabel:false">Upload</button>
+            <!-- <button id="btPendencyDirectory" data-dojo-type="dijit/form/Button" label="Pasta de Pend&ecirc;ncias" style="position:relative" data-dojo-props="iconClass:'icone-pendencia',showLabel:false">pasta</button> -->
+        </div>
     </div>
-	<div class="celula-form-1" style="margin-bottom:5px;">
+    <div class="celula-form-1" style="margin-bottom:5px;">
         <span class="rotulo" style="right:85%;top:40%;"><span id="rotNomeFonteFileLocate">Nome da fonte de dados</span>:</span>
         <input id="txtSourceNameLocate" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false"  placeHolder="" style="width:500px;left:16%;"></input><br>
     </div>
-	<div class="celula-form-1">
+    <div class="celula-form-1">
         <div class="celula-form-1" style="margin-bottom:50px;">
-			<span class="rotulo" style="right:85%"><span id="rotDescricaoFileLocate">Descri&ccedil;&atilde;o</span>:</span>
-			<textarea id="txtDescriptionFile" class="campo" type="text" data-dojo-type="dijit/form/SimpleTextarea" intermediateChanges="false" rows="3" cols="10" trim="false" uppercase="false" lowercase="false" propercase="false" style="height: auto; width: 500px;left:16%;" ></textarea>
-		</div>
+            <span class="rotulo" style="right:85%"><span id="rotDescricaoFileLocate">Descri&ccedil;&atilde;o</span>:</span>
+            <textarea id="txtDescriptionFile" class="campo" type="text" data-dojo-type="dijit/form/SimpleTextarea" intermediateChanges="false" rows="3" cols="10" trim="false" uppercase="false" lowercase="false" propercase="false" style="height: auto; width: 500px;left:16%;" ></textarea>
+        </div>
     </div>
 </div>
+<script>
+    function loadUpload() {
+        contentPane_PopUp.set("href", "upload/index.html");
+        myDialog.set("title", "File Upload");
+        myDialog.show();
+    }
+    ;
+
+</script>
