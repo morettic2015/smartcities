@@ -73,6 +73,7 @@ define({
 		rotNomePerfil: "Nome",
 		rotEmailPerfil: "Email",
 		rotDataNascPerfil: "Data de Nasc.",
+		cpfCnpjPassaporte: "CPF/CNPJ/Passaporte",
 		rotSenhaPerfil: "Senha",
 		rotConfirmaSenhaPerfil: "Confirme a senha",
 		rotBioPerfil: "Bio",
