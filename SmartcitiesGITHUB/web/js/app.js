@@ -976,6 +976,7 @@ require([
                     dom.byId("nameProfileInfo").innerHTML = textos.rotNomePerfil;
                     dom.byId("emailProfileInfo").innerHTML = textos.rotEmailPerfil;
                     dom.byId("birthProfileInfo").innerHTML = textos.rotDataNascPerfil;
+					dom.byId("cpfCnpjProfileInfo").innerHTML = textos.cpfCnpjPassaporte;
                     dom.byId("passwordProfileInfo").innerHTML = textos.rotSenhaPerfil;
                     dom.byId("confirmPassProfileInfo").innerHTML = textos.rotConfirmaSenhaPerfil;
                     dom.byId("bioProfileInfo").innerHTML = textos.rotBioPerfil;
@@ -1447,13 +1448,10 @@ require([
                 registry.byId("txtCpfCnpjProfile").set("validator", function () {
                     return validateCpfCnpj(this);
                 });
-                /*
-                 on( dom.byId("txtCpfCnpjProfile"), "blur", function(){
-                 var obj = registry.byId( this.id );
-                 obj.set( "validator", function(){
-                 validateCpfCnpj( this );
-                 });
-                 });*/
+				on(dom.byId("txtCpfCnpjProfile"), "keypress", function () {
+                    var evento = arguments[0] || window.event;
+                    refreshIdentificationMask(evento, this);
+                });
                 on(dom.byId("userAvatarInput"), "change", function () {
                     //TODO passa valor para o src da imagem
                     // depois de carregar a imagem/upload
@@ -2723,7 +2721,7 @@ require([
                     result = validaCpf(valorCampo);
                 } else if (valorCampo.length == 14) {
                     result = validaCnpj(valorCampo);
-                } else {
+                } else if( valorCampo.length != 8) { // O passaporte brasileiro tem 8 dígitos alfanumericos
                     result = false;
                 }
                 return result;
@@ -2818,7 +2816,46 @@ require([
                 return result;
             }
 
+			function refreshIdentificationMask( event, campo ){
+				var key = event.keyCode || event.charCode;
+                var caracter = String.fromCharCode(key);
+                //var caracteresValidos = "0123456789";
+				var exprAlfanumerico = '^[a-zA-Z0-9]+$';
+                var valorAtual = campo.value;
 
+                // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
+                if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
+                    event.preventDefault();
+
+                    if ( caracter.match(exprAlfanumerico) ) {
+                        var novoValor = valorAtual;
+                        //remove os caracteres especiais . / - espaço
+                        var regexEspaco = new RegExp(" ", "g");
+						var regexPonto = new RegExp("\\.","g");
+                        novoValor = valorAtual.replace("\/", "").replace(regexPonto, "").replace("\-", "").replace(regexEspaco, "");
+                        // insere o novo caracter no final
+                        novoValor += caracter;
+                        // transforma valorAtual em array de caracteres
+                        var arrIdent = novoValor.split("");
+						if( arrIdent.length > 8 && arrIdent.length <= 11){ // Até 8 caracteres é número de passaporte
+							arrIdent.splice(3, 0, ".");
+							arrIdent.splice(7, 0, ".");
+							arrIdent.splice(11, 0, "-");
+						}else if( arrIdent.length > 11 && arrIdent.length <= 13 ){
+							// 00.000.000/0000-1
+							arrIdent.splice(2, 0, ".");
+							arrIdent.splice(6, 0, ".");
+							arrIdent.splice(10, 0, "/");
+							arrIdent.splice(15, 0, "-");
+						}                        
+
+                        valorAtual = arrIdent.toString();
+                        var regexVirgula = new RegExp(",", "g");
+                        valorAtual = valorAtual.replace(regexVirgula, "");
+                        campo.value = valorAtual;
+                    }
+                }
+			}
 
             /*
              *	Fim da declaração das funções
