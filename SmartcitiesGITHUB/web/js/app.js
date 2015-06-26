@@ -1443,7 +1443,7 @@ require([
                 });
                 on(dom.byId("txtTelefoneProfileInfo"), "keypress", function () {
                     var evento = arguments[0] || window.event;
-                    refreshPhoneMask(evento, this);
+                    refreshInternationalPhoneMask(evento, this);
                 });
                 registry.byId("txtCpfCnpjProfile").set("validator", function () {
                     return validateCpfCnpj(this);
@@ -1502,11 +1502,11 @@ require([
                 });
                 on(dom.byId("txtSegurancaTelefone"), "keypress", function () {
                     var evento = arguments[0] || window.event;
-                    refreshPhoneMask(evento, this);
+                    refreshInternationalPhoneMask(evento, this);
                 });
                 on(dom.byId("txtSegurancaCelular"), "keypress", function () {
                     var evento = arguments[0] || window.event;
-                    refreshPhoneMask(evento, this);
+                    refreshInternationalPhoneMask(evento, this);
                 });
             }
 
@@ -2251,6 +2251,39 @@ require([
                 }
 
             }
+			
+			function refreshInternationalPhoneMask(event, campo) {
+                var key = event.keyCode || event.charCode;
+                var caracter = String.fromCharCode(key);
+                var caracteresValidos = "0123456789";
+                var valorAtual = campo.value;
+
+                // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
+                if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
+                    event.preventDefault();
+
+                    if (caracteresValidos.indexOf(caracter) > -1 && valorAtual.length < 17) {
+                        var novoValor = valorAtual;
+                        //remove os caracteres especiais e espaços
+                        var regexEspaco = new RegExp(" ", "g");
+						var regexMais = new RegExp("\\+","g")
+                        novoValor = valorAtual.replace(regexMais, "").replace(regexEspaco, "");
+                        // insere o novo caracter no final
+                        novoValor += caracter;
+                        // transforma valorAtual em array de caracteres
+                        var arrTelefone = novoValor.split("");
+                        arrTelefone.splice(0, 0, "+");
+                        arrTelefone.splice(3, 0, " ");
+                        arrTelefone.splice(6, 0, " ");
+
+                        valorAtual = arrTelefone.toString();
+                        var regexVirgula = new RegExp(",", "g");
+                        valorAtual = valorAtual.replace(regexVirgula, "");
+                        campo.value = valorAtual;
+                    }
+                }
+
+            }
 
             /* Realiza a busca do endereço, verifica resultados e exibe num box especial */
             function showFoundedAddresses(strAddress) {
@@ -2360,6 +2393,11 @@ require([
             }
 
             function saveProfileInfo() {
+				if( !registry.byId("btToggleEULA").get("checked") ){
+					alert("Você deve aceitar os termos de uso para continuar.");
+					return false;
+				}
+				
                 var id = dom.byId("hdnIdProfile");
                 var name = registry.byId("txtNameProfile");
                 var email = registry.byId("txtEmailProfile");
@@ -2721,7 +2759,7 @@ require([
                     result = validaCpf(valorCampo);
                 } else if (valorCampo.length == 14) {
                     result = validaCnpj(valorCampo);
-                } else if( valorCampo.length != 8) { // O passaporte brasileiro tem 8 dígitos alfanumericos
+                } else if( valorCampo.length > 8 || valorCampo.length < 8) { // O passaporte brasileiro tem 8 dígitos alfanumericos
                     result = false;
                 }
                 return result;
@@ -2827,7 +2865,7 @@ require([
                 if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
                     event.preventDefault();
 
-                    if ( caracter.match(exprAlfanumerico) ) {
+                    if ( valorAtual.length < 17 && caracter.match(exprAlfanumerico) ) {
                         var novoValor = valorAtual;
                         //remove os caracteres especiais . / - espaço
                         var regexEspaco = new RegExp(" ", "g");
