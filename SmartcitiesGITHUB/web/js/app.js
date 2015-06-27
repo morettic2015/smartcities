@@ -61,6 +61,7 @@ var CIRCLES_CONTACTS = "circles/circleContacts.html";
 var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
 var CONFIGURATION = "configuration.html";
 var HEADER_MAIN = "header_smartcities.jsp";
+var EULA = "info/eula.html";
 
 require([
     "dojo/ready",
@@ -69,6 +70,7 @@ require([
     "dojo/dom-attr",
     "dojo/dom-construct",
     "dojo/dom-class",
+	"dojo/dom-style",
     "dojo/parser",
     "dojo/request/xhr",
     "dojo/_base/array",
@@ -93,6 +95,7 @@ require([
                 domAttr,
                 domConstruct,
                 domClass,
+				domStyle,
                 parser,
                 xhr,
                 array,
@@ -383,11 +386,11 @@ require([
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPaypalCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAYPAL);
+                    abrePopUpModal(BILLING_PAYPAL, "Paypal", 300, 300 );
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPagseguroCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAGSEGURO);
+                    abrePopUpModal(BILLING_PAGSEGURO, "PagSeguro" );
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btBancoCredito:click", function (evt) {
@@ -809,13 +812,23 @@ require([
             }
 
             /**
-             * Função para abrir o modal. Basta passar o nome do html / pagina para carregar o conteudo
+             * Função para abrir o modal. 
              * @argument {paginaConteudo} paginaConteudo pagina html a ser carregada no modal
+			 * @argument {titulo} o texto que será exibido na barra de título do modal
+			 * @argument {largura} define a largura do modal. Opcional.
+			 * @argument {altura} define a altura do modal. Opcional.
              * */
-            function abrePopUpModal(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
-                var objContainer = contentPane_PopUp;
-                objContainer.set("href", paginaConteudo);
+            function abrePopUpModal(paginaConteudo, titulo, largura, altura ) {
+				var larguraModal = largura != undefined ? largura : 400;
+				var alturaModal = altura != undefined ? altura : 200;
+				var larguraContent = larguraModal - 25;
+				var alturaContent = alturaModal - 52;
+                dom.byId("tituloModal").innerHTML = titulo;
+                contentPane_PopUp.set("href", paginaConteudo);				
+				domStyle.set("myDialog", "width", larguraModal+"px" );
+				domStyle.set("myDialog", "height", alturaModal+"px" );
+				domStyle.set(contentPane_PopUp.domNode, "width", larguraContent+"px" );
+				domStyle.set(contentPane_PopUp.domNode, "height", alturaContent+"px" );
                 exibeModal();
             }
 
@@ -1417,10 +1430,11 @@ require([
             // Header/Cabeçalho
             function setEventsHeader() {
                 on(dom.byId("btConfigHeader"), "click", function () {
-                    contentPane_PopUp.set("href", CONFIGURATION);
-                    myDialog.set("title", "Config");
-                    myDialog.show();
-                    //abrePopUpModal(CONFIGURATION);
+                    //contentPane_PopUp.set("href", CONFIGURATION);
+                    //myDialog.set("title", "Config");
+                    //myDialog.show();
+					//todo i18n
+                    abrePopUpModal(CONFIGURATION, "Config II");
                 });
             }
 
@@ -1431,11 +1445,8 @@ require([
                     saveProfileInfo();
                 });
                 on(dom.byId("btToggleEULA"), "click", function () {
-                    //var obj = registry.byId(this.id);
-                    //obj.set("regExp", "^" + dom.byId("txtPasswordProfile").value + "$");
-                    contentPane_PopUp.set("href", "info/eula.html");
-                    myDialog.set("title", "End User License Agreement");
-                    myDialog.show();
+					//todo i18n
+                    abrePopUpModal(EULA, "End User License Agreement");
                 });
                 on(dom.byId("txtConfirmPassProfile"), "blur", function () {
                     var obj = registry.byId(this.id);
