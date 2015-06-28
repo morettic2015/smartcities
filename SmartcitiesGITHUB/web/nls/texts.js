@@ -109,7 +109,10 @@ define({
 		rotData: "Data",
 		rotTipo: "Tipo",
 		rotIP: "IP",
-		verifiqueSenha: "A senha não coincide",
+		verifiqueSenha: "A senha n&atilde;o coincide",
+		eula: "Acordo de Licen&ccedil;a do Usu&aacuterio Final",
+		aceiteEula: "Você deve aceitar o Acordo de Licen&ccedil;a do Usu&aacute;rio Final para continuar.",
+		informeEndereco: "Voc&ecirc; deve informar seu endere&ccedil;o.",
 		
 		// Módulo Dados
 		tituloImportarDados: "Importa&ccedil;&atilde;o de Dados",
@@ -258,7 +261,13 @@ define({
 		gCredito: "Cr&eacute;dito",
 		gDebito: "D&eacute;bito",
 		gCamadas: "Camadas",
-		gTamanho: "Tamanho"
+		gTamanho: "Tamanho",
+		gVerifiqueDados: "Verifique seus dados novamente",
+		gAtencao: "Aten&ccedil;&atilde;o",
+		gNaoSalvou: "N&atilde;o foi poss&iacute;vel salvar os dados.",
+		gCausa: "Causa",
+		gErro: "Erro",
+		gSalvoSucesso: "Dados salvos com sucesso."
 	
 	}),
 	"en": true,

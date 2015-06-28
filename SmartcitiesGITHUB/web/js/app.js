@@ -62,6 +62,7 @@ var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
 var CONFIGURATION = "configuration.html";
 var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
+var UPLOAD = "upload/index.html";
 
 require([
     "dojo/ready",
@@ -227,8 +228,7 @@ require([
                     });
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
-                    carregaTelaPerfil(PROFILE_HISTORY, function () {
-                        //alert(myProfile.lLog.length);
+                    carregaTelaPerfil(PROFILE_HISTORY, function () {                        
                         var gridDataMovdel = [];
 
                         if (myProfile.lLog.length > 0) {
@@ -401,7 +401,7 @@ require([
                 // Modulo Circulos
                 on(dom.byId("conteudo_circulos"), "#btImportarContatos:click", function () {
                     //abreImportarContato();
-                    alert(" importar contato");
+                    modalMessage(" importar contato", "Teste");
                 });
 
                 // Tela de Configuração
@@ -818,13 +818,17 @@ require([
 			 * @argument {largura} define a largura do modal. Opcional.
 			 * @argument {altura} define a altura do modal. Opcional.
              * */
-            function abrePopUpModal(paginaConteudo, titulo, largura, altura ) {
-				var larguraModal = largura != undefined ? largura : 400;
-				var alturaModal = altura != undefined ? altura : 200;
+            function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly ) {
+				var larguraModal = largura != undefined && largura != null ? largura : 400;
+				var alturaModal = altura != undefined && altura != null ? altura : 200;
 				var larguraContent = larguraModal - 25;
 				var alturaContent = alturaModal - 52;
-                dom.byId("tituloModal").innerHTML = titulo;
-                contentPane_PopUp.set("href", paginaConteudo);				
+				dom.byId("tituloModal").innerHTML = titulo;
+				if( messageOnly ){
+					contentPane_PopUp.set("content", paginaConteudo);
+				}else{					
+					contentPane_PopUp.set("href", paginaConteudo);
+				}
 				domStyle.set("myDialog", "width", larguraModal+"px" );
 				domStyle.set("myDialog", "height", alturaModal+"px" );
 				domStyle.set(contentPane_PopUp.domNode, "width", larguraContent+"px" );
@@ -835,6 +839,10 @@ require([
             function exibeModal() {
                 myDialog.show();
             }
+			
+			function modalMessage( message, type ){
+				abrePopUpModal( message, type, null, 150, true );
+			}
 
 
             function configuraTela(pagina) {
@@ -1433,8 +1441,7 @@ require([
                     //contentPane_PopUp.set("href", CONFIGURATION);
                     //myDialog.set("title", "Config");
                     //myDialog.show();
-					//todo i18n
-                    abrePopUpModal(CONFIGURATION, "Config II");
+                    abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                 });
             }
 
@@ -1445,8 +1452,7 @@ require([
                     saveProfileInfo();
                 });
                 on(dom.byId("btToggleEULA"), "click", function () {
-					//todo i18n
-                    abrePopUpModal(EULA, "End User License Agreement");
+                    abrePopUpModal(EULA, textos.eula );
                 });
                 on(dom.byId("txtConfirmPassProfile"), "blur", function () {
                     var obj = registry.byId(this.id);
@@ -1481,9 +1487,10 @@ require([
                     // para algum componente(?)
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
-                    contentPane_PopUp.set("href", "upload/index.html");
-                    myDialog.set("title", "File Upload");
-                    myDialog.show();
+                    //contentPane_PopUp.set("href", "upload/index.html");
+                    //myDialog.set("title", "File Upload");
+                    //myDialog.show();
+					abrePopUpModal( UPLOAD, "File Upload", 400, 300);
                 });
                 query(".icone-bandeira").on("click", function () {
                     selectProfileLocale(this);
@@ -2303,7 +2310,7 @@ require([
                         geocoder = startGeocoder();
                     } catch (ex) {
                         console.log("Nao startou Geocoder = " + geocoder + " . " + ex);
-                        alert("Ocorreu um erro ao tentar realizar a busca.");
+                        modalMessage("Ocorreu um erro ao tentar realizar a busca.", "Erro");
                         return false;
                     }
                 }
@@ -2405,7 +2412,7 @@ require([
 
             function saveProfileInfo() {
 				if( !registry.byId("btToggleEULA").get("checked") ){
-					alert("Você deve aceitar os termos de uso para continuar.");
+					modalMessage( textos.aceiteEula, textos.gAtencao );
 					return false;
 				}
 				
@@ -2443,15 +2450,12 @@ require([
                         dom.byId("userAvatarImage").src = myProfile.uploadBean.myUrl;
                     }
 
-
-
                     var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
-                    //console.log("chama url " + url);
 
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         if (typeof dados == "string") {
-                            alert(dados);
+                            modalMessage(dados, "Erro");
                         } else if (dados instanceof Object) {
                             contentPane_PopUp.set("href", "info/profileInfo.html");
                             myDialog.set("title", "Sucess");
@@ -2463,21 +2467,16 @@ require([
                     });
 
                 } else {
-                    alert("ATENCAO: verifique seus dados novamente.");
+                    modalMessage( textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
 
 
             function loadUserCTX() {
-
-
                 restServices.loadCtx();
-
-
-
-
             }
+			
             function saveProfileAddress() {
                 if (selectedAddress != null) {
                     var address = selectedAddress.endereco_formatado;
@@ -2495,7 +2494,7 @@ require([
                      });*/
 
                 } else {
-                    alert("ATENCAO: você deve informar seu endereço.");
+                    modalMessage( textos.informeEndereco, textos.gAtencao);
                 }
             }
 
@@ -2523,7 +2522,7 @@ require([
                     });
 
                 } else {
-                    alert("ATENCAO: verifique seus dados novamente.");
+                    modalMessage( textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
@@ -2540,9 +2539,9 @@ require([
                 xhr(url, {handleAs: "json", preventCache: true, method: "POST"})
                         .then(function (data) {
                             console.log("requisicao ok: " + data);
-                            alert("Dados salvos com sucesso.");
+                            modalMessage( textos.gSalvoSucesso, "Active Directory");
                         }, function (err) {
-                            alert("Não foi possível salvar. Causa: " + err);
+                            modalMessage( textos.gNaoSalvou +" "+ textos.gCausa +": " + err, textos.gErro );
                         });
 
             }
@@ -2555,10 +2554,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        alert(dados);
+                        modalMessage(dados, textos.gErro );
                     } else if (dados instanceof Object) {
                         // Retorna { id: 1, kmlUrl: "www.com", kmlDesc: "nononono", idProfile: 1 }
-                        alert("Dados salvos com sucesso.");
+                        modalMessage( textos.gSalvoSucesso, "KML");
                     }
                 });
             }
@@ -2573,10 +2572,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        alert(dados);
+                        modalMessage(dados, textos.gErro );
                     } else if (dados instanceof Object) {
                         // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
-                        alert("Dados salvos com sucesso.");
+                        modalMessage( textos.gSalvoSucesso, "FTP");
                     }
                 });
             }
@@ -2592,9 +2591,9 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        alert(dados);
+                        modalMessage(dados, textos.gErro );
                     } else if (dados instanceof Object) {
-                        alert("Dados salvos com sucesso.");
+                        modalMessage( textos.gSalvoSucesso, "CSV");
                     }
                 });
             }
@@ -2608,7 +2607,7 @@ require([
                 var result = restServices.loadObject(url, submitType);
                 result.then(function (data) {
                     if (data instanceof String) {
-                        alert(data); // Show the error
+                        modalMessage(data, textos.gErro ); // Show the error
                     } else if (data instanceof Object) {
                         handler(data);
                     }
@@ -2620,7 +2619,7 @@ require([
                 var resultado = restServices.loadObject(url, "GET");
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        alert(dados); // Exibe o erro
+                        modalMessage(dados, textos.gErro ); // Exibe o erro
                     } else if (dados instanceof Object) {
                         // Retorna { idprofile: 1, idProfileOrganization: null, nmUser: "Lam Mxrettx",
                         // email: "malacma@gmail.com", password: "8ddef0f4588c24e8d08307977c2d826b",
@@ -2669,7 +2668,7 @@ require([
                     event.returnValue = false;
             }
 
-            /*function cnpj_cpf verifica qual das funcoes tem que chamar cpf ou cnpj*/
+            /*function cnpj_cpf verifica qual das funcoes tem que chamar cpf ou cnpj
 
             function cnpj_cpf(campo, documento, f, formi) {
                 form = formi;
@@ -2759,6 +2758,7 @@ require([
                 }
 
             }
+			*/
 
             function validateCpfCnpj(domObj) {
                 var valorCampo = domObj.value;

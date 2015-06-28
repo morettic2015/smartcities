@@ -109,6 +109,9 @@ define({
 	rotTipo: "Type",
 	rotIP: "IP",
 	verifiqueSenha: "The password does not match",
+	eula: "End User License Agreement",
+	aceiteEula: "You must accept the End User License Agreement to continue.",
+	informeEndereco: "You must inform your address.",
 	
 	// Módulo Dados	
 	tituloImportarDados: "Data Import",
@@ -258,5 +261,11 @@ define({
 	gCredito: "Credit",
 	gDebito: "Debit",
 	gCamadas: "Layers",
-	gTamanho: "Size"
+	gTamanho: "Size",
+	gVerifiqueDados: "Verify your data once again.",
+	gAtencao: "Attention",
+	gNaoSalvou: "It was not possible to save the data.",
+	gCausa: "Cause",
+	gErro: "Error",
+	gSalvoSucesso: "Data saved successfully."
 });
