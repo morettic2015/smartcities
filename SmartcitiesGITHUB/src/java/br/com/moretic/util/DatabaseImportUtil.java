@@ -30,13 +30,20 @@ public class DatabaseImportUtil {
     private ResultSetMetaData rsmd;
     private String url;
 
-    public void connectToRemoteDB(DatabaseDriverType dbTp, String url, String port, String user, String pass, String schema) throws SQLException, ClassNotFoundException {
+    public boolean connect(DatabaseDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
         //Set database type
         this.dbType = dbTp;
         //Register driver
         Class.forName(dbType.toString());
         //Estabeçece a conexão com o banco
-        this.conn = DriverManager.getConnection(url, user, pass);
+            try {
+                this.conn = DriverManager.getConnection(url, user, pass);
+                
+                return !this.conn.isClosed();
+                
+            } catch (SQLException sQLException) {
+                return false;
+            }
     }
     
     public ArrayList<String> getTablesFromConnection(Connection conn) throws SQLException {

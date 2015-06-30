@@ -266,8 +266,8 @@ public class ProfileEndpoint {
             entityUserLog = findByIdSecUserLog.getResultList();
             entity.getlLog().clear();
             entity.getlLog().addAll(entityUserLog);
-            
-             //Carrega a lista de avatars
+
+            //Carrega a lista de avatars
             TypedQuery<Avatar> findByIdAvatar = em.createQuery("SELECT DISTINCT a FROM Avatar a  WHERE a.idProfile = :entityId ORDER BY a.idavatar", Avatar.class);
             findByIdAvatar.setParameter("entityId", id);
             List<Avatar> entitAvatar;
@@ -418,6 +418,23 @@ public class ProfileEndpoint {
         return ((p == null) ? new Profile() : p);
     }
 
+    public static void addSessionObject(HttpServletRequest req,String token,Object o) {
+        HttpSession session = req.getSession();
+        session.setAttribute(token, o);
+    }
+    
+    public static  <T extends Object> T getSessionObject(HttpServletRequest req, Class<T> type,String token) {
+        HttpSession session = req.getSession();
+        Object o = session.getAttribute(token);
+        
+        return type.cast(o);
+    }
+/**
+ <T> void checkedWork(final Class<T> type, final Object object) {
+    work(type, type.cast(object));
+}
+ 
+ */
     /**
      *
      *
@@ -461,7 +478,7 @@ public class ProfileEndpoint {
         //Atualiza o password apenas se for diferente do hash atual
         if (!passwd.equals(f.getPassword())) {
             f.setPassword(MD5Crypt.getHash(passwd));
-            logAction("PASSWORD UPDATED ("+passwd+")", req, res);
+            logAction("PASSWORD UPDATED (" + passwd + ")", req, res);
         }
         /*  TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
          findByIdProf.setParameter("entityId", f.getIdprofile());
@@ -507,7 +524,7 @@ public class ProfileEndpoint {
 
             f.getProfileLang().add(pl);
             pl = null;
-            logAction("UPDATE PROFILE LANGUAGE ("+entity.getLang()+")", req, res);
+            logAction("UPDATE PROFILE LANGUAGE (" + entity.getLang() + ")", req, res);
 
         }
 
@@ -524,9 +541,9 @@ public class ProfileEndpoint {
             for (Avatar a : lAvatars) {
                 em.remove(a);//Remove todos apenas um avatar para cada usuario
             }
-            
+
             em.persist(a1);
-            logAction("UPDATE AVATAR ("+avatar+")", req, res);
+            logAction("UPDATE AVATAR (" + avatar + ")", req, res);
         }
 
         //Salva o vinculo do perfil com a linguagem

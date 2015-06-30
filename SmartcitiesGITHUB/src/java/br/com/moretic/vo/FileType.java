@@ -15,5 +15,9 @@ public enum FileType {
     TXT,
     PDF,
     RTF,
-    DOC
+    DOC,
+    XLS,
+    JSON,
+    RSS,
+    CSV;
 }

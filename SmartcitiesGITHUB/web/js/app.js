@@ -71,7 +71,7 @@ require([
     "dojo/dom-attr",
     "dojo/dom-construct",
     "dojo/dom-class",
-	"dojo/dom-style",
+    "dojo/dom-style",
     "dojo/parser",
     "dojo/request/xhr",
     "dojo/_base/array",
@@ -96,7 +96,7 @@ require([
                 domAttr,
                 domConstruct,
                 domClass,
-				domStyle,
+                domStyle,
                 parser,
                 xhr,
                 array,
@@ -192,10 +192,10 @@ require([
 
                         dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
                         dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
-						
-						if( myProfile.cpfCnpj != null ){
-							registry.byId("btToggleEULA").set("checked", true);
-						}
+
+                        if (myProfile.cpfCnpj != null) {
+                            registry.byId("btToggleEULA").set("checked", true);
+                        }
 
                     });
 
@@ -226,7 +226,7 @@ require([
                     });
                 });
                 on(dom.byId("btProfileHistory"), "click", function () {
-                    carregaTelaPerfil(PROFILE_HISTORY, function () {                        
+                    carregaTelaPerfil(PROFILE_HISTORY, function () {
                         var gridDataMovdel = [];
 
                         if (myProfile.lLog.length > 0) {
@@ -384,11 +384,11 @@ require([
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPaypalCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAYPAL, "Paypal", 300, 300 );
+                    abrePopUpModal(BILLING_PAYPAL, "Paypal", 300, 300);
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPagseguroCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAGSEGURO, "PagSeguro" );
+                    abrePopUpModal(BILLING_PAGSEGURO, "PagSeguro");
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btBancoCredito:click", function (evt) {
@@ -779,8 +779,16 @@ require([
 
             }
 
-            function carregaTelaFerramentaDados(paginaConteudo, parametros) {
+            function carregaTelaFerramentaDados(paginaConteudo, parametros, fFunc) {
                 parametrosTela = parametros;	// Setando variável global
+
+
+                contentPane_FerramentaDados.set("onDownloadEnd", function () {
+                    configuraTela(this.get("href"));
+                    fFunc();
+                });
+
+
                 var objContainer = contentPane_FerramentaDados;
                 objContainer.set("href", paginaConteudo);
             }
@@ -812,35 +820,35 @@ require([
             /**
              * Função para abrir o modal. 
              * @argument {paginaConteudo} paginaConteudo pagina html a ser carregada no modal
-			 * @argument {titulo} o texto que será exibido na barra de título do modal
-			 * @argument {largura} define a largura do modal. Opcional.
-			 * @argument {altura} define a altura do modal. Opcional.
+             * @argument {titulo} o texto que será exibido na barra de título do modal
+             * @argument {largura} define a largura do modal. Opcional.
+             * @argument {altura} define a altura do modal. Opcional.
              * */
-            function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly ) {
-				var larguraModal = largura != undefined && largura != null ? largura : 400;
-				var alturaModal = altura != undefined && altura != null ? altura : 200;
-				var larguraContent = larguraModal - 25;
-				var alturaContent = alturaModal - 52;
-				dom.byId("tituloModal").innerHTML = titulo;
-				if( messageOnly ){
-					contentPane_PopUp.set("content", paginaConteudo);
-				}else{					
-					contentPane_PopUp.set("href", paginaConteudo);
-				}
-				domStyle.set("myDialog", "width", larguraModal+"px" );
-				domStyle.set("myDialog", "height", alturaModal+"px" );
-				domStyle.set(contentPane_PopUp.domNode, "width", larguraContent+"px" );
-				domStyle.set(contentPane_PopUp.domNode, "height", alturaContent+"px" );
+            function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
+                var larguraModal = largura != undefined && largura != null ? largura : 400;
+                var alturaModal = altura != undefined && altura != null ? altura : 200;
+                var larguraContent = larguraModal - 25;
+                var alturaContent = alturaModal - 52;
+                dom.byId("tituloModal").innerHTML = titulo;
+                if (messageOnly) {
+                    contentPane_PopUp.set("content", paginaConteudo);
+                } else {
+                    contentPane_PopUp.set("href", paginaConteudo);
+                }
+                domStyle.set("myDialog", "width", larguraModal + "px");
+                domStyle.set("myDialog", "height", alturaModal + "px");
+                domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
+                domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
                 exibeModal();
             }
 
             function exibeModal() {
                 myDialog.show();
             }
-			
-			function modalMessage( message, type ){
-				abrePopUpModal( message, type, null, 150, true );
-			}
+
+            function modalMessage(message, type) {
+                abrePopUpModal(message, type, null, 150, true);
+            }
 
 
             function configuraTela(pagina) {
@@ -995,7 +1003,7 @@ require([
                     dom.byId("nameProfileInfo").innerHTML = textos.rotNomePerfil;
                     dom.byId("emailProfileInfo").innerHTML = textos.rotEmailPerfil;
                     dom.byId("birthProfileInfo").innerHTML = textos.rotDataNascPerfil;
-					dom.byId("cpfCnpjProfileInfo").innerHTML = textos.cpfCnpjPassaporte;
+                    dom.byId("cpfCnpjProfileInfo").innerHTML = textos.cpfCnpjPassaporte;
                     dom.byId("passwordProfileInfo").innerHTML = textos.rotSenhaPerfil;
                     dom.byId("confirmPassProfileInfo").innerHTML = textos.rotConfirmaSenhaPerfil;
                     dom.byId("bioProfileInfo").innerHTML = textos.rotBioPerfil;
@@ -1450,7 +1458,7 @@ require([
                     saveProfileInfo();
                 });
                 on(dom.byId("btToggleEULA"), "click", function () {
-                    abrePopUpModal(EULA, textos.eula );
+                    abrePopUpModal(EULA, textos.eula);
                 });
                 on(dom.byId("txtConfirmPassProfile"), "blur", function () {
                     var obj = registry.byId(this.id);
@@ -1463,14 +1471,14 @@ require([
                 registry.byId("txtCpfCnpjProfile").set("validator", function () {
                     return validateCpfCnpj(this);
                 });
-				on(dom.byId("txtCpfCnpjProfile"), "keypress", function () {
+                on(dom.byId("txtCpfCnpjProfile"), "keypress", function () {
                     var evento = arguments[0] || window.event;
                     refreshIdentificationMask(evento, this);
                 });
-				on(dom.byId("txtBioProfile"), "keypress", function(){
-					var evento = arguments[0] || window.event;
-					limitTextArea( this, 250, evento );
-				});
+                on(dom.byId("txtBioProfile"), "keypress", function () {
+                    var evento = arguments[0] || window.event;
+                    limitTextArea(this, 250, evento);
+                });
                 on(dom.byId("userAvatarInput"), "change", function () {
                     //TODO passa valor para o src da imagem
                     // depois de carregar a imagem/upload
@@ -1492,7 +1500,7 @@ require([
                     //contentPane_PopUp.set("href", "upload/index.html");
                     //myDialog.set("title", "File Upload");
                     //myDialog.show();
-					abrePopUpModal( UPLOAD, "File Upload", 400, 300);
+                    abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
                 query(".icone-bandeira").on("click", function () {
                     selectProfileLocale(this);
@@ -1583,28 +1591,120 @@ require([
                 });
             }
 
+            function saveCSVFile(parametrosTela) {
+
+                var urlCSV = myProfile.uploadBean.name;
+                var fName1 = dom.byId("txtSourceNameLocate").value;
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = dom.byId("txtDescriptionFile").value;
+                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/CSV/" + escape(description);
+
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    //alert(dados);
+                    if (dados instanceof String) {
+                        //modalMessage(dados, textos.gErro);
+                    } else if (dados instanceof Object) {
+                        //load window on Contentpane
+                        carregaTelaFerramentaDados(DATAIMPORT_CSV, parametrosTela, function () {
+
+                            //Message to confirm
+                            contentPane_PopUp.set("href", "info/dataImport.html");
+                            myDialog.set("title", "Sucess");
+                            myDialog.show();
+
+                            //Set myProfile csv data on memory
+                            myProfile.csv = dados;
+                            select = document.getElementById('listCsvColumns');
+                            //Somente o header
+                            if (myProfile.csv.length > 0) {
+                                //Pega o header
+                                var csvHeader = myProfile.csv[0];
+                                //Populates main combobox
+                                for (i = 0; i < csvHeader.length; i++) {
+                                    var opt = document.createElement('option');
+                                    opt.value = i;
+                                    opt.innerHTML = csvHeader[i];
+                                    select.appendChild(opt);
+                                }
+                                //Atribui eventos apenas se tiver itens para rodar
+                                on(dom.byId("btCsvIncludeCol"), "click", function () {
+                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
+                                });
+                                on(dom.byId("btCsvRemoveCol"), "click", function () {
+                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
+                                });
+                                on(dom.byId("btProximoImportCsv"), "click", function () {
+                                    var elements = getALLSelectValues("listCsvSelectedCols");
+
+                                    var a1 = "";
+                                    for (i = 0; i < elements.length; i++) {
+                                        a1 += elements[i];
+                                        a1 += ",";
+                                    }
+
+                                    var url = "importer/csv_update/" + a1;
+                                    
+                                    var resultado = restServices.salvaObjeto(url);
+                                    resultado.then(function (dados) {
+                                        //alert(dados);
+                                        if (dados instanceof String) {
+                                            //modalMessage(dados, textos.gErro);
+                                        } else if (dados instanceof Object) {
+                                            //Message to confirm
+                                            contentPane_PopUp.set("href", "info/dataImport.html");
+                                            myDialog.set("title", "Sucess");
+                                            myDialog.show();
+                                            
+                                            //Disable everything
+                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
+                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
+                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
+                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
+                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
+                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
+                    }
+                });
+            }
             function setEventsDataFileLocate() {
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
                 on(dom.byId("btProximoFileLocate"), "click", function () {
+                    var param = parametrosTela;
                     var pagina = "";
                     if (parametrosTela.tipoArquivo == "CSV") {
-                        pagina = DATAIMPORT_CSV;
+                        //pagina = ;
+                        saveCSVFile(parametrosTela);
+
+                        return;
                     } else if (parametrosTela.tipoArquivo == "HTML") {
                         pagina = "";
+
                     } else if (parametrosTela.tipoArquivo == "JSON") {
                         pagina = DATAIMPORT_JSON;
+
                     } else if (parametrosTela.tipoArquivo == "PDF") {
                         pagina = "";
+
                     } else if (parametrosTela.tipoArquivo == "XLS") {
                         pagina = DATAIMPORT_CSV;
+
                     } else if (parametrosTela.tipoArquivo == "XML") {
                         pagina = DATAIMPORT_JSON;
+
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
+
                     }
-                    var param = parametrosTela;
+
                     carregaTelaFerramentaDados(pagina, param);
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
@@ -2271,8 +2371,8 @@ require([
                 }
 
             }
-			
-			function refreshInternationalPhoneMask(event, campo) {
+
+            function refreshInternationalPhoneMask(event, campo) {
                 var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
                 var caracteresValidos = "0123456789";
@@ -2286,7 +2386,7 @@ require([
                         var novoValor = valorAtual;
                         //remove os caracteres especiais e espaços
                         var regexEspaco = new RegExp(" ", "g");
-						var regexMais = new RegExp("\\+","g")
+                        var regexMais = new RegExp("\\+", "g")
                         novoValor = valorAtual.replace(regexMais, "").replace(regexEspaco, "");
                         // insere o novo caracter no final
                         novoValor += caracter;
@@ -2413,11 +2513,11 @@ require([
             }
 
             function saveProfileInfo() {
-				if( !registry.byId("btToggleEULA").get("checked") ){
-					modalMessage( textos.aceiteEula, textos.gAtencao );
-					return false;
-				}
-				
+                if (!registry.byId("btToggleEULA").get("checked")) {
+                    modalMessage(textos.aceiteEula, textos.gAtencao);
+                    return false;
+                }
+
                 var id = dom.byId("hdnIdProfile");
                 var name = registry.byId("txtNameProfile");
                 var email = registry.byId("txtEmailProfile");
@@ -2469,7 +2569,7 @@ require([
                     });
 
                 } else {
-                    modalMessage( textos.gVerifiqueDados, textos.gAtencao);
+                    modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
@@ -2478,7 +2578,7 @@ require([
             function loadUserCTX() {
                 restServices.loadCtx();
             }
-			
+
             function saveProfileAddress() {
                 if (selectedAddress != null) {
                     var address = selectedAddress.endereco_formatado;
@@ -2496,7 +2596,7 @@ require([
                      });*/
 
                 } else {
-                    modalMessage( textos.informeEndereco, textos.gAtencao);
+                    modalMessage(textos.informeEndereco, textos.gAtencao);
                 }
             }
 
@@ -2524,7 +2624,7 @@ require([
                     });
 
                 } else {
-                    modalMessage( textos.gVerifiqueDados, textos.gAtencao);
+                    modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
@@ -2541,9 +2641,9 @@ require([
                 xhr(url, {handleAs: "json", preventCache: true, method: "POST"})
                         .then(function (data) {
                             console.log("requisicao ok: " + data);
-                            modalMessage( textos.gSalvoSucesso, "Active Directory");
+                            modalMessage(textos.gSalvoSucesso, "Active Directory");
                         }, function (err) {
-                            modalMessage( textos.gNaoSalvou +" "+ textos.gCausa +": " + err, textos.gErro );
+                            modalMessage(textos.gNaoSalvou + " " + textos.gCausa + ": " + err, textos.gErro);
                         });
 
             }
@@ -2556,10 +2656,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro );
+                        modalMessage(dados, textos.gErro);
                     } else if (dados instanceof Object) {
                         // Retorna { id: 1, kmlUrl: "www.com", kmlDesc: "nononono", idProfile: 1 }
-                        modalMessage( textos.gSalvoSucesso, "KML");
+                        modalMessage(textos.gSalvoSucesso, "KML");
                     }
                 });
             }
@@ -2574,10 +2674,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro );
+                        modalMessage(dados, textos.gErro);
                     } else if (dados instanceof Object) {
                         // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
-                        modalMessage( textos.gSalvoSucesso, "FTP");
+                        modalMessage(textos.gSalvoSucesso, "FTP");
                     }
                 });
             }
@@ -2593,9 +2693,9 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro );
+                        modalMessage(dados, textos.gErro);
                     } else if (dados instanceof Object) {
-                        modalMessage( textos.gSalvoSucesso, "CSV");
+                        modalMessage(textos.gSalvoSucesso, "CSV");
                     }
                 });
             }
@@ -2609,7 +2709,7 @@ require([
                 var result = restServices.loadObject(url, submitType);
                 result.then(function (data) {
                     if (data instanceof String) {
-                        modalMessage(data, textos.gErro ); // Show the error
+                        modalMessage(data, textos.gErro); // Show the error
                     } else if (data instanceof Object) {
                         handler(data);
                     }
@@ -2621,7 +2721,7 @@ require([
                 var resultado = restServices.loadObject(url, "GET");
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro ); // Exibe o erro
+                        modalMessage(dados, textos.gErro); // Exibe o erro
                     } else if (dados instanceof Object) {
                         // Retorna { idprofile: 1, idProfileOrganization: null, nmUser: "Lam Mxrettx",
                         // email: "malacma@gmail.com", password: "8ddef0f4588c24e8d08307977c2d826b",
@@ -2671,96 +2771,96 @@ require([
             }
 
             /*function cnpj_cpf verifica qual das funcoes tem que chamar cpf ou cnpj
-
-            function cnpj_cpf(campo, documento, f, formi) {
-                form = formi;
-
-                for (Count = 0; Count < 2; Count++) {
-
-                    if (form.rad[Count].checked)
-                        break;
-                }
-
-
-                if (Count == 0) {
-                    mascara_cpf(campo, documento, f);
-                }
-
-                else {
-                    mascara_cnpj(campo, documento, f);
-                }
-            }
-
-            function mascara_cnpj(campo, documento, f) {
-                var mydata = '';
-                mydata = mydata + documento;
-
-                if (mydata.length == 2) {
-                    mydata = mydata + '.';
-
-                    ct_campo = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo;
-                }
-
-                if (mydata.length == 6) {
-                    mydata = mydata + '.';
-
-                    ct_campo = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo;
-                }
-
-                if (mydata.length == 10) {
-                    mydata = mydata + '/';
-
-                    ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo1;
-                }
-
-                if (mydata.length == 15) {
-                    mydata = mydata + '-';
-
-                    ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo1;
-                }
-
-                if (mydata.length == 18) {
-
-                    valida_cnpj(f, campo);
-                }
-            }
-
-            function mascara_cpf(campo, documento, f) {
-                var mydata = '';
-                mydata = mydata + documento;
-
-                if (mydata.length == 3) {
-                    mydata = mydata + '.';
-
-                    ct_campo = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo;
-                }
-
-                if (mydata.length == 7) {
-                    mydata = mydata + '.';
-
-                    ct_campo = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo;
-                }
-
-                if (mydata.length == 11) {
-                    mydata = mydata + '-';
-
-                    ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
-                    ct_campo1;
-                }
-
-                if (mydata.length == 14) {
-
-                    valida_cpf(f, campo);
-                }
-
-            }
-			*/
+             
+             function cnpj_cpf(campo, documento, f, formi) {
+             form = formi;
+             
+             for (Count = 0; Count < 2; Count++) {
+             
+             if (form.rad[Count].checked)
+             break;
+             }
+             
+             
+             if (Count == 0) {
+             mascara_cpf(campo, documento, f);
+             }
+             
+             else {
+             mascara_cnpj(campo, documento, f);
+             }
+             }
+             
+             function mascara_cnpj(campo, documento, f) {
+             var mydata = '';
+             mydata = mydata + documento;
+             
+             if (mydata.length == 2) {
+             mydata = mydata + '.';
+             
+             ct_campo = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo;
+             }
+             
+             if (mydata.length == 6) {
+             mydata = mydata + '.';
+             
+             ct_campo = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo;
+             }
+             
+             if (mydata.length == 10) {
+             mydata = mydata + '/';
+             
+             ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo1;
+             }
+             
+             if (mydata.length == 15) {
+             mydata = mydata + '-';
+             
+             ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo1;
+             }
+             
+             if (mydata.length == 18) {
+             
+             valida_cnpj(f, campo);
+             }
+             }
+             
+             function mascara_cpf(campo, documento, f) {
+             var mydata = '';
+             mydata = mydata + documento;
+             
+             if (mydata.length == 3) {
+             mydata = mydata + '.';
+             
+             ct_campo = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo;
+             }
+             
+             if (mydata.length == 7) {
+             mydata = mydata + '.';
+             
+             ct_campo = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo;
+             }
+             
+             if (mydata.length == 11) {
+             mydata = mydata + '-';
+             
+             ct_campo1 = eval("document." + f + "." + campo + ".value = mydata");
+             ct_campo1;
+             }
+             
+             if (mydata.length == 14) {
+             
+             valida_cpf(f, campo);
+             }
+             
+             }
+             */
 
             function validateCpfCnpj(domObj) {
                 var valorCampo = domObj.value;
@@ -2772,7 +2872,7 @@ require([
                     result = validaCpf(valorCampo);
                 } else if (valorCampo.length == 14) {
                     result = validaCnpj(valorCampo);
-                } else if( valorCampo.length > 8 || valorCampo.length < 8) { // O passaporte brasileiro tem 8 dígitos alfanumericos
+                } else if (valorCampo.length > 8 || valorCampo.length < 8) { // O passaporte brasileiro tem 8 dígitos alfanumericos
                     result = false;
                 }
                 return result;
@@ -2867,38 +2967,38 @@ require([
                 return result;
             }
 
-			function refreshIdentificationMask( event, campo ){
-				var key = event.keyCode || event.charCode;
+            function refreshIdentificationMask(event, campo) {
+                var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
                 //var caracteresValidos = "0123456789";
-				var exprAlfanumerico = '^[a-zA-Z0-9]+$';
+                var exprAlfanumerico = '^[a-zA-Z0-9]+$';
                 var valorAtual = campo.value;
 
                 // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
                 if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
                     event.preventDefault();
 
-                    if ( valorAtual.length < 17 && caracter.match(exprAlfanumerico) ) {
+                    if (valorAtual.length < 17 && caracter.match(exprAlfanumerico)) {
                         var novoValor = valorAtual;
                         //remove os caracteres especiais . / - espaço
                         var regexEspaco = new RegExp(" ", "g");
-						var regexPonto = new RegExp("\\.","g");
+                        var regexPonto = new RegExp("\\.", "g");
                         novoValor = valorAtual.replace("\/", "").replace(regexPonto, "").replace("\-", "").replace(regexEspaco, "");
                         // insere o novo caracter no final
                         novoValor += caracter;
                         // transforma valorAtual em array de caracteres
                         var arrIdent = novoValor.split("");
-						if( arrIdent.length > 8 && arrIdent.length <= 11){ // Até 8 caracteres é número de passaporte
-							arrIdent.splice(3, 0, ".");
-							arrIdent.splice(7, 0, ".");
-							arrIdent.splice(11, 0, "-");
-						}else if( arrIdent.length > 11 && arrIdent.length <= 13 ){
-							// 00.000.000/0000-1
-							arrIdent.splice(2, 0, ".");
-							arrIdent.splice(6, 0, ".");
-							arrIdent.splice(10, 0, "/");
-							arrIdent.splice(15, 0, "-");
-						}                        
+                        if (arrIdent.length > 8 && arrIdent.length <= 11) { // Até 8 caracteres é número de passaporte
+                            arrIdent.splice(3, 0, ".");
+                            arrIdent.splice(7, 0, ".");
+                            arrIdent.splice(11, 0, "-");
+                        } else if (arrIdent.length > 11 && arrIdent.length <= 13) {
+                            // 00.000.000/0000-1
+                            arrIdent.splice(2, 0, ".");
+                            arrIdent.splice(6, 0, ".");
+                            arrIdent.splice(10, 0, "/");
+                            arrIdent.splice(15, 0, "-");
+                        }
 
                         valorAtual = arrIdent.toString();
                         var regexVirgula = new RegExp(",", "g");
@@ -2906,22 +3006,22 @@ require([
                         campo.value = valorAtual;
                     }
                 }
-			}
+            }
 
-			
-			function limitTextArea( field, numCharacters, event ){
-				var keyCode = event.keyCode;
-				// keys : 8 (backspace), 9 (tab), 13 (enter), 35(end), 36(home), 37(left arrow), 38(up arrow), 39 (right arrow), 40 (down arrow), 46 (delete)
-				console.log("keyCode: " + event.keyCode);
-				console.log("charCode:" + event.charCode);
-				console.log("num caract: "+ field.value.length);
-				if (keyCode != 8 && keyCode != 9 && ( keyCode < 35 || keyCode > 40 ) && keyCode != 46 ) {
-					console.log("entrou")
-					if( field.value.length >= numCharacters ){
-						event.preventDefault();
-					}
-				}
-			}
+
+            function limitTextArea(field, numCharacters, event) {
+                var keyCode = event.keyCode;
+                // keys : 8 (backspace), 9 (tab), 13 (enter), 35(end), 36(home), 37(left arrow), 38(up arrow), 39 (right arrow), 40 (down arrow), 46 (delete)
+                console.log("keyCode: " + event.keyCode);
+                console.log("charCode:" + event.charCode);
+                console.log("num caract: " + field.value.length);
+                if (keyCode != 8 && keyCode != 9 && (keyCode < 35 || keyCode > 40) && keyCode != 46) {
+                    console.log("entrou")
+                    if (field.value.length >= numCharacters) {
+                        event.preventDefault();
+                    }
+                }
+            }
             /*
              *	Fim da declaração das funções
              */

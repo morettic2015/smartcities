@@ -8,6 +8,8 @@ package br.com.moretic.vo;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,38 +25,78 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author LuisAugusto
  */
 @Entity
-@Table(schema = "public", name = "kml_source")
-public class KmlSource implements Serializable {
+@Table(schema = "public", name = "file_source")
+public class FileSource implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "idkmlsource", unique = true, nullable = false)
-    @SequenceGenerator(name = "idkmlsource_seq", sequenceName = "kml_idkmlsource_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idkmlsource_seq")
+    @Column(name = "id_file_source", unique = true, nullable = false)
+    @SequenceGenerator(name = "id_file_source_seq", sequenceName = "file_id_file_source", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_file_source_seq")
     private Long id = new Long(0);
-
-    @Column(nullable = false, name = "kml_url")
-    private String kmlUrl;
-
-    @Column(nullable = false, name = "kml_desc")
-    private String kmlDesc;
-
-    public String getKmlDesc() {
-        return kmlDesc;
-    }
-
-    public void setKmlDesc(String kmlDesc) {
-        this.kmlDesc = kmlDesc;
-    }
-
     
+    @Column(nullable = false, name = "f_version")
+    private int vesionNr = 1;
+
+    public void incVersion(){
+        this.vesionNr++;
+    }
     
-    public String getKmlUrl() {
-        return kmlUrl;
+    @Column(nullable = false, name = "f_url")
+    private String fileUrl;
+
+    @Column(nullable = false, name = "f_desc")
+    private String fileDesc;
+
+    @Column(nullable = false, name = "f_title")
+    private String fileTit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "f_type")
+    private FileType myTp;
+
+    public int getVesionNr() {
+        return vesionNr;
     }
 
-    public void setKmlUrl(String kmlUrl) {
-        this.kmlUrl = kmlUrl;
+    public void setVesionNr(int vesionNr) {
+        this.vesionNr = vesionNr;
+    }
+
+    public FileType getMyTp() {
+        return myTp;
+    }
+
+    public void setMyTp(FileType myTp) {
+        this.myTp = myTp;
+    }
+
+    public FileSource() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getFileDesc() {
+        return fileDesc;
+    }
+
+    public void setFileDesc(String fileDesc) {
+        this.fileDesc = fileDesc;
+    }
+
+    public String getFileTit() {
+        return fileTit;
+    }
+
+    public void setFileTit(String fileTit) {
+        this.fileTit = fileTit;
     }
 
     @JsonIgnore
@@ -65,9 +107,9 @@ public class KmlSource implements Serializable {
     @Column(name = "profile_idprofile", nullable = false, insertable = true, updatable = true)
     private Integer idProfile;
 
-    public KmlSource(String url, String description,Profile p) {
-        this.kmlUrl = url;
-        this.kmlDesc = description;
+    public FileSource(String url, String description, Profile p) {
+        this.fileUrl = url;
+        this.fileDesc = description;
         this.owner = p;
         this.idProfile = p.getIdprofile();
     }
@@ -106,10 +148,10 @@ public class KmlSource implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof KmlSource)) {
+        if (!(object instanceof FileSource)) {
             return false;
         }
-        KmlSource other = (KmlSource) object;
+        FileSource other = (FileSource) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

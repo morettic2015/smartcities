@@ -20,6 +20,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -46,6 +48,7 @@ public class ImporterEndpoint {
      * http://www.cpc.ncep.noaa.govøproductsøpredictionsøthreatsøTemp_D8_14.kml
      * http://www.cpc.ncep.noaa.gov/products/predictions/threats/Prcp_D3_7.kml
      * Creates a new instance of ImporterEndpoint
+     *
      * @param source
      * @param res
      * @throws java.security.NoSuchAlgorithmException
@@ -63,25 +66,83 @@ public class ImporterEndpoint {
         source = "http://" + source.replaceAll("ø", "/");
         //nome do arquivo
         String fName = makeFileName(pOwner.getIdprofile(), source);
-       
+
         path += fName;
         File f = copyFileFromWeb(source, path);
         //@TODO Validar com parser XML o fonte KML 
-        String localFileURL = SmartProxyFilter.getContextUri()+"/"+fName;
-        
-        KmlSource kml = new KmlSource(localFileURL, description, pOwner);
+        String localFileURL = SmartProxyFilter.getContextUri() + "/" + fName;
+
+        FileSource kml = new FileSource(localFileURL, description, pOwner);
 
         em.persist(kml);
 
         return Response.ok(kml).build();
     }
 
-    //
-
     @GET
-    @Path("/csv/{source}/{description}/{protocol}")
+    @Path("/csv_update/{ccol}")
     @Produces("application/json")
-    public Response csv(@PathParam("source") String source, @PathParam("description") String description, @PathParam("protocol") String ptr, @Context HttpServletRequest req, @Context HttpServletResponse res) throws Exception {
+    public Response csv(@PathParam("ccol") String ccol, @Context HttpServletRequest req, @Context HttpServletResponse res) throws Exception {
+
+        FileSource fs = ProfileEndpoint.getSessionObject(req, FileSource.class, FILE_INFO_STEP_2);
+        JSONArray js = CsvUtil.makeJSONFromCsv(SmartProxyFilter.getContextPath() +  fs.getFileUrl(), ",");
+        String actualFile = SmartProxyFilter.getContextPath() + fs.getFileUrl();
+
+        //Renomeia o arquivo antigo
+        File old = new File(actualFile);
+        File renamed = new File(SmartProxyFilter.getContextPath() + fs.getFileUrl()+ "_old_"+fs.getVesionNr());
+        old.renameTo(renamed);
+
+        //Update CSV file
+        FileWriter fw = new FileWriter(actualFile);
+        PrintWriter out = new PrintWriter(fw);
+        String[] indices = ccol.split(",");
+        for (int i = 0; i < js.length(); i++) {
+            JSONArray ja1 = js.getJSONArray(i);
+
+            for (int j = 0; j < indices.length; j++) {
+                //Adiciona
+                out.print(ja1.get(Integer.parseInt(indices[j])).toString());
+                if (j < indices.length - 1) {
+                    out.print(",");
+                }
+            }
+            out.print("\n");
+
+        }
+        out.flush();
+
+        //Close the Print Writer
+        out.close();
+
+        //Close the File Writer
+        fw.close();
+        
+        //Retrieve object
+        fs = em.find(FileSource.class, fs.getId());
+        fs.incVersion();
+        //Update object
+        em.merge(fs);
+        //Update Session
+        ProfileEndpoint.addSessionObject(req, FILE_INFO_STEP_2, fs);
+        //Return it
+        
+        old = null;
+        renamed = null;
+        fw = null;
+        out = null;
+        indices = null;
+        actualFile = null;
+        js = null;
+                
+        return Response.ok(fs).build();
+    }
+
+    //
+    @GET
+    @Path("/file/{source}/{name}/{tp}/{description}")
+    @Produces("application/json")
+    public Response genericFileImporter(@PathParam("name") String name, @PathParam("tp") String tp, @PathParam("source") String source, @PathParam("description") String description, @Context HttpServletRequest req, @Context HttpServletResponse res) throws Exception {
 
         Profile p = ProfileEndpoint.getProfileSession(req);
 
@@ -90,20 +151,37 @@ public class ImporterEndpoint {
         String path = SmartProxyFilter.getContextPath();
         //Arquivo remoto
         File f;
-
+        ;
         String fName = makeFileName(pOwner.getIdprofile(), source);
 
-        source = ptr + "://" + source.replaceAll("ø", "/");
+        source = SmartProxyFilter.getContextUri() + "/" + source;
         path += fName;
+
+        FileSource fs = new FileSource();
+        fs.setFileTit(name);
+        fs.setFileUrl(fName);
+        fs.setFileDesc(description);
+        fs.setMyTp(FileType.valueOf(tp));
+        fs.setIdProfile(pOwner.getIdprofile());
+        fs.setOwner(pOwner);
+        //Salva o data source do file
+        em.persist(fs);
+
+        ProfileEndpoint.addSessionObject(req, FILE_INFO_STEP_2, fs);
 
         f = copyFileFromWeb(source, path);
 
-        //Monta o json do arquivo local
-        JSONArray js = CsvUtil.makeJSONFromCsv(f.getAbsolutePath(), ",");
+        //Retorna o CSV
+        if (FileType.valueOf(tp).equals(FileType.CSV)) {
+            JSONArray js = CsvUtil.makeJSONFromCsv(f.getAbsolutePath(), ",");
+            return Response.ok(js.toString()).build();
+        }
 
+        //Retorno padrao
         //em.persist(kml);
-        return Response.ok(js.toString()).build();
+        return Response.ok(fs).build();
     }
+    public static final String FILE_INFO_STEP_2 = "FILE_INFO_STEP_2";
 
     private File copyFileFromWeb(String address, String filePath) throws Exception {
         byte[] buffer = new byte[1024];
