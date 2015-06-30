@@ -127,6 +127,8 @@ public class ImporterEndpoint {
         ProfileEndpoint.addSessionObject(req, FILE_INFO_STEP_2, fs);
         //Return it
         
+        
+        new ProfileEndpoint().logAction("CSV UPDATED ("+old.getName()+")", req, res,em);
         old = null;
         renamed = null;
         fw = null;
@@ -168,15 +170,17 @@ public class ImporterEndpoint {
         em.persist(fs);
 
         ProfileEndpoint.addSessionObject(req, FILE_INFO_STEP_2, fs);
-
+        //Copy file
         f = copyFileFromWeb(source, path);
-
+        //Log action
+        new ProfileEndpoint().logAction(FileType.valueOf(tp)+" IMPORT ("+fName+")", req, res,em);
         //Retorna o CSV
         if (FileType.valueOf(tp).equals(FileType.CSV)) {
             JSONArray js = CsvUtil.makeJSONFromCsv(f.getAbsolutePath(), ",");
             return Response.ok(js.toString()).build();
         }
-
+        //LOG DO SISTEMA
+        
         //Retorno padrao
         //em.persist(kml);
         return Response.ok(fs).build();

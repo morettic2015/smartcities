@@ -2544,7 +2544,7 @@ require([
                     var birthYear = objBirthDate.getFullYear().toString();
                     var birthMonth = (objBirthDate.getMonth() + 1).toString();
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
-                    var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
+                    var strBirthDate = birthMonth + "-" + birthDay + "-" + birthYear;
 
                     var vAvatar = "blank";
                     if (myProfile.uploadBean != undefined) {

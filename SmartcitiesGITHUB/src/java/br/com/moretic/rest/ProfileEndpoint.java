@@ -418,23 +418,23 @@ public class ProfileEndpoint {
         return ((p == null) ? new Profile() : p);
     }
 
-    public static void addSessionObject(HttpServletRequest req,String token,Object o) {
+    public static void addSessionObject(HttpServletRequest req, String token, Object o) {
         HttpSession session = req.getSession();
         session.setAttribute(token, o);
     }
-    
-    public static  <T extends Object> T getSessionObject(HttpServletRequest req, Class<T> type,String token) {
+
+    public static <T extends Object> T getSessionObject(HttpServletRequest req, Class<T> type, String token) {
         HttpSession session = req.getSession();
         Object o = session.getAttribute(token);
-        
+
         return type.cast(o);
     }
-/**
- <T> void checkedWork(final Class<T> type, final Object object) {
-    work(type, type.cast(object));
-}
- 
- */
+
+    /**
+     * <T> void checkedWork(final Class<T> type, final Object object) {
+     * work(type, type.cast(object)); }
+     *
+     */
     /**
      *
      *
@@ -569,15 +569,14 @@ public class ProfileEndpoint {
     }
 
     @GET
-    @Path("/log/{action}/")
     public void logAction(@PathParam("action") String action,
             @Context HttpServletRequest req,
-            @Context HttpServletResponse res) {
+            @Context HttpServletResponse res, EntityManager em1) {
 
         try {
             Profile p = getProfileSession(req);
 
-            p = em.find(Profile.class, p.getIdprofile());
+            p = em1.find(Profile.class, p.getIdprofile());
 
             if (p == null) {
                 return;
@@ -589,10 +588,19 @@ public class ProfileEndpoint {
             log.setIdProfile(p.getIdprofile());
             log.setIpAddrs(req.getRemoteAddr());
 
-            em.persist(log);
+            em1.persist(log);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @GET
+    @Path("/log/{action}/")
+    public void logAction(@PathParam("action") String action,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) {
+
+        logAction(action, req, res, em);
     }
 
 }
