@@ -173,7 +173,6 @@ require([
                     carregaTelaPerfil(PROFILE_INFO, function () {
 
                         dom.byId("txtNameProfile").value = myProfile.nmUser;
-
                         dom.byId("txtEmailProfile").value = myProfile.email;
 
                         var objBirthDate = new Date(myProfile.nascimento);
@@ -185,19 +184,18 @@ require([
                         var strBirthDate = birthDay + "/" + birthMonth + "/" + birthYear;
 
                         dom.byId("txtBirthdateProfile").value = strBirthDate;
-
                         dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
-
                         dom.byId("txtPasswordProfile").value = myProfile.password;
-
                         dom.byId("txtConfirmPassProfile").value = myProfile.password;
-
                         dom.byId("txtBioProfile").value = myProfile.bioText;
-
                         dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
 
                         dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
                         dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
+						
+						if( myProfile.cpfCnpj != null ){
+							registry.byId("btToggleEULA").set("checked", true);
+						}
 
                     });
 
@@ -1469,6 +1467,10 @@ require([
                     var evento = arguments[0] || window.event;
                     refreshIdentificationMask(evento, this);
                 });
+				on(dom.byId("txtBioProfile"), "keypress", function(){
+					var evento = arguments[0] || window.event;
+					limitTextArea( this, 250, evento );
+				});
                 on(dom.byId("userAvatarInput"), "change", function () {
                     //TODO passa valor para o src da imagem
                     // depois de carregar a imagem/upload
@@ -2906,6 +2908,20 @@ require([
                 }
 			}
 
+			
+			function limitTextArea( field, numCharacters, event ){
+				var keyCode = event.keyCode;
+				// keys : 8 (backspace), 9 (tab), 13 (enter), 35(end), 36(home), 37(left arrow), 38(up arrow), 39 (right arrow), 40 (down arrow), 46 (delete)
+				console.log("keyCode: " + event.keyCode);
+				console.log("charCode:" + event.charCode);
+				console.log("num caract: "+ field.value.length);
+				if (keyCode != 8 && keyCode != 9 && ( keyCode < 35 || keyCode > 40 ) && keyCode != 46 ) {
+					console.log("entrou")
+					if( field.value.length >= numCharacters ){
+						event.preventDefault();
+					}
+				}
+			}
             /*
              *	Fim da declaração das funções
              */
