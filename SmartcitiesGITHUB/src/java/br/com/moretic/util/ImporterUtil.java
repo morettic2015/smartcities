@@ -16,6 +16,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +37,60 @@ import org.json.JSONObject;
  * @author LuisAugusto
  */
 public class ImporterUtil {
+
+    private DatabaseDriverType dbType;
+    private Connection conn;
+    private ArrayList<String> lTables;
+    private ArrayList<MCollumn> tColumns;
+    private DatabaseMetaData md;
+    private ResultSet rs;
+    private Statement stmt;
+    private ResultSetMetaData rsmd;
+    private String url;
+
+    public boolean connect(DatabaseDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
+        //Set database type
+        this.dbType = dbTp;
+        //Register driver
+        Class.forName(dbType.toString());
+        //Estabeçece a conexão com o banco
+        try {
+            this.conn = DriverManager.getConnection(url, user, pass);
+
+            return !this.conn.isClosed();
+
+        } catch (SQLException sQLException) {
+            return false;
+        }
+    }
+
+    public ArrayList<String> getTablesFromConnection(Connection conn) throws SQLException {
+        lTables = new ArrayList<String>();
+        md = conn.getMetaData();
+        rs = md.getTables(null, null, "%", null);
+        while (rs.next()) {
+
+            lTables.add(rs.getString(3));
+        }
+        return lTables;
+    }
+
+    public ArrayList<MCollumn> getColumnsFromTable(String tableName, Connection conn) throws SQLException {
+        tColumns = new ArrayList<MCollumn>();
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT * FROM " + tableName);
+        rsmd = rs.getMetaData();
+        int numberOfColumns = rsmd.getColumnCount();
+        boolean b = rsmd.isSearchable(1);
+
+        for (int i = 0; i < numberOfColumns; i++) {
+            MCollumn mc = new MCollumn();
+            mc.columnName = rsmd.getColumnName(i);
+            mc.columnType = rsmd.getColumnTypeName(i);
+        }
+
+        return tColumns;
+    }
 
     public static JSONArray makeJSONFromCsv(String path, String delimiter) {
         BufferedReader fileReader = null;
@@ -158,7 +220,7 @@ public class ImporterUtil {
 
     public static void removePropertiesJSON(Object o, HashSet<String> properties) {
         if (o instanceof JSONObject) {
-            HashSet<String> ks =new HashSet<String>(((JSONObject) o).keySet());//FUCKING SHIT SYNCHRONIZED
+            HashSet<String> ks = new HashSet<String>(((JSONObject) o).keySet());//FUCKING SHIT SYNCHRONIZED
             Iterator<String> isks = ks.iterator();
 
             while (isks.hasNext()) {
@@ -185,4 +247,8 @@ public class ImporterUtil {
             }
         }
     }
+}
+class MCollumn {
+
+    protected String columnName, columnType;
 }

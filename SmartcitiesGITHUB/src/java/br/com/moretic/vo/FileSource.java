@@ -41,6 +41,8 @@ public class FileSource implements Serializable {
     public void incVersion() {
         this.vesionNr++;
     }
+    @Column(nullable = false, name = "f_uri")
+    private String fileURI;
 
     @Column(nullable = false, name = "f_url")
     private String fileUrl;
@@ -54,6 +56,14 @@ public class FileSource implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "f_type")
     private FileType myTp;
+
+    public String getFileURI() {
+        return fileURI;
+    }
+
+    public void setFileURI(String fileURI) {
+        this.fileURI = fileURI;
+    }
 
     public int getVesionNr() {
         return vesionNr;
@@ -103,7 +113,7 @@ public class FileSource implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_idprofile", nullable = false, insertable = false, updatable = false)
     private Profile owner;
-    
+
     @JsonIgnore
     @Column(name = "profile_idprofile", nullable = false, insertable = true, updatable = true)
     private Integer idProfile;
