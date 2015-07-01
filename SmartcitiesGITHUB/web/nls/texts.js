@@ -22,6 +22,7 @@ define({
 		rotAtualizar: "Atualizar",
 		rotCopiar: "Copiar",
 		rotTransformar: "Transformar",
+		rotVisualizarDados: "Visualizar Dados",
 		rotCompartilhar: "Compartilhar",
 		rotDrivers: "Drivers",
 		rotTarefa: "Tarefa",

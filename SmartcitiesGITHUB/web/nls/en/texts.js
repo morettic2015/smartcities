@@ -21,6 +21,7 @@ define({
 	rotAtualizar: "Refresh",
 	rotCopiar: "Copy",
 	rotTransformar: "Transform",
+	rotVisualizarDados: "View Data",
 	rotCompartilhar: "Share",
 	rotDrivers: "Drivers",
 	rotTarefa: "Task",

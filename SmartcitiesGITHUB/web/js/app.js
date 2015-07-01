@@ -149,9 +149,9 @@ require([
                     configuraTela(this.get("href"));
                 });
 
-                headerMain.set("onDownloadEnd", function () {
-                    configuraTela(this.get("href"));
-                });
+                //headerMain.set("onDownloadEnd", function () {
+                //    configuraTela(this.get("href"));
+                //});
 
 
                 /**
@@ -283,10 +283,6 @@ require([
                     var param = {tipoArquivo: "CSV"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
-                on(dom.byId("itemHtmlImport"), "click", function () {
-                    var param = {tipoArquivo: "HTML"};
-                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
-                });
                 on(dom.byId("itemJsonImport"), "click", function () {
                     var param = {tipoArquivo: "JSON"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
@@ -294,10 +290,6 @@ require([
                 on(dom.byId("itemKmlImport"), "click", function () {
                     var param = {tipo: "KML"};
                     carregaTelaFerramentaDados(DATAIMPORT_KML, param);
-                });
-                on(dom.byId("itemPdfImport"), "click", function () {
-                    var param = {tipoArquivo: "PDF"};
-                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
                 on(dom.byId("itemRssImport"), "click", function () {
                     var param = {tipo: "RSS"};
@@ -445,6 +437,8 @@ require([
                 dom.byId("rotBtTarefaDados").innerHTML = textos.rotTarefa;
                 dom.byId("rotBtHistoricoDados").innerHTML = textos.rotHistorico;
                 dom.byId("rotBtFerramentasDados").innerHTML = textos.rotFerramentas;
+				dom.byId("rotBtEditarDados").innerHTML = textos.gEditar;
+                dom.byId("rotBtVisualizarDados").innerHTML = textos.rotVisualizarDados;
                 dom.byId("rotBtMapaSave").innerHTML = textos.rotSalvar;
                 dom.byId("rotBtMapaView").innerHTML = textos.gVisualizar;
                 dom.byId("rotBtMapaSearch").innerHTML = textos.rotFiltrar;
