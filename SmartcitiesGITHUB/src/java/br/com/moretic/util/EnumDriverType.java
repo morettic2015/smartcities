@@ -9,14 +9,14 @@ package br.com.moretic.util;
  *
  * @author LuisAugusto
  */
-public enum DatabaseDriverType {
+public enum EnumDriverType {
     
     ORACLE("oracle.jdbc.driver.OracleDriver"),
     MYSQL("com.mysql.jdbc.Drive"),
     POSTGRES("asdasdasdasd"),
     HSQLDB("org.hsqldb.jdbcDriver");
 
-    private DatabaseDriverType(String dbType) {
+    private EnumDriverType(String dbType) {
         type = dbType;
     }
     

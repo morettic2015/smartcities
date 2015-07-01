@@ -38,7 +38,7 @@ import org.json.JSONObject;
  */
 public class ImporterUtil {
 
-    private DatabaseDriverType dbType;
+    private EnumDriverType dbType;
     private Connection conn;
     private ArrayList<String> lTables;
     private ArrayList<MCollumn> tColumns;
@@ -48,7 +48,7 @@ public class ImporterUtil {
     private ResultSetMetaData rsmd;
     private String url;
 
-    public boolean connect(DatabaseDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
+    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
         //Set database type
         this.dbType = dbTp;
         //Register driver
@@ -63,7 +63,7 @@ public class ImporterUtil {
             return false;
         }
     }
-
+       //@TODO retornar JSONArray com as tabelas
     public ArrayList<String> getTablesFromConnection(Connection conn) throws SQLException {
         lTables = new ArrayList<String>();
         md = conn.getMetaData();
@@ -74,7 +74,7 @@ public class ImporterUtil {
         }
         return lTables;
     }
-
+    //@TODO retornar JSON com as propriedades dads colunas
     public ArrayList<MCollumn> getColumnsFromTable(String tableName, Connection conn) throws SQLException {
         tColumns = new ArrayList<MCollumn>();
         stmt = conn.createStatement();
