@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -88,6 +89,17 @@ public class Profile implements java.io.Serializable {
 
     public void setlLog(ArrayList<UserLog> lLog) {
         this.lLog = lLog;
+    }
+
+    @Transient
+    private Set<FileSource> mySources = new HashSet<FileSource>(0);
+
+    public Set<FileSource> getMySources() {
+        return mySources;
+    }
+
+    public void setMySources(Set<FileSource> mySources) {
+        this.mySources = mySources;
     }
 
     @JsonProperty()

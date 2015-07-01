@@ -276,6 +276,25 @@ public class ProfileEndpoint {
             entity.getAvatars().clear();
             entity.getAvatars().addAll(entitAvatar);
 
+            //Carrega a lista de Files
+            TypedQuery<FileSource> findByIdSecUserLogFileSource = em.createQuery("SELECT DISTINCT a FROM FileSource a  WHERE a.idProfile = :entityId ORDER BY a.myTp", FileSource.class);
+            findByIdSecUserLogFileSource.setParameter("entityId", id);
+            List<FileSource> entityUserLogFS;
+            findByIdSecUserLogFileSource.setParameter("entityId", id);
+            entityUserLogFS = findByIdSecUserLogFileSource.getResultList();
+            //entity.getlLog().clear();
+            entity.getMySources().addAll(entityUserLogFS);
+
+            findByIdProf = null;
+            findByIdSec = null;
+            findByIdSecUserLogFileSource = null;
+            findByIdSecUserLog = null;
+            findByIdAvatar = null;
+            entityUserLogFS = null;
+            entitAvatar = null;
+            entityUserLog = null;
+            entitySec = null;
+
         } catch (NoResultException nre) {
             entity = null;
         }

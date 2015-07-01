@@ -44,51 +44,51 @@
         %>
         <script>
             var pProfile = {id:<% out.print(id);%>};
-			
-			require([
-				"dojo/ready",
-				"dojo/on",
-				"dojo/dom",
-				"dojo/i18n!./nls/texts.js",
-				"dojo/dom-style"
-			], function(
-				ready,
-				on,
-				dom,
-				textos,
-				domStyle
-			){
-				ready(function(){
-					on( dom.byId("btConfigHeader"), "click", function(){
-						abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
-					});
-					
-				});
-				
-				//Repetindo aqui a função porque está fora do escopo.
-				//TODO criar módulo dojo que possa ser acessado por qualquer pagina html
-				function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
-					var larguraModal = largura != undefined && largura != null ? largura : 400;
-					var alturaModal = altura != undefined && altura != null ? altura : 200;
-					var larguraContent = larguraModal - 25;
-					var alturaContent = alturaModal - 52;
-					dom.byId("tituloModal").innerHTML = titulo;
-					if (messageOnly) {
-						contentPane_PopUp.set("content", paginaConteudo);
-					} else {
-						contentPane_PopUp.set("href", paginaConteudo);
-					}
-					domStyle.set("myDialog", "width", larguraModal + "px");
-					domStyle.set("myDialog", "height", alturaModal + "px");
-					domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
-					domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
-					exibeModal();
-				}
 
-				function exibeModal() {
-					myDialog.show();
-				}
-			});
+            require([
+                "dojo/ready",
+                "dojo/on",
+                "dojo/dom",
+                "dojo/i18n!./nls/texts.js",
+                "dojo/dom-style"
+            ], function (
+                    ready,
+                    on,
+                    dom,
+                    textos,
+                    domStyle
+                    ) {
+                ready(function () {
+                    on(dom.byId("btConfigHeader"), "click", function () {
+                        abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
+                    });
+
+                });
+
+                //Repetindo aqui a função porque está fora do escopo.
+                //TODO criar módulo dojo que possa ser acessado por qualquer pagina html
+                function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
+                    var larguraModal = largura != undefined && largura != null ? largura : 400;
+                    var alturaModal = altura != undefined && altura != null ? altura : 200;
+                    var larguraContent = larguraModal - 25;
+                    var alturaContent = alturaModal - 52;
+                    dom.byId("tituloModal").innerHTML = titulo;
+                    if (messageOnly) {
+                        contentPane_PopUp.set("content", paginaConteudo);
+                    } else {
+                        contentPane_PopUp.set("href", paginaConteudo);
+                    }
+                    domStyle.set("myDialog", "width", larguraModal + "px");
+                    domStyle.set("myDialog", "height", alturaModal + "px");
+                    domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
+                    domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
+                    exibeModal();
+                }
+
+                function exibeModal() {
+                    myDialog.show();
+                }
+            });
         </script>
 
         <div style="float: right;">

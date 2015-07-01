@@ -34,14 +34,14 @@ public class FileSource implements Serializable {
     @SequenceGenerator(name = "id_file_source_seq", sequenceName = "file_id_file_source", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_file_source_seq")
     private Long id = new Long(0);
-    
+
     @Column(nullable = false, name = "f_version")
     private int vesionNr = 1;
 
-    public void incVersion(){
+    public void incVersion() {
         this.vesionNr++;
     }
-    
+
     @Column(nullable = false, name = "f_url")
     private String fileUrl;
 
@@ -103,7 +103,8 @@ public class FileSource implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_idprofile", nullable = false, insertable = false, updatable = false)
     private Profile owner;
-
+    
+    @JsonIgnore
     @Column(name = "profile_idprofile", nullable = false, insertable = true, updatable = true)
     private Integer idProfile;
 
