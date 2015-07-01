@@ -19,5 +19,6 @@ public enum FileType {
     XLS,
     JSON,
     RSS,
+    XML,
     CSV;
 }

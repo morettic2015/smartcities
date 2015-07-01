@@ -38,6 +38,7 @@ var DATAIMPORT_FTP_CONNECTION = "dataSource/importFtpConection.html";
 var DATAIMPORT_FTP_SELECTION = "dataSource/importFtpSelection.html";
 var DATAIMPORT_JSON = "dataSource/importJson.html";
 var DATAIMPORT_KML = "dataSource/importKml.html";
+var DATAIMPORT_XML = "dataSource/importXml.html";
 var DATAIMPORT_LDAP_CONNECTION = "dataSource/importLdapConnection.html";
 var DATAIMPORT_WSDL = "dataSource/importWsdl.html";
 var DATAIMPORT_PENDENCY_FILES = "dataSource/pendencyFileSelect.html";
@@ -181,7 +182,7 @@ require([
                         var birthYear = objBirthDate.getFullYear().toString();
                         var birthMonth = (objBirthDate.getMonth() + 1).toString();
                         birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
-                        var strBirthDate = birthDay + "/" + birthMonth + "/" + birthYear;
+                        var strBirthDate =  birthMonth + "/" +birthDay + "/" + birthYear;
 
                         dom.byId("txtBirthdateProfile").value = strBirthDate;
                         dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
@@ -1590,6 +1591,89 @@ require([
                     saveDatabaseSelection();
                 });
             }
+            
+            function saveXMLFile(parametrosTela) {
+
+                var urlCSV = myProfile.uploadBean.name;
+                var fName1 = dom.byId("txtSourceNameLocate").value;
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = dom.byId("txtDescriptionFile").value;
+                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/XML/" + escape(description);
+
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    //alert(dados);
+                    if (dados instanceof String) {
+                        //modalMessage(dados, textos.gErro);
+                    } else if (dados instanceof Object) {
+                        //load window on Contentpane
+                        carregaTelaFerramentaDados(DATAIMPORT_XML, parametrosTela, function () {
+
+                            //Message to confirm
+                            contentPane_PopUp.set("href", "info/dataImport.html");
+                            myDialog.set("title", "Sucess");
+                            myDialog.show();
+
+                            //Set myProfile csv data on memory
+                            myProfile.xml = dados;
+                            select = document.getElementById('listCsvColumns');
+                            //Somente o header
+                            if (myProfile.xml.metadata.length > 0) {
+                                //Pega o header
+                                
+                                //Populates main combobox
+                                for (i = 0; i < myProfile.xml.metadata.length; i++) {
+                                    var opt = document.createElement('option');
+                                    opt.value = myProfile.xml.metadata[i];
+                                    opt.innerHTML = myProfile.xml.metadata[i];
+                                    select.appendChild(opt);
+                                }
+                                //Atribui eventos apenas se tiver itens para rodar
+                                on(dom.byId("btCsvIncludeCol"), "click", function () {
+                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
+                                });
+                                on(dom.byId("btCsvRemoveCol"), "click", function () {
+                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
+                                });
+                                on(dom.byId("btProximoImportCsv"), "click", function () {
+                                    var elements = getALLSelectValues("listCsvSelectedCols");
+
+                                    var a1 = "";
+                                    for (i = 0; i < elements.length; i++) {
+                                        a1 += elements[i];
+                                        a1 += ",";
+                                    }
+
+                                    var url = "importer/xml_update/" + a1;
+                                    
+                                    var resultado = restServices.salvaObjeto(url);
+                                    resultado.then(function (dados) {
+                                        //alert(dados);
+                                        if (dados instanceof String) {
+                                            //modalMessage(dados, textos.gErro);
+                                        } else if (dados instanceof Object) {
+                                            //Message to confirm
+                                            contentPane_PopUp.set("href", "info/dataImport.html");
+                                            myDialog.set("title", "Sucess");
+                                            myDialog.show();
+                                            
+                                            //Disable everything
+                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
+                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
+                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
+                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
+                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
+                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
+                    }
+                });
+            }
 
             function saveCSVFile(parametrosTela) {
 
@@ -1699,6 +1783,8 @@ require([
 
                     } else if (parametrosTela.tipoArquivo == "XML") {
                         pagina = DATAIMPORT_JSON;
+                        
+                        saveXMLFile(parametrosTela);
 
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
@@ -2682,7 +2768,7 @@ require([
                 });
             }
 
-            function saveCSV() {
+        /*    function saveCSV() {
                 // TODO no urlCSV replace em / por ø
                 var urlCSV = "";
                 // TODO usar URLENCODE utf-8 para não perder os caracteres
@@ -2698,7 +2784,7 @@ require([
                         modalMessage(textos.gSalvoSucesso, "CSV");
                     }
                 });
-            }
+            }*/
 
             //exemplo de chamada
             // loadGenericData( "url", "POST", function handleData( data ){
