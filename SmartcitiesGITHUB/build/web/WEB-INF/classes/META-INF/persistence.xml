@@ -14,6 +14,7 @@
     <class>br.com.moretic.vo.DataSource</class>
     <class>br.com.moretic.vo.DataSourceType</class>
     <class>br.com.moretic.vo.Field</class>
+    <class>br.com.moretic.vo.FtpClient</class>
     <class>br.com.moretic.vo.FieldMask</class>
     <class>br.com.moretic.vo.FieldType</class>
     <class>br.com.moretic.vo.GroupHasProfile</class>
@@ -35,7 +36,15 @@
     <class>br.com.moretic.vo.ViewRule</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="hibernate.hbm2ddl.auto" value="validate"/>
-    </properties>
-  </persistence-unit>
+        
+        <!--
+        
+        criar tabela se der pau
+  <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
 </persistence>

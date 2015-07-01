@@ -1767,7 +1767,7 @@ require([
                     if (parametrosTela.tipoArquivo == "CSV") {
                         //pagina = ;
                         saveCSVFile(parametrosTela);
-
+ 
                         return;
                     } else if (parametrosTela.tipoArquivo == "HTML") {
                         pagina = "";

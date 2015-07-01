@@ -2,13 +2,9 @@
 	background-color: #000000;
 }
 
-
-
 .icone-importar,
 .icone-exportar,
 .icone-excluir,
-.icone-copiar,
-.icone-transformar,
 .icone-compartilhar,
 .icone-drivers,
 .icone-salvar,
@@ -31,7 +27,9 @@
 .icone-agrupar,
 .icone-anterior,
 .icone-proximo,
-.icone-novo-generico{
+.icone-novo-generico,
+.icone-ferramentas,
+.icone-pendencia{
     background-repeat: no-repeat;
     width: 12px;
     height: 12px;
@@ -39,6 +37,22 @@
 }
 .imgIcon{
     padding-left: 30px;
+}
+.icone-copiar,
+.icone-transformar,
+.icone-item-active-directory,
+.icone-item-database,
+.icone-item-ftp,
+.icone-item-ldap,
+.icone-item-file-black,
+.icone-item-file-blue,
+.icone-item-file-orange,
+.icone-item-file-green,
+.icone-item-file-brown{
+	background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    text-align: center;
 }
 
 .icone-perfil{
@@ -73,6 +87,7 @@
 
 .icone-transformar{
     background-image: url(images/icons/Transformar/12X12.png);
+	
 }
 
 .icone-dados-pessoais{
@@ -184,6 +199,39 @@
 .icone-novo-generico{
 	background-image: url(images/icons/Novo/Generico/12X12.png);
 }
+.icone-ferramentas{
+	background-image: url(images/config-icon.png);
+}
+.icone-item-active-directory{
+	background-image: url(images/icons/FontesDados/activedirectory_2.png);
+}
+.icone-item-database{
+	background-image: url(images/icons/FontesDados/database_1.png);
+}
+.icone-item-ftp{
+	background-image: url(images/icons/FontesDados/ftp_2.png);
+}
+.icone-item-ldap{
+	background-image: url(images/icons/FontesDados/ldap_2.png);
+}
+.icone-item-file-black{
+	background-image: url(images/icons/FontesDados/arquivo_1.png);
+}
+.icone-item-file-blue{
+	background-image: url(images/icons/FontesDados/arquivo_4.png);
+}
+.icone-item-file-orange{
+	background-image: url(images/icons/FontesDados/arquivo_3.png);
+}
+.icone-item-file-green{
+	background-image: url(images/icons/FontesDados/arquivo_5.png);
+}
+.icone-item-file-brown{
+	background-image: url(images/icons/FontesDados/arquivo_2.png);
+}
+.icone-pendencia{
+	background-image: url(images/icons/Pendencia/12X12.png);
+}
 
 
 .bt-paypal:link{
@@ -269,6 +317,8 @@ img.fundo {
     font-weight : normal;
     font-family : Tahoma,Geneva,sans-serif;
     font-size : 10pt;
+    float:right;
+
 }
 
 .fundo-azul {
@@ -337,10 +387,16 @@ img.fundo {
 
 .icone-bandeira{
 	background-color: inherit;
+	width: 28px;
+	height: 20px;
 }
 .icone-bandeira:hover{
-	background-color: #002F66;
+	background-color: #305F96;
 }
+.icone-bandeira-ativa{
+    background-color: #202053;
+}
+
 
 /* Formatação para telas de splash */
 .lista-splash{
@@ -367,6 +423,9 @@ img.fundo {
 .link-splash{
 	cursor: pointer;
 }
+.link-splash:hover{
+	color: #d24802;
+}
 .splash-imagem{
 	width: 80px;
 	height: 80px;
@@ -376,9 +435,6 @@ img.fundo {
 	position:absolute;
 	margin-left:85px;
 	font-size:12pt;
-}
-.splash-titulo:hover{
-	color: #d24802;
 }
 .splash-descricao{
 	position:absolute;
@@ -408,3 +464,61 @@ img.fundo {
 	width: 100px;
 }
 /*	fim lista de tipo de arquivos */
+
+
+/* Estilos do Drag and Drop na tela de importacao de BD */
+.campo-tabela-dnd{
+	background-color: inherit;
+}
+.campo-tabela-dnd:hover{
+	background-color: orange;
+}
+.icone-excluir-campo-dnd{
+	background-color: inherit;
+	float: right;
+	cursor: pointer;
+	display: none;
+}
+.campo-tabela-dnd:hover .icone-excluir-campo-dnd{
+	display: block;
+}
+.titulo-tabela-dnd{
+	background-color:#E0E0B0;
+	text-align:center;
+	padding:1px;
+	border-bottom:1px solid #AAA;
+	cursor:move
+}
+.icone-excluir-tabela-dnd{
+	background-color: inherit;
+	color: transparent;
+	float: right;
+	cursor: pointer;
+}
+.titulo-tabela-dnd:hover .icone-excluir-tabela-dnd{
+	color: red;
+}
+/* Fim estilos Importacao BD - Dnd */
+
+/* Itens da lista de resultados dinâmica */
+.item-listagem{
+	background-color: white;
+	padding-bottom: 0px;
+	padding-top: 4px;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 20px;
+	font-size: 9pt;
+	cursor: pointer;
+}
+.item-listagem:hover{
+	background-color: #E1E1E1;
+}
+
+/* Componentes visiveis / invisiveis */
+.componente-invisivel{
+	display: none;
+}
+.componente-visivel{
+	display: block;
+}

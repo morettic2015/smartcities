@@ -1,19 +1,16 @@
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>Smartcities Login</title>
-        <!-- load dojo and provide config via data attribute -->
-        <script type="text/javascript" src="lib/dojo/dojo/dojo.js" data-dojo-config="'isDebug': true, 'parseOnLoad':true,'debugAtAllCosts': false, 'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''"></script>
+        <script type="text/javascript" data-dojo-config="'parseOnLoad':true,'async':true,'packages':[{'name':'gridx','location':'../gridx'},{'name':'clipart','location':'../../clipart'},{'name':'maqettaSamples','location':'../../../samples'},{'name':'maqetta','location':'../../maqetta'},{'name':'shapes','location':'../../shapes'},{'name':'zazl','location':'../../zazl'},{'name':'widgets','location':'../../custom'}],'themeMap':[['Android','',['themes/android/android.css']],['BlackBerry','',['themes/blackberry/blackberry.css']],['iPad','',['themes/ipad/ipad.css']],['iPhone','',['themes/iphone/iphone.css']],['.*','',['themes/iphone/iphone.css']]],'mblThemeFiles':[],'mblLoadCompatPattern':''" src="lib/dojo/dojo/dojo.js"></script>
         <script type="text/javascript">
+
             require([
                 "dijit/dijit",
                 "dojo/parser",
-                "dojo/domReady!",
-                "dojo/dom",
-                "dojo/json",
-                "dojo/on",
                 "maqetta/space",
                 "maqetta/AppStates",
                 "dijit/layout/BorderContainer",
@@ -25,78 +22,22 @@
                 "dijit/form/Button"
             ]);
         </script>
-        <script>
-            function handleResponse(responseObject, ioArgs, on, dom) {
-                // set the model object with the returned customers list
-                //model.setData(responseObject.customers.customer);
-                //var obj = JSON.parse(responseObject);
-                window.location = "http://localhost:8080/SmartcitiesGITHUB/main.html";
-            }
-
-            function handleError(responseObject, ioArgs) {
-                // set the model object with the returned customers list
-                //model.setData(responseObject.customers.customer);
-                alert("error");
-            }
-            // Function that refreshes the SPAN node
-            function refreshContent() {
-                var user = document.getElementById("login").value;
-                
-                var pass = document.getElementById("pass").value;
-                
-                var minhaUrl = "http://localhost:8080/SmartcitiesGITHUB/rest/profiles/authenticate/"+user+"/"+pass;
-                
-                // Using dojo.xhrGet, as very little information is being sent
-                dojo.xhrGet({
-                    url: minhaUrl,
-                    handleAs: "json",
-                    load: handleResponse,
-                    error: handleError,
-                    preventCache: false
-                });
-
-                /*dojo.xhrGet({
-                 // The URL of the request
-                 url: "http://localhost:8080/smartcitie_db/rest/countries",
-                 // The success callback with result from server
-                 load: function(newContent) {
-                 alert("ok");
-                 dojo.byId("login").innerHTML = newContent;
-                 },
-                 // The error handler
-                 error: function() {
-                 // Do nothing -- keep old content there
-                 },
-                 // generate an extra GET variable to prevent browsers from caching
-                 preventCache: true
-                 });*/
-            }
-
-            // When the DOM is ready....
-            //dojo.ready(function(){
-            // Populate content initially
-            //refreshContent();
-            // Connect button
-            //	dojo.connect(dojo.byId("btnLogin"),"onclick",refreshContent);
-            //})
-            ;
-        </script>
-
-
         <style>@import "themes/claro/document.css";@import "themes/claro/claro.css";@import "app.css";
+
         </style>
 
-        <script type="text/javascript" src="app.js"></script>
+        <script type="text/javascript" src="js/smartcities.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
     </head>
     <body data-maq-flow-layout="true" data-maq-comptype="sketchhifi" class="claro" data-maq-ws="collapse" topmargin="" data-maq-appstates="{}" id="myapp">
 
         <img src="images/bklogin.png" class="fundo">
 
-        <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; position: absolute; height: 420px; width: 350px;top:50%;left:50%; margin-left:-167px; margin-top:-210px;">
+        <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; position: absolute; height: 370px; width: 350px;top:50%;left:50%; margin-left:-167px; margin-top:-185px;">
             <div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="center" splitter="false" maxSize="Infinity" doLayout="false" style="border: 1px solid black; border-radius: 6px; -moz-border-radius: 6px; margin: 1em;">
 
                 <div style="display:block;clear:both;position:absolute;top:10px; left:50%; margin-left:-82px;">
-                    <img src="images/logo-smartcities-fundo-branco.png" style="width:164px; height:102.4px;"></img>
+                    <img src="images/logo-smartcities-fundo-branco.png" style="width:164px; height:102.4px;"/>
                 </div>
 
                 <table border="0" style="border: none; padding: 1em; border-collapse: collapse; table-layout: fixed; width:auto; height:auto;position:absolute;top:140px;left:39px;">
@@ -109,38 +50,32 @@
                                         <td style="float: right;">
                                             Email</td>
                                         <td>
-                                            <input type="text" data-dojo-type="dijit/form/TextBox" id="login" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+                                            <input id="txtUser" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="float: right;">
-                                            Senha</td>
+                                            Password</td>
                                         <td>
-                                            <input type="text" data-dojo-type="dijit/form/TextBox"  id="pass" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+                                            <input id="txtPass" type="password" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"/>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon"></input>Lembrar</td>
-                                    </tr>
+
 
                                     <tr>
-                                        <td colspan="2">
-                                            <input type="button" data-dojo-type="dijit/form/Button" id="btnLogin" intermediateChanges="false" label="Entrar ou registrar-se" iconClass="dijitNoIcon" onclick="refreshContent();"></input>
+                                        <td colspan="2" align="center">
+                                            <input id="btLogin" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Log in" iconClass="dijitNoIcon" />
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td style="border: 1px solid white;alignment-adjust: central" colspan="2">
-                                            <label>Usar perfil das redes sociais
-                                                <fieldset>
-
-                                                    <input type="image" id="btYahooMain"  src="images/icons/54X54/Yahoo.png" alt="" style="width: 24px;height: 24px"/>
-                                                    <input type="image" id="btGmailMain" src="images/icons/54X54/Gmail.png" alt="" style="width: 24px;height: 24px"/>
-                                                    <input type="image" id="btFaceMain"  src="images/icons/54X54/Facebook.png" alt="" style="width: 24px;height: 24px"/>
-                                                </fieldset>
-                                            </label>
+                                        <td style="border: 0px solid black;padding:5px;" colspan="2" align="center">
+                                            <button id="linkRegister" style="text-decoration:underline;color:#005773;cursor:pointer;">Login or Register</span>
+                                            <!--<fieldset>
+                                              <input type="image" id="btYahooMain" src="images/icons/54X54/Yahoo.png" alt="" style="width: 24px;height: 24px;margin:5px;"/>
+                                              <input type="image" id="btGmailMain" src="images/icons/54X54/Gmail.png" alt="" style="width: 24px;height: 24px;margin:5px;"/>
+                                              <input type="image" id="btFaceMain" src="images/icons/54X54/Facebook.png" alt="" style="width: 24px;height: 24px;margin:5px;"/>
+                                            </fieldset>											-->
                                         </td>
                                     </tr>
 
@@ -158,9 +93,17 @@
         </div>
 
 
-        <div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" title="?" id="myDialog">
-            <div data-dojo-type="dijit.layout.ContentPane" title="foo" id="container_modal"  style="width: 600px; height: 380px;">container modal</div>
+        <!--
+<div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" title="?" id="myDialog">
+    <div data-dojo-type="dijit.layout.ContentPane" title="foo" id="container_modal" style="width: 600px; height: 380px;">container modal</div>
+</div>-->
+
+        <div data-dojo-type="dijit/Dialog" data-dojo-id="myDialog" id="myDialog">
+            <div data-dojo-type="dijit/layout/ContentPane" data-dojo-id="contentPane_PopUp" title="foo" id="container_modal" style="width: 500px; height: 200px;padding:0px;">container modal</div>
         </div>
 
-    </body>
-</html>
+        </img>
+    </div>
+
+    </img>
+</body></html>
