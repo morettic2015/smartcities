@@ -10,6 +10,7 @@ define({
 	rotAbaAlarmes: "Alarms",
 	rotAbaFaturamento: "Billing",
 	rotAbaCirculos: "Circles",
+	rotAbaLoja: "Store",
 	rotDadosPessoais: "Personal Info",
 	rotEndereco: "Address",
 	rotIdioma: "Language",

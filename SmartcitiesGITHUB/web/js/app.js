@@ -64,6 +64,7 @@ var CONFIGURATION = "configuration.html";
 var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
 var UPLOAD = "upload/index.html";
+var STORE_COVER = "store/storeCover.html";
 
 require([
     "dojo/ready",
@@ -148,6 +149,10 @@ require([
                 contentPane_PopUp.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
+				
+				contentPane_Loja.set("onDownloadEnd", function () {
+                    configuraTela(this.get("href"));
+                });
 
                 //headerMain.set("onDownloadEnd", function () {
                 //    configuraTela(this.get("href"));
@@ -163,6 +168,7 @@ require([
                 carregaTelaAlarmes(ALARMS_SPLASH);
                 carregaTelaFaturamento(BILLING_SPLASH);
                 carregaTelaCirculos(CIRCLES_SPLASH);
+				carregaTelaLoja(STORE_COVER);
 
 
                 /**
@@ -424,6 +430,7 @@ require([
                 dom.byId("rotuloAbaAlarmes").innerHTML = textos.rotAbaAlarmes;
                 dom.byId("rotuloAbaFaturamento").innerHTML = textos.rotAbaFaturamento;
                 dom.byId("rotuloAbaCirculos").innerHTML = textos.rotAbaCirculos;
+				dom.byId("rotuloAbaLoja").innerHTML = textos.rotAbaLoja;
                 dom.byId("rotBtProfileInfo").innerHTML = textos.rotDadosPessoais;
                 dom.byId("rotBtProfileAddress").innerHTML = textos.rotEndereco;
                 dom.byId("rotBtProfileSecurity").innerHTML = textos.rotSeguranca;
@@ -813,6 +820,10 @@ require([
                 var objContainer = contentPane_Circulos;
                 objContainer.set("href", paginaConteudo);
             }
+			
+			function carregaTelaLoja( paginaConteudo ){
+				contentPane_Loja.set("href", paginaConteudo );
+			}
 
             /**
              * Função para abrir o modal. 
@@ -980,7 +991,9 @@ require([
                     refreshGridPendencyFileSelect();
                 } else if (pagina == HEADER_MAIN) {
                     setEventsHeader();
-                }
+                } else if (pagina == STORE_COVER ){
+					setEventsStoreCover();
+				}
 
             }
 
@@ -1939,6 +1952,11 @@ require([
                     abrePopUpModal(CIRCLES_IMPORTOPTIONS);
                 });
             }
+			
+			// Eventos no módulo Loja
+			function setEventsStoreCover(){
+				
+			}
 
 
             /**

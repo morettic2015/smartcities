@@ -1,0 +1,49 @@
+<style>
+#storeBoxHighlights{
+	width:100%;
+}
+#storeBoxPaid{
+	width:48%;
+	margin-right:2%;
+}
+#storeBoxFree{
+	width:48%;
+}
+.boxBase{
+	float:left;
+}
+.boxBase div{
+	width: 100%;
+	border: 1px solid orange;
+}
+.boxBase div div.pago{
+	width: 50px;
+	height: 50px;
+	margin: 5px;
+	background-color: gray;
+	float:left;
+}
+
+</style>
+
+<div style="margin:10px;">
+	<div id="storeBoxHighlights" class="boxBase">
+		<h1><span id='labelHighlightsStore'>Destaques</span></h1>
+		<div style="width: 100%;height:200px;">
+			<div class="pago">Item 1</div>
+			<div class="pago">Item 2</div>
+		</div>
+	</div>
+	
+	<div id="storeBoxPaid" class="boxBase">
+		<h1><span id='labelPaidStore'>Pagos</span></h1>
+		<div style="height:200px;">
+		</div>
+	</div>
+	
+	<div id="storeBoxFree" class="boxBase">
+		<h1><span id='labelFreeStore'>Gratuitos</span></h1>
+		<div style="height:200px;">
+		</div>
+	</div>
+</div>

@@ -11,6 +11,7 @@ define({
 		rotAbaAlarmes: "Alarmes",
 		rotAbaFaturamento: "Faturamento",
 		rotAbaCirculos: "C&iacute;rculos",
+		rotAbaLoja: "Loja",
 		rotDadosPessoais: "Dados Pessoais",
 		rotEndereco: "Endere&ccedil;o",
 		rotIdioma: "Idioma",
