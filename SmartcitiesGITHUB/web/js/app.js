@@ -459,8 +459,8 @@ require([
                 /**
                  *	Carregamento das trees de 'Fonte de Dados'
                  */
-                loadTreeDataSources();
-                loadTreePendencies();
+                //loadTreeDataSources();
+                //loadTreePendencies();
 
                 /*
                  *	Informa o tabcontainer que deve ser atualizado o tamanho

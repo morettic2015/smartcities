@@ -181,25 +181,24 @@
                     <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: 1em; min-height: 1px; z-index: 0; width: 100%; height: 94%;padding:0px;margin-top:5px;">
                         <div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" maxSize="Infinity" style="width: 20%;height:100%;position:absolute;">
                             <span id="tituloArvoreFontesDados" style="color:#999;font-size:10pt;">Fontes de dados</span>
-                            <div id="espacoTreeDataSources" style="margin-bottom:15px;border:1px solid #ccc"></div>
-                            <!--
-                            
-                            <div data-dojo-type="dijit/Tree" model="ObjectStoreModel_1" autoExpand="false" showRoot="false" childrenAttr="children" openOnClick="false" openOnDblClick="false" persist="false" dndParams="onDndDrop,itemCreator,onDndCancel,checkAcceptance,checkItemAcceptance,dragThreshold,betweenThreshold" dragThreshold="5" betweenThreshold="0" style="min-height: 1em; width: 100%; height: auto;">
-                                    <script type="dojo/method" data-dojo-event="getIconStyle" data-dojo-args="item, opened">
-                                            var iconStyle = item.iconStyle;if (opened && item.iconStyleOpen) {	iconStyle = item.iconStyleOpen;};return iconStyle;</script>
-                                    <script type="dojo/connect" data-dojo-event="onClick" data-dojo-args="item, node, evt">
-                                            var eventStr = item['onClick'];if (eventStr) { 	dojo.eval(eventStr);}</script>
-                                    <script type="dojo/connect" data-dojo-event="onDblClick" data-dojo-args="item, node, evt">
-                                            var eventStr = item['onDblClick'];if (eventStr) { 	dojo.eval(eventStr);}</script>
-                                    <script type="dojo/connect" data-dojo-event="onClose" data-dojo-args="item, node">
-                                            var eventStr = item['onClose'];if (eventStr) { 	dojo.eval(eventStr);}</script>
-                                    <script type="dojo/connect" data-dojo-event="onOpen" data-dojo-args="item, node">
-                                            var eventStr = item['onOpen'];if (eventStr) { 	dojo.eval(eventStr);}</script>
-                            </div>
-                            -->
+                            <!--<div id="espacoTreeDataSources" style="margin-bottom:15px;border:1px solid #ccc"></div> -->
+							
+							<select multiple style="margin-bottom:15px;margin-top:5px;width:100%">
+								<optgroup label="FTP">
+									<option value="ufsc">CCT - UFSC</option>
+								<optgroup>
+								<optgroup label="Banco de dados">
+									<option value="ufsc">postgres:5432/rockandroll</option>
+								<optgroup>
+							</select>
 
                             <span id="tituloArvorePendencias" style="color:#999;font-size:10pt;">Importacoes pendentes</span>
-                            <div id="espacoTreePendency" style="border:1px solid #ccc"></div>
+                            <!--<div id="espacoTreePendency" style="border:1px solid #ccc"></div>-->
+							<select multiple style="margin-bottom:15px;margin-top:5px;width:100%">
+								<optgroup label="XML">
+									<option value="nf">nf000001.xml</option>
+								<optgroup>								
+							</select>
                         </div>
 
                         <!-- Container das telas na aba Ferramenta de Dados -->
