@@ -295,6 +295,7 @@ require([
                     var param = {tipo: "RSS"};
                     carregaTelaFerramentaDados(DATAIMPORT_KML, param);
                 });
+				/*
                 on(dom.byId("itemWsdlImport"), "click", function () {
                     var param = {tipoArquivo: "WSDL"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
@@ -303,6 +304,7 @@ require([
                     var param = {tipoArquivo: "XLS"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
+				*/
                 on(dom.byId("itemXmlImport"), "click", function () {
                     var param = {tipoArquivo: "XML"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
