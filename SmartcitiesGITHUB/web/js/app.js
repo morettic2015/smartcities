@@ -470,6 +470,7 @@ require([
                  */
                 //loadTreeDataSources();
                 //loadTreePendencies();
+				
 
                 /*
                  *	Informa o tabcontainer que deve ser atualizado o tamanho
@@ -768,7 +769,12 @@ require([
                 //parametrosTela = parametros;	// Setando variável global
                 ///COMENTARIO
 
-                loadUserCTX();
+                loadUserCTX().then(function( succeded ){
+					if( succeded ){
+						loadDataSourcesList();
+						loadPendenciesList();
+					}
+				});
 
                 contentPane_Perfil.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
@@ -2152,6 +2158,26 @@ require([
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeWsdl"));
             }
+			
+			function loadDataSourcesList(){
+				// pega a lista de fontes de dados do objeto global do usuario
+				
+				// monta as tags optgroup e options
+				// dentro de listaFontesDados
+				var textoHtml = "<optgroup label='FTP'><option value='ufsc'>CCT - UFSC</option><optgroup><optgroup label='Banco de dados'><option value='ufsc'>postgres:5432/rockandroll</option><optgroup>";
+				var objetoDOM = domConstruct.toDom(	textoHtml );
+				domConstruct.place(objetoDOM, "listaFontesDados");
+			}
+			
+			function loadPendenciesList(){
+				// pega a lista das pendencias do objeto global do usuario
+				
+				// monta as tags optgroup e options
+				// dentro de listaPendencias
+				var textoHtml = "<optgroup label='XML'><option value='nf'>nf000001.xml</option><optgroup>";
+				var objetoDOM = domConstruct.toDom(	textoHtml );
+				domConstruct.place(objetoDOM, "listaPendencias");
+			}
 
             function loadListaDBSelection() {
                 var boxLista = new Source("listaTabelas", {
@@ -2676,7 +2702,19 @@ require([
 
 
             function loadUserCTX() {
-                restServices.loadCtx();
+				// Implementação anterior
+				// restServices.loadCtx();
+				//
+                var resultado = restServices.loadCtx();
+				return resultado.then(function (dados){
+					if (typeof dados == "string") {
+                        modalMessage(dados, "Erro");
+						return false;
+                    } else if (dados instanceof Object) {
+						myProfile = eval(dados);
+						return true;
+					}
+				})
             }
 
             function saveProfileAddress() {

@@ -89,11 +89,10 @@ define([
                             }
                     ).then(function (data) {
                         //alert(data.email);
-                        myProfile = eval(data);
+                        //myProfile = eval(data);
                         return data;
                     }, function (err) {
-                       // alert( "Não foi possível salvar. Causa: " + err);
-                        return null;
+                        return "Não foi possível carregar os dados do usuario. Causa: " + err;
                     });
                 }
             }
