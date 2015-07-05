@@ -188,6 +188,7 @@ define({
 		abrirDiretorioPendencias: "Abrir diret&oacute;rio de pend&ecirc;ncias",
 		enderecoNaoEncontrado: "Nenhum endereço encontrado",
 		enderecoAbrangente: "O resultado &eacute; muito abrangente. Informe a rua e o n&uacute;mero",
+		tituloUpload: "Upload de Arquivo",
 		
 		// Módulo Mapa
 		tituloMapConfig: "Configura&ccedil;&atilde;o do mapa",

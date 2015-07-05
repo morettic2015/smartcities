@@ -14,8 +14,8 @@ var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na 
 var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
 var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
 var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
-var dataImportObject = null;				// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
-var myProfile;   //Perfil do usuario com todos os dados dele
+var dataImportObject = null;			// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
+var myProfile;   						// Perfil do usuario com todos os dados dele
 
 /**
  *	Constantes: uri dos arquivos/telas
@@ -294,8 +294,8 @@ require([
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
                 on(dom.byId("itemKmlImport"), "click", function () {
-                    var param = {tipo: "KML"};
-                    carregaTelaFerramentaDados(DATAIMPORT_KML, param);
+                    var param = {tipoArquivo: "KML"};
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
                 on(dom.byId("itemRssImport"), "click", function () {
                     var param = {tipo: "RSS"};
@@ -945,9 +945,10 @@ require([
                     objetosDropadosDBSelection = [];
                     linhasDBSelection = [];
                 } else if (pagina == DATAIMPORT_KML) {
-                    i18nImportKml();
-                    setEventsImportKml();
-                    dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
+					//sem uso
+                    //i18nImportKml();
+                    //setEventsImportKml();
+                    //dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
                 } else if (pagina == BILLING_PAYPAL) {
                     i18nFormPaypal();
                 } else if (pagina == BILLING_PAGSEGURO) {
@@ -1513,15 +1514,10 @@ require([
                     // para algum componente(?)
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
-                    //contentPane_PopUp.set("href", "upload/index.html");
-                    //myDialog.set("title", "File Upload");
-                    //myDialog.show();
+                    
                     abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
-                query(".icone-bandeira").on("click", function () {
-                    selectProfileLocale(this);
-
-                });
+                
             }
 
             function setEventsProfileAddress() {
@@ -1607,171 +1603,7 @@ require([
                 });
             }
             
-            function saveXMLFile(parametrosTela) {
-
-                var urlCSV = myProfile.uploadBean.name;
-                var fName1 = dom.byId("txtSourceNameLocate").value;
-                // TODO usar URLENCODE utf-8 para não perder os caracteres
-                var description = dom.byId("txtDescriptionFile").value;
-                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
-                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/XML/" + escape(description);
-
-                var resultado = restServices.salvaObjeto(url);
-                resultado.then(function (dados) {
-                    //alert(dados);
-                    if (dados instanceof String) {
-                        //modalMessage(dados, textos.gErro);
-                    } else if (dados instanceof Object) {
-                        //load window on Contentpane
-                        carregaTelaFerramentaDados(DATAIMPORT_XML, parametrosTela, function () {
-
-                            //Message to confirm
-                            contentPane_PopUp.set("href", "info/dataImport.html");
-                            myDialog.set("title", "Sucess");
-                            myDialog.show();
-
-                            //Set myProfile csv data on memory
-                            myProfile.xml = dados;
-                            select = document.getElementById('listCsvColumns');
-                            //Somente o header
-                            if (myProfile.xml.metadata.length > 0) {
-                                //Pega o header
-                                
-                                //Populates main combobox
-                                for (i = 0; i < myProfile.xml.metadata.length; i++) {
-                                    var opt = document.createElement('option');
-                                    opt.value = myProfile.xml.metadata[i];
-                                    opt.innerHTML = myProfile.xml.metadata[i];
-                                    select.appendChild(opt);
-                                }
-                                //Atribui eventos apenas se tiver itens para rodar
-                                on(dom.byId("btCsvIncludeCol"), "click", function () {
-                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
-                                });
-                                on(dom.byId("btCsvRemoveCol"), "click", function () {
-                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
-                                });
-                                on(dom.byId("btProximoImportCsv"), "click", function () {
-                                    var elements = getALLSelectValues("listCsvSelectedCols");
-
-                                    var a1 = "";
-                                    for (i = 0; i < elements.length; i++) {
-                                        a1 += elements[i];
-                                        a1 += ",";
-                                    }
-
-                                    var url = "importer/xml_update/" + a1;
-                                    
-                                    var resultado = restServices.salvaObjeto(url);
-                                    resultado.then(function (dados) {
-                                        //alert(dados);
-                                        if (dados instanceof String) {
-                                            //modalMessage(dados, textos.gErro);
-                                        } else if (dados instanceof Object) {
-                                            //Message to confirm
-                                            contentPane_PopUp.set("href", "info/dataImport.html");
-                                            myDialog.set("title", "Sucess");
-                                            myDialog.show();
-                                            
-                                            //Disable everything
-                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
-                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
-                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
-                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
-                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
-                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
-                                        }
-                                    });
-                                });
-                            }
-                        });
-
-                    }
-                });
-            }
-
-            function saveCSVFile(parametrosTela) {
-
-                var urlCSV = myProfile.uploadBean.name;
-                var fName1 = dom.byId("txtSourceNameLocate").value;
-                // TODO usar URLENCODE utf-8 para não perder os caracteres
-                var description = dom.byId("txtDescriptionFile").value;
-                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
-                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/CSV/" + escape(description);
-
-                var resultado = restServices.salvaObjeto(url);
-                resultado.then(function (dados) {
-                    //alert(dados);
-                    if (dados instanceof String) {
-                        //modalMessage(dados, textos.gErro);
-                    } else if (dados instanceof Object) {
-                        //load window on Contentpane
-                        carregaTelaFerramentaDados(DATAIMPORT_CSV, parametrosTela, function () {
-
-                            //Message to confirm
-                            contentPane_PopUp.set("href", "info/dataImport.html");
-                            myDialog.set("title", "Sucess");
-                            myDialog.show();
-
-                            //Set myProfile csv data on memory
-                            myProfile.csv = dados;
-                            select = document.getElementById('listCsvColumns');
-                            //Somente o header
-                            if (myProfile.csv.length > 0) {
-                                //Pega o header
-                                var csvHeader = myProfile.csv[0];
-                                //Populates main combobox
-                                for (i = 0; i < csvHeader.length; i++) {
-                                    var opt = document.createElement('option');
-                                    opt.value = i;
-                                    opt.innerHTML = csvHeader[i];
-                                    select.appendChild(opt);
-                                }
-                                //Atribui eventos apenas se tiver itens para rodar
-                                on(dom.byId("btCsvIncludeCol"), "click", function () {
-                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
-                                });
-                                on(dom.byId("btCsvRemoveCol"), "click", function () {
-                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
-                                });
-                                on(dom.byId("btProximoImportCsv"), "click", function () {
-                                    var elements = getALLSelectValues("listCsvSelectedCols");
-
-                                    var a1 = "";
-                                    for (i = 0; i < elements.length; i++) {
-                                        a1 += elements[i];
-                                        a1 += ",";
-                                    }
-
-                                    var url = "importer/csv_update/" + a1;
-                                    
-                                    var resultado = restServices.salvaObjeto(url);
-                                    resultado.then(function (dados) {
-                                        //alert(dados);
-                                        if (dados instanceof String) {
-                                            //modalMessage(dados, textos.gErro);
-                                        } else if (dados instanceof Object) {
-                                            //Message to confirm
-                                            contentPane_PopUp.set("href", "info/dataImport.html");
-                                            myDialog.set("title", "Sucess");
-                                            myDialog.show();
-                                            
-                                            //Disable everything
-                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
-                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
-                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
-                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
-                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
-                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
-                                        }
-                                    });
-                                });
-                            }
-                        });
-
-                    }
-                });
-            }
+            
             function setEventsDataFileLocate() {
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
@@ -1780,36 +1612,28 @@ require([
                     var param = parametrosTela;
                     var pagina = "";
                     if (parametrosTela.tipoArquivo == "CSV") {
-                        //pagina = ;
-                        saveCSVFile(parametrosTela);
- 
-                        return;
-                    } else if (parametrosTela.tipoArquivo == "HTML") {
-                        pagina = "";
-
+                        pagina = DATAIMPORT_CSV;
+                        saveCSVFile(parametrosTela);                        
                     } else if (parametrosTela.tipoArquivo == "JSON") {
                         pagina = DATAIMPORT_JSON;
-
-                    } else if (parametrosTela.tipoArquivo == "PDF") {
-                        pagina = "";
 
                     } else if (parametrosTela.tipoArquivo == "XLS") {
                         pagina = DATAIMPORT_CSV;
 
                     } else if (parametrosTela.tipoArquivo == "XML") {
-                        pagina = DATAIMPORT_JSON;
-                        
+                        pagina = DATAIMPORT_JSON;                        
                         saveXMLFile(parametrosTela);
 
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
-
-                    }
+                    } else if( parametrosTela.tipoArquivo == "KML" ){
+						pagina = "";
+					}
 
                     carregaTelaFerramentaDados(pagina, param);
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
-                    // sem implementacao
+                    abrePopUpModal( UPLOAD, textos.tituloUpload, 400, 250);
                 });
                 on(dom.byId("btPendencyDirectory"), "click", function () {
                     abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
@@ -2816,6 +2640,172 @@ require([
                     } else if (dados instanceof Object) {
                         // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
                         modalMessage(textos.gSalvoSucesso, "FTP");
+                    }
+                });
+            }
+			
+			function saveXMLFile(parametrosTela) {
+
+                var urlCSV = myProfile.uploadBean.name;
+                var fName1 = dom.byId("txtSourceNameLocate").value;
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = dom.byId("txtDescriptionFile").value;
+                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/XML/" + escape(description);
+
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    //alert(dados);
+                    if (dados instanceof String) {
+                        //modalMessage(dados, textos.gErro);
+                    } else if (dados instanceof Object) {
+                        //load window on Contentpane
+                        carregaTelaFerramentaDados(DATAIMPORT_XML, parametrosTela, function () {
+
+                            //Message to confirm
+                            contentPane_PopUp.set("href", "info/dataImport.html");
+                            myDialog.set("title", "Sucess");
+                            myDialog.show();
+
+                            //Set myProfile csv data on memory
+                            myProfile.xml = dados;
+                            select = document.getElementById('listCsvColumns');
+                            //Somente o header
+                            if (myProfile.xml.metadata.length > 0) {
+                                //Pega o header
+                                
+                                //Populates main combobox
+                                for (i = 0; i < myProfile.xml.metadata.length; i++) {
+                                    var opt = document.createElement('option');
+                                    opt.value = myProfile.xml.metadata[i];
+                                    opt.innerHTML = myProfile.xml.metadata[i];
+                                    select.appendChild(opt);
+                                }
+                                //Atribui eventos apenas se tiver itens para rodar
+                                on(dom.byId("btCsvIncludeCol"), "click", function () {
+                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
+                                });
+                                on(dom.byId("btCsvRemoveCol"), "click", function () {
+                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
+                                });
+                                on(dom.byId("btProximoImportCsv"), "click", function () {
+                                    var elements = getALLSelectValues("listCsvSelectedCols");
+
+                                    var a1 = "";
+                                    for (i = 0; i < elements.length; i++) {
+                                        a1 += elements[i];
+                                        a1 += ",";
+                                    }
+
+                                    var url = "importer/xml_update/" + a1;
+                                    
+                                    var resultado = restServices.salvaObjeto(url);
+                                    resultado.then(function (dados) {
+                                        //alert(dados);
+                                        if (dados instanceof String) {
+                                            //modalMessage(dados, textos.gErro);
+                                        } else if (dados instanceof Object) {
+                                            //Message to confirm
+                                            contentPane_PopUp.set("href", "info/dataImport.html");
+                                            myDialog.set("title", "Sucess");
+                                            myDialog.show();
+                                            
+                                            //Disable everything
+                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
+                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
+                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
+                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
+                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
+                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
+                    }
+                });
+            }
+
+            function saveCSVFile(parametrosTela) {
+
+                var urlCSV = myProfile.uploadBean.name;
+                var fName1 = dom.byId("txtSourceNameLocate").value;
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = dom.byId("txtDescriptionFile").value;
+                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/CSV/" + escape(description);
+
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    //alert(dados);
+                    if (dados instanceof String) {
+                        //modalMessage(dados, textos.gErro);
+                    } else if (dados instanceof Object) {
+                        //load window on Contentpane
+                        carregaTelaFerramentaDados(DATAIMPORT_CSV, parametrosTela, function () {
+
+                            //Message to confirm
+                            contentPane_PopUp.set("href", "info/dataImport.html");
+                            myDialog.set("title", "Sucess");
+                            myDialog.show();
+
+                            //Set myProfile csv data on memory
+                            myProfile.csv = dados;
+                            select = document.getElementById('listCsvColumns');
+                            //Somente o header
+                            if (myProfile.csv.length > 0) {
+                                //Pega o header
+                                var csvHeader = myProfile.csv[0];
+                                //Populates main combobox
+                                for (i = 0; i < csvHeader.length; i++) {
+                                    var opt = document.createElement('option');
+                                    opt.value = i;
+                                    opt.innerHTML = csvHeader[i];
+                                    select.appendChild(opt);
+                                }
+                                //Atribui eventos apenas se tiver itens para rodar
+                                on(dom.byId("btCsvIncludeCol"), "click", function () {
+                                    listbox_moveacross("listCsvColumns", "listCsvSelectedCols");
+                                });
+                                on(dom.byId("btCsvRemoveCol"), "click", function () {
+                                    listbox_moveacross("listCsvSelectedCols", "listCsvColumns");
+                                });
+                                on(dom.byId("btProximoImportCsv"), "click", function () {
+                                    var elements = getALLSelectValues("listCsvSelectedCols");
+
+                                    var a1 = "";
+                                    for (i = 0; i < elements.length; i++) {
+                                        a1 += elements[i];
+                                        a1 += ",";
+                                    }
+
+                                    var url = "importer/csv_update/" + a1;
+                                    
+                                    var resultado = restServices.salvaObjeto(url);
+                                    resultado.then(function (dados) {
+                                        //alert(dados);
+                                        if (dados instanceof String) {
+                                            //modalMessage(dados, textos.gErro);
+                                        } else if (dados instanceof Object) {
+                                            //Message to confirm
+                                            contentPane_PopUp.set("href", "info/dataImport.html");
+                                            myDialog.set("title", "Sucess");
+                                            myDialog.show();
+                                            
+                                            //Disable everything
+                                            document.getElementById('listCsvColumns').setAttribute("disabled", true);
+                                            document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
+                                            document.getElementById("btCsvRemoveCol").setAttribute("disabled", true);
+                                            document.getElementById("btProximoImportCsv").setAttribute("disabled", true);
+                                            document.getElementById("listCsvSelectedCols").setAttribute("disabled", true);
+                                            document.getElementById("btAnteriorFileLocate").setAttribute("disabled", true);
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
                     }
                 });
             }

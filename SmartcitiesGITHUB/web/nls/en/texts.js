@@ -187,6 +187,7 @@ define({
 	abrirDiretorioPendencias: "Open directory of pendencies",
 	enderecoNaoEncontrado: "No addresses was found",
 	enderecoAbrangente: "The result is too wide. Inform the street and number",
+	tituloUpload: "File Upload",
 	
 	// Módulo Mapa
 	tituloMapConfig: "Map configuration",
