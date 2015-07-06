@@ -522,3 +522,18 @@ img.fundo {
 .componente-visivel{
 	display: block;
 }
+
+.list-groups{
+	margin-bottom:15px;
+	margin-top:5px;
+	width:100%;
+	height:150px;
+}
+.list-groups optgroup{
+	font-family: inherit;
+	font-style: normal;
+	color: #d24802;
+}
+.list-groups optgroup option{
+	color: #000000;
+}

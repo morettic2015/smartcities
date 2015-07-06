@@ -92,7 +92,7 @@ define([
                         //myProfile = eval(data);
                         return data;
                     }, function (err) {
-                        return "Não foi possível carregar os dados do usuario. Causa: " + err;
+                        return "Não foi possível carregar os dados do usuario. As funcionalidades do sistema poderão ficar comprometidas. Causa: " + err;
                     });
                 }
             }

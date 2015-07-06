@@ -1,3 +1,8 @@
+<script>
+var nomeArquivoOriginal = myProfile.uploadBean.name;
+dom.byId("originalFileNameCSV").innerHTML = nomeArquivoOriginal;
+dom.byId("newSourceNameCSV").innerHTML = "New Source";
+</script>
 <span data-dojo-type="dijit/Toolbar">
     <input id="btAnteriorImportCsv" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtAnteriorImportCsv'>Anterior</span>" iconClass="icone-anterior" style=""></input>
     <input id="btProximoImportCsv" type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="<span id='rotBtProximoImportCsv'>Finalizar</span>" iconClass="icone-finalizar" style=""></input>
@@ -13,7 +18,7 @@
     </p>
 
     <div style="float:left;width:200px;height:200px;">
-        <span id="">Arquivo.csv</span><br>
+        <span id="originalFileNameCSV">Arquivo.csv</span><br>
         <select id="listCsvColumns" data-dojo-type="dijit/form/MultiSelect" name="listCsvColumns" size="5" style="width:100%;height:100%">
 
         </select>
@@ -23,7 +28,7 @@
         <input id="btCsvRemoveCol" data-dojo-type="dijit/form/Button" label="<<"></input>
     </div>
     <div style="float:left;width:200px;height:200px;">		
-        <span id="">Nome da nova fonte</span><br>
+        <span id="newSourceNameCSV">Nome da nova fonte</span><br>
         <select id="listCsvSelectedCols" data-dojo-type="dijit/form/MultiSelect" name="" size="5" style="width:100%;height:100%">
 
         </select>
