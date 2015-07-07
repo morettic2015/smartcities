@@ -898,6 +898,7 @@ require([
                 domStyle.set("myDialog", "height", alturaModal + "px");
                 domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
                 domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
+                myDialog.set("title", titulo);
                 exibeModal();
             }
 
