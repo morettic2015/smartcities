@@ -16,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import br.com.moretic.vo.*;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,8 +28,6 @@ import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;

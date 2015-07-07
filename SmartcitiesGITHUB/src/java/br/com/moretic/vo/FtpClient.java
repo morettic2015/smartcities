@@ -27,6 +27,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "ftp_client", schema = "public")
 public class FtpClient implements Serializable {
 
+
+
     @Column(name = "fpass")
     private String pass;
 
@@ -55,7 +57,7 @@ public class FtpClient implements Serializable {
     public void setIdFtpClient(int idFtpClient) {
         this.idFtpClient = idFtpClient;
     }
-
+    @JsonIgnore
     @Column(name = "profile_idprofile", nullable = false, insertable = true, updatable = true)
     private Integer idProfile;
 
@@ -72,6 +74,7 @@ public class FtpClient implements Serializable {
     @JoinColumn(name = "profile_idprofile", nullable = false, insertable = false, updatable = false)
     private Profile owner;
 
+    @JsonIgnore
     public Profile getOwner() {
         return owner;
     }
@@ -97,6 +100,7 @@ public class FtpClient implements Serializable {
         this.user = user;
     }
 
+    @JsonIgnore
     public String getPass() {
         return pass;
     }

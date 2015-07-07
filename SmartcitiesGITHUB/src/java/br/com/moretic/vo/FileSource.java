@@ -41,10 +41,10 @@ public class FileSource implements Serializable {
     public void incVersion() {
         this.vesionNr++;
     }
-    @Column(nullable = false, name = "f_uri")
+    @Column(nullable = true, name = "f_uri")
     private String fileURI;
 
-    @Column(nullable = false, name = "f_url")
+    @Column(nullable = true, name = "f_url")
     private String fileUrl;
 
     @Column(nullable = false, name = "f_desc")

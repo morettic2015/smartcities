@@ -235,8 +235,18 @@ public class ProfileEndpoint {
     @Produces("application/json")
     public Response findById(@PathParam("id") int id) {
         TypedQuery<Profile> findByIdQuery = em
-                .createQuery(
-                        "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.profile LEFT JOIN FETCH p.shareViews LEFT JOIN FETCH p.profileContactsForProfileIdprofile LEFT JOIN FETCH p.groupHasProfiles LEFT JOIN FETCH p.profiles LEFT JOIN FETCH p.socialNetworks LEFT JOIN FETCH p.avatars LEFT JOIN FETCH p.profileContactsForProfileIdprofile1 LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
+                .createQuery("SELECT DISTINCT p FROM"
+                        + " Profile p "
+                        + " LEFT JOIN FETCH p.profile "
+                     /////////   + " LEFT JOIN FETCH p.myFtps"
+                        + " LEFT JOIN FETCH p.shareViews"
+                        + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile"
+                        + " LEFT JOIN FETCH p.groupHasProfiles"
+                        + " LEFT JOIN FETCH p.profiles"
+                        + " LEFT JOIN FETCH p.socialNetworks"
+                        + " LEFT JOIN FETCH p.avatars"
+                        + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile1"
+                        + " LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
                         Profile.class);
         findByIdQuery.setParameter("entityId", id);
         Profile entity;
@@ -244,9 +254,8 @@ public class ProfileEndpoint {
             entity = findByIdQuery.getSingleResult();
             //Carrega os endereços
             TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
-            findByIdQuery.setParameter("entityId", id);
-            List<Adress> entityAddrs;
             findByIdProf.setParameter("entityId", id);
+            List<Adress> entityAddrs;
             entityAddrs = findByIdProf.getResultList();
             entity.getAdresses().addAll(entityAddrs);
 
@@ -254,7 +263,6 @@ public class ProfileEndpoint {
             TypedQuery<SecurityInfo> findByIdSec = em.createQuery("SELECT DISTINCT a FROM SecurityInfo a  WHERE a.idProfile = :entityId ORDER BY a.emailRecorey1", SecurityInfo.class);
             findByIdSec.setParameter("entityId", id);
             List<SecurityInfo> entitySec;
-            findByIdSec.setParameter("entityId", id);
             entitySec = findByIdSec.getResultList();
             entity.getSecurityInfo().addAll(entitySec);
 
@@ -262,7 +270,6 @@ public class ProfileEndpoint {
             TypedQuery<UserLog> findByIdSecUserLog = em.createQuery("SELECT DISTINCT a FROM UserLog a  WHERE a.idProfile = :entityId ORDER BY a.dTime", UserLog.class);
             findByIdSecUserLog.setParameter("entityId", id);
             List<UserLog> entityUserLog;
-            findByIdSecUserLog.setParameter("entityId", id);
             entityUserLog = findByIdSecUserLog.getResultList();
             entity.getlLog().clear();
             entity.getlLog().addAll(entityUserLog);
@@ -271,7 +278,6 @@ public class ProfileEndpoint {
             TypedQuery<Avatar> findByIdAvatar = em.createQuery("SELECT DISTINCT a FROM Avatar a  WHERE a.idProfile = :entityId ORDER BY a.idavatar", Avatar.class);
             findByIdAvatar.setParameter("entityId", id);
             List<Avatar> entitAvatar;
-            findByIdAvatar.setParameter("entityId", id);
             entitAvatar = findByIdAvatar.getResultList();
             entity.getAvatars().clear();
             entity.getAvatars().addAll(entitAvatar);
@@ -280,14 +286,23 @@ public class ProfileEndpoint {
             TypedQuery<FileSource> findByIdSecUserLogFileSource = em.createQuery("SELECT DISTINCT a FROM FileSource a  WHERE a.idProfile = :entityId ORDER BY a.myTp", FileSource.class);
             findByIdSecUserLogFileSource.setParameter("entityId", id);
             List<FileSource> entityUserLogFS;
-            findByIdSecUserLogFileSource.setParameter("entityId", id);
             entityUserLogFS = findByIdSecUserLogFileSource.getResultList();
             //entity.getlLog().clear();
             entity.getMySources().addAll(entityUserLogFS);
+            
+              //Carrega a lista de Files
+            TypedQuery<FtpClient> findByFtpSource = em.createQuery("SELECT DISTINCT a FROM FtpClient a  WHERE a.idProfile = :entityId ORDER BY a.host", FtpClient.class);
+            findByFtpSource.setParameter("entityId", id);
+            List<FtpClient> entityFtps;
+            //findByFtpSource.setParameter("entityId", id);
+            entityFtps = findByFtpSource.getResultList();
+            //entity.getlLog().clear();
+            entity.getMyFtps().addAll(entityFtps);
 
             findByIdProf = null;
             findByIdSec = null;
             findByIdSecUserLogFileSource = null;
+            findByFtpSource = null;
             findByIdSecUserLog = null;
             findByIdAvatar = null;
             entityUserLogFS = null;

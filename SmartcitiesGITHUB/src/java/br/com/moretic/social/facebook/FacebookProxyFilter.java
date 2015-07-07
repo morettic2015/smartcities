@@ -95,7 +95,8 @@ public class FacebookProxyFilter implements Filter {
             session.setAttribute(ProfileEndpoint.PROFILE, entity);
 
             ((HttpServletResponse) response).sendRedirect(SMARTCITIESMAINHTML);
-        } catch (NoResultException nre) {
+        } catch (Exception nre) {
+            nre.printStackTrace();
             try {
                 String uIdFb = profileJson.getString("id");
                 //graph.facebook.com/10205211352462356/picture

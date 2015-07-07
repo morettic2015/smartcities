@@ -149,8 +149,8 @@ require([
                 contentPane_PopUp.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-				
-				contentPane_Loja.set("onDownloadEnd", function () {
+
+                contentPane_Loja.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
 
@@ -168,7 +168,7 @@ require([
                 carregaTelaAlarmes(ALARMS_SPLASH);
                 carregaTelaFaturamento(BILLING_SPLASH);
                 carregaTelaCirculos(CIRCLES_SPLASH);
-				carregaTelaLoja(STORE_COVER);
+                carregaTelaLoja(STORE_COVER);
 
 
                 /**
@@ -188,7 +188,7 @@ require([
                         var birthYear = objBirthDate.getFullYear().toString();
                         var birthMonth = (objBirthDate.getMonth() + 1).toString();
                         birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
-                        var strBirthDate =  birthMonth + "/" +birthDay + "/" + birthYear;
+                        var strBirthDate = birthMonth + "/" + birthDay + "/" + birthYear;
 
                         dom.byId("txtBirthdateProfile").value = strBirthDate;
                         dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
@@ -301,16 +301,16 @@ require([
                     var param = {tipo: "RSS"};
                     carregaTelaFerramentaDados(DATAIMPORT_KML, param);
                 });
-				/*
-                on(dom.byId("itemWsdlImport"), "click", function () {
-                    var param = {tipoArquivo: "WSDL"};
-                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
-                });
-                on(dom.byId("itemXlsImport"), "click", function () {
-                    var param = {tipoArquivo: "XLS"};
-                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
-                });
-				*/
+                /*
+                 on(dom.byId("itemWsdlImport"), "click", function () {
+                 var param = {tipoArquivo: "WSDL"};
+                 carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
+                 });
+                 on(dom.byId("itemXlsImport"), "click", function () {
+                 var param = {tipoArquivo: "XLS"};
+                 carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
+                 });
+                 */
                 on(dom.byId("itemXmlImport"), "click", function () {
                     var param = {tipoArquivo: "XML"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
@@ -430,7 +430,7 @@ require([
                 dom.byId("rotuloAbaAlarmes").innerHTML = textos.rotAbaAlarmes;
                 dom.byId("rotuloAbaFaturamento").innerHTML = textos.rotAbaFaturamento;
                 dom.byId("rotuloAbaCirculos").innerHTML = textos.rotAbaCirculos;
-				dom.byId("rotuloAbaLoja").innerHTML = textos.rotAbaLoja;
+                dom.byId("rotuloAbaLoja").innerHTML = textos.rotAbaLoja;
                 dom.byId("rotBtProfileInfo").innerHTML = textos.rotDadosPessoais;
                 dom.byId("rotBtProfileAddress").innerHTML = textos.rotEndereco;
                 dom.byId("rotBtProfileSecurity").innerHTML = textos.rotSeguranca;
@@ -446,7 +446,7 @@ require([
                 dom.byId("rotBtTarefaDados").innerHTML = textos.rotTarefa;
                 dom.byId("rotBtHistoricoDados").innerHTML = textos.rotHistorico;
                 dom.byId("rotBtFerramentasDados").innerHTML = textos.rotFerramentas;
-				dom.byId("rotBtEditarDados").innerHTML = textos.gEditar;
+                dom.byId("rotBtEditarDados").innerHTML = textos.gEditar;
                 dom.byId("rotBtVisualizarDados").innerHTML = textos.rotVisualizarDados;
                 dom.byId("rotBtMapaSave").innerHTML = textos.rotSalvar;
                 dom.byId("rotBtMapaView").innerHTML = textos.gVisualizar;
@@ -463,14 +463,22 @@ require([
                 dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
                 dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
                 dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
-                dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
+                // dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
 
                 /**
                  *	Carregamento das trees de 'Fonte de Dados'
                  */
                 //loadTreeDataSources();
                 //loadTreePendencies();
-				
+                //dom.byId("")
+                on(dom.byId("btAtualizarDados"), "click", function () {
+                    loadUserCTX().then(function (succeded) {
+                        if (succeded) {
+                            //alert(succeded);
+                            loadDataSourcelistElements();
+                        }
+                    });
+                });
 
                 /*
                  *	Informa o tabcontainer que deve ser atualizado o tamanho
@@ -478,7 +486,45 @@ require([
                 tabContainerPrincipal.resize();
 
             });
+            function loadDataSourcelistElements() {
+                var myFtpList = myProfile.myFtps;
 
+                var sourcesList = myProfile.mySources;
+                //ZERA TODOS
+                document.getElementById("ftpGroup").innerHTML = "";
+                document.getElementById("xmlGroup").innerHTML = "";
+                document.getElementById("csvGroup").innerHTML = "";
+                document.getElementById("jsonGroup").innerHTML = "";
+                document.getElementById("kmlGroup").innerHTML = "";
+                document.getElementById("rssGroup").innerHTML = "";
+                document.getElementById("ldapGroup").innerHTML = "";
+                document.getElementById("adGroup").innerHTML = "";
+                document.getElementById("dbGroup").innerHTML = "";
+
+                // alert(sourcesList);
+                for (i = 0; i < sourcesList.length; i++) {
+                    var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
+                    //alert(myTpInfo);
+                    var selectDataOption = document.getElementById(myTpInfo)
+                    var opt = document.createElement('option');
+                    opt.value = sourcesList[i].id;
+                    opt.style = "font-size: 8px;"
+                    opt.innerHTML = sourcesList[i].fileTit + "(" + sourcesList[i].fileUrl + ")";
+                    selectDataOption.appendChild(opt);
+                }
+                var selectDataOption = document.getElementById("ftpGroup");
+                
+                for (i = 0; i < myFtpList.length; i++) {
+                    //var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
+                    //alert(myTpInfo);
+                    
+                    var opt = document.createElement('option');
+                    opt.value = myFtpList[i].id;
+                    opt.style = "font-size: 8px;"
+                    opt.innerHTML = myFtpList[i].host + "(" + myFtpList[i].user + ")";
+                    selectDataOption.appendChild(opt);
+                }
+            }
 
 
             /*
@@ -769,12 +815,11 @@ require([
                 //parametrosTela = parametros;	// Setando variável global
                 ///COMENTARIO
 
-                loadUserCTX().then(function( succeded ){
-					if( succeded ){
-						loadDataSourcesList();
-						loadPendenciesList();
-					}
-				});
+                loadUserCTX().then(function (succeded) {
+                    if (succeded) {
+                        loadDataSourcelistElements();
+                    }
+                });
 
                 contentPane_Perfil.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
@@ -826,10 +871,10 @@ require([
                 var objContainer = contentPane_Circulos;
                 objContainer.set("href", paginaConteudo);
             }
-			
-			function carregaTelaLoja( paginaConteudo ){
-				contentPane_Loja.set("href", paginaConteudo );
-			}
+
+            function carregaTelaLoja(paginaConteudo) {
+                contentPane_Loja.set("href", paginaConteudo);
+            }
 
             /**
              * Função para abrir o modal. 
@@ -843,7 +888,7 @@ require([
                 var alturaModal = altura != undefined && altura != null ? altura : 200;
                 var larguraContent = larguraModal - 25;
                 var alturaContent = alturaModal - 52;
-                dom.byId("tituloModal").innerHTML = titulo;
+                //dom.byId("tituloModal").innerHTML = titulo;
                 if (messageOnly) {
                     contentPane_PopUp.set("content", paginaConteudo);
                 } else {
@@ -945,7 +990,7 @@ require([
                     objetosDropadosDBSelection = [];
                     linhasDBSelection = [];
                 } else if (pagina == DATAIMPORT_KML) {
-					//sem uso
+                    //sem uso
                     //i18nImportKml();
                     //setEventsImportKml();
                     //dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
@@ -998,9 +1043,9 @@ require([
                     refreshGridPendencyFileSelect();
                 } else if (pagina == HEADER_MAIN) {
                     setEventsHeader();
-                } else if (pagina == STORE_COVER ){
-					setEventsStoreCover();
-				}
+                } else if (pagina == STORE_COVER) {
+                    setEventsStoreCover();
+                }
 
             }
 
@@ -1514,10 +1559,10 @@ require([
                     // para algum componente(?)
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
-                    
+
                     abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
-                
+
             }
 
             function setEventsProfileAddress() {
@@ -1602,8 +1647,8 @@ require([
                     saveDatabaseSelection();
                 });
             }
-            
-            
+
+
             function setEventsDataFileLocate() {
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
@@ -1613,7 +1658,7 @@ require([
                     var pagina = "";
                     if (parametrosTela.tipoArquivo == "CSV") {
                         pagina = DATAIMPORT_CSV;
-                        saveCSVFile(parametrosTela);                        
+                        saveCSVFile(parametrosTela);
                     } else if (parametrosTela.tipoArquivo == "JSON") {
                         pagina = DATAIMPORT_JSON;
 
@@ -1621,19 +1666,19 @@ require([
                         pagina = DATAIMPORT_CSV;
 
                     } else if (parametrosTela.tipoArquivo == "XML") {
-                        pagina = DATAIMPORT_JSON;                        
+                        pagina = DATAIMPORT_JSON;
                         saveXMLFile(parametrosTela);
 
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
-                    } else if( parametrosTela.tipoArquivo == "KML" ){
-						pagina = "";
-					}
+                    } else if (parametrosTela.tipoArquivo == "KML") {
+                        pagina = "";
+                    }
 
                     carregaTelaFerramentaDados(pagina, param);
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
-                    abrePopUpModal( UPLOAD, textos.tituloUpload, 400, 250);
+                    abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
                 });
                 on(dom.byId("btPendencyDirectory"), "click", function () {
                     abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
@@ -1782,11 +1827,11 @@ require([
                     abrePopUpModal(CIRCLES_IMPORTOPTIONS);
                 });
             }
-			
-			// Eventos no módulo Loja
-			function setEventsStoreCover(){
-				
-			}
+
+            // Eventos no módulo Loja
+            function setEventsStoreCover() {
+
+            }
 
 
             /**
@@ -1982,26 +2027,26 @@ require([
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeWsdl"));
             }
-			
-			function loadDataSourcesList(){
-				// pega a lista de fontes de dados do objeto global do usuario
-				
-				// monta as tags optgroup e options
-				// dentro de listaFontesDados
-				var textoHtml = "<optgroup label='FTP'><option value='ufsc'>CCT - UFSC</option><optgroup><optgroup label='Banco de dados'><option value='ufsc'>postgres:5432/rockandroll</option><optgroup>";
-				var objetoDOM = domConstruct.toDom(	textoHtml );
-				domConstruct.place(objetoDOM, "listaFontesDados");
-			}
-			
-			function loadPendenciesList(){
-				// pega a lista das pendencias do objeto global do usuario
-				
-				// monta as tags optgroup e options
-				// dentro de listaPendencias
-				var textoHtml = "<optgroup label='XML'><option value='nf'>nf000001.xml</option><optgroup>";
-				var objetoDOM = domConstruct.toDom(	textoHtml );
-				domConstruct.place(objetoDOM, "listaPendencias");
-			}
+
+            function loadDataSourcesList() {
+                // pega a lista de fontes de dados do objeto global do usuario
+
+                // monta as tags optgroup e options
+                // dentro de listaFontesDados
+                var textoHtml = "<optgroup label='FTP'><option value='ufsc'>CCT - UFSC</option><optgroup><optgroup label='Banco de dados'><option value='ufsc'>postgres:5432/rockandroll</option><optgroup>";
+                var objetoDOM = domConstruct.toDom(textoHtml);
+                domConstruct.place(objetoDOM, "listaFontesDados");
+            }
+
+            function loadPendenciesList() {
+                // pega a lista das pendencias do objeto global do usuario
+
+                // monta as tags optgroup e options
+                // dentro de listaPendencias
+                var textoHtml = "<optgroup label='XML'><option value='nf'>nf000001.xml</option><optgroup>";
+                var objetoDOM = domConstruct.toDom(textoHtml);
+                domConstruct.place(objetoDOM, "listaPendencias");
+            }
 
             function loadListaDBSelection() {
                 var boxLista = new Source("listaTabelas", {
@@ -2526,19 +2571,19 @@ require([
 
 
             function loadUserCTX() {
-				// Implementação anterior
-				// restServices.loadCtx();
-				//
+                // Implementação anterior
+                // restServices.loadCtx();
+                //
                 var resultado = restServices.loadCtx();
-				return resultado.then(function (dados){
-					if (typeof dados == "string") {
+                return resultado.then(function (dados) {
+                    if (typeof dados == "string") {
                         modalMessage(dados, "Erro");
-						return false;
+                        return false;
                     } else if (dados instanceof Object) {
-						myProfile = eval(dados);
-						return true;
-					}
-				})
+                        myProfile = eval(dados);
+                        return true;
+                    }
+                })
             }
 
             function saveProfileAddress() {
@@ -2643,8 +2688,8 @@ require([
                     }
                 });
             }
-			
-			function saveXMLFile(parametrosTela) {
+
+            function saveXMLFile(parametrosTela) {
 
                 var urlCSV = myProfile.uploadBean.name;
                 var fName1 = dom.byId("txtSourceNameLocate").value;
@@ -2673,7 +2718,7 @@ require([
                             //Somente o header
                             if (myProfile.xml.metadata.length > 0) {
                                 //Pega o header
-                                
+
                                 //Populates main combobox
                                 for (i = 0; i < myProfile.xml.metadata.length; i++) {
                                     var opt = document.createElement('option');
@@ -2698,7 +2743,7 @@ require([
                                     }
 
                                     var url = "importer/xml_update/" + a1;
-                                    
+
                                     var resultado = restServices.salvaObjeto(url);
                                     resultado.then(function (dados) {
                                         //alert(dados);
@@ -2709,7 +2754,7 @@ require([
                                             contentPane_PopUp.set("href", "info/dataImport.html");
                                             myDialog.set("title", "Sucess");
                                             myDialog.show();
-                                            
+
                                             //Disable everything
                                             document.getElementById('listCsvColumns').setAttribute("disabled", true);
                                             document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
@@ -2781,7 +2826,7 @@ require([
                                     }
 
                                     var url = "importer/csv_update/" + a1;
-                                    
+
                                     var resultado = restServices.salvaObjeto(url);
                                     resultado.then(function (dados) {
                                         //alert(dados);
@@ -2792,7 +2837,7 @@ require([
                                             contentPane_PopUp.set("href", "info/dataImport.html");
                                             myDialog.set("title", "Sucess");
                                             myDialog.show();
-                                            
+
                                             //Disable everything
                                             document.getElementById('listCsvColumns').setAttribute("disabled", true);
                                             document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
@@ -2810,23 +2855,23 @@ require([
                 });
             }
 
-        /*    function saveCSV() {
-                // TODO no urlCSV replace em / por ø
-                var urlCSV = "";
-                // TODO usar URLENCODE utf-8 para não perder os caracteres
-                var description = "";
-                var http = "";
-                var url = "importer/csv/" + urlCSV + "/" + description + "/" + http;
-
-                var resultado = restServices.salvaObjeto(url);
-                resultado.then(function (dados) {
-                    if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro);
-                    } else if (dados instanceof Object) {
-                        modalMessage(textos.gSalvoSucesso, "CSV");
-                    }
-                });
-            }*/
+            /*    function saveCSV() {
+             // TODO no urlCSV replace em / por ø
+             var urlCSV = "";
+             // TODO usar URLENCODE utf-8 para não perder os caracteres
+             var description = "";
+             var http = "";
+             var url = "importer/csv/" + urlCSV + "/" + description + "/" + http;
+             
+             var resultado = restServices.salvaObjeto(url);
+             resultado.then(function (dados) {
+             if (dados instanceof String) {
+             modalMessage(dados, textos.gErro);
+             } else if (dados instanceof Object) {
+             modalMessage(textos.gSalvoSucesso, "CSV");
+             }
+             });
+             }*/
 
             //exemplo de chamada
             // loadGenericData( "url", "POST", function handleData( data ){

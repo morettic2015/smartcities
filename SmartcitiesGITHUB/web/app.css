@@ -1,5 +1,5 @@
 #myDialog_underlay{
-	background-color: #000000;
+    background-color: #000000;
 }
 
 .icone-importar,
@@ -49,7 +49,7 @@
 .icone-item-file-orange,
 .icone-item-file-green,
 .icone-item-file-brown{
-	background-repeat: no-repeat;
+    background-repeat: no-repeat;
     width: 16px;
     height: 16px;
     text-align: center;
@@ -87,7 +87,7 @@
 
 .icone-transformar{
     background-image: url(images/icons/Transformar/12X12.png);
-	
+
 }
 
 .icone-dados-pessoais{
@@ -95,19 +95,19 @@
 }
 
 .icone-endereco{
-	background-image: url(images/icons/Endereco/12X12.png);
+    background-image: url(images/icons/Endereco/12X12.png);
 }
 
 .icone-seguranca{
-	background-image: url(images/icons/Seguranca/12X12.png);
+    background-image: url(images/icons/Seguranca/12X12.png);
 }
 
 .icone-idioma{
-	background-image: url(images/icons/Idioma/12X12.png);
+    background-image: url(images/icons/Idioma/12X12.png);
 }
 
 .icone-credito{
-	background-image: url(images/icons/Credito/12X12.png);
+    background-image: url(images/icons/Credito/12X12.png);
 }
 
 .icone-compartilhar{
@@ -179,58 +179,58 @@
     background-image: url(images/icons/Config/12X12.png);
 }
 .icone-novo-alarme{
-	background-image: url(images/icons/NovoAlarme/12X12-2.png);
+    background-image: url(images/icons/NovoAlarme/12X12-2.png);
 }
 .icone-filtrar{
-	background-image: url(images/icons/Filtrar/12X12-2.png);
+    background-image: url(images/icons/Filtrar/12X12-2.png);
 }
 .icone-vincular{
-	background-image: url(images/icons/Vincular/12X12.png);
+    background-image: url(images/icons/Vincular/12X12.png);
 }
 .icone-agrupar{
-	background-image: url(images/icons/Agrupar/12X12.png);
+    background-image: url(images/icons/Agrupar/12X12.png);
 }
 .icone-anterior{
-	background-image: url(images/icons/Anterior-Proximo/Anterior/12X12.png);
+    background-image: url(images/icons/Anterior-Proximo/Anterior/12X12.png);
 }
 .icone-proximo{
-	background-image: url(images/icons/Anterior-Proximo/Proximo/12X12.png);
+    background-image: url(images/icons/Anterior-Proximo/Proximo/12X12.png);
 }
 .icone-novo-generico{
-	background-image: url(images/icons/Novo/Generico/12X12.png);
+    background-image: url(images/icons/Novo/Generico/12X12.png);
 }
 .icone-ferramentas{
-	background-image: url(images/config-icon.png);
+    background-image: url(images/config-icon.png);
 }
 .icone-item-active-directory{
-	background-image: url(images/icons/FontesDados/activedirectory_2.png);
+    background-image: url(images/icons/FontesDados/activedirectory_2.png);
 }
 .icone-item-database{
-	background-image: url(images/icons/FontesDados/database_1.png);
+    background-image: url(images/icons/FontesDados/database_1.png);
 }
 .icone-item-ftp{
-	background-image: url(images/icons/FontesDados/ftp_2.png);
+    background-image: url(images/icons/FontesDados/ftp_2.png);
 }
 .icone-item-ldap{
-	background-image: url(images/icons/FontesDados/ldap_2.png);
+    background-image: url(images/icons/FontesDados/ldap_2.png);
 }
 .icone-item-file-black{
-	background-image: url(images/icons/FontesDados/arquivo_1.png);
+    background-image: url(images/icons/FontesDados/arquivo_1.png);
 }
 .icone-item-file-blue{
-	background-image: url(images/icons/FontesDados/arquivo_4.png);
+    background-image: url(images/icons/FontesDados/arquivo_4.png);
 }
 .icone-item-file-orange{
-	background-image: url(images/icons/FontesDados/arquivo_3.png);
+    background-image: url(images/icons/FontesDados/arquivo_3.png);
 }
 .icone-item-file-green{
-	background-image: url(images/icons/FontesDados/arquivo_5.png);
+    background-image: url(images/icons/FontesDados/arquivo_5.png);
 }
 .icone-item-file-brown{
-	background-image: url(images/icons/FontesDados/arquivo_2.png);
+    background-image: url(images/icons/FontesDados/arquivo_2.png);
 }
 .icone-pendencia{
-	background-image: url(images/icons/Pendencia/12X12.png);
+    background-image: url(images/icons/Pendencia/12X12.png);
 }
 
 
@@ -334,19 +334,19 @@ img.fundo {
     position: relative;
     width:100%;
     height: 20px;
-	margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 .celula-form-1 .rotulo{
     position:absolute;
     right:90%;
-	text-align: right;
-	top: 50%;
-	margin-top: -7px;	
+    text-align: right;
+    top: 50%;
+    margin-top: -7px;	
 }
 .celula-form-1 .campo{
     position: absolute;
     left: 11%;
-	margin: 0px;
+    margin: 0px;
 }
 
 .plegend {
@@ -362,7 +362,7 @@ img.fundo {
     box-shadow: 10px 10px 5px #888888;
     opacity: 0.6;
     filter: alpha(opacity=60);
-    
+
 }
 
 /* Formatação do layout da tela para escolha de tipo de dados */
@@ -376,22 +376,22 @@ img.fundo {
     width : 54px;
     height : 54px;
     margin-left: 0px;
-	margin-right: 65px;
-	margin-top: 20px;
-	margin-bottom: 20px;
+    margin-right: 65px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     display : block;
     float : left;
-	cursor: pointer;
+    cursor: pointer;
 }
 /* Fim estilos layout escolha de dados */
 
 .icone-bandeira{
-	background-color: inherit;
-	width: 28px;
-	height: 20px;
+    background-color: inherit;
+    width: 28px;
+    height: 20px;
 }
 .icone-bandeira:hover{
-	background-color: #305F96;
+    background-color: #305F96;
 }
 .icone-bandeira-ativa{
     background-color: #202053;
@@ -400,140 +400,145 @@ img.fundo {
 
 /* Formatação para telas de splash */
 .lista-splash{
-	max-width:800px;
-	min-width:100px;
-	position:absolute;
+    max-width:800px;
+    min-width:100px;
+    position:absolute;
 }
 .lista-splash ul {
     padding : 15px;
     margin : 0px;
     list-style : none;
-	position: relative;
+    position: relative;
 }
 .lista-splash li {
     width : 350px;
     height : 80px;
     margin-left: 5px;
-	margin-right: 0px;
-	margin-top: 0px;
-	margin-bottom: 15px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 15px;
     display : block;
     float : left;
 }
 .link-splash{
-	cursor: pointer;
+    cursor: pointer;
 }
 .link-splash:hover{
-	color: #d24802;
+    color: #d24802;
 }
 .splash-imagem{
-	width: 80px;
-	height: 80px;
-	position:absolute;
+    width: 80px;
+    height: 80px;
+    position:absolute;
 }
 .splash-titulo{
-	position:absolute;
-	margin-left:85px;
-	font-size:12pt;
+    position:absolute;
+    margin-left:85px;
+    font-size:12pt;
 }
 .splash-descricao{
-	position:absolute;
-	margin-left:85px;
-	margin-top: 30px;
-	font-size:10pt;
-	max-width: 250px;
-	color: #666666;
+    position:absolute;
+    margin-left:85px;
+    margin-top: 30px;
+    font-size:10pt;
+    max-width: 250px;
+    color: #666666;
 }
 /* Fim estilos para telas de splash */
 
 /*	Formatação da lista de tipo em importacao de ftp */
 .lista-tipos-arquivos{
-	position: absolute;	
+    position: absolute;	
 }
 .lista-tipos-arquivos ul{
-	position: absolute;
-	margin: 0px;
-	list-style: none;
-	padding:0px;
+    position: absolute;
+    margin: 0px;
+    list-style: none;
+    padding:0px;
 }
 .lista-tipos-arquivos li{
-	float: left;
-	display: block;
-	margin-left: 0px;
-	position: relative;
-	width: 100px;
+    float: left;
+    display: block;
+    margin-left: 0px;
+    position: relative;
+    width: 100px;
 }
 /*	fim lista de tipo de arquivos */
 
 
 /* Estilos do Drag and Drop na tela de importacao de BD */
 .campo-tabela-dnd{
-	background-color: inherit;
+    background-color: inherit;
 }
 .campo-tabela-dnd:hover{
-	background-color: orange;
+    background-color: orange;
 }
 .icone-excluir-campo-dnd{
-	background-color: inherit;
-	float: right;
-	cursor: pointer;
-	display: none;
+    background-color: inherit;
+    float: right;
+    cursor: pointer;
+    display: none;
 }
 .campo-tabela-dnd:hover .icone-excluir-campo-dnd{
-	display: block;
+    display: block;
 }
 .titulo-tabela-dnd{
-	background-color:#E0E0B0;
-	text-align:center;
-	padding:1px;
-	border-bottom:1px solid #AAA;
-	cursor:move
+    background-color:#E0E0B0;
+    text-align:center;
+    padding:1px;
+    border-bottom:1px solid #AAA;
+    cursor:move
 }
 .icone-excluir-tabela-dnd{
-	background-color: inherit;
-	color: transparent;
-	float: right;
-	cursor: pointer;
+    background-color: inherit;
+    color: transparent;
+    float: right;
+    cursor: pointer;
 }
 .titulo-tabela-dnd:hover .icone-excluir-tabela-dnd{
-	color: red;
+    color: red;
 }
 /* Fim estilos Importacao BD - Dnd */
 
 /* Itens da lista de resultados dinâmica */
 .item-listagem{
-	background-color: white;
-	padding-bottom: 0px;
-	padding-top: 4px;
-	padding-left: 5px;
-	padding-right: 5px;
-	height: 20px;
-	font-size: 9pt;
-	cursor: pointer;
+    background-color: white;
+    padding-bottom: 0px;
+    padding-top: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 20px;
+    font-size: 9pt;
+    cursor: pointer;
 }
 .item-listagem:hover{
-	background-color: #E1E1E1;
+    background-color: #E1E1E1;
 }
 
 /* Componentes visiveis / invisiveis */
 .componente-invisivel{
-	display: none;
+    display: none;
 }
 .componente-visivel{
-	display: block;
+    display: block;
 }
 
 .list-groups{
-	margin-bottom:15px;
-	margin-top:5px;
-	width:100%;
-	height:150px;
+    padding: 5px 5px;
+    font-size: 11px;
+    margin-bottom:15px;
+    margin-top:5px;
+    width:100%;
+    height:410px;
+    border-width: medium;
+    border-style: solid;
+    //border-color: #000;
 }
 .list-groups optgroup{
-	font-family: inherit;
-	font-style: normal;
-	color: #d24802;
+    font-family: inherit;
+    font-style: normal;
+    color: #d24802;
 }
 .list-groups optgroup option{
-	color: #000000;
+    color: #000000;
 }

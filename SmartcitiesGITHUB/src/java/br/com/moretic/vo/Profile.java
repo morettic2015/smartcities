@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,10 +80,19 @@ public class Profile implements java.io.Serializable {
 
     @JsonProperty()
     private ArrayList<UserLog> lLog;
-    
+
     @JsonProperty()
     public ArrayList<UserLog> getlLog() {
         return lLog;
+    }
+    
+ 
+    public Set<FtpClient> getMyFtps() {
+        return myFtps;
+    }
+
+    public void setMyFtps(Set<FtpClient> myFtps) {
+        this.myFtps = myFtps;
     }
 
     public void setlLog(ArrayList<UserLog> lLog) {
@@ -93,6 +101,9 @@ public class Profile implements java.io.Serializable {
 
     @Transient
     private Set<FileSource> mySources = new HashSet<FileSource>(0);
+
+    @Transient
+    private Set<FtpClient> myFtps = new HashSet<FtpClient>(0);
 
     public Set<FileSource> getMySources() {
         return mySources;
