@@ -232,7 +232,47 @@
 .icone-pendencia{
     background-image: url(images/icons/Pendencia/12X12.png);
 }
+.group_ftp1{
+    background-image: url(images/icons/FontesDados/ftp_2.png);
+    display:block;
+    background-repeat:no-repeat;
 
+}
+.group_z1{
+    background-image: url(images/icons/FontesDados/arquivo_1.png);
+    display:block;
+    background-repeat:no-repeat;
+}
+.group_v1{
+    background-image: url(images/icons/FontesDados/arquivo_1.png);
+    display:block;
+    background-repeat:no-repeat;
+
+}
+.group_a1{
+    background-image: url(images/icons/FontesDados/arquivo_1.png);
+    display:block;
+    background-repeat:no-repeat;
+
+}
+.group_ldap1{
+    background-image: url(images/icons/FontesDados/ldap_2.png);
+    display:block;
+    background-repeat:no-repeat;
+
+}
+.group_db1{
+    background-image: url(images/icons/FontesDados/database_1.png);
+    display:block;
+    background-repeat:no-repeat;
+
+}
+.group_ac1{
+    background-image: url(images/icons/FontesDados/activedirectory_2.png);
+    display:block;
+    background-repeat:no-repeat;
+
+}
 
 .bt-paypal:link{
     color: #0083cc;

@@ -95,6 +95,9 @@ public class FtpEndpoint {
             ftpfiles = new FtpVO(null);
             System.err.append("FTP SERVICE ERROR");
             System.err.append(exception.toString());
+            ftpfiles.setFail(true);
+        } finally{
+            new ProfileEndpoint().logAction("FTP CONNECT ("+url+")", req, res,em);
         }
 
         return Response.ok(ftpfiles).build();

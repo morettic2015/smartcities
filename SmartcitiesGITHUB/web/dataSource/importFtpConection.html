@@ -13,25 +13,22 @@
     </p>
 
     <div class="celula-form-1">
-        <span class="rotulo"><span id="rotTipoImportFtp">Tipo</span>:</span>
-        <select id="cbTypeFtp" class="campo" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" selectOnClick="false" searchDelay="0" style="width:100px;">
-            <option value="">FTP</option>
-            <option value="">SFTP</option>
-        </select>
+        <span class="rotulo"><span id="rotUrlImportFtp">Url</span>:</span>
+        <input id="txtUrlFtp" class="campo" type="text" required="true" data-dojo-type="dijit/form/ValidationTextBox" regExp="[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" invalidMessage="invalid ftp url" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="ftp.site.com" style="width:300px;"></input>
     </div>
     <div class="celula-form-1">
-        <span class="rotulo"><span id="rotUrlImportFtp">Url</span>:</span>
-        <input id="txtUrlFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:300px;"></input>
+        <span class="rotulo"><span id="rotUrlImportFtp">Port</span>:</span>
+        <input id="txtUrlPort" class="campo" type="text" required="true" data-dojo-type="dijit/form/ValidationTextBox" regExp="^[0-9]+$" invalidMessage="invalid port"  required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="21" style="width:300px;"></input>
     </div>
     <div class="celula-form-1">
         <span class="rotulo"><span id="rotUsuarioImportFtp">Usuario</span>:</span>
-        <input id="txtUserFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input>	
+        <input id="txtUserFtp" class="campo" type="text" required="true" data-dojo-type="dijit/form/ValidationTextBox" intermediateChanges="false" trim="false" required="true" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="anonymous" style="width:100px;"></input>	
     </div>	
     <div class="celula-form-1">
         <span class="rotulo"><span id="rotSenhaImportFtp">Senha</span>:</span>
-        <input id="txtPasswordFtp" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input><br>
+        <input id="txtPasswordFtp" class="campo" type="password" required="true" data-dojo-type="dijit/form/ValidationTextBox" intermediateChanges="false" trim="false"  required="true" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:100px;"></input><br>
     </div>
-    <div class="celula-form-1">        
-        <input id="btTestFtp" class="campo" type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtTestarFtpConn'>Testar</span>" ></input>
-    </div>
+    <!-- <div class="celula-form-1">        
+         <input id="btTestFtp" class="campo" type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtTestarFtpConn'>Testar</span>" ></input>
+     </div> -->
 </div>

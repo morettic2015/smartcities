@@ -125,35 +125,27 @@ require([
                 contentPane_Perfil.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_FerramentaDados.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_Mapa.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_Alarmes.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_Faturamento.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_Circulos.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_PopUp.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 contentPane_Loja.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                 });
-
                 //headerMain.set("onDownloadEnd", function () {
                 //    configuraTela(this.get("href"));
                 //});
@@ -169,8 +161,6 @@ require([
                 carregaTelaFaturamento(BILLING_SPLASH);
                 carregaTelaCirculos(CIRCLES_SPLASH);
                 carregaTelaLoja(STORE_COVER);
-
-
                 /**
                  *	Atribuindo Eventos
                  */
@@ -181,7 +171,6 @@ require([
 
                         dom.byId("txtNameProfile").value = myProfile.nmUser;
                         dom.byId("txtEmailProfile").value = myProfile.email;
-
                         var objBirthDate = new Date(myProfile.nascimento);
                         var birthDay = objBirthDate.getDate().toString();
                         birthDay = (birthDay.length == 1) ? "0" + birthDay : birthDay;
@@ -189,24 +178,19 @@ require([
                         var birthMonth = (objBirthDate.getMonth() + 1).toString();
                         birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                         var strBirthDate = birthMonth + "/" + birthDay + "/" + birthYear;
-
                         dom.byId("txtBirthdateProfile").value = strBirthDate;
                         dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
                         dom.byId("txtPasswordProfile").value = myProfile.password;
                         dom.byId("txtConfirmPassProfile").value = myProfile.password;
                         dom.byId("txtBioProfile").value = myProfile.bioText;
                         dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
-
                         dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
                         dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
-
                         if (myProfile.cpfCnpj != null) {
                             registry.byId("btToggleEULA").set("checked", true);
                         }
 
                     });
-
-
                 });
                 on(dom.byId("btProfileAddress"), "click", function () {
                     carregaTelaPerfil(PROFILE_ADDRESS, function () {
@@ -235,7 +219,6 @@ require([
                 on(dom.byId("btProfileHistory"), "click", function () {
                     carregaTelaPerfil(PROFILE_HISTORY, function () {
                         var gridDataMovdel = [];
-
                         if (myProfile.lLog.length > 0) {
                             //Adiciona os itens no grid
 
@@ -250,7 +233,7 @@ require([
                                 var dsec = mDate.getSeconds();
                                 //var dmil = mDate.getMiliseconds();
                                 //Format date
-                                var dFullYMDHMSM = dday + "-" + dmonth + "-" + dyear + " " + dhour + ":" + dmin + ":" + dsec;// + ":" +dmil;
+                                var dFullYMDHMSM = dday + "-" + dmonth + "-" + dyear + " " + dhour + ":" + dmin + ":" + dsec; // + ":" +dmil;
                                 //Makes a new lline object
                                 var newLine = {
                                     id: myProfile.lLog[i].id,
@@ -260,7 +243,6 @@ require([
                                 }
                                 //Coloca no model o novo objeto
                                 gridDataMovdel.push(newLine);
-
                             }
                             gridProfileHistory.model.clearCache();
                             gridProfileHistory.model.store.setData(gridDataMovdel);
@@ -271,7 +253,6 @@ require([
                         }
                     });
                 });
-
                 // Modulo Ferramenta de dados
                 on(dom.byId("mnuImportDataAD"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_AD_CONNECTION)
@@ -333,8 +314,6 @@ require([
                 on(dom.byId("mnuFerramentaDadosTask"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_TASK);
                 });
-
-
                 //Módulo Mapa
                 on(dom.byId("btMapaSearch"), "click", function () {
                     abrePopUpModal(MAP_SEARCH);
@@ -349,7 +328,6 @@ require([
                 on(dom.byId("tabMap"), "onShow", function () {
                     makeGmap();
                 });
-
                 // Aba/Módulo Faturamento
                 on(dom.byId("btTransacoes"), "click", function () {
                     carregaTelaFaturamento(BILLING_TRANSACTIONS)
@@ -357,7 +335,6 @@ require([
                 on(dom.byId("btCreditoDebito"), "click", function () {
                     carregaTelaFaturamento(BILLING_CREDITDEBT)
                 });
-
                 // Aba/Módulo Círculos
                 on(dom.byId("btContatos"), "click", function () {
                     carregaTelaCirculos(CIRCLES_CONTACTS);
@@ -365,8 +342,6 @@ require([
                 on(dom.byId("btCirculos"), "click", function () {
                     carregaTelaCirculos(CIRCLES_MANAGE);
                 });
-
-
                 /**
                  *	Delegação de evento para conteudo carregado dinamicamente
                  */
@@ -378,7 +353,6 @@ require([
                 query("#conteudo_ferr_dados").on("#btTestarConexaoDados:click", function (evt) {
                     event.stop(evt);
                 });
-
                 // Aba/Módulo Faturamento
                 query("#conteudo_faturamento").on("#btCCCredito:click", function (evt) {
                     abrePopUpModal(BILLING_CARD);
@@ -396,13 +370,11 @@ require([
                     abrePopUpModal(BILLING_BANK);
                     event.stop(evt);
                 });
-
                 // Modulo Circulos
                 on(dom.byId("conteudo_circulos"), "#btImportarContatos:click", function () {
                     //abreImportarContato();
                     modalMessage(" importar contato", "Teste");
                 });
-
                 // Tela de Configuração
 
                 query("#container_modal").on("#flagUS:click", function (evt) {
@@ -417,8 +389,6 @@ require([
                     //TODO script de logout
                     event.stop(evt);
                 });
-
-
                 /**
                  *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
                  */
@@ -479,16 +449,13 @@ require([
                         }
                     });
                 });
-
                 /*
                  *	Informa o tabcontainer que deve ser atualizado o tamanho
                  */
                 tabContainerPrincipal.resize();
-
             });
             function loadDataSourcelistElements() {
                 var myFtpList = myProfile.myFtps;
-
                 var sourcesList = myProfile.mySources;
                 //ZERA TODOS
                 document.getElementById("ftpGroup").innerHTML = "";
@@ -500,7 +467,6 @@ require([
                 document.getElementById("ldapGroup").innerHTML = "";
                 document.getElementById("adGroup").innerHTML = "";
                 document.getElementById("dbGroup").innerHTML = "";
-
                 // alert(sourcesList);
                 for (i = 0; i < sourcesList.length; i++) {
                     var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
@@ -513,11 +479,10 @@ require([
                     selectDataOption.appendChild(opt);
                 }
                 var selectDataOption = document.getElementById("ftpGroup");
-                
                 for (i = 0; i < myFtpList.length; i++) {
                     //var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
                     //alert(myTpInfo);
-                    
+
                     var opt = document.createElement('option');
                     opt.value = myFtpList[i].id;
                     opt.style = "font-size: 8px;"
@@ -548,9 +513,7 @@ require([
                  var map = new google.maps.Map(document.getElementById('conteudo_mapa'), mapOptions);*/
 
                 var brooklyn = new google.maps.LatLng(41.875696, -87.624207);
-
                 var MY_MAPTYPE_ID = 'Smartcity';
-
                 var featureOpts = [
                     {
                         stylers: [
@@ -573,7 +536,6 @@ require([
                         ]
                     }
                 ];
-
                 var mapOptions = {
                     zoom: 8,
                     center: brooklyn,
@@ -582,10 +544,8 @@ require([
                     },
                     mapTypeId: MY_MAPTYPE_ID
                 };
-
                 map = new google.maps.Map(document.getElementById('conteudo_mapa'),
                         mapOptions);
-
                 //Tools
                 var drawingManager = new google.maps.drawing.DrawingManager({
                     drawingMode: google.maps.drawing.OverlayType.MARKER,
@@ -613,15 +573,11 @@ require([
                     }
                 });
                 drawingManager.setMap(map);
-
                 var styledMapOptions = {
                     name: 'Smartcities'
                 };
-
                 var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-
                 map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-
                 //Marcador
                 /*var marker = new google.maps.Marker({
                  position: brooklyn,
@@ -649,11 +605,9 @@ require([
                         '(last visited June 22, 2009).</p>' +
                         '</div>' +
                         '</div>';
-
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
-
                 var marker = new google.maps.Marker({
                     position: brooklyn,
                     map: map,
@@ -662,42 +616,35 @@ require([
                 google.maps.event.addListener(marker, 'click', function () {
                     infowindow.open(map, marker);
                 });
-
                 //Layer KML
                 var ctaLayer = new google.maps.KmlLayer({
                     url: 'http://gmaps-samples.googlecode.com/svn/trunk/ggeoxml/cta.kml'
                 });
                 ctaLayer.setMap(map);
-
                 //Tempo
                 var weatherLayer = new google.maps.weather.WeatherLayer({
                     temperatureUnits: google.maps.weather.TemperatureUnit.FAHRENHEIT
                 });
                 weatherLayer.setMap(map);
-
                 //Nuvens
                 var cloudLayer = new google.maps.weather.CloudLayer();
                 cloudLayer.setMap(map);
-
                 //Carros
                 var trafficLayer = new google.maps.TrafficLayer();
                 trafficLayer.setMap(map);
-
                 //Camada transito
                 var transitLayer = new google.maps.TransitLayer();
                 transitLayer.setMap(map);
-
                 //Camada de bike
                 var bikeLayer = new google.maps.BicyclingLayer();
                 bikeLayer.setMap(map);
-
                 //Adiciona local das legendas do mapa
-                var legendaMap = document.getElementById('mapLegend');//recupera div da legenda
+                var legendaMap = document.getElementById('mapLegend'); //recupera div da legenda
                 legendaMap.style.display = "block";
                 //
                 //  var searchMap = document.getElementById('mapSearch');//recupera div da legenda
                 //legendaMap.style.visibility="visible"; //Seta o layer pra ser visiveel
-                map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legendaMap);//Anexa no mapaBOTTOM_CENTER
+                map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legendaMap); //Anexa no mapaBOTTOM_CENTER
                 //  map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(searchMap);//Anexa no mapaBOTTOM_CENTER
             }
 
@@ -715,7 +662,6 @@ require([
                 var infowindow = new google.maps.InfoWindow({
                     content: txtInfo
                 });
-
                 var marker = new google.maps.Marker({
                     position: brooklyn,
                     map: map,
@@ -730,9 +676,7 @@ require([
             function showProfileAddressGmap() {
 
                 var floripa = new google.maps.LatLng(-27.594501, -48.550905);
-
                 var MY_MAPTYPE_ID = 'MapaEndereco';
-
                 var mapOptions = {
                     zoom: 8,
                     center: floripa,
@@ -741,13 +685,10 @@ require([
                     },
                     mapTypeId: MY_MAPTYPE_ID
                 };
-
                 map = new google.maps.Map(document.getElementById('mapProfileAddress'), mapOptions);
-
                 var styledMapOptions = {
                     name: 'Smartcities'
                 };
-
                 var featureOpts = [
                     {
                         stylers: [
@@ -770,11 +711,8 @@ require([
                         ]
                     }
                 ];
-
                 var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-
                 map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-
                 var contentString = '<div id="content">' +
                         '<div id="siteNotice">' +
                         '</div>' +
@@ -783,7 +721,6 @@ require([
                         '<p>Olho lhó ixtepô!</p>' +
                         '</div>' +
                         '</div>';
-
                 /*
                  var infowindow = new google.maps.InfoWindow({
                  content: contentString
@@ -820,54 +757,48 @@ require([
                         loadDataSourcelistElements();
                     }
                 });
-
                 contentPane_Perfil.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                     parametros();
                 });
-
                 var objContainer = contentPane_Perfil;
                 objContainer.set("href", paginaConteudo);
-
-
                 // 
 
             }
 
             function carregaTelaFerramentaDados(paginaConteudo, parametros, fFunc) {
-                parametrosTela = parametros;	// Setando variável global
+                parametrosTela = parametros; // Setando variável global
 
 
                 contentPane_FerramentaDados.set("onDownloadEnd", function () {
                     configuraTela(this.get("href"));
                     fFunc();
                 });
-
-
                 var objContainer = contentPane_FerramentaDados;
                 objContainer.set("href", paginaConteudo);
             }
 
             function carregaTelaMapa(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
+                parametrosTela = parametros; // Setando variável global
                 var objContainer = contentPane_Mapa;
                 objContainer.set("href", paginaConteudo);
             }
 
             function carregaTelaAlarmes(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
+                parametrosTela = parametros; // Setando variável global
                 var objContainer = contentPane_Alarmes;
                 objContainer.set("href", paginaConteudo);
             }
 
             function carregaTelaFaturamento(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
+                parametrosTela = parametros; // Setando variável global
                 var objContainer = contentPane_Faturamento;
                 objContainer.set("href", paginaConteudo);
             }
 
             function carregaTelaCirculos(paginaConteudo, parametros) {
-                parametrosTela = parametros;	// Setando variável global
+                parametrosTela = parametros; // Setando variável global
                 var objContainer = contentPane_Circulos;
                 objContainer.set("href", paginaConteudo);
             }
@@ -1010,8 +941,8 @@ require([
                     setEventsImportFtpSelect();
                     i18nImportFtpSelect();
                     dom.byId("tipoArquivoImportFtpSelection").innerHTML = parametrosTela.protocolo;
-                    refreshFileListFTPImport();	// preenchimento do grid
-                    loadTreeFtpImport();		// preenchimento da tree
+                    refreshFileListFTPImport(); // preenchimento do grid
+                    loadTreeFtpImport(); // preenchimento da tree
                 } else if (pagina == DATAIMPORT_AD_CONNECTION) {
                     i18nImportADConnection();
                     setEventsImportADConnection();
@@ -1083,7 +1014,6 @@ require([
                     dom.byId("ruaProfileAddress").innerHTML = textos.rotRuaPerfil;
                     dom.byId("complProfileAddress").innerHTML = textos.rotComplementoPerfil;
                     dom.byId("btBuscarEnderecoProfile").innerHTML = textos.rotFiltrar;
-
                     /*
                      dom.byId("cepProfileAddress").innerHTML = textos.rotCepPerfil;
                      dom.byId("bairroProfileAddress").innerHTML = textos.rotBairroPerfil;
@@ -1230,7 +1160,6 @@ require([
                     dom.byId("rotDeHistoryData").innerHTML = textos.rotDe;
                     dom.byId("rotAteHistoryData").innerHTML = textos.rotAte;
                     dom.byId("rotBtBuscarHistoryData").innerHTML = textos.btBuscar;
-
                     dom.byId("colGridIDHistoryData").innerHTML = textos.gID;
                     dom.byId("colGridDateHistoryData").innerHTML = textos.gData;
                     dom.byId("colGridTimeHistoryData").innerHTML = textos.gHora;
@@ -1398,7 +1327,6 @@ require([
                 dom.byId("tituloModal").innerHTML = textos.gConfiguracao;
                 dom.byId("tituloConfiguracao").innerHTML = textos.gConfiguracao;
                 dom.byId("rotConfigRegion").innerHTML = textos.gRegiao;
-
             }
 
 
@@ -1548,11 +1476,9 @@ require([
                     // para algum componente(?)
                     console.log(this.value);
                     dom.byId("userAvatarImage").src = this.value;
-
                 });
                 query(".icone-bandeira").on("click", function () {
                     selectProfileLocale(this);
-
                 });
                 on(dom.byId("userAvatarImage"), "click", function () {
                     //TODO passa valor para o src da imagem
@@ -1563,7 +1489,6 @@ require([
 
                     abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
-
             }
 
             function setEventsProfileAddress() {
@@ -1602,8 +1527,38 @@ require([
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
                 on(dom.byId("btProximoFtpConnection"), "click", function () {
-                    var param = {protocolo: "FTP"};
-                    carregaTelaFerramentaDados(DATAIMPORT_FTP_SELECTION, param);
+                    // var param = {protocolo: "FTP"};
+
+                    var user = dom.byId("txtUserFtp").value;
+                    var pass = dom.byId("txtPasswordFtp").value;
+                    var ftp = dom.byId("txtUrlFtp").value;
+                    var port = dom.byId("txtUrlPort").value;
+                    var url = "ftp/ls/" + user + "/" + pass + "/" + ftp + "/" + port
+
+                    //var campos = [dom.byId("txtUserFtp"), dom.byId("txtPasswordFtp"), dom.byId("txtUrlFtp"), dom.byId("txtUrlPort")];
+                    if ((user == "") || (pass = "") || (ftp == "") || (port == "")) {
+                        dom.byId("txtUserFtp").focus();
+                        dom.byId("txtPasswordFtp").focus();
+                        dom.byId("txtUrlFtp").focus();
+                        dom.byId("txtUrlPort").focus();
+                        return;
+                    }
+                    //http://localhost:8080/smartcities/rest/ftp/ls/anonymous/me@me.com/ftp.kernel.org/21
+                    var resultado = restServices.salvaObjeto(url);
+                    //Armazena dados temporariamente 
+                    //myProfile.ftpData = resultado;
+
+                    resultado.then(function (dados) {
+                        myProfile.ftpData = dados;
+                        if (myProfile.ftpData.fail) {
+                            contentPane_PopUp.set("href", "error/ftperror.hrml");
+                            myDialog.set("title", "FTP CONNECTION ERROR");
+                            myDialog.show();
+                        } else {
+                            var objContainer = contentPane_FerramentaDados;
+                            objContainer.set("href", DATAIMPORT_FTP_SELECTION);
+                        }
+                    });
                 });
             }
             function setEventsImportFtpSelect() {
@@ -1662,14 +1617,11 @@ require([
                         saveCSVFile(parametrosTela);
                     } else if (parametrosTela.tipoArquivo == "JSON") {
                         pagina = DATAIMPORT_JSON;
-
                     } else if (parametrosTela.tipoArquivo == "XLS") {
                         pagina = DATAIMPORT_CSV;
-
                     } else if (parametrosTela.tipoArquivo == "XML") {
                         pagina = DATAIMPORT_JSON;
                         saveXMLFile(parametrosTela);
-
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
                     } else if (parametrosTela.tipoArquivo == "KML") {
@@ -1842,7 +1794,6 @@ require([
             function loadTreeFtpImport(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Teste", parent: "treeRoot"}, {id: 2, label: "item_modificado", parent: 1, leaf: true}, {id: 'pendencies', label: "Pendencias", parent: 'treeRoot'}];
                 poolStore.treeFtpSelect = fillStoreTree(poolStore.treeFtpSelect, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.treeFtpSelect,
@@ -1852,15 +1803,13 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
                     showRoot: false,
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeFtpSelection"));
-
-                tree.onDblClick = function (  ) {
+                tree.onDblClick = function () {
                     poolStore.treeFtpSelect.put({id: 3, label: 'adicionou aqui', parent: 'treeRoot', leaf: true});
                 }
             }
@@ -1868,7 +1817,6 @@ require([
             function loadTreeDBSelection(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Tabela1", parent: "treeRoot"}, {id: 2, label: "campo1", parent: 1, leaf: true}, {id: 3, label: "Tabela2", parent: 'treeRoot'}];
                 poolStore.treeDBSelect = fillStoreTree(poolStore.treeDBSelect, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.treeDBSelect,
@@ -1878,15 +1826,13 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
                     showRoot: false,
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeDBSelection"));
-
-                tree.onDblClick = function (  ) {
+                tree.onDblClick = function () {
                     poolStore.treeDBSelect.put({id: 4, label: 'campo2', parent: 1, leaf: true});
                 }
             }
@@ -1894,7 +1840,6 @@ require([
             function loadTreeDataSources(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "FTP", parent: "treeRoot"}, {id: 2, label: "ftp do senai", parent: 1, leaf: true}, {id: 3, label: "ftp da estacio", parent: 1, leaf: true}];
                 poolStore.treeDataSource = fillStoreTree(poolStore.treeDataSource, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.treeDataSource,
@@ -1904,15 +1849,13 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
                     showRoot: false,
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeDataSources"));
-
-                tree.onDblClick = function (  ) {
+                tree.onDblClick = function () {
                     poolStore.treeDataSource.put({id: 4, label: 'campo2', parent: 1, leaf: true});
                 }
             }
@@ -1920,7 +1863,6 @@ require([
             function loadTreePendencies(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Importacao 09/02", parent: "treeRoot"}, {id: 2, label: "CSV", parent: 1}, {id: 3, label: "Morettic.csv", parent: 2, leaf: true}];
                 poolStore.treePendencies = fillStoreTree(poolStore.treePendencies, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.treePendencies,
@@ -1930,20 +1872,17 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
                     showRoot: false,
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreePendency"));
-
             }
 
             function loadTreeDataTransform(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Importacao 09/02", parent: "treeRoot"}, {id: 2, label: "CSV", parent: 1}, {id: 3, label: "Morettic.csv", parent: 2, leaf: true}];
                 poolStore.dataSource.st1 = fillStoreTree(poolStore.dataSource.st1, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.dataSource.st1,
@@ -1953,20 +1892,17 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
                     showRoot: false,
                     dndController: dndSource
                 }).placeAt(dom.byId("espacoTreeDataTransform"));
-
             }
 
             function loadTreeJsonOrigin(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Importacao 09/02", parent: "treeRoot"}, {id: 2, label: "CSV", parent: 1}, {id: 3, label: "Morettic.csv", parent: 2, leaf: true}];
                 poolStore.dataSource.st1 = fillStoreTree(poolStore.dataSource.st1, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.dataSource.st1,
@@ -1976,7 +1912,6 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
@@ -1988,7 +1923,6 @@ require([
             function loadTreeJsonDestiny(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Importacao 09/02", parent: "treeRoot"}, {id: 2, label: "CSV", parent: 1}, {id: 3, label: "Morettic.csv", parent: 2, leaf: true}];
                 poolStore.dataSource.st2 = fillStoreTree(poolStore.dataSource.st2, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.dataSource.st2,
@@ -1998,7 +1932,6 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
@@ -2010,7 +1943,6 @@ require([
             function loadTreeWsdl(arrDados) {
                 var arrDadosTeste = [{id: 'treeRoot', label: "Root"}, {id: 1, label: "Rest", parent: "treeRoot"}, {id: 2, label: "endpoint1", parent: 1, leaf: true}, {id: 3, label: "endpoint2", parent: 1, leaf: true}];
                 poolStore.dataSource.st1 = fillStoreTree(poolStore.dataSource.st1, arrDadosTeste);
-
                 // cria model
                 var model = new StoreModel({
                     store: poolStore.dataSource.st1,
@@ -2020,7 +1952,6 @@ require([
                         return !item.leaf;
                     }
                 });
-
                 // cria tree apontando para um local reservado
                 var tree = new Tree({
                     model: model,
@@ -2057,11 +1988,9 @@ require([
                     },
                     accept: ["tabela"]
                 });
-
                 widListaTabelasDBSelection = boxLista; // Guarda na global
 
                 console.log("tipo da lista : " + boxLista.declaredClass);
-
                 /*
                  *	Chamada da função que acessa o serviço que fornece os dados.
                  *	Esta deve retornar um array no padrão JSON com os seguintes dados: nome, type, campos.
@@ -2079,9 +2008,7 @@ require([
                     {nome: 'Usuario', type: 'tabela', campos: ["nome", "senha", "permissoes", "tipo"]},
                     {nome: 'Permissao', type: 'tabela', campos: ["descricao", "operacao", "leitura", "escrita", "execucao"]}
                 ];
-
                 boxLista.insertNodes(false, dados);
-
                 // Listeners do boxLista
                 aspect.after(boxLista, "onMouseDown", function () {
                     dom.byId("targetDragDrop").style.display = '';
@@ -2089,7 +2016,6 @@ require([
                 aspect.after(boxLista, "onMouseUp", function () {
                     dom.byId("targetDragDrop").style.display = 'none';
                 });
-
                 // TODO - apos cancelar: oculta o target
             }
 
@@ -2097,35 +2023,28 @@ require([
                 var alturaSuperficie = dom.byId("graphicsSurface").clientHeight;
                 var larguraSuperficie = dom.byId("graphicsSurface").clientWidth;
                 var superficieGfx = gfx.createSurface("graphicsSurface", larguraSuperficie - 1, alturaSuperficie - 2);
-
                 superficieGfx.whenLoaded(function () {
                     //var linha = superficieGfx.createLine({x1:0,y1:0,x2:larguraSuperficie,y2:alturaSuperficie}).setStroke("black");
                 });
-
                 var boxDrop = new Target("targetDragDrop", {
                     accept: ["tabela"]
                 });
-
                 aspect.around(boxDrop, "onDndDrop", function (originalCall) {
                     return function () {
                         originalCall.apply(this, arguments);
-
                         var fonte = arguments[0];
                         var alvo = arguments[3];
-
                         if (fonte.node.id == "listaTabelas") {
 
                             for (var i in alvo.map) {
                                 // move os dados para uma global
                                 objetosDropadosDBSelection.push(alvo.map[i]);
-
                                 /*
                                  * Criação da representação visual das tabelas do banco de dados
                                  */
                                 var camposTabela = "";
                                 var dados = alvo.map[i].data;
                                 var nomeTabela = dados.nome;
-
                                 // Transforma cada div em DOM, seta listener e inclui no DOM pai.
 
                                 var objetoDOM = domConstruct.toDom(
@@ -2135,11 +2054,9 @@ require([
                                         "</div>"
                                         );
                                 domConstruct.place(objetoDOM, "containerDragDrop");
-
                                 on(dom.byId("dbi_apagar_tabela_" + nomeTabela), "click", function () {
                                     eraseTableDnd(nomeTabela, superficieGfx)
                                 });
-
                                 // Prepara os campos para serem inseridos dentro das "tabelas"								
                                 for (var i = 0; i < dados.campos.length; i++) {
                                     var nomeCampo = dados.campos[i];
@@ -2148,7 +2065,6 @@ require([
                                             nomeCampo + "<span id='dbi_excluir_campo_" + nomeCampo + "_" + nomeTabela + "' class='icone-excluir-campo-dnd'>X</span></div>"
                                             );
                                     domConstruct.place(campoTabela, "dbi_campos_" + nomeTabela);
-
                                     on(dom.byId("dbi_excluir_campo_" + nomeCampo + "_" + nomeTabela), "click", function () {
                                         eraseTableFieldDnd(this)
                                     });
@@ -2156,7 +2072,6 @@ require([
 
                                 // Transforma em componente moveable e comunica o que fazer ao terminar de arrastá-lo
                                 var quadroMovel = new move.parentConstrainedMoveable(objetoDOM, {area: 'padding', handle: "dbi_titulo" + nomeTabela, within: true});
-
                                 /*
                                  *	Criação das linhas de relacionamento/cardinalidade
                                  */
@@ -2239,17 +2154,14 @@ require([
                                             // altera x1 e y1											
                                             x2Atual = linhasDBSelection[iLinha].obj.shape.x2;
                                             y2Atual = linhasDBSelection[iLinha].obj.shape.y2;
-
                                             // cria nova linha e apaga a antiga
                                             superficieGfx.remove(linhasDBSelection[iLinha].obj);
                                             var novaLinha = superficieGfx.createLine({x1: novoX, y1: novoY, x2: x2Atual, y2: y2Atual}).setStroke("black");
                                             linhasDBSelection[iLinha].obj = novaLinha;
-
                                         } else if (quadroMovel.node.id == identificadores[1]) {
                                             // altera x2 e y2
                                             x1Atual = linhasDBSelection[iLinha].obj.shape.x1;
                                             y1Atual = linhasDBSelection[iLinha].obj.shape.y1;
-
                                             // cria nova linha e apaga a antiga
                                             superficieGfx.remove(linhasDBSelection[iLinha].obj);
                                             var novaLinha = superficieGfx.createLine({x1: x1Atual, y1: y1Atual, x2: novoX, y2: novoY}).setStroke("black");
@@ -2259,7 +2171,6 @@ require([
                                     }
 
                                 });
-
                                 // apaga o objeto de dentro do alvo
                                 alvo.map = [];
                                 alvo.selectAll().deleteSelectedNodes();
@@ -2269,17 +2180,14 @@ require([
 
                         // oculta o target ( nesse caso: 'targetDragDrop')
                         alvo.node.style.display = 'none';
-
                     }
                 });
-
             }
 
             function eraseTableDnd(nomeTabela, superficieGfx) {
                 // Apaga tabela, recupera objeto e inclui de volta na lista
                 var tabela = dom.byId("dbi_tabela_" + nomeTabela);
                 domConstruct.destroy(tabela);
-
                 var tabelaRemovida = null;
                 for (var i in objetosDropadosDBSelection) {
                     if (objetosDropadosDBSelection[i].data.nome == nomeTabela) {
@@ -2291,7 +2199,6 @@ require([
 
                 // Adiciona tabela de volta na lista
                 widListaTabelasDBSelection.insertNodes(false, [tabelaRemovida]);
-
                 // Apagar linha de relacionamento se estiver vinculada com a tabela				
                 for (var iLinha = linhasDBSelection.length - 1; iLinha >= 0; iLinha--) { // do ultimo para o primeiro
                     if (linhasDBSelection[iLinha].id.indexOf(nomeTabela) > -1) {
@@ -2336,11 +2243,9 @@ require([
                 var caracter = String.fromCharCode(key);
                 var caracteresValidos = "0123456789";
                 var valorAtual = campo.value;
-
                 // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
                 if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
                     event.preventDefault();
-
                     if (caracteresValidos.indexOf(caracter) > -1 && valorAtual.length < 15) {
                         var novoValor = valorAtual;
                         //remove os caracteres especiais ( ) - espaço
@@ -2373,11 +2278,9 @@ require([
                 var caracter = String.fromCharCode(key);
                 var caracteresValidos = "0123456789";
                 var valorAtual = campo.value;
-
                 // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
                 if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
                     event.preventDefault();
-
                     if (caracteresValidos.indexOf(caracter) > -1 && valorAtual.length < 17) {
                         var novoValor = valorAtual;
                         //remove os caracteres especiais e espaços
@@ -2391,7 +2294,6 @@ require([
                         arrTelefone.splice(0, 0, "+");
                         arrTelefone.splice(3, 0, " ");
                         arrTelefone.splice(6, 0, " ");
-
                         valorAtual = arrTelefone.toString();
                         var regexVirgula = new RegExp(",", "g");
                         valorAtual = valorAtual.replace(regexVirgula, "");
@@ -2422,7 +2324,6 @@ require([
                         resultados = null;
                     }
                     resProfileGeocoder = resultados;
-
                     if (resultados != null) {
 
                         var enderecosValidos = 0;
@@ -2438,13 +2339,11 @@ require([
                                 continue;
                             }
                             enderecosValidos++;
-
                             // cria uma div para cada resultado
                             var boxEndereco = domConstruct.toDom(
                                     "<div id='resultAddress_" + iRes + "' class='item-listagem'>" + resultados[iRes].formatted_address +
                                     "</div>"
                                     );
-
                             domConstruct.place(boxEndereco, "boxResultsProfileAddress");
                         }
 
@@ -2466,7 +2365,6 @@ require([
                         domAttr.set("boxResultsProfileAddress", "class", "componente-visivel");
                     }
                 });
-
             }
 
             function manageKeyProfileAddressSearch(evento, campo) {
@@ -2488,7 +2386,6 @@ require([
                     selectedAddress = {endereco_formatado: strAddress,
                         latlng: objLatLng};
                     dom.byId("txtEnderecoRua").value = strAddress;
-
                     updateAddressMarker(objLatLng);
                 }
                 domAttr.set("boxResultsProfileAddress", "class", "componente-invisivel");
@@ -2527,7 +2424,6 @@ require([
                 var lang = dom.byId("selectedFlagProfileInfo");
                 var bio = dom.byId("txtBioProfile");
                 var camposValidar = [name, email, birthDate, cpfCnpj, password, confirmPass, telephone];
-
                 if (areFieldsValids(camposValidar)) {
                     var strId = id.value;
                     if (strId == undefined || strId == null || strId == "") {
@@ -2541,7 +2437,6 @@ require([
                     var birthMonth = (objBirthDate.getMonth() + 1).toString();
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
                     var strBirthDate = birthMonth + "-" + birthDay + "-" + birthYear;
-
                     var vAvatar = "blank";
                     if (myProfile.uploadBean != undefined) {
                         vAvatar = myProfile.uploadBean.name;
@@ -2549,7 +2444,6 @@ require([
                     }
 
                     var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
-
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         if (typeof dados == "string") {
@@ -2563,7 +2457,6 @@ require([
                             myDialog.show();
                         }
                     });
-
                 } else {
                     modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
@@ -2592,9 +2485,7 @@ require([
                     var address = selectedAddress.endereco_formatado;
                     var latLng = selectedAddress.latlng;
                     var complement = dom.byId("txtEnderecoComplemento").value;
-
                     restServices.salvaProfileAddress(latLng, address, complement);
-
                     /* TODO: 
                      var url = "profile/p2/" + latLng +"/"+ address +"/"+ complement;
                      
@@ -2613,14 +2504,11 @@ require([
                 var telephone = registry.byId("txtSegurancaTelefone");
                 var celphone = registry.byId("txtSegurancaCelular");
                 var passphrase = registry.byId("txtSegurancaFrase");
-
                 console.log(telephone + " - " + email + " - " + celphone + " - " + passphrase);
-
                 var campos = [email, telephone, celphone, passphrase];
                 if (areFieldsValids(campos)) {
                     var url = "profiles/security/" + email.value + "/" + escape(telephone.value) + "/" + escape(celphone.value) + "/" + encodeURIComponent(passphrase.value);
                     console.log("chama url " + url);
-
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         contentPane_PopUp.set("href", "info/profileInfo.html");
@@ -2630,7 +2518,6 @@ require([
                         myDialog.resize();
                         myDialog.show();
                     });
-
                 } else {
                     modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
@@ -2641,7 +2528,6 @@ require([
                 var ip = dom.byId("txtIpActiveDirectory").value;
                 var user = dom.byId("txtUserActiveDirectory").value;
                 var password = dom.byId("txtPasswordActiverDir").value;
-
                 var url = "importer/ac/" + ip + "/" + user + "/" + password;
                 console.log("chama url " + url);
                 //TODO colocar a chamada  no modulo restServices.js
@@ -2653,14 +2539,12 @@ require([
                         }, function (err) {
                             modalMessage(textos.gNaoSalvou + " " + textos.gCausa + ": " + err, textos.gErro);
                         });
-
             }
 
             function saveKML() {
                 var kmlUrl = "";
                 var kmlDescricao = "";
                 var url = "importer/kml/" + kmlUrl + "/" + kmlDescricao;
-
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
@@ -2678,7 +2562,6 @@ require([
                 var endereco = "";
                 var porta = "";
                 var url = "importer/ftp/ls/" + usuario + "/" + senha + "/" + endereco + "/" + porta;
-
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
@@ -2698,7 +2581,6 @@ require([
                 var description = dom.byId("txtDescriptionFile").value;
                 //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
                 var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/XML/" + escape(description);
-
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     //alert(dados);
@@ -2712,7 +2594,6 @@ require([
                             contentPane_PopUp.set("href", "info/dataImport.html");
                             myDialog.set("title", "Sucess");
                             myDialog.show();
-
                             //Set myProfile csv data on memory
                             myProfile.xml = dados;
                             select = document.getElementById('listCsvColumns');
@@ -2736,7 +2617,6 @@ require([
                                 });
                                 on(dom.byId("btProximoImportCsv"), "click", function () {
                                     var elements = getALLSelectValues("listCsvSelectedCols");
-
                                     var a1 = "";
                                     for (i = 0; i < elements.length; i++) {
                                         a1 += elements[i];
@@ -2744,7 +2624,6 @@ require([
                                     }
 
                                     var url = "importer/xml_update/" + a1;
-
                                     var resultado = restServices.salvaObjeto(url);
                                     resultado.then(function (dados) {
                                         //alert(dados);
@@ -2755,7 +2634,6 @@ require([
                                             contentPane_PopUp.set("href", "info/dataImport.html");
                                             myDialog.set("title", "Sucess");
                                             myDialog.show();
-
                                             //Disable everything
                                             document.getElementById('listCsvColumns').setAttribute("disabled", true);
                                             document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
@@ -2768,7 +2646,6 @@ require([
                                 });
                             }
                         });
-
                     }
                 });
             }
@@ -2781,7 +2658,6 @@ require([
                 var description = dom.byId("txtDescriptionFile").value;
                 //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
                 var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/CSV/" + escape(description);
-
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     //alert(dados);
@@ -2795,7 +2671,6 @@ require([
                             contentPane_PopUp.set("href", "info/dataImport.html");
                             myDialog.set("title", "Sucess");
                             myDialog.show();
-
                             //Set myProfile csv data on memory
                             myProfile.csv = dados;
                             select = document.getElementById('listCsvColumns');
@@ -2819,7 +2694,6 @@ require([
                                 });
                                 on(dom.byId("btProximoImportCsv"), "click", function () {
                                     var elements = getALLSelectValues("listCsvSelectedCols");
-
                                     var a1 = "";
                                     for (i = 0; i < elements.length; i++) {
                                         a1 += elements[i];
@@ -2827,7 +2701,6 @@ require([
                                     }
 
                                     var url = "importer/csv_update/" + a1;
-
                                     var resultado = restServices.salvaObjeto(url);
                                     resultado.then(function (dados) {
                                         //alert(dados);
@@ -2838,7 +2711,6 @@ require([
                                             contentPane_PopUp.set("href", "info/dataImport.html");
                                             myDialog.set("title", "Sucess");
                                             myDialog.show();
-
                                             //Disable everything
                                             document.getElementById('listCsvColumns').setAttribute("disabled", true);
                                             document.getElementById("btCsvIncludeCol").setAttribute("disabled", true);
@@ -2851,7 +2723,6 @@ require([
                                 });
                             }
                         });
-
                     }
                 });
             }
@@ -2915,7 +2786,6 @@ require([
                     dom.byId(fields[iCampos].id).focus();
                 }
                 dom.byId(fields[0].id).focus();
-
                 var isValid = true;
                 for (var iCampos in fields) {
                     if (fields[iCampos].get("state") == "Error" || fields[iCampos].get("state") == "Incomplete") {
@@ -3058,13 +2928,10 @@ require([
 
                 var i;
                 var result = true;
-
                 s = strNumero;
-
                 c = s.substr(0, 12);
                 var dv = s.substr(12, 2);
                 var d1 = 0;
-
                 for (i = 0; i < 12; i++) {
                     d1 += c.charAt(11 - i) * (2 + (i % 8));
                 }
@@ -3073,10 +2940,8 @@ require([
                     result = false;
                 }
                 d1 = 11 - (d1 % 11);
-
                 if (d1 > 9)
                     d1 = 0;
-
                 if (dv.charAt(0) != d1) {
                     result = false;
                 }
@@ -3089,7 +2954,6 @@ require([
                 d1 = 11 - (d1 % 11);
                 if (d1 > 9)
                     d1 = 0;
-
                 if (dv.charAt(1) != d1) {
                     result = false;
                 }
@@ -3108,7 +2972,6 @@ require([
                 c = s.substr(0, 9);
                 var dv = s.substr(9, 2);
                 var d1 = 0;
-
                 for (i = 0; i < 9; i++) {
                     d1 += c.charAt(i) * (10 - i);
                 }
@@ -3120,7 +2983,6 @@ require([
                 d1 = 11 - (d1 % 11);
                 if (d1 > 9)
                     d1 = 0;
-
                 if (dv.charAt(0) != d1) {
                     result = false;
                 }
@@ -3133,7 +2995,6 @@ require([
                 d1 = 11 - (d1 % 11);
                 if (d1 > 9)
                     d1 = 0;
-
                 if (dv.charAt(1) != d1) {
                     result = false;
                 }
@@ -3147,11 +3008,9 @@ require([
                 //var caracteresValidos = "0123456789";
                 var exprAlfanumerico = '^[a-zA-Z0-9]+$';
                 var valorAtual = campo.value;
-
                 // keys : 8 (backspace), 46 (delete), 37(left arrow), 39 (right arrow), 9 (tab), 48 - 57 ( num 0 a 9 )
                 if (key != 8 && key != 46 && key != 37 && key != 39 && key != 9) {
                     event.preventDefault();
-
                     if (valorAtual.length < 17 && caracter.match(exprAlfanumerico)) {
                         var novoValor = valorAtual;
                         //remove os caracteres especiais . / - espaço

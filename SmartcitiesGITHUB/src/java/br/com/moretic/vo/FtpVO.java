@@ -24,6 +24,15 @@ public class FtpVO implements Serializable {
     private FileType type = FileType.DIR;
     private List<FtpVO> lFiles;
     private Long size = 0l;
+    private boolean fail = false;
+
+    public boolean isFail() {
+        return fail;
+    }
+
+    public void setFail(boolean fail) {
+        this.fail = fail;
+    }
 
     public Long getSize() {
         return size;

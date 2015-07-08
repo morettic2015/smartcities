@@ -32,6 +32,21 @@ define([
 
                     }
                 },
+                salvaObjetoPost: function (url) {
+                    return xhr(this.urlServer + url,
+                            {
+                                handleAs: "json",
+                                preventCache: true,
+                                method: "POST"
+                            }
+                    ).then(function (data) {
+                        //alert("aqui");
+                        return data;
+                    }, function (err) {
+                        //alert("deu pau");
+                        return "Não foi possível salvar. Causa: " + err;
+                    });
+                },
                 salvaObjeto: function (url) {
                     return xhr(this.urlServer + url,
                             {
@@ -40,14 +55,14 @@ define([
                                 method: "GET"
                             }
                     ).then(function (data) {
-                            //alert("aqui");
+                        //alert("aqui");
                         return data;
                     }, function (err) {
-                            //alert("deu pau");
+                        //alert("deu pau");
                         return "Não foi possível salvar. Causa: " + err;
                     });
                 },
-                loadObject: function ( url, submitType ) {
+                loadObject: function (url, submitType) {
                     return xhr(this.urlServer + url,
                             {
                                 handleAs: "json",
@@ -77,7 +92,7 @@ define([
                         myDialog.show();
                         //alert( "En.");
                     }, function (err) {
-                        alert( "Não foi possível salvar. Causa: " + err);
+                        alert("Não foi possível salvar. Causa: " + err);
                     });
                 },
                 loadCtx: function () {
