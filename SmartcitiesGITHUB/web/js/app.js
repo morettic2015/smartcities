@@ -976,15 +976,15 @@ require([
                 } else if (pagina == HEADER_MAIN) {
                     setEventsHeader();
                 } else if (pagina == STORE_COVER) {
-                    setEventsStoreCover();
+                    setEventsStoreCover();					
+					populateStoreCover();
 					
-					var products = [{name:"oculos",desc:"quebrado azul",valor:10}]
-					populateBoxStore( "storeBoxHighlights", products );
+					
                 }
 
             }
 
-
+			
 
 
 
@@ -3059,13 +3059,22 @@ require([
                 }
             }
 			
+			function populateStoreCover(){
+				// exemplo
+				var products = [{name:"oculos",desc:"quebrado azul",valor:10}];
+				// realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
+				
+				populateBoxStore( "hightlightStore", products );
+				populateBoxStore( "paidStore", products );
+				//populateBoxStore( "freeStore", products);
+			}
 			
 			// Popula uma seção de produtos da loja usando uma lista/array de produtos
 			function populateBoxStore( targetPlace, products ){
 				for(var i = 0; i < products.length; i++ ){
-					var cssStyle
+					var cssStyle;
 					if( products[i].valor > 0 ){
-						cssStyle = "paid";//????
+						cssStyle = "pago";//????
 					}else{
 						cssStyle = "free";//??
 					}
@@ -3076,18 +3085,14 @@ require([
 			}
 			
 			function createProductBoxStore( cssStyle, name, description, targetPlace ){
-				var html = "<div class=\""+cssStyle+"\">" +
-							"<span class=\"nome\">" + name + "</span>" +
+				var html = "<div class='"+cssStyle+"'>" +
+							"<span class='nome'>" + name + "</span>" +
 							"<span class='descricao'>" + description + "</span>" +
 							"<div class='buy'>B</div>" +
 							"<div class='import'>I</div>" +
 							"</div>"
 				var boxStore = domConstruct.toDom( html );
-				domConstruct.place( boxStore, targetPlace );
-				var objetos = query(".pago");
-				for(var i = 0; i < objetos.length; i++ ){
-					domClass.add( objetos[i], cssStyle);
-				}
+				domConstruct.place( html, targetPlace );				
 			}
             /*
              *	Fim da declaração das funções
