@@ -977,6 +977,9 @@ require([
                     setEventsHeader();
                 } else if (pagina == STORE_COVER) {
                     setEventsStoreCover();
+					
+					var products = [{name:"oculos",desc:"quebrado azul",valor:10}]
+					populateBoxStore( "storeBoxHighlights", products );
                 }
 
             }
@@ -3055,6 +3058,37 @@ require([
                     }
                 }
             }
+			
+			
+			// Popula uma seção de produtos da loja usando uma lista/array de produtos
+			function populateBoxStore( targetPlace, products ){
+				for(var i = 0; i < products.length; i++ ){
+					var cssStyle
+					if( products[i].valor > 0 ){
+						cssStyle = "paid";//????
+					}else{
+						cssStyle = "free";//??
+					}
+					var name = products[i].name //???
+					var description = products[i].desc; //???
+					createProductBoxStore( cssStyle, name, description, targetPlace );
+				}
+			}
+			
+			function createProductBoxStore( cssStyle, name, description, targetPlace ){
+				var html = "<div class=\""+cssStyle+"\">" +
+							"<span class=\"nome\">" + name + "</span>" +
+							"<span class='descricao'>" + description + "</span>" +
+							"<div class='buy'>B</div>" +
+							"<div class='import'>I</div>" +
+							"</div>"
+				var boxStore = domConstruct.toDom( html );
+				domConstruct.place( boxStore, targetPlace );
+				var objetos = query(".pago");
+				for(var i = 0; i < objetos.length; i++ ){
+					domClass.add( objetos[i], cssStyle);
+				}
+			}
             /*
              *	Fim da declaração das funções
              */

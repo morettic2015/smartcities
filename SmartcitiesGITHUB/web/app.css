@@ -582,3 +582,71 @@ img.fundo {
 .list-groups optgroup option{
     color: #000000;
 }
+
+
+#storeBoxHighlights{
+	width:98%;
+}
+#storeBoxPaid{
+	width:48%;
+}
+#storeBoxFree{
+	width:48%;
+}
+.boxBase{
+	float:left;
+	position: relative;
+	margin-left:10px;
+	margin-top:10px;
+}
+.boxBase div{
+	width: 100%;
+	height: auto;	
+	position: relative;
+}
+.boxBase div div .nome{
+	margin: 4px;
+	color: #121212;
+	float:left;
+}
+.boxBase div div .descricao{
+	margin: 4px;
+	color: #555555;
+	float:left;
+}
+.boxBase div div .buy{
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	height: 20px;
+	width: 20px;
+	border: 1px solid black;	
+}
+.boxBase div div .import{
+	position: absolute;
+	right: 40px;
+	bottom: 5px;
+	height: 20px;
+	width: 20px;
+	border: 1px solid black;	
+}
+.boxBase div div.pago{
+	width: 100px;
+	height: 100px;
+	margin: 5px;
+	background-color: #F2F2F2;
+	border: 1px solid #FFFFFF;
+	float:left;
+}
+.boxBase div div.free{
+	width: 100px;
+	height: 100px;
+	margin: 5px;
+	background-color: #E4F6FC;
+	border: 1px solid #ccFFFF;
+	float:left;
+}
+.label-loja{
+	color: #FFFFFF;
+	text-shadow: 1px 1px 5px #000000;	
+}
