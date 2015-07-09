@@ -1486,7 +1486,7 @@ require([
                     // para algum componente(?)
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
-
+                    //abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
                     abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
             }
