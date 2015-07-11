@@ -1497,6 +1497,9 @@ require([
             function setEventsProfileAddress() {
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
                     saveProfileAddress();
+					//TODO remover teste
+					//var strKML = BlitzMap.smartcitiesGmapToKml(map);
+					//console.log( strKML );
                 });
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);

@@ -32,6 +32,11 @@
         <script type="text/javascript" src="js/smartcities.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.10&amp;&amp;libraries=drawing,weather"></script>
+		
+		<script src="lib/blitz-map/json2.js" type="text/javascript"></script>
+		<script src="lib/blitz-map/xmlwriter.js" type="text/javascript"></script>
+		<script src="js/smartcities-blitz-map.js" type="text/javascript"></script>
+	
         <script type="text/javascript">
 
             require([
@@ -187,7 +192,7 @@
                             <span id="tituloArvoreFontesDados" style="color:#000b29;font-size:10pt;">Fontes de dados</span>
                             <!--<div id="espacoTreeDataSources" style="margin-bottom:15px;border:1px solid #ccc"></div> -->
                             <span id="searchDataSource" style="color:#000b29;font-size:10pt;">
-                                <input type="text" value="Buscar" style="width: 90%;"/><input title=" " type="button" class="icone-buscar" />
+                                <input type="text" value="Buscar" style="width: 90%;"/><input type="button" class="icone-buscar" style="height:20px;width:20px;" />
                             </span>
 
                             <select multiple id="listaFontesDados" class="list-groups" >
