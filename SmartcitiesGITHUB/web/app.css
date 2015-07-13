@@ -29,7 +29,8 @@
 .icone-proximo,
 .icone-novo-generico,
 .icone-ferramentas,
-.icone-pendencia{
+.icone-pendencia,
+.icone-finalizar{
     background-repeat: no-repeat;
     width: 12px;
     height: 12px;
@@ -232,6 +233,10 @@
 .icone-pendencia{
     background-image: url(images/icons/Pendencia/12X12.png);
 }
+.icone-finalizar{
+	background-image: url(images/icons/Finalizar/12X12/finalizar-01.png);
+}
+
 .group_ftp1{
     background-image: url(images/icons/FontesDados/ftp_2.png);
     display:block;
@@ -620,7 +625,9 @@ img.fundo {
 	bottom: 5px;
 	height: 20px;
 	width: 20px;
-	border: 1px solid black;	
+	border: 0px solid black;
+	background-image: url('images/icons/LojaComprar/comprar.png');
+	background-repeat: no-repeat;
 }
 .boxBase div div .import{
 	position: absolute;
@@ -628,7 +635,10 @@ img.fundo {
 	bottom: 5px;
 	height: 20px;
 	width: 20px;
-	border: 1px solid black;	
+	border: 0px solid black;
+	background-image: url("images/icons/LojaImportar/importar-03.png");
+	background-repeat: no-repeat;
+background-position: left top;	
 }
 .boxBase div div.pago{
 	width: 100px;

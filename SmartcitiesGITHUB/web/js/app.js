@@ -3091,8 +3091,8 @@ require([
 				var html = "<div class='"+cssStyle+"'>" +
 							"<span class='nome'>" + name + "</span>" +
 							"<span class='descricao'>" + description + "</span>" +
-							"<div class='buy'>B</div>" +
-							"<div class='import'>I</div>" +
+							"<div class='buy'></div>" +
+							"<div class='import'></div>" +
 							"</div>"
 				var boxStore = domConstruct.toDom( html );
 				domConstruct.place( html, targetPlace );				
