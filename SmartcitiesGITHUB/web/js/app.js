@@ -389,6 +389,7 @@ require([
                     //TODO script de logout
                     event.stop(evt);
                 });
+				
                 /**
                  *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
                  */
@@ -433,6 +434,7 @@ require([
                 dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
                 dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
                 dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
+				registry.byId("searchDataSource").set("placeHolder", textos.btBuscar );
                 // dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
 
                 /**
@@ -440,7 +442,7 @@ require([
                  */
                 //loadTreeDataSources();
                 //loadTreePendencies();
-                //dom.byId("")
+                
                 on(dom.byId("btAtualizarDados"), "click", function () {
                     loadUserCTX().then(function (succeded) {
                         if (succeded) {
@@ -1496,10 +1498,10 @@ require([
 
             function setEventsProfileAddress() {
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
-                    saveProfileAddress();
+                    //saveProfileAddress();
 					//TODO remover teste
-					//var strKML = BlitzMap.smartcitiesGmapToKml(map);
-					//console.log( strKML );
+					var strKML = BlitzMap.smartcitiesGmapToKml(map);
+					console.log( strKML );
                 });
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);
@@ -2406,6 +2408,7 @@ require([
                         position: objLatLng,
                         title: textos.seuEndereco
                     });
+					BlitzMap.mapOverlays.push( profileAddressMarker );
                 } else {
                     profileAddressMarker.setPosition(objLatLng);
                 }

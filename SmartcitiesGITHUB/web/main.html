@@ -146,7 +146,8 @@
                             </div>
                         </div>
 
-                        <div id="btExportarDados" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar" >								
+                        <div id="btExportarDados" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar" ></div>
+							<!--
                             <div data-dojo-type="dijit/DropDownMenu" id="mnuDrpExportData">
                                 <div id="mnuExportDataAD" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-active-directory'">Active Directory</div>
                                 <div id="mnuExportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-database'">Database</div>
@@ -160,15 +161,16 @@
                                         <div id="itemJsonExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Json</div>
                                         <div id="itemKmlxport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Kml</div>                                        
                                         <div id="itemRssExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Rss</div>
-                                        <!--Não incluido na versão atual
+                                        
                                                                                 <div id="itemWsdlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Wsdl</div>
                                         <div id="itemXlsExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-green'">Xls</div>
-                                        -->
+                                        
                                         <div id="itemXmlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Xml</div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+							-->
+                        
 
                         <div id="btDataTools" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtFerramentasDados'>Ferramentas</span>" iconClass="icone-ferramentas" >
                             <div data-dojo-type="dijit/DropDownMenu" id="mnuDrpDataTools">
@@ -191,9 +193,9 @@
                         <div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" region="left" splitter="true" maxSize="Infinity" style="width: 20%;height:100%;position:absolute;">
                             <span id="tituloArvoreFontesDados" style="color:#000b29;font-size:10pt;">Fontes de dados</span>
                             <!--<div id="espacoTreeDataSources" style="margin-bottom:15px;border:1px solid #ccc"></div> -->
-                            <span id="searchDataSource" style="color:#000b29;font-size:10pt;">
-                                <input type="text" value="Buscar" style="width: 90%;"/><input type="button" class="icone-buscar" style="height:20px;width:20px;" />
-                            </span>
+                            <!--<span id="searchDataSource" style="color:#000b29;font-size:10pt;">-->
+                                <input id="searchDataSource" type="text" data-dojo-type="dijit/form/TextBox" style="width:85%;margin-top:3px;"/><input type="button" data-dojo-type="dijit/form/Button" data-dojo-props="showLabel:false" iconClass="icone-buscar" style="height:20px;width:20px;" />
+                            <!--</span>-->
 
                             <select multiple id="listaFontesDados" class="list-groups" >
                                 <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FTP" id="ftpGroup" class="group_ftp1">
