@@ -593,10 +593,10 @@ img.fundo {
 	width:98%;
 }
 #storeBoxPaid{
-	width:48%;
+	width:98%;
 }
 #storeBoxFree{
-	width:48%;
+	width:98%;
 }
 .boxBase{
 	float:left;
@@ -631,32 +631,54 @@ img.fundo {
 }
 .boxBase div div .import{
 	position: absolute;
-	right: 40px;
+	right: 10px;
 	bottom: 5px;
 	height: 20px;
 	width: 20px;
 	border: 0px solid black;
 	background-image: url("images/icons/LojaImportar/importar-03.png");
 	background-repeat: no-repeat;
-background-position: left top;	
+	background-position: left top;	
+}
+.boxBase div div img{
+	background-color: #FFF;
+	border: inherit;
+	margin-left: 4px;
+	margin-top: 5px;
+	width: 110px;
+	height: 50px;
 }
 .boxBase div div.pago{
-	width: 100px;
-	height: 100px;
+	width: 120px;
+	height: 150px;
 	margin: 5px;
-	background-color: #F2F2F2;
-	border: 1px solid #FFFFFF;
+	background-color: #B4C8DE;/*azul*/
+	border: 1px solid #4F7DAD;
 	float:left;
+	
+	border-radius: 8px;
+	
 }
 .boxBase div div.free{
-	width: 100px;
-	height: 100px;
+	width: 120px;
+	height: 150px;
 	margin: 5px;
-	background-color: #E4F6FC;
-	border: 1px solid #ccFFFF;
+	background-color: #DDDDDD;/* cinza*/
+	border: 1px solid #AAAAAA;
 	float:left;
+	
+	border-radius: 8px;
+}
+.boxBase div div.highlight{
+	width: 120px;
+	height: 150px;
+	margin: 5px;
+	background-color: #FFEACB;/* laranja*/
+	border: 1px solid #FFC268;
+	float:left;
+	
+	border-radius: 8px;
 }
 .label-loja{
-	color: #FFFFFF;
-	text-shadow: 1px 1px 5px #000000;	
+	color: #000000;
 }

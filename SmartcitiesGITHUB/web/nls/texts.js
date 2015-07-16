@@ -217,6 +217,9 @@ define({
 		btCirculo: "C&iacute;rculo",
 		tituloCirculos: "C&iacute;rculos",
 		
+		// Módulo Loja		
+		verMais: "Ver mais",
+		
 		// Genéricos
 		gNome: "Nome",
 		gString: "String",
@@ -270,7 +273,10 @@ define({
 		gNaoSalvou: "N&atilde;o foi poss&iacute;vel salvar os dados.",
 		gCausa: "Causa",
 		gErro: "Erro",
-		gSalvoSucesso: "Dados salvos com sucesso."
+		gSalvoSucesso: "Dados salvos com sucesso.",
+		gDestaques: "Destaques",
+		gPagos: "Pagos",
+		gGratuitos: "Gratuitos"
 	
 	}),
 	"en": true,

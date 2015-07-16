@@ -72,7 +72,6 @@
                     var alturaModal = altura != undefined && altura != null ? altura : 200;
                     var larguraContent = larguraModal - 25;
                     var alturaContent = alturaModal - 52;
-                    dom.byId("tituloModal").innerHTML = titulo;
                     if (messageOnly) {
                         contentPane_PopUp.set("content", paginaConteudo);
                     } else {
@@ -82,6 +81,7 @@
                     domStyle.set("myDialog", "height", alturaModal + "px");
                     domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
                     domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
+					myDialog.set("title", titulo);
                     exibeModal();
                 }
 

@@ -217,6 +217,9 @@ define({
 	btCirculo: "Circle",
 	tituloCirculos: "Circles",
 	
+	// Módulo Loja		
+	verMais: "View more",
+	
 	// Genéricos
 	gNome: "Name",
 	gString: "String",
@@ -270,5 +273,8 @@ define({
 	gNaoSalvou: "It was not possible to save the data.",
 	gCausa: "Cause",
 	gErro: "Error",
-	gSalvoSucesso: "Data saved successfully."
+	gSalvoSucesso: "Data saved successfully.",
+	gDestaques: "Highlights",
+	gPagos: "Paid",
+	gGratuitos: "Free"
 });
