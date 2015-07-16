@@ -3121,9 +3121,9 @@ require([
 			
 			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
 				var html = "<div class='"+cssStyle+"'>" +
-							"<img src='" + uriImage + "'>" +
-							"<span class='nome'>" + name + "</span>" +
-							"<span class='descricao'>" + description + "</span>";
+							"<img class='image-store-item' src='" + uriImage + "'>" +
+							"<span class='name-store-item'>" + name + "</span>" +
+							"<span class='desc-store-item'>" + description + "</span>";
 				if( cssStyle.indexOf("pago") > -1 ){
 					html += "<div class='buy'></div>";
 				}else{

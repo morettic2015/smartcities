@@ -598,6 +598,11 @@ img.fundo {
 #storeBoxFree{
 	width:98%;
 }
+
+.label-loja{
+	color: #000000;
+}
+
 .boxBase{
 	float:left;
 	position: relative;
@@ -609,46 +614,7 @@ img.fundo {
 	height: auto;	
 	position: relative;
 }
-.boxBase div div .nome{
-	margin: 4px;
-	color: #121212;
-	float:left;
-}
-.boxBase div div .descricao{
-	margin: 4px;
-	color: #555555;
-	float:left;
-}
-.boxBase div div .buy{
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
-	height: 20px;
-	width: 20px;
-	border: 0px solid black;
-	background-image: url('images/icons/LojaComprar/comprar.png');
-	background-repeat: no-repeat;
-}
-.boxBase div div .import{
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
-	height: 20px;
-	width: 20px;
-	border: 0px solid black;
-	background-image: url("images/icons/LojaImportar/importar-03.png");
-	background-repeat: no-repeat;
-	background-position: left top;	
-}
-.boxBase div div img{
-	background-color: #FFF;
-	border: inherit;
-	margin-left: 4px;
-	margin-top: 5px;
-	width: 110px;
-	height: 50px;
-}
-.boxBase div div.pago{
+.boxBase div.pago{
 	width: 120px;
 	height: 150px;
 	margin: 5px;
@@ -659,7 +625,7 @@ img.fundo {
 	border-radius: 8px;
 	
 }
-.boxBase div div.free{
+.boxBase div .free{
 	width: 120px;
 	height: 150px;
 	margin: 5px;
@@ -669,7 +635,7 @@ img.fundo {
 	
 	border-radius: 8px;
 }
-.boxBase div div.highlight{
+.boxBase div .highlight{
 	width: 120px;
 	height: 150px;
 	margin: 5px;
@@ -679,6 +645,43 @@ img.fundo {
 	
 	border-radius: 8px;
 }
-.label-loja{
-	color: #000000;
+
+.name-store-item{
+	margin: 4px;
+	color: #121212;
+	float:left;
+}
+.desc-store-item{
+	margin: 4px;
+	color: #555555;
+	float:left;
+}
+.boxBase div .buy{
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	height: 20px;
+	width: 20px;
+	border: 0px solid black;
+	background-image: url('images/icons/LojaComprar/comprar.png');
+	background-repeat: no-repeat;
+}
+.boxBase div .import{
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+	height: 20px;
+	width: 20px;
+	border: 0px solid black;
+	background-image: url("images/icons/LojaImportar/importar-03.png");
+	background-repeat: no-repeat;
+	background-position: left top;	
+}
+.image-store-item{
+	background-color: #FFF;
+	border: inherit;
+	margin-left: 4px;
+	margin-top: 5px;
+	width: 110px;
+	height: 50px;
 }
