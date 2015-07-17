@@ -13,19 +13,19 @@
     <div class="celula-form-1" style="margin-bottom:10px;">
         <span class="rotulo" style="right:85%;"><span id="rotArquivoFileLocate">Url do arquivo</span>:</span>
         <div class="campo" style="left:16%;">
-            <!-- <input id="txtUrlFileLocate" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:440px;"></input> -->
+            <input id="txtUrlFileLocate" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="" style="width:470px;"></input>
             <button id="btUploadFileLocate" data-dojo-type="dijit/form/Button" label="Upload" style="position:relative" data-dojo-props="iconClass:'icone-exportar',showLabel:false">Upload</button>
             <!-- <button id="btPendencyDirectory" data-dojo-type="dijit/form/Button" label="Pasta de Pend&ecirc;ncias" style="position:relative" data-dojo-props="iconClass:'icone-pendencia',showLabel:false">pasta</button> -->
         </div>
     </div>
     <div class="celula-form-1" style="margin-bottom:5px;">
         <span class="rotulo" style="right:85%;top:40%;"><span id="rotNomeFonteFileLocate">Nome da fonte de dados</span>:</span>
-        <input id="txtSourceNameLocate" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false"  placeHolder="" style="width:500px;left:16%;"></input><br>
+        <input id="txtSourceNameLocate" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" intermediateChanges="false" data-dojo-props="required:true" style="width:500px;left:16%;"></input><br>
     </div>
     <div class="celula-form-1">
         <div class="celula-form-1" style="margin-bottom:50px;">
             <span class="rotulo" style="right:85%"><span id="rotDescricaoFileLocate">Descri&ccedil;&atilde;o</span>:</span>
-            <textarea id="txtDescriptionFile" class="campo" type="text" data-dojo-type="dijit/form/SimpleTextarea" intermediateChanges="false" rows="3" cols="10" trim="false" uppercase="false" lowercase="false" propercase="false" style="height: auto; width: 500px;left:16%;" ></textarea>
+            <textarea id="txtDescriptionFile" class="campo" type="text" data-dojo-type="dijit/form/SimpleTextarea" intermediateChanges="false" rows="3" cols="10" trim="false" uppercase="false" lowercase="false" propercase="false" style="height: auto; width: 500px;left:16%;" ></textarea>			
         </div>
     </div>
 </div>

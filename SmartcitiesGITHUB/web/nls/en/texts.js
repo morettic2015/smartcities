@@ -2,6 +2,7 @@ define({
 
 	// Cabeçalho / Header
 	nomeUsuarioGenerico: "User's Name",
+	tituloAjuda: "Help & Tutorials",
 	
 	// Main
 	rotAbaPerfil: "Profile",
@@ -269,6 +270,7 @@ define({
 	gCamadas: "Layers",
 	gTamanho: "Size",
 	gVerifiqueDados: "Verify your data once again.",
+	gVerifiqueDados2: "Verify the data",
 	gAtencao: "Attention",
 	gNaoSalvou: "It was not possible to save the data.",
 	gCausa: "Cause",

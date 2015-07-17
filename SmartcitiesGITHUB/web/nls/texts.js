@@ -3,6 +3,7 @@ define({
 	
 		// Cabeçalho / Header
 		nomeUsuarioGenerico: "Nome do Usu&aacute;rio",
+		tituloAjuda: "Ajuda & Tutoriais",
 						
 		// Main
 		rotAbaPerfil: "Perfil",
@@ -269,6 +270,7 @@ define({
 		gCamadas: "Camadas",
 		gTamanho: "Tamanho",
 		gVerifiqueDados: "Verifique seus dados novamente",
+		gVerifiqueDados2: "Verique os dados",
 		gAtencao: "Aten&ccedil;&atilde;o",
 		gNaoSalvou: "N&atilde;o foi poss&iacute;vel salvar os dados.",
 		gCausa: "Causa",

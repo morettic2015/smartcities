@@ -570,7 +570,7 @@ img.fundo {
 
 .list-groups{
     padding: 5px 5px;
-    font-size: 11px;
+    font-size: 9pt;
     margin-bottom:15px;
     margin-top:5px;
     width:100%;
@@ -579,12 +579,14 @@ img.fundo {
     border-style: solid;
     //border-color: #000;
 }
-.list-groups optgroup{
-    font-family: inherit;
+.data-source-group{
+	font-family: inherit;
     font-style: normal;
-    color: #d24802;
+    color: #B83E00;
+	padding: 2px;
 }
-.list-groups optgroup option{
+.data-source-group option{
+	font-size: inherit;
     color: #000000;
 }
 

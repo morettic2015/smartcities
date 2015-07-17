@@ -17,8 +17,7 @@
              *
              * @ Recupera o perfil da session.
              *
-             *
-             * PORRA DE UM REDIRECT POR QUE O FACEBOOK E GAY DEMAIS!!!!!!!!!
+             * REDIRECT por causa do FACEBOOK 
              *
              */
 
@@ -35,7 +34,7 @@
                 System.out.println(responseCode);
                 String location = con.getHeaderField("Location");
                 System.out.println(location);
-                //SE NAO TIVER LOCATION NAO E A VIADAGEM DO FACEBOOK!!!
+                // FACEBOOK exige o location
                 avatarUrl = (location == null) ? avatarUrl : location;
 
             }
@@ -62,6 +61,9 @@
                     on(dom.byId("btConfigHeader"), "click", function () {
                         abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                     });
+					on( dom.byId("btAjudaHeader"), "click", function(){
+						abrePopUpModal( HELP_START, textos.tituloAjuda, 800, 600 );
+					});
 
                 });
 
@@ -92,9 +94,9 @@
         </script>
 
         <div style="float: right;">
-            <input type="image" id="btProfileHeader"  src="<% out.print(avatarUrl);%>" style="border-radius: 25px;width: 35px; height: 35px; float: right;margin-left:20px;"></img>
+            <input type="image" id="btProfileHeader"  src="<% out.print(avatarUrl);%>" style="border-radius: 25px;width: 35px; height: 35px; float: right;margin-left:4px;"></img>
         </div>
-        <div style="float: right;margin-left:4px;">
+        <div style="float: right;margin-left:20px;">
             <span class="usuario-cabecalho" id="headerNomeUsuario"><% out.print(p.getNmUser()); %></span>
             <br>
             <span class="usuario-cabecalho"><% out.print(p.getEmail());%></span>

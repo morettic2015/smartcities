@@ -65,6 +65,7 @@ var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
 var UPLOAD = "upload/index.html";
 var STORE_COVER = "store/storeCover.html";
+var HELP_START = "help.html";
 
 require([
     "dojo/ready",
@@ -926,10 +927,9 @@ require([
                     objetosDropadosDBSelection = [];
                     linhasDBSelection = [];
                 } else if (pagina == DATAIMPORT_KML) {
-                    //sem uso
-                    //i18nImportKml();
-                    //setEventsImportKml();
-                    //dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
+                    i18nImportKml();
+                    setEventsImportKml();
+                    dom.byId("tipoArquivoImportKml").innerHTML = parametrosTela.tipo;
                 } else if (pagina == BILLING_PAYPAL) {
                     i18nFormPaypal();
                 } else if (pagina == BILLING_PAGSEGURO) {
@@ -1441,12 +1441,10 @@ require([
 
             // Header/Cabeçalho
             function setEventsHeader() {
-                on(dom.byId("btConfigHeader"), "click", function () {
-                    //contentPane_PopUp.set("href", CONFIGURATION);
-                    //myDialog.set("title", "Config");
-                    //myDialog.show();
+                on(dom.byId("btConfigHeader"), "click", function () {                    
                     abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                 });
+				
             }
 
             // Eventos no modulo Perfil
@@ -1620,8 +1618,15 @@ require([
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
-                on(dom.byId("btProximoFileLocate"), "click", function () {
-                    var param = parametrosTela;
+                on(dom.byId("btProximoFileLocate"), "click", function () {                    
+					var txtNome = registry.byId("txtSourceNameLocate");
+					//var txtDesc = registry.byId("txtDescFile");
+					var camposValidar = [ txtNome ];
+					if( !areFieldsValids( camposValidar ) ){
+						modalMessage( textos.gVerifiqueDados2 , textos.gErro );
+						return false;
+					}
+					var param = parametrosTela;
                     var pagina = "";
                     if (parametrosTela.tipoArquivo == "CSV") {
                         pagina = DATAIMPORT_CSV;
