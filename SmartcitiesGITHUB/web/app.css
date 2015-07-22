@@ -591,25 +591,20 @@ img.fundo {
 }
 
 
-#storeBoxHighlights{
-	width:98%;
-}
-#storeBoxPaid{
-	width:98%;
-}
-#storeBoxFree{
-	width:98%;
-}
-
 .label-loja{
 	color: #000000;
+	text-shadow: 1px 1px 1px #AAAAAA;
+}
+.label-loja-destaques{
+	color: #762800;
+	text-shadow: 1px 1px 1px #FF9B68, 0px 0px 10px #762800;
 }
 
 .boxBase{
-	float:left;
 	position: relative;
 	margin-left:10px;
 	margin-top:10px;
+	width: 600px;
 }
 .boxBase div{
 	width: 100%;
@@ -622,8 +617,7 @@ img.fundo {
 	margin: 5px;
 	background-color: #B4C8DE;/*azul*/
 	border: 1px solid #4F7DAD;
-	float:left;
-	
+	float:left;	
 	border-radius: 8px;
 	
 }
@@ -633,8 +627,7 @@ img.fundo {
 	margin: 5px;
 	background-color: #DDDDDD;/* cinza*/
 	border: 1px solid #AAAAAA;
-	float:left;
-	
+	float:left;	
 	border-radius: 8px;
 }
 .boxBase div .highlight{
@@ -643,8 +636,7 @@ img.fundo {
 	margin: 5px;
 	background-color: #FFEACB;/* laranja*/
 	border: 1px solid #FFC268;
-	float:left;
-	
+	float:left;	
 	border-radius: 8px;
 }
 
@@ -681,9 +673,13 @@ img.fundo {
 }
 .image-store-item{
 	background-color: #FFF;
-	border: inherit;
+	/*border: inherit;*/
 	margin-left: 4px;
 	margin-top: 5px;
 	width: 110px;
 	height: 50px;
+}
+
+.button-see-more{
+	position:relative;
 }
