@@ -6,11 +6,8 @@
  *	Globais
  */
 
-var map;			// MAPA DO GOOGLE
+var map;								// MAPA DO GOOGLE
 var storePais;
-var objetosDropadosDBSelection = [];	// Array de dados das tabelas escolhidas pelo usuario na importacao de BD
-var linhasDBSelection = [];				// Array das linhas (relacionamentos) entre tabelas na importacao de BD
-var widListaTabelasDBSelection = null;	// Guarda referencia do objeto Source na importacao de DB
 var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
 var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
 var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
@@ -82,8 +79,6 @@ require([
     "dojo/_base/event",
     "dojo/i18n!./nls/texts.js",
     "dojo/aspect",
-    "dojo/dnd/Source",
-    "dojo/dnd/Target",
     "dojo/dnd/move",
     "dijit/Tree",
     "dijit/tree/ObjectStoreModel",
@@ -91,7 +86,8 @@ require([
     "dijit/registry",
 	"dijit/form/Button",
     "dojox/gfx",
-    "js/restServices.js"
+    "js/restServices.js",
+	"js/dataSource/importDB.js"
 ],
         function (
                 ready,
@@ -108,8 +104,6 @@ require([
                 event,
                 textos,
                 aspect,
-                Source,
-                Target,
                 move,
                 Tree,
                 StoreModel,
@@ -117,7 +111,8 @@ require([
                 registry,
 				Button,
                 gfx,
-                restServices
+                restServices,
+				importDB
                 ) {
 
             ready(function () {
@@ -922,10 +917,10 @@ require([
                     i18nImportDatabaseSelection();
                     //loadTreeDBSelection();
                     // a arvore foi substituida por uma lista em vista da imcompatibilidade do dijit/tree/dndSource com o dojo/dnd/source
-                    loadListaDBSelection();
-                    loadDragDropDBSelection();
-                    objetosDropadosDBSelection = [];
-                    linhasDBSelection = [];
+                    importDB.loadListaDBSelection();
+                    importDB.loadDragDropDBSelection();
+                    importDB.objetosDropadosDB = [];
+                    importDB.linhasDB = [];
                 } else if (pagina == DATAIMPORT_KML) {
                     i18nImportKml();
                     setEventsImportKml();
@@ -1996,6 +1991,7 @@ require([
                 domConstruct.place(objetoDOM, "listaPendencias");
             }
 
+			/*
             function loadListaDBSelection() {
                 var boxLista = new Source("listaTabelas", {
                     creator: function (item, hint) {
@@ -2007,11 +2003,14 @@ require([
                 widListaTabelasDBSelection = boxLista; // Guarda na global
 
                 console.log("tipo da lista : " + boxLista.declaredClass);
+				*/
                 /*
                  *	Chamada da função que acessa o serviço que fornece os dados.
                  *	Esta deve retornar um array no padrão JSON com os seguintes dados: nome, type, campos.
                  *	Ex. [ { nome:'nome', type:'type', campos:['campo1','campo2'] } ]
                  */
+				 
+				 /*
                 var dados;
                 // dados = buscarTabelasDB();
 
@@ -2055,9 +2054,12 @@ require([
                             for (var i in alvo.map) {
                                 // move os dados para uma global
                                 objetosDropadosDBSelection.push(alvo.map[i]);
+								
+								*/
                                 /*
                                  * Criação da representação visual das tabelas do banco de dados
                                  */
+								 /*
                                 var camposTabela = "";
                                 var dados = alvo.map[i].data;
                                 var nomeTabela = dados.nome;
@@ -2088,9 +2090,11 @@ require([
 
                                 // Transforma em componente moveable e comunica o que fazer ao terminar de arrastá-lo
                                 var quadroMovel = new move.parentConstrainedMoveable(objetoDOM, {area: 'padding', handle: "dbi_titulo" + nomeTabela, within: true});
-                                /*
+                                */
+								/*
                                  *	Criação das linhas de relacionamento/cardinalidade
                                  */
+								 /*
                                 // FK
                                 // Se existem chaves estrangeiras no objeto
                                 if (dados.fk != null && dados.fk != undefined) {
@@ -2156,6 +2160,7 @@ require([
                                 /*
                                  *	Toda vez que um quadro/tabela é movido atualiza a posicao da linha
                                  */
+								 /*
                                 aspect.after(quadroMovel, "onMoveStop", function (mover) {
 
                                     console.log("x:" + quadroMovel.node.style.left + " y:" + quadroMovel.node.style.top);
@@ -2253,7 +2258,7 @@ require([
                     }
                 }
             }
-
+*/
             function refreshPhoneMask(event, campo) {
                 var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
