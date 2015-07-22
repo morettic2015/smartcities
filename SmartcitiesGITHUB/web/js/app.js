@@ -89,7 +89,7 @@ require([
     "dijit/tree/ObjectStoreModel",
     "dijit/tree/dndSource",
     "dijit/registry",
-	"dijit/form/Button",
+    "dijit/form/Button",
     "dojox/gfx",
     "js/restServices.js"
 ],
@@ -115,7 +115,7 @@ require([
                 StoreModel,
                 dndSource,
                 registry,
-				Button,
+                Button,
                 gfx,
                 restServices
                 ) {
@@ -392,7 +392,7 @@ require([
                     //TODO script de logout
                     event.stop(evt);
                 });
-				
+
                 /**
                  *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
                  */
@@ -445,7 +445,7 @@ require([
                  */
                 //loadTreeDataSources();
                 //loadTreePendencies();
-                
+
                 on(dom.byId("btAtualizarDados"), "click", function () {
                     loadUserCTX().then(function (succeded) {
                         if (succeded) {
@@ -980,15 +980,15 @@ require([
                 } else if (pagina == HEADER_MAIN) {
                     setEventsHeader();
                 } else if (pagina == STORE_COVER) {
-                    setEventsStoreCover();					
-					populateStoreCover();
-					
-					
+                    setEventsStoreCover();
+                    populateStoreCover();
+
+
                 }
 
             }
 
-			
+
 
 
 
@@ -1441,10 +1441,10 @@ require([
 
             // Header/Cabeçalho
             function setEventsHeader() {
-                on(dom.byId("btConfigHeader"), "click", function () {                    
+                on(dom.byId("btConfigHeader"), "click", function () {
                     abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                 });
-				
+
             }
 
             // Eventos no modulo Perfil
@@ -1500,10 +1500,10 @@ require([
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
                     saveProfileAddress();
                 });
-				on(dom.byId("btTesteExportarKML"), "click", function(){
-					var strKML = BlitzMap.smartcitiesGmapToKml(map);
-					console.log( strKML );
-				})
+                on(dom.byId("btTesteExportarKML"), "click", function () {
+                    var strKML = BlitzMap.smartcitiesGmapToKml(map);
+                    console.log(strKML);
+                })
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);
                 });
@@ -1618,15 +1618,15 @@ require([
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
-                on(dom.byId("btProximoFileLocate"), "click", function () {                    
-					var txtNome = registry.byId("txtSourceNameLocate");
-					//var txtDesc = registry.byId("txtDescFile");
-					var camposValidar = [ txtNome ];
-					if( !areFieldsValids( camposValidar ) ){
-						modalMessage( textos.gVerifiqueDados2 , textos.gErro );
-						return false;
-					}
-					var param = parametrosTela;
+                on(dom.byId("btProximoFileLocate"), "click", function () {
+                    var txtNome = registry.byId("txtSourceNameLocate");
+                    //var txtDesc = registry.byId("txtDescFile");
+                    var camposValidar = [txtNome];
+                    if (!areFieldsValids(camposValidar)) {
+                        modalMessage(textos.gVerifiqueDados2, textos.gErro);
+                        return false;
+                    }
+                    var param = parametrosTela;
                     var pagina = "";
                     if (parametrosTela.tipoArquivo == "CSV") {
                         pagina = DATAIMPORT_CSV;
@@ -2416,7 +2416,7 @@ require([
                         position: objLatLng,
                         title: textos.seuEndereco
                     });
-					BlitzMap.mapOverlays.push( profileAddressMarker );
+                    BlitzMap.mapOverlays.push(profileAddressMarker);
                 } else {
                     profileAddressMarker.setPosition(objLatLng);
                 }
@@ -3072,73 +3072,73 @@ require([
                     }
                 }
             }
-			
-			function populateStoreCover(){
-				// exemplo
-				var productsHigh = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Consumo Supermercado", desc:"ddd",valor:0}];
-				var productsFree = [{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"A coisa lá",desc:"coisa", valor: 0}];
-				var productsPaid = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"pogobol",desc:"estrela",valor:90}];
-				//TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
-				
-				populateBoxStore( "highlightStore", productsHigh );
-				populateBoxStore( "paidStore", productsPaid );
-				populateBoxStore( "freeStore", productsFree );
-				
-			}
-			
-			// Popula uma seção de produtos da loja usando uma lista/array de produtos
-			function populateBoxStore( targetPlace, products ){
-				var limitBoxes = 4;
-				
-				// Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
-				for( var i = 0; i < products.length ; i++ ){
-					if( i == limitBoxes ){
-						var boxSeeMore = "<div style='float:left' id='" + targetPlace+"SeeMore'></div>";
-						domConstruct.place( boxSeeMore, targetPlace );	
-						var btViewMore = new Button({
-							label: textos.verMais,
-							class: "",
-							onClick: function(){
-								//TODO abre alguma tela em algum lugar
-								modalMessage("teste", "clicou");
-							}
-						}, targetPlace+"SeeMore" ).startup();
-						
-						break;
-					}
-					var cssStyle;				
-					if( products[i].valor > 0 ){ //TODO funciona se houver uma propriedade valor, senão trocar
-						cssStyle = "pago";
-					}else{
-						cssStyle = "free";
-					}					
-					if( targetPlace == "highlightStore" ){
-						cssStyle += " highlight";
-					}
-					var name = products[i].name //TODO colocar a propriedade certa do objeto
-					var description = products[i].desc; //TODO colocar a propriedade certa do objeto
-					var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
-					createProductBoxStore( cssStyle, name, description, image, targetPlace );					
-					
-				}
-				
-			}
-			
-			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
-				var html = "<div class='"+cssStyle+"'>" +
-							"<img class='image-store-item' src='" + uriImage + "'>" +
-							"<span class='name-store-item'>" + name + "</span>" +
-							"<span class='desc-store-item'>" + description + "</span>";
-				if( cssStyle.indexOf("pago") > -1 ){
-					html += "<div class='buy'></div>";
-				}else{
-					html += "<div class='import'></div>";
-				}
-				html += "</div>";							
-						
-				var boxStore = domConstruct.toDom( html );
-				domConstruct.place( html, targetPlace );				
-			}
+
+            function populateStoreCover(    ) {
+                // exemplo
+                var productsHigh = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}];
+                var productsFree = [{name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "A coisa lá", desc: "coisa", valor: 0}];
+                var productsPaid = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "pogobol", desc: "estrela", valor: 90}];
+                //TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
+
+                populateBoxStore("highlightStore", productsHigh);
+                populateBoxStore("paidStore", productsPaid);
+                populateBoxStore("freeStore", productsFree);
+
+            }
+
+            // Popula uma seção de produtos da loja usando uma lista/array de produtos
+            function populateBoxStore(targetPlace, products) {
+                var limitBoxes = 4;
+
+                // Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
+                for (var i = 0; i < products.length; i++) {
+                    if (i == limitBoxes) {
+                        var boxSeeMore = "<div style='float:left' id='" + targetPlace + "SeeMore'></div>";
+                        domConstruct.place(boxSeeMore, targetPlace);
+                        var btViewMore = new Button({
+                            label: textos.verMais,
+                            class: "",
+                            onClick: function () {
+                                //TODO abre alguma tela em algum lugar
+                                modalMessage("teste", "clicou");
+                            }
+                        }, targetPlace + "SeeMore").startup();
+
+                        break;
+                    }
+                    var cssStyle;
+                    if (products[i].valor > 0) { //TODO funciona se houver uma propriedade valor, senão trocar
+                        cssStyle = "pago";
+                    } else {
+                        cssStyle = "free";
+                    }
+                    if (targetPlace == "highlightStore") {
+                        cssStyle += " highlight";
+                    }
+                    var name = products[i].name //TODO colocar a propriedade certa do objeto
+                    var description = products[i].desc; //TODO colocar a propriedade certa do objeto
+                    var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
+                    createProductBoxStore(cssStyle, name, description, image, targetPlace);
+
+                }
+
+            }
+
+            function createProductBoxStore(cssStyle, name, description, uriImage, targetPlace) {
+                var html = "<div class='" + cssStyle + "'>" +
+                        "<img class='image-store-item' src='" + uriImage + "'>" +
+                        "<span class='name-store-item'>" + name + "</span>" +
+                        "<span class='desc-store-item'>" + description + "</span>";
+                if (cssStyle.indexOf("pago") > -1) {
+                    html += "<div class='buy'></div>";
+                } else {
+                    html += "<div class='import'></div>";
+                }
+                html += "</div>";
+
+                var boxStore = domConstruct.toDom(html);
+                domConstruct.place(html, targetPlace);
+            }
             /*
              *	Fim da declaração das funções
              */

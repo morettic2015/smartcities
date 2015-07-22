@@ -234,7 +234,7 @@
     background-image: url(images/icons/Pendencia/12X12.png);
 }
 .icone-finalizar{
-	background-image: url(images/icons/Finalizar/12X12/finalizar-01.png);
+    background-image: url(images/icons/Finalizar/12X12/finalizar-01.png);
 }
 
 .group_ftp1{
@@ -580,25 +580,25 @@ img.fundo {
     //border-color: #000;
 }
 .data-source-group{
-	font-family: inherit;
+    font-family: inherit;
     font-style: normal;
     color: #B83E00;
-	padding: 2px;
+    padding: 2px;
 }
 .data-source-group option{
-	font-size: inherit;
+    font-size: inherit;
     color: #000000;
 }
 
 
 #storeBoxHighlights{
-	width:98%;
+    width:98%;
 }
 #storeBoxPaid{
-	width:98%;
+    width:98%;
 }
 #storeBoxFree{
-	width:98%;
+    width:98%;
 }
 
 .label-loja{
@@ -606,84 +606,84 @@ img.fundo {
 }
 
 .boxBase{
-	float:left;
-	position: relative;
-	margin-left:10px;
-	margin-top:10px;
+    float:left;
+    position: relative;
+    margin-left:10px;
+    margin-top:10px;
 }
 .boxBase div{
-	width: 100%;
-	height: auto;	
-	position: relative;
+    width: 100%;
+    height: auto;	
+    position: relative;
 }
 .boxBase div.pago{
-	width: 120px;
-	height: 150px;
-	margin: 5px;
-	background-color: #B4C8DE;/*azul*/
-	border: 1px solid #4F7DAD;
-	float:left;
-	
-	border-radius: 8px;
-	
+    width: 120px;
+    height: 150px;
+    margin: 5px;
+    background-color: #B4C8DE;/*azul*/
+    border: 1px solid #4F7DAD;
+    float:left;
+
+    border-radius: 8px;
+
 }
 .boxBase div .free{
-	width: 120px;
-	height: 150px;
-	margin: 5px;
-	background-color: #DDDDDD;/* cinza*/
-	border: 1px solid #AAAAAA;
-	float:left;
-	
-	border-radius: 8px;
+    width: 120px;
+    height: 150px;
+    margin: 5px;
+    background-color: #DDDDDD;/* cinza*/
+    border: 1px solid #AAAAAA;
+    float:left;
+
+    border-radius: 8px;
 }
 .boxBase div .highlight{
-	width: 120px;
-	height: 150px;
-	margin: 5px;
-	background-color: #FFEACB;/* laranja*/
-	border: 1px solid #FFC268;
-	float:left;
-	
-	border-radius: 8px;
+    width: 120px;
+    height: 150px;
+    margin: 5px;
+    background-color: #FFEACB;/* laranja*/
+    border: 1px solid #FFC268;
+    float:left;
+
+    border-radius: 8px;
 }
 
 .name-store-item{
-	margin: 4px;
-	color: #121212;
-	float:left;
+    margin: 4px;
+    color: #121212;
+    float:left;
 }
 .desc-store-item{
-	margin: 4px;
-	color: #555555;
-	float:left;
+    margin: 4px;
+    color: #555555;
+    float:left;
 }
 .boxBase div .buy{
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
-	height: 20px;
-	width: 20px;
-	border: 0px solid black;
-	background-image: url('images/icons/LojaComprar/comprar.png');
-	background-repeat: no-repeat;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    height: 20px;
+    width: 20px;
+    border: 0px solid black;
+    background-image: url('images/icons/LojaComprar/comprar.png');
+    background-repeat: no-repeat;
 }
 .boxBase div .import{
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
-	height: 20px;
-	width: 20px;
-	border: 0px solid black;
-	background-image: url("images/icons/LojaImportar/importar-03.png");
-	background-repeat: no-repeat;
-	background-position: left top;	
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    height: 20px;
+    width: 20px;
+    border: 0px solid black;
+    background-image: url("images/icons/LojaImportar/importar-03.png");
+    background-repeat: no-repeat;
+    background-position: left top;	
 }
 .image-store-item{
-	background-color: #FFF;
-	border: inherit;
-	margin-left: 4px;
-	margin-top: 5px;
-	width: 110px;
-	height: 50px;
+    background-color: #FFF;
+    border: inherit;
+    margin-left: 4px;
+    margin-top: 5px;
+    width: 110px;
+    height: 50px;
 }
