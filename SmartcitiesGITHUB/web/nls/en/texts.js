@@ -115,6 +115,7 @@ define({
 	eula: "End User License Agreement",
 	aceiteEula: "You must accept the End User License Agreement to continue.",
 	informeEndereco: "You must inform your address.",
+	msgLoadProfileError: "It was not possible to load the user data. The system's functionalities may be compromised.",
 	
 	// Módulo Dados	
 	tituloImportarDados: "Data Import",

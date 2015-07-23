@@ -1645,9 +1645,11 @@ require([
                 on(dom.byId("btUploadFileLocate"), "click", function () {
                     abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
                 });
+				/*
                 on(dom.byId("btPendencyDirectory"), "click", function () {
                     abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
                 });
+				*/
             }
             function setEventsImportCsv() {
                 on(dom.byId("btAnteriorImportCsv"), "click", function () {
@@ -2220,14 +2222,11 @@ require([
 
 
 
-            function loadUserCTX() {
-                // Implementação anterior
-                // restServices.loadCtx();
-                //
+            function loadUserCTX() {                
                 var resultado = restServices.loadCtx();
                 return resultado.then(function (dados) {
                     if (typeof dados == "string") {
-                        modalMessage(dados, "Erro");
+                        modalMessage(dados, textos.gErro );
                         return false;
                     } else if (dados instanceof Object) {
                         myProfile = eval(dados);
@@ -2722,73 +2721,72 @@ require([
                 }
             }
 
-            function populateStoreCover() {
-                // exemplo
-                var productsHigh = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}];
-                var productsFree = [{name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "A coisa lá", desc: "coisa", valor: 0}];
-                var productsPaid = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "pogobol", desc: "estrela", valor: 90}];
-                //TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
-
-                populateBoxStore("highlightStore", productsHigh);
-                populateBoxStore("paidStore", productsPaid);
-                populateBoxStore("freeStore", productsFree);
-
-            }
-
-            // Popula uma seção de produtos da loja usando uma lista/array de produtos
-            function populateBoxStore(targetPlace, products) {
-                var limitBoxes = 4;
-
-                // Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
-                for (var i = 0; i < products.length; i++) {
-                    if (i == limitBoxes) {
-                        var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace + "SeeMore'></div>";
-                        domConstruct.place(boxSeeMore, targetPlace);
-                        var btViewMore = new Button({
-                            label: textos.verMais,
-                            class: "button-see-more",
-                            onClick: function () {
-                                //TODO abre alguma tela em algum lugar
-                                modalMessage("teste", "clicou");
-                            }
-                        }, targetPlace + "SeeMore").startup();
-
-                        break;
-                    }
-                    var cssStyle;
-                    if (products[i].valor > 0) { //TODO funciona se houver uma propriedade valor, senão trocar
-                        cssStyle = "pago";
-                    } else {
-                        cssStyle = "free";
-                    }
-                    if (targetPlace == "highlightStore") {
-                        cssStyle += " highlight";
-                    }
-                    var name = products[i].name //TODO colocar a propriedade certa do objeto
-                    var description = products[i].desc; //TODO colocar a propriedade certa do objeto
-                    var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
-                    createProductBoxStore(cssStyle, name, description, image, targetPlace);
-
-                }
-
-            }
-
-//todo
-            function createProductBoxStore(cssStyle, name, description, uriImage, targetPlace) {
-                var html = "<div class='" + cssStyle + "'>" +
-                        "<img class='image-store-item' src='" + uriImage + "'>" +
-                        "<span class='name-store-item'>" + name + "</span>" +
-                        "<span class='desc-store-item'>" + description + "</span>";
-                if (cssStyle.indexOf("pago") > -1) {
-                    html += "<div class='buy'></div>";
-                } else {
-                    html += "<div class='import'></div>";
-                }
-                html += "</div>";
-
-                var boxStore = domConstruct.toDom(html);
-                domConstruct.place(html, targetPlace);
-            }
+            function populateStoreCover(){
+				// exemplo
+				var productsHigh = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Consumo Supermercado", desc:"ddd",valor:0}];
+				var productsFree = [{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"A coisa lá",desc:"coisa", valor: 0}];
+				var productsPaid = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"pogobol",desc:"estrela",valor:90}];
+				//TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
+				
+				populateBoxStore( "highlightStore", productsHigh );
+				populateBoxStore( "paidStore", productsPaid );
+				populateBoxStore( "freeStore", productsFree );
+				
+			}
+			
+			// Popula uma seção de produtos da loja usando uma lista/array de produtos
+			function populateBoxStore( targetPlace, products ){
+				var limitBoxes = 4;
+				
+				// Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
+				for( var i = 0; i < products.length ; i++ ){
+					if( i == limitBoxes ){
+						var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace+"SeeMore'></div>";
+						domConstruct.place( boxSeeMore, targetPlace );	
+						var btViewMore = new Button({
+							label: textos.verMais,
+							class: "button-see-more",
+							onClick: function(){
+								//TODO abre alguma tela em algum lugar
+								modalMessage("teste", "clicou");
+							}
+						}, targetPlace+"SeeMore" ).startup();
+						
+						break;
+					}
+					var cssStyle;				
+					if( products[i].valor > 0 ){ //TODO funciona se houver uma propriedade valor, senão trocar
+						cssStyle = "pago";
+					}else{
+						cssStyle = "free";
+					}					
+					if( targetPlace == "highlightStore" ){
+						cssStyle += " highlight";
+					}
+					var name = products[i].name //TODO colocar a propriedade certa do objeto
+					var description = products[i].desc; //TODO colocar a propriedade certa do objeto
+					var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
+					createProductBoxStore( cssStyle, name, description, image, targetPlace );					
+					
+				}
+				
+			}
+			
+			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
+				var html = "<div class='"+cssStyle+"'>" +
+							"<img class='image-store-item' src='" + uriImage + "'>" +
+							"<span class='name-store-item'>" + name + "</span>" +
+							"<span class='desc-store-item'>" + description + "</span>";
+				if( cssStyle.indexOf("pago") > -1 ){
+					html += "<div class='buy'></div>";
+				}else{
+					html += "<div class='import'></div>";
+				}
+				html += "</div>";							
+						
+				var boxStore = domConstruct.toDom( html );
+				domConstruct.place( html, targetPlace );				
+			}
             /*
              *	Fim da declaração das funções
              */
