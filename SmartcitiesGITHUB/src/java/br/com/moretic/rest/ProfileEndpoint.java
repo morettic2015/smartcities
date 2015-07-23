@@ -238,7 +238,7 @@ public class ProfileEndpoint {
                 .createQuery("SELECT DISTINCT p FROM"
                         + " Profile p "
                         + " LEFT JOIN FETCH p.profile "
-                     /////////   + " LEFT JOIN FETCH p.myFtps"
+                        /////////   + " LEFT JOIN FETCH p.myFtps"
                         + " LEFT JOIN FETCH p.shareViews"
                         + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile"
                         + " LEFT JOIN FETCH p.groupHasProfiles"
@@ -289,8 +289,8 @@ public class ProfileEndpoint {
             entityUserLogFS = findByIdSecUserLogFileSource.getResultList();
             //entity.getlLog().clear();
             entity.getMySources().addAll(entityUserLogFS);
-            
-              //Carrega a lista de Files
+
+            //Carrega a lista de Files
             TypedQuery<FtpClient> findByFtpSource = em.createQuery("SELECT DISTINCT a FROM FtpClient a  WHERE a.idProfile = :entityId ORDER BY a.host", FtpClient.class);
             findByFtpSource.setParameter("entityId", id);
             List<FtpClient> entityFtps;
@@ -395,6 +395,26 @@ public class ProfileEndpoint {
         }
 
         return Response.ok(user).build();
+    }
+
+    @GET
+    @Path("/google/{email}/{pname}/{avatar}")
+    public void google(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
+        
+        TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
+        findByIdQuery.setParameter("entityId", email);
+
+        Profile entity = null;
+        try {
+            //Ja existe recupera e fechou
+            entity = findByIdQuery.getSingleResult();
+            req.getSession(true).setAttribute(ProfileEndpoint.PROFILE, entity);
+
+            ((HttpServletResponse) res).sendRedirect(SMARTCITIESMAINHTML);
+        } catch (NoResultException nre) {//Não existe portanto cria o emo flamenguista
+            facebook(email, pname, avatar, req, res);
+        }
+
     }
 
     @GET
