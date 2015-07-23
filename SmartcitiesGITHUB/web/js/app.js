@@ -87,7 +87,7 @@ require([
     "dijit/form/Button",
     "dojox/gfx",
     "js/restServices.js",
-	"js/dataSource/importDB.js"
+    "js/dataSource/importDB.js"
 ],
         function (
                 ready,
@@ -112,7 +112,7 @@ require([
                 Button,
                 gfx,
                 restServices,
-				importDB
+                importDB
                 ) {
 
             ready(function () {
@@ -432,7 +432,7 @@ require([
                 dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
                 dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
                 dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
-				registry.byId("searchDataSource").set("placeHolder", textos.btBuscar );
+                registry.byId("searchDataSource").set("placeHolder", textos.btBuscar);
                 // dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
 
                 /**
@@ -976,8 +976,8 @@ require([
                     setEventsHeader();
                 } else if (pagina == STORE_COVER) {
                     setEventsStoreCover();
-					i18nStoreCover();
-					populateStoreCover();
+                    i18nStoreCover();
+                    populateStoreCover();
                 }
 
             }
@@ -1422,12 +1422,12 @@ require([
                 dom.byId("rotBtSalvarFormCartao").innerHTML = textos.rotSalvar;
                 dom.byId("rotBtExcluirFormCartao").innerHTML = textos.rotExcluir;
             }
-			
-			function i18nStoreCover(){
-				dom.byId("labelHighlightsStore").innerHTML = textos.gDestaques;
-				dom.byId("labelPaidStore").innerHTML = textos.gPagos;
-				dom.byId("labelFreeStore").innerHTML = textos.gGratuitos;
-			}
+
+            function i18nStoreCover() {
+                dom.byId("labelHighlightsStore").innerHTML = textos.gDestaques;
+                dom.byId("labelPaidStore").innerHTML = textos.gPagos;
+                dom.byId("labelFreeStore").innerHTML = textos.gGratuitos;
+            }
 
 
 
@@ -1992,7 +1992,7 @@ require([
                 domConstruct.place(objetoDOM, "listaPendencias");
             }
 
-			
+
             function refreshPhoneMask(event, campo) {
                 var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
@@ -2570,7 +2570,7 @@ require([
                     event.returnValue = false;
             }
 
-            
+
 
             function validateCpfCnpj(domObj) {
                 var valorCampo = domObj.value;
@@ -2721,74 +2721,76 @@ require([
                     }
                 }
             }
-			
-			function populateStoreCover(){
-				// exemplo
-				var productsHigh = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Consumo Supermercado", desc:"ddd",valor:0}];
-				var productsFree = [{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"A coisa lá",desc:"coisa", valor: 0}];
-				var productsPaid = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"pogobol",desc:"estrela",valor:90}];
-				//TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
-				
-				populateBoxStore( "highlightStore", productsHigh );
-				populateBoxStore( "paidStore", productsPaid );
-				populateBoxStore( "freeStore", productsFree );
-				
-			}
-			
-			// Popula uma seção de produtos da loja usando uma lista/array de produtos
-			function populateBoxStore( targetPlace, products ){
-				var limitBoxes = 4;
-				
-				// Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
-				for( var i = 0; i < products.length ; i++ ){
-					if( i == limitBoxes ){
-						var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace+"SeeMore'></div>";
-						domConstruct.place( boxSeeMore, targetPlace );	
-						var btViewMore = new Button({
-							label: textos.verMais,
-							class: "button-see-more",
-							onClick: function(){
-								//TODO abre alguma tela em algum lugar
-								modalMessage("teste", "clicou");
-							}
-						}, targetPlace+"SeeMore" ).startup();
-						
-						break;
-					}
-					var cssStyle;				
-					if( products[i].valor > 0 ){ //TODO funciona se houver uma propriedade valor, senão trocar
-						cssStyle = "pago";
-					}else{
-						cssStyle = "free";
-					}					
-					if( targetPlace == "highlightStore" ){
-						cssStyle += " highlight";
-					}
-					var name = products[i].name //TODO colocar a propriedade certa do objeto
-					var description = products[i].desc; //TODO colocar a propriedade certa do objeto
-					var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
-					createProductBoxStore( cssStyle, name, description, image, targetPlace );					
-					
-				}
-				
-			}
-			
-			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
-				var html = "<div class='"+cssStyle+"'>" +
-							"<img class='image-store-item' src='" + uriImage + "'>" +
-							"<span class='name-store-item'>" + name + "</span>" +
-							"<span class='desc-store-item'>" + description + "</span>";
-				if( cssStyle.indexOf("pago") > -1 ){
-					html += "<div class='buy'></div>";
-				}else{
-					html += "<div class='import'></div>";
-				}
-				html += "</div>";							
-						
-				var boxStore = domConstruct.toDom( html );
-				domConstruct.place( html, targetPlace );				
-			}
+
+            function populateStoreCover() {
+                // exemplo
+                var productsHigh = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}];
+                var productsFree = [{name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "A coisa lá", desc: "coisa", valor: 0}];
+                var productsPaid = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "pogobol", desc: "estrela", valor: 90}];
+                //TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
+
+                populateBoxStore("highlightStore", productsHigh);
+                populateBoxStore("paidStore", productsPaid);
+                populateBoxStore("freeStore", productsFree);
+
+            }
+
+            // Popula uma seção de produtos da loja usando uma lista/array de produtos
+            function populateBoxStore(targetPlace, products) {
+                var limitBoxes = 4;
+
+                // Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
+                for (var i = 0; i < products.length; i++) {
+                    if (i == limitBoxes) {
+                        var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace + "SeeMore'></div>";
+                        domConstruct.place(boxSeeMore, targetPlace);
+                        var btViewMore = new Button({
+                            label: textos.verMais,
+                            class: "button-see-more",
+                            onClick: function () {
+                                //TODO abre alguma tela em algum lugar
+                                modalMessage("teste", "clicou");
+                            }
+                        }, targetPlace + "SeeMore").startup();
+
+                        break;
+                    }
+                    var cssStyle;
+                    if (products[i].valor > 0) { //TODO funciona se houver uma propriedade valor, senão trocar
+                        cssStyle = "pago";
+                    } else {
+                        cssStyle = "free";
+                    }
+                    if (targetPlace == "highlightStore") {
+                        cssStyle += " highlight";
+                    }
+                    var name = products[i].name //TODO colocar a propriedade certa do objeto
+                    var description = products[i].desc; //TODO colocar a propriedade certa do objeto
+                    var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
+                    createProductBoxStore(cssStyle, name, description, image, targetPlace);
+
+                }
+
+            }
+
+//todo
+            function createProductBoxStore(cssStyle, name, description, uriImage, targetPlace) {
+                var html = "<div class='" + cssStyle + "'>" +
+                        "<img class='image-store-item' src='" + uriImage + "'>" +
+                        "<span class='name-store-item'>" + name + "</span>" +
+                        "<span class='desc-store-item'>" + description + "</span>";
+                if (cssStyle.indexOf("pago") > -1) {
+                    html += "<div class='buy'></div>";
+                } else {
+                    html += "<div class='import'></div>";
+                }
+                html += "</div>";
+
+                var boxStore = domConstruct.toDom(html);
+                domConstruct.place(html, targetPlace);
+            }
             /*
              *	Fim da declaração das funções
              */
         }
+);
