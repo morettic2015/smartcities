@@ -1292,7 +1292,7 @@ require([
                 function i18nContactCircle() {
                     dom.byId("tituloCircleContacts").innerHTML = textos.tituloContatosCirculos;
                     dom.byId("rotNomeCircleContacts").innerHTML = textos.gNome;
-                    dom.byId("rotBtBuscarCircleContacts").innerHTML = textos.btBuscar;
+                    //dom.byId("rotBtBuscarCircleContacts").innerHTML = textos.btBuscar;
                     dom.byId("colGridNomeCircleContacts").innerHTML = textos.gNome;
                     dom.byId("colGridEmailCircleContacts").innerHTML = textos.gEmail;
                     dom.byId("colGridCirculosCircleContacts").innerHTML = textos.gCirculo;
