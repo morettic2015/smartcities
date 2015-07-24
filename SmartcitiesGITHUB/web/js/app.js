@@ -62,7 +62,7 @@ var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
 var UPLOAD = "upload/index.html";
 var STORE_COVER = "store/storeCover.html";
-var HELP_START = "help.html";
+var HELP_START = "help/index.html";
 
 require([
     "dojo/ready",

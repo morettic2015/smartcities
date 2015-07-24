@@ -400,7 +400,7 @@ public class ProfileEndpoint {
     @GET
     @Path("/google/{email}/{pname}/{avatar}")
     public void google(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
-        
+
         TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
         findByIdQuery.setParameter("entityId", email);
 
@@ -412,7 +412,7 @@ public class ProfileEndpoint {
 
             ((HttpServletResponse) res).sendRedirect(SMARTCITIESMAINHTML);
         } catch (NoResultException nre) {//Não existe portanto cria o emo flamenguista
-            facebook(email, pname, avatar, req, res);
+            facebook(email, pname, null, req, res);
         }
 
     }
@@ -430,16 +430,17 @@ public class ProfileEndpoint {
         p.setPassword(MD5Crypt.getHash(email));
 
         em.persist(p);
+        if (avatar != null) {
+            Avatar a = new Avatar();
+            a.setIdProfile(p.getIdprofile());
+            a.setPath(avatar.replaceAll("ø", "/"));
+            a.setProfile(p);
 
-        Avatar a = new Avatar();
-        a.setIdProfile(p.getIdprofile());
-        a.setPath(avatar.replaceAll("ø", "/"));
-        a.setProfile(p);
+            //Salva o avatar
+            em.persist(a);
 
-        //Salva o avatar
-        em.persist(a);
-
-        p.getAvatars().add(a);
+            p.getAvatars().add(a);
+        }
         HttpSession session = req.getSession();
         session.setAttribute(PROFILE, p);
 
