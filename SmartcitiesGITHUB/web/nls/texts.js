@@ -114,8 +114,9 @@ define({
 		rotIP: "IP",
 		verifiqueSenha: "A senha n&atilde;o coincide",
 		eula: "Acordo de Licen&ccedil;a do Usu&aacuterio Final",
-		aceiteEula: "Você deve aceitar o Acordo de Licen&ccedil;a do Usu&aacute;rio Final para continuar.",
+		aceiteEula: "Voc&ecirc; deve aceitar o Acordo de Licen&ccedil;a do Usu&aacute;rio Final para continuar.",
 		informeEndereco: "Voc&ecirc; deve informar seu endere&ccedil;o.",
+		msgLoadProfileError: "N&atilde;o foi poss&iacute;vel carregar os dados do usu&aacute;rio. As funcionalidades do sistema poder&atilde;o ficar comprometidas.",
 		
 		// Módulo Dados
 		tituloImportarDados: "Importa&ccedil;&atilde;o de Dados",
