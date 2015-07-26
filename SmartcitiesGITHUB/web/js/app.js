@@ -323,6 +323,10 @@ require([
                 on(dom.byId("btMapaView"), "click", function () {
                     makeGmap();
                 });
+				on(dom.byId("btMapaExportar"), "click", function () {
+                    var strKML = BlitzMap.smartcitiesGmapToKml(map);
+                    console.log(strKML);
+                });
                 on(dom.byId("tabMap"), "onShow", function () {
                     makeGmap();
                 });
@@ -1496,10 +1500,7 @@ require([
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
                     saveProfileAddress();
                 });
-                on(dom.byId("btTesteExportarKML"), "click", function () {
-                    var strKML = BlitzMap.smartcitiesGmapToKml(map);
-                    console.log(strKML);
-                })
+                
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);
                 });
