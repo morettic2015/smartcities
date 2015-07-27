@@ -57,7 +57,15 @@ function initFormUPLOAD() {
         // Change the support message and enable the upload button
         var notice = document.getElementById('upload-status');
         var uploadBtn = document.getElementById('upload-button-id');
-        notice.innerHTML = "Choose you file";
+        
+		require([
+			"dojo/i18n!./nls/texts.js"
+		],function(
+			textos
+		){
+			notice.innerHTML = textos.escolhaArquivo;
+		});
+		
         uploadBtn.removeAttribute('disabled');
         // Init the Ajax form submission
         initFullFormAjaxUpload();
@@ -161,11 +169,11 @@ function onreadystatechangeHandler(evt) {
     if (readyState == 4 && status == '200' && evt.target.responseText) {
         var status = document.getElementById('upload-status');
         status.innerHTML += '<' + 'br>Success!';
-        var result = document.getElementById('result');
+        //var result = document.getElementById('result');
         
         myProfile.uploadBean = eval("("+evt.target.responseText+")");
         
-        result.innerHTML = '<p>OK</p>';
+        //result.innerHTML = '<p>OK</p>';
         myDialog.hide();
     }
 }

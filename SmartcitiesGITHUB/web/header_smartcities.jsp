@@ -64,6 +64,11 @@
 					on( dom.byId("btAjudaHeader"), "click", function(){
 						abrePopUpModal( HELP_START, textos.tituloAjuda, 800, 600 );
 					});
+					
+					// i18n
+					dom.byId("rotDiskQuota").innerHTML = textos.quotaDisco;				
+					dom.byId("preDiskQuota").innerHTML = textos.prepQuotaDisco;
+					
 
                 });
 
@@ -108,9 +113,9 @@
 
 
         <div style="float: right;margin-left:4px;">
-            <span class="usuario-cabecalho">Disk Quota</span>
+            <span id="rotDiskQuota" class="usuario-cabecalho">Disk Quota</span>
             <br>
-            <span class="usuario-cabecalho">1% of 5GB</span>
+            <span class="usuario-cabecalho">1% <span id="preDiskQuota">of</span> 5GB</span>
             </br>
         </div>
         <div style="float: right;">

@@ -4,6 +4,8 @@ define({
 		// Cabeçalho / Header
 		nomeUsuarioGenerico: "Nome do Usu&aacute;rio",
 		tituloAjuda: "Ajuda & Tutoriais",
+		quotaDisco: "Quota de Disco",
+		prepQuotaDisco: "de",
 						
 		// Main
 		rotAbaPerfil: "Perfil",
@@ -191,6 +193,7 @@ define({
 		enderecoNaoEncontrado: "Nenhum endereço encontrado",
 		enderecoAbrangente: "O resultado &eacute; muito abrangente. Informe a rua e o n&uacute;mero",
 		tituloUpload: "Upload de Arquivo",
+		escolhaArquivo: "Escolha seu arquivo",
 		
 		// Módulo Mapa
 		tituloMapConfig: "Configura&ccedil;&atilde;o do mapa",
@@ -274,6 +277,7 @@ define({
 		gVerifiqueDados2: "Verique os dados",
 		gAtencao: "Aten&ccedil;&atilde;o",
 		gNaoSalvou: "N&atilde;o foi poss&iacute;vel salvar os dados.",
+		gNaoCarregou: "N&atilde;o foi poss&iacute;vel carregar os dados.",
 		gCausa: "Causa",
 		gErro: "Erro",
 		gSalvoSucesso: "Dados salvos com sucesso.",

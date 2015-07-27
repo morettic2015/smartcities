@@ -3,6 +3,8 @@ define({
 	// Cabeçalho / Header
 	nomeUsuarioGenerico: "User's Name",
 	tituloAjuda: "Help & Tutorials",
+	quotaDisco: "Disk Quota",
+	prepQuotaDisco: "of",
 	
 	// Main
 	rotAbaPerfil: "Profile",
@@ -190,6 +192,7 @@ define({
 	enderecoNaoEncontrado: "No addresses was found",
 	enderecoAbrangente: "The result is too wide. Inform the street and number",
 	tituloUpload: "File Upload",
+	escolhaArquivo: "Choose your file",
 	
 	// Módulo Mapa
 	tituloMapConfig: "Map configuration",
@@ -274,6 +277,7 @@ define({
 	gVerifiqueDados2: "Verify the data",
 	gAtencao: "Attention",
 	gNaoSalvou: "It was not possible to save the data.",
+	gNaoCarregou: "It was not possible to load the data.",
 	gCausa: "Cause",
 	gErro: "Error",
 	gSalvoSucesso: "Data saved successfully.",

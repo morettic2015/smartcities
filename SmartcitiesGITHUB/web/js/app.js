@@ -976,8 +976,6 @@ require([
                     setEventsPendencyFileSelect();
                     i18nPendencyFileSelect();
                     refreshGridPendencyFileSelect();
-                } else if (pagina == HEADER_MAIN) {
-                    setEventsHeader();
                 } else if (pagina == STORE_COVER) {
                     setEventsStoreCover();
                     i18nStoreCover();
@@ -991,6 +989,9 @@ require([
             /**
              *	Atribuição de textos e internacionalização das telas
              */
+			 
+			
+			
             { // Profile
                 function i18nProfileInfo() {
                     dom.byId("rotBtSalvarProfileInfo").innerHTML = textos.rotSalvar;
@@ -1319,13 +1320,11 @@ require([
                 }
             }
 
-            function i18nMapConfig() {
-                dom.byId("tituloModal").innerHTML = textos.tituloMapConfig;
+            function i18nMapConfig() {                
                 dom.byId("rotBtFiltrarMapConfig").innerHTML = textos.rotFiltrar;
                 dom.byId("rotBtSalvarMapConfig").innerHTML = textos.rotSalvar;
             }
-            function i18nGeneralConfig() {
-                dom.byId("tituloModal").innerHTML = textos.gConfiguracao;
+            function i18nGeneralConfig() {                
                 dom.byId("tituloConfiguracao").innerHTML = textos.gConfiguracao;
                 dom.byId("rotConfigRegion").innerHTML = textos.gRegiao;
             }
@@ -1440,12 +1439,13 @@ require([
              */
 
             // Header/Cabeçalho
+			/*
             function setEventsHeader() {
                 on(dom.byId("btConfigHeader"), "click", function () {
                     abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                 });
 
-            }
+            }*/
 
             // Eventos no modulo Perfil
 
@@ -1644,7 +1644,7 @@ require([
                     carregaTelaFerramentaDados(pagina, param);
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
-                    abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
+                    abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
                 });
 				/*
                 on(dom.byId("btPendencyDirectory"), "click", function () {

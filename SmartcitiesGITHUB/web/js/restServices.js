@@ -42,11 +42,9 @@ function (
 						method: "POST"
 					}
 			).then(function (data) {
-				//alert("aqui");
 				return data;
 			}, function (err) {
-				//alert("deu pau");
-				return "Não foi possível salvar. Causa: " + err;
+				return textos.gNaoSalvou + " "+ textos.gCausa + ": " + err;
 			});
 		},
 		salvaObjeto: function (url) {
@@ -57,11 +55,9 @@ function (
 						method: "GET"
 					}
 			).then(function (data) {
-				//alert("aqui");
 				return data;
 			}, function (err) {
-				//alert("deu pau");
-				return "Não foi possível salvar. Causa: " + err;
+				return textos.gNaoSalvou + " "+ textos.gCausa + ": " + err;
 			});
 		},
 		loadObject: function (url, submitType) {
@@ -74,7 +70,7 @@ function (
 			).then(function (data) {
 				return data;
 			}, function (erro) {
-				return "Não foi possivel carregar. Causa: " + erro;
+				return textos.gNaoCarregou + " "+ textos.gCausa + ": " + erro;
 			});
 		},
 		salvaProfileAddress: function (latLng, address, complement) {
@@ -94,7 +90,7 @@ function (
 				myDialog.show();
 				//alert( "En.");
 			}, function (err) {
-				alert("Não foi possível salvar. Causa: " + err);
+				alert(textos.gNaoSalvou + " "+ textos.gCausa + ": " + err);
 			});
 		},
 		loadCtx: function () {
