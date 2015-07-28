@@ -606,38 +606,33 @@ img.fundo {
 	margin-top:10px;
 	width: 600px;
 }
-.boxBase div{
+
+.box-base-inside{
 	width: 100%;
-	height: auto;	
+	height: auto;
 	position: relative;
+	overflow:auto;
 }
-.boxBase div.pago{
+
+.box-store-item{
 	width: 120px;
 	height: 150px;
 	margin: 5px;
+	float:left;
+	position: relative;	
+	border-radius: 8px;
+}
+.boxBase div.pago{	
 	background-color: #B4C8DE;/*azul*/
 	border: 1px solid #4F7DAD;
-	float:left;	
-	border-radius: 8px;
-	
 }
-.boxBase div .free{
-	width: 120px;
-	height: 150px;
-	margin: 5px;
+.boxBase div .free{	
 	background-color: #DDDDDD;/* cinza*/
-	border: 1px solid #AAAAAA;
-	float:left;	
-	border-radius: 8px;
+	border: 1px solid #AAAAAA;	
 }
 .boxBase div .highlight{
-	width: 120px;
-	height: 150px;
-	margin: 5px;
 	background-color: #FFEACB;/* laranja*/
 	border: 1px solid #FFC268;
-	float:left;	
-	border-radius: 8px;
 }
 
 .name-store-item{
@@ -659,6 +654,7 @@ img.fundo {
 	border: 0px solid black;
 	background-image: url('images/icons/LojaComprar/comprar.png');
 	background-repeat: no-repeat;
+	cursor:pointer;
 }
 .boxBase div .import{
 	position: absolute;
@@ -669,7 +665,7 @@ img.fundo {
 	border: 0px solid black;
 	background-image: url("images/icons/LojaImportar/importar-03.png");
 	background-repeat: no-repeat;
-	background-position: left top;	
+	cursor:pointer;
 }
 .image-store-item{
 	background-color: #FFF;
@@ -682,4 +678,6 @@ img.fundo {
 
 .button-see-more{
 	position:relative;
+	float:left;
+	clear:left;
 }

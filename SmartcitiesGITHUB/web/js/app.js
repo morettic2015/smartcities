@@ -2774,7 +2774,7 @@ require([
 			}
 			
 			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
-				var html = "<div class='"+cssStyle+"'>" +
+				var html = "<div class='box-store-item "+cssStyle+"'>" +
 							"<img class='image-store-item' src='" + uriImage + "'>" +
 							"<span class='name-store-item'>" + name + "</span>" +
 							"<span class='desc-store-item'>" + description + "</span>";
