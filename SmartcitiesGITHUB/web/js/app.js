@@ -166,22 +166,16 @@ require([
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
                     carregaTelaPerfil(PROFILE_INFO, function () {
-
-                        dom.byId("txtNameProfile").value = myProfile.nmUser;
-                        dom.byId("txtEmailProfile").value = myProfile.email;
-                        var objBirthDate = new Date(myProfile.nascimento);
-                        var birthDay = objBirthDate.getDate().toString();
-                        birthDay = (birthDay.length == 1) ? "0" + birthDay : birthDay;
-                        var birthYear = objBirthDate.getFullYear().toString();
-                        var birthMonth = (objBirthDate.getMonth() + 1).toString();
-                        birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
-                        var strBirthDate = birthMonth + "/" + birthDay + "/" + birthYear;
-                        dom.byId("txtBirthdateProfile").value = strBirthDate;
-                        dom.byId("txtCpfCnpjProfile").value = myProfile.cpfCnpj;
-                        dom.byId("txtPasswordProfile").value = myProfile.password;
-                        dom.byId("txtConfirmPassProfile").value = myProfile.password;
-                        dom.byId("txtBioProfile").value = myProfile.bioText;
-                        dom.byId("txtTelefoneProfileInfo").value = myProfile.telefone;
+                        
+						registry.byId("txtNameProfile").set("value", myProfile.nmUser );                        
+						registry.byId("txtEmailProfile").set("value", myProfile.email );
+                        var objBirthDate = new Date(myProfile.nascimento+"T00:00:00");
+						registry.byId("txtBirthdateProfile").set("value", objBirthDate );
+						registry.byId("txtCpfCnpjProfile").set("value", myProfile.cpfCnpj );
+						registry.byId("txtPasswordProfile").set("value", myProfile.password );
+						registry.byId("txtConfirmPassProfile").set("value", myProfile.password );
+						registry.byId("txtBioProfile").set("value", myProfile.bioText );
+						registry.byId("txtTelefoneProfileInfo").set("value", myProfile.telefone );
                         dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
                         dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
                         if (myProfile.cpfCnpj != null) {
@@ -193,9 +187,9 @@ require([
                 on(dom.byId("btProfileAddress"), "click", function () {
                     carregaTelaPerfil(PROFILE_ADDRESS, function () {
 
-                        if (myProfile.adresses.length > 0) {
-                            dom.byId("txtEnderecoRua").value = myProfile.adresses[0].street;
-                            dom.byId("txtEnderecoComplemento").value = myProfile.adresses[0].otherinfo;
+                        if (myProfile.adresses.length > 0) {                            
+							registry.byId("txtEnderecoRua").set("value", myProfile.adresses[0].street );
+							registry.byId("txtEnderecoComplemento").set("value", myProfile.adresses[0].otherinfo );
                             //TODO MARCAR A POSIção DO USUARIO NO MAPA
                             addMarkerToMap(myProfile.adresses[0].street + "<br>" + myProfile.adresses[0].otherinfo, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
                         }
@@ -206,10 +200,10 @@ require([
                     carregaTelaPerfil(PROFILE_SECURITY, function () {
                         //alert(myProfile.securityInfo.length);
                         if (myProfile.securityInfo.length > 0) {
-                            dom.byId("txtSegurancaEmail").value = myProfile.securityInfo[0].emailRecorey1;
-                            dom.byId("txtSegurancaFrase").value = myProfile.securityInfo[0].secretWord;
-                            dom.byId("txtSegurancaCelular").value = myProfile.securityInfo[0].telefoneRecorey1;
-                            dom.byId("txtSegurancaTelefone").value = myProfile.securityInfo[0].telefoneRecorey2;
+							registry.byId("txtSegurancaEmail").set("value", myProfile.securityInfo[0].emailRecorey1 );
+							registry.byId("txtSegurancaFrase").set("value", myProfile.securityInfo[0].secretWord );
+							registry.byId("txtSegurancaCelular").set("value", myProfile.securityInfo[0].telefoneRecorey1 );
+							registry.byId("txtSegurancaTelefone").set("value", myProfile.securityInfo[0].telefoneRecorey2 );
                         }
 
                     });
@@ -2195,7 +2189,7 @@ require([
                     var birthYear = objBirthDate.getFullYear().toString();
                     var birthMonth = (objBirthDate.getMonth() + 1).toString();
                     birthMonth = (birthMonth.length == 1) ? "0" + birthMonth : birthMonth;
-                    var strBirthDate = birthMonth + "-" + birthDay + "-" + birthYear;
+                    var strBirthDate = birthDay + "-" + birthMonth + "-" + birthYear;
                     var vAvatar = "blank";
                     if (myProfile.uploadBean != undefined) {
                         vAvatar = myProfile.uploadBean.name;
