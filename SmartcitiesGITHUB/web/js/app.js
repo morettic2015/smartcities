@@ -87,7 +87,9 @@ require([
     "dijit/form/Button",
     "dojox/gfx",
     "js/restServices.js",
-    "js/dataSource/importDB.js"
+	"js/dataSource/dataSource.js",
+    "js/dataSource/importDB.js",
+	"js/view.js"
 ],
         function (
                 ready,
@@ -112,7 +114,9 @@ require([
                 Button,
                 gfx,
                 restServices,
-                importDB
+				dataSource,
+                importDB,
+				view
                 ) {
 
             ready(function () {
@@ -308,10 +312,10 @@ require([
                 });
                 //Módulo Mapa
                 on(dom.byId("btMapaSearch"), "click", function () {
-                    abrePopUpModal(MAP_SEARCH);
+                    view.abrePopUpModal(MAP_SEARCH);
                 });
                 on(dom.byId("btMapaLayers"), "click", function () {
-                    abrePopUpModal(MAP_CONFIG);
+                    view.abrePopUpModal(MAP_CONFIG);
                     addMarkerToMap("TEXTO INFORMATIVO NONONONO", "INFO TITULO", "42", "-88");
                 });
                 on(dom.byId("btMapaView"), "click", function () {
@@ -351,25 +355,25 @@ require([
                 });
                 // Aba/Módulo Faturamento
                 query("#conteudo_faturamento").on("#btCCCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_CARD);
+                    view.abrePopUpModal(BILLING_CARD);
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPaypalCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAYPAL, "Paypal", 300, 300);
+                    view.abrePopUpModal(BILLING_PAYPAL, "Paypal", 300, 300);
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btPagseguroCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_PAGSEGURO, "PagSeguro");
+                    view.abrePopUpModal(BILLING_PAGSEGURO, "PagSeguro");
                     event.stop(evt);
                 });
                 query("#conteudo_faturamento").on("#btBancoCredito:click", function (evt) {
-                    abrePopUpModal(BILLING_BANK);
+                    view.abrePopUpModal(BILLING_BANK);
                     event.stop(evt);
                 });
                 // Modulo Circulos
                 on(dom.byId("conteudo_circulos"), "#btImportarContatos:click", function () {
                     //abreImportarContato();
-                    modalMessage(" importar contato", "Teste");
+                    view.modalMessage(" importar contato", "Teste");
                 });
                 // Tela de Configuração
 
@@ -752,7 +756,7 @@ require([
 
                 loadUserCTX().then(function (succeded) {
                     if (succeded) {
-                        loadDataSourcelistElements();
+                        dataSource.loadDataSourcelistElements();
                     }
                 });
                 contentPane_Perfil.set("onDownloadEnd", function () {
@@ -805,13 +809,13 @@ require([
                 contentPane_Loja.set("href", paginaConteudo);
             }
 
-            /**
+            /*
              * Função para abrir o modal. 
              * @argument {paginaConteudo} paginaConteudo pagina html a ser carregada no modal
              * @argument {titulo} o texto que será exibido na barra de título do modal
              * @argument {largura} define a largura do modal. Opcional.
              * @argument {altura} define a altura do modal. Opcional.
-             * */
+             * 
             function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
                 var larguraModal = largura != undefined && largura != null ? largura : 400;
                 var alturaModal = altura != undefined && altura != null ? altura : 200;
@@ -837,7 +841,7 @@ require([
 
             function modalMessage(message, type) {
                 abrePopUpModal(message, type, null, 150, true);
-            }
+            }*/
 
 
             function configuraTela(pagina) {
@@ -1290,7 +1294,7 @@ require([
             { // Circles
                 function i18nContactCircle() {
                     dom.byId("tituloCircleContacts").innerHTML = textos.tituloContatosCirculos;
-                    dom.byId("rotNomeCircleContacts").innerHTML = textos.gNome;
+                    //dom.byId("rotNomeCircleContacts").innerHTML = textos.gNome;
                     //dom.byId("rotBtBuscarCircleContacts").innerHTML = textos.btBuscar;
                     dom.byId("colGridNomeCircleContacts").innerHTML = textos.gNome;
                     dom.byId("colGridEmailCircleContacts").innerHTML = textos.gEmail;
@@ -1436,7 +1440,7 @@ require([
 			/*
             function setEventsHeader() {
                 on(dom.byId("btConfigHeader"), "click", function () {
-                    abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
+                    view.abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
                 });
 
             }*/
@@ -1448,7 +1452,7 @@ require([
                     saveProfileInfo();
                 });
                 on(dom.byId("btToggleEULA"), "click", function () {
-                    abrePopUpModal(EULA, textos.eula);
+                    view.abrePopUpModal(EULA, textos.eula);
                 });
                 on(dom.byId("txtConfirmPassProfile"), "blur", function () {
                     var obj = registry.byId(this.id);
@@ -1485,8 +1489,8 @@ require([
                     // para algum componente(?)
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
-                    //abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
-                    abrePopUpModal(UPLOAD, "File Upload", 400, 300);
+                    //view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
+                    view.abrePopUpModal(UPLOAD, "File Upload", 400, 300);
                 });
             }
 
@@ -1614,7 +1618,7 @@ require([
                     //var txtDesc = registry.byId("txtDescFile");
                     var camposValidar = [txtNome];
                     if (!areFieldsValids(camposValidar)) {
-                        modalMessage(textos.gVerifiqueDados2, textos.gErro);
+                        view.modalMessage(textos.gVerifiqueDados2, textos.gErro);
                         return false;
                     }
                     var param = parametrosTela;
@@ -1638,11 +1642,11 @@ require([
                     carregaTelaFerramentaDados(pagina, param);
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
-                    abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
+                    view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
                 });
 				/*
                 on(dom.byId("btPendencyDirectory"), "click", function () {
-                    abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
+                    view.abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
                 });
 				*/
             }
@@ -1739,10 +1743,10 @@ require([
                     makeGmap();
                 });
                 on(dom.byId("rotSplashSearchMap"), "click", function () {
-                    abrePopUpModal(MAP_SEARCH);
+                    view.abrePopUpModal(MAP_SEARCH);
                 });
                 on(dom.byId("rotSplashMapLayers"), "click", function () {
-                    abrePopUpModal(MAP_CONFIG);
+                    view.abrePopUpModal(MAP_CONFIG);
                     addMarkerToMap("TEXTO INFORMATIVO NONONONO", "INFO TITULO", "42", "-88");
                 });
                 on(dom.byId("rotSplashExportMap"), "click", function () {
@@ -1773,7 +1777,7 @@ require([
             }
             function setEventsSplashCircles() {
                 on(dom.byId("rotSplashImportContacts"), "click", function () {
-                    abrePopUpModal(CIRCLES_IMPORTOPTIONS);
+                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS);
                 });
                 on(dom.byId("rotSplashNewContact"), "click", function () {
                     carregaTelaCirculos(CIRCLES_CONTACTS)
@@ -1786,7 +1790,7 @@ require([
             // Eventos nas telas do módulo Círculos
             function setEventsCircleContacts() {
                 on(dom.byId("btImportarContatos"), "click", function () {
-                    abrePopUpModal(CIRCLES_IMPORTOPTIONS);
+                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS);
                 });
             }
 
@@ -2062,7 +2066,7 @@ require([
                         geocoder = startGeocoder();
                     } catch (ex) {
                         console.log("Nao startou Geocoder = " + geocoder + " . " + ex);
-                        modalMessage("Ocorreu um erro ao tentar realizar a busca.", "Erro");
+                        view.modalMessage("Ocorreu um erro ao tentar realizar a busca.", "Erro");
                         return false;
                     }
                 }
@@ -2160,7 +2164,7 @@ require([
 
             function saveProfileInfo() {
                 if (!registry.byId("btToggleEULA").get("checked")) {
-                    modalMessage(textos.aceiteEula, textos.gAtencao);
+                    view.modalMessage(textos.aceiteEula, textos.gAtencao);
                     return false;
                 }
 
@@ -2200,7 +2204,7 @@ require([
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         if (typeof dados == "string") {
-                            modalMessage(dados, "Erro");
+                            view.modalMessage(dados, "Erro");
                         } else if (dados instanceof Object) {
                             contentPane_PopUp.set("href", "info/profileInfo.html");
                             myDialog.set("title", "Sucess");
@@ -2211,7 +2215,7 @@ require([
                         }
                     });
                 } else {
-                    modalMessage(textos.gVerifiqueDados, textos.gAtencao);
+                    view.modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
@@ -2221,7 +2225,7 @@ require([
                 var resultado = restServices.loadCtx();
                 return resultado.then(function (dados) {
                     if (typeof dados == "string") {
-                        modalMessage(dados, textos.gErro );
+                        view.modalMessage(dados, textos.gErro );
                         return false;
                     } else if (dados instanceof Object) {
                         myProfile = eval(dados);
@@ -2245,7 +2249,7 @@ require([
                      });*/
 
                 } else {
-                    modalMessage(textos.informeEndereco, textos.gAtencao);
+                    view.modalMessage(textos.informeEndereco, textos.gAtencao);
                 }
             }
 
@@ -2269,7 +2273,7 @@ require([
                         myDialog.show();
                     });
                 } else {
-                    modalMessage(textos.gVerifiqueDados, textos.gAtencao);
+                    view.modalMessage(textos.gVerifiqueDados, textos.gAtencao);
                 }
             }
 
@@ -2285,9 +2289,9 @@ require([
                 xhr(url, {handleAs: "json", preventCache: true, method: "POST"})
                         .then(function (data) {
                             console.log("requisicao ok: " + data);
-                            modalMessage(textos.gSalvoSucesso, "Active Directory");
+                            view.modalMessage(textos.gSalvoSucesso, "Active Directory");
                         }, function (err) {
-                            modalMessage(textos.gNaoSalvou + " " + textos.gCausa + ": " + err, textos.gErro);
+                            view.modalMessage(textos.gNaoSalvou + " " + textos.gCausa + ": " + err, textos.gErro);
                         });
             }
 
@@ -2298,10 +2302,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro);
+                        view.modalMessage(dados, textos.gErro);
                     } else if (dados instanceof Object) {
                         // Retorna { id: 1, kmlUrl: "www.com", kmlDesc: "nononono", idProfile: 1 }
-                        modalMessage(textos.gSalvoSucesso, "KML");
+                        view.modalMessage(textos.gSalvoSucesso, "KML");
                     }
                 });
             }
@@ -2315,10 +2319,10 @@ require([
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro);
+                        view.modalMessage(dados, textos.gErro);
                     } else if (dados instanceof Object) {
                         // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
-                        modalMessage(textos.gSalvoSucesso, "FTP");
+                        view.modalMessage(textos.gSalvoSucesso, "FTP");
                     }
                 });
             }
@@ -2504,7 +2508,7 @@ require([
                 var result = restServices.loadObject(url, submitType);
                 result.then(function (data) {
                     if (data instanceof String) {
-                        modalMessage(data, textos.gErro); // Show the error
+                        view.modalMessage(data, textos.gErro); // Show the error
                     } else if (data instanceof Object) {
                         handler(data);
                     }
@@ -2516,7 +2520,7 @@ require([
                 var resultado = restServices.loadObject(url, "GET");
                 resultado.then(function (dados) {
                     if (dados instanceof String) {
-                        modalMessage(dados, textos.gErro); // Exibe o erro
+                        view.modalMessage(dados, textos.gErro); // Exibe o erro
                     } else if (dados instanceof Object) {
                         // Retorna { idprofile: 1, idProfileOrganization: null, nmUser: "Lam Mxrettx",
                         // email: "malacma@gmail.com", password: "8ddef0f4588c24e8d08307977c2d826b",
@@ -2743,7 +2747,7 @@ require([
 							class: "button-see-more",
 							onClick: function(){
 								//TODO abre alguma tela em algum lugar
-								modalMessage("teste", "clicou");
+								view.modalMessage("teste", "clicou");
 							}
 						}, targetPlace+"SeeMore" ).startup();
 						

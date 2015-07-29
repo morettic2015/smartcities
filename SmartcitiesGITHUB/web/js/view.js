@@ -48,10 +48,11 @@ function (
 		 
 		/**
 		 * Função para abrir o modal. 
-		 * @argument {paginaConteudo} paginaConteudo pagina html a ser carregada no modal
+		 * @argument {paginaConteudo} paginaConteudo pagina html a ser carregada no modal, ou um texto (messageOnly=true)
 		 * @argument {titulo} o texto que será exibido na barra de título do modal
 		 * @argument {largura} define a largura do modal. Opcional.
 		 * @argument {altura} define a altura do modal. Opcional.
+		 * @argument {messageOnly} informa se o conteudo é um texto simples. Opcional.
 		 * */
 		abrePopUpModal: function (paginaConteudo, titulo, largura, altura, messageOnly) {
 			openModal(paginaConteudo, titulo, largura, altura, messageOnly);
