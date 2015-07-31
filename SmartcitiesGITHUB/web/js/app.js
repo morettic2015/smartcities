@@ -476,21 +476,17 @@ require([
                 for (i = 0; i < sourcesList.length; i++) {
                     var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
                     //alert(myTpInfo);
-                    var selectDataOption = document.getElementById(myTpInfo)
+                    var selectDataOption = document.getElementById(myTpInfo);
                     var opt = document.createElement('option');
                     opt.value = sourcesList[i].id;
-                    opt.style = "font-size: 8px;"
                     opt.innerHTML = sourcesList[i].fileTit + "(" + sourcesList[i].fileUrl + ")";
                     selectDataOption.appendChild(opt);
                 }
                 var selectDataOption = document.getElementById("ftpGroup");
-                for (i = 0; i < myFtpList.length; i++) {
-                    //var myTpInfo = sourcesList[i].myTp.toLowerCase() + "Group";
-                    //alert(myTpInfo);
+                for (i = 0; i < myFtpList.length; i++) {                    
 
                     var opt = document.createElement('option');
                     opt.value = myFtpList[i].id;
-                    opt.style = "font-size: 8px;"
                     opt.innerHTML = myFtpList[i].host + "(" + myFtpList[i].user + ")";
                     selectDataOption.appendChild(opt);
                 }
@@ -1306,7 +1302,6 @@ require([
                     dom.byId("rotBtSalvarCircleContacts").innerHTML = textos.rotSalvar;
                     dom.byId("rotBtExcluirCircleContacts").innerHTML = textos.rotExcluir;
                     dom.byId("rotBtImportarCircleContacts").innerHTML = textos.rotImportar;
-                    dom.byId("rotBtCirculoCircleContacts").innerHTML = textos.gCirculo;
                 }
                 function i18nCircles() {
                     dom.byId("tituloCircles").innerHTML = textos.tituloCirculos;
@@ -2784,25 +2779,27 @@ require([
 				}else{
 					html += "<div class='import'></div>";
 				}
-				html += "</div>";							
+				html += "</div>";
 						
 				var boxStore = domConstruct.toDom( html );
-				domConstruct.place( html, targetPlace );				
+				domConstruct.place( html, targetPlace );
 			}
 			
 			function prepareDataSourceExport(){
-				// get the selected source
-				var lstOptions = dom.byId("listaFontesDados").options;
-				console.log(lstOptions);
+				// get the selected sources
+				var lstOptions = dom.byId("listaFontesDados").options;				
+				var idSource = null;
 				for( var i = 0; i < lstOptions.length; i++ ){
-					console.log("i = "+ i + " , " + lstOptions[i]);
-					console.log( lstOption[i].selected );
-					if( lstOption[i].selected == true ){
-						console.log(i+" selecionado ");
+					if( lstOptions[i].selected == true ){
+						idSource = lstOptions[i].value;
 					}
 				}
 				
-				// open export window?
+				// let the id available in the global parameter
+				parametrosTela = {idDataSourceExport: idSource };
+				console.log( parametrosTela);
+				// open export window
+				
 			}
             /*
              *	Fim da declaração das funções

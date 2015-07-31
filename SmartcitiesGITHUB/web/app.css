@@ -45,6 +45,7 @@
 .icone-item-database,
 .icone-item-ftp,
 .icone-item-ldap,
+.icone-item-webcrawler,
 .icone-item-file-black,
 .icone-item-file-blue,
 .icone-item-file-orange,
@@ -214,6 +215,9 @@
 }
 .icone-item-ldap{
     background-image: url(images/icons/FontesDados/ldap_2.png);
+}
+.icone-item-webcrawler{
+    background-image: url(images/icons/Webcrawler/16X16.png);
 }
 .icone-item-file-black{
     background-image: url(images/icons/FontesDados/arquivo_1.png);
