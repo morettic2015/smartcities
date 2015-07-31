@@ -292,6 +292,9 @@ require([
                     var param = {tipoArquivo: "XML"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
+				on(dom.byId("btExportarDados"), "click", function(){
+					prepareDataSourceExport();
+				});
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_COPY);
                 });
@@ -2785,6 +2788,21 @@ require([
 						
 				var boxStore = domConstruct.toDom( html );
 				domConstruct.place( html, targetPlace );				
+			}
+			
+			function prepareDataSourceExport(){
+				// get the selected source
+				var lstOptions = dom.byId("listaFontesDados").options;
+				console.log(lstOptions);
+				for( var i = 0; i < lstOptions.length; i++ ){
+					console.log("i = "+ i + " , " + lstOptions[i]);
+					console.log( lstOption[i].selected );
+					if( lstOption[i].selected == true ){
+						console.log(i+" selecionado ");
+					}
+				}
+				
+				// open export window?
 			}
             /*
              *	Fim da declaração das funções
