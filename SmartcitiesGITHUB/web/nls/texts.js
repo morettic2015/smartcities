@@ -221,6 +221,8 @@ define({
 		btNovoContato: "Novo",
 		btCirculo: "C&iacute;rculo",
 		tituloCirculos: "C&iacute;rculos",
+		nomeCirculo: "Nome do Círculo",
+		instrucaoNomeCirculo: "Digite o nome do círculo e pressione Enter para adicionar",
 		
 		// Módulo Loja		
 		verMais: "Ver mais",

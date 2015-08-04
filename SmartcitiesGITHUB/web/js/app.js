@@ -899,10 +899,11 @@ require([
                     i18nBillingTransactions();
                 } else if (pagina == BILLING_CREDITDEBT) {
                     i18nBillingCredit();
-                } else if (pagina == CIRCLES_CONTACTS) {
-                    i18nContactCircle();
+                } else if (pagina == CIRCLES_CONTACTS) {                    
                     setEventsCircleContacts();
                     refreshGridCircleContacts();
+					loadSelectCircles();
+					i18nContactCircle();
                 } else if (pagina == CIRCLES_MANAGE) {
                     i18nCircles();
                     refreshGridCircles();
@@ -1302,6 +1303,10 @@ require([
                     dom.byId("rotBtSalvarCircleContacts").innerHTML = textos.rotSalvar;
                     dom.byId("rotBtExcluirCircleContacts").innerHTML = textos.rotExcluir;
                     dom.byId("rotBtImportarCircleContacts").innerHTML = textos.rotImportar;
+					var circleName = registry.byId("txtCircleNameSearch");
+					circleName.set("placeHolder", textos.nomeCirculo);
+					circleName.set("title", textos.instrucaoNomeCirculo )
+					
                 }
                 function i18nCircles() {
                     dom.byId("tituloCircles").innerHTML = textos.tituloCirculos;

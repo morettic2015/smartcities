@@ -37,6 +37,7 @@ var URL_DADOS = "http://localhost:8080/rest/";	// Url do webservice rest
 
 require([
     "dojo/ready",
+	"dijit/form/FilteringSelect",
     "dojo/store/Memory",
     "dojo/data/ObjectStore",
     "dijit/tree/ObjectStoreModel",
@@ -48,6 +49,7 @@ require([
 ],
         function (
                 ready,
+				FilterSelect,
                 Memory,
                 ObjectStore,
                 ObjectStoreModel,
@@ -220,6 +222,25 @@ function refreshGridCircles(arrDados) {
     var dados = [{'unique_id': 1, 'circulo': 'familia', 'membros': 'mae, filho, gato, papagaio'}];
     poolStore.dataSource.st1 = fillStoreMemory(poolStore.dataSource.st1, dados);
     gridCircles.setStore(poolStore.dataSource.st1);
+}
+
+function loadSelectCircles( jsonObject ){
+	var dados = [{'name':'familia','id':'1'}];
+	console.log("cria memory");
+	poolStore.circles.st2 = fillStoreMemory(poolStore.circles.st2, dados );
+	console.log("criou memory");
+	console.log( "circleNameSearch: " +document.getElementById("circleNameSearch") );
+	var campoCirculo = document.getElementById("circleNameSearch");
+	if( campoCirculo == undefined || campoCirculo == null ){
+		new FilterSelect({
+			id: 'circleNameSearch',
+			store: poolStore.circles.st2
+		}, "boxCircleNameSearch").startup();
+		
+		console.log( "circleNameSearch: " +campoCirculo );
+	}else{
+		//registry.byId("txtCircleNameSearch").setStore( poolStore.circles.st2 );
+	}
 }
 
 
