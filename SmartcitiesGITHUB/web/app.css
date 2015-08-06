@@ -685,3 +685,15 @@ img.fundo {
 	float:left;
 	clear:left;
 }
+
+
+.tag-contact-circle{
+	padding: 2px 5px 2px 5px;
+	border: 1px solid #4F7DAD;
+	background-color: #B4C8DE;
+	border-radius: 3px;
+	box-shadow: 1px 1px 0px #03274C;
+	float:left;
+	margin-right: 3px;
+	margin-bottom: 3px;
+}

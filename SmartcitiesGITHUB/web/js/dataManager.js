@@ -11,6 +11,7 @@
 define([
 	"dojo/dom",
 	"dojo/dom-style",
+	"dojo/dom-construct",
 	"dojo/i18n!./nls/texts.js",
 	"dojo/store/Memory",
 	"dojo/store/Observable",
@@ -20,6 +21,7 @@ define([
 function (
 		dom,
 		domStyle,
+		domConstruct,
 		textos,
 		Memory,
 		Observable,
@@ -77,7 +79,7 @@ function (
 		 */
 		
 		loadSelectCircles: function( jsonObject ){
-			var dados = [{'name':'familia','id':'1'}];			
+			var dados = [{'name':'familia','id':'1'}];
 			poolStore.circles.st2 = fillStoreMemory(poolStore.circles.st2, dados );
 			var campoCirculo = dom.byId("circleNameSearch");
 			//TODO refatorar colocando a criação do componente e o comportamento dentro do modulo circles.js(quando existir)
@@ -85,10 +87,24 @@ function (
 				new FilterSelect({
 					id: 'circleNameSearch',
 					class: 'campo-contato',
+					required: false,
 					store: poolStore.circles.st2,
 					onKeyPress: function( event ){
-						// requisicao que adiciona o circulo para o contato
-						// depois atualiza/renderiza as tags que são criadas em boxListContactCircles
+						if( event.keyCode == 13 ){
+							//TODO requisicao rest que adiciona o circulo para o contato(nao esta criando novo e sim vinculando ao contato)
+							
+							//limpa area
+							
+							// depois atualiza/renderiza as tags que são criadas em boxListContactCircles					
+							var dadosTeste = [{'id':'1','name':'empresa'}];
+							var circulos = dadosTeste;
+							for(var i = 0; i < circulos.length; i++ ){
+								var strDOM = "<div id='contactCircle" + circulos[i].id + "' class='tag-contact-circle'>" +
+										circulos[i].name + " X</div>";
+								var objDOM = domConstruct.toDom( strDOM );
+								domConstruct.place( objDOM, "boxListContactCircles");
+							}
+						}
 					}
 				}, "boxCircleNameSearch").startup();
 			}else{
