@@ -8,17 +8,23 @@
  *		
  */
 
-define([    
+define([
+	"dojo/dom",
 	"dojo/dom-style",
 	"dojo/i18n!./nls/texts.js",
 	"dojo/store/Memory",
-	"dojo/store/Observable"
+	"dojo/store/Observable",
+	"dijit/registry",
+	"dijit/form/FilteringSelect"
 ],
 function (
+		dom,
 		domStyle,
 		textos,
 		Memory,
-		Observable
+		Observable,
+		registry,
+		FilterSelect
 	) {
 	
 		/**
@@ -51,20 +57,17 @@ function (
 					store.remove(i);
 				}
 				store.setData(dados);
-			} else {
-				console.log("criando memory");
+			} else {				
 				store = new Memory({
 					data: dados,
 					getChildren: function (object) {
 						return this.query({parent: object.id});
 					}
 				});
-
-				console.log("criou, " + store);
 			}
 
 			return store;
-		}	
+		}
 	
 	 
 	return{
@@ -72,6 +75,26 @@ function (
 		/**
 		 *	Métodos públicos
 		 */
+		
+		loadSelectCircles: function( jsonObject ){
+			var dados = [{'name':'familia','id':'1'}];			
+			poolStore.circles.st2 = fillStoreMemory(poolStore.circles.st2, dados );
+			var campoCirculo = dom.byId("circleNameSearch");
+			//TODO refatorar colocando a criação do componente e o comportamento dentro do modulo circles.js(quando existir)
+			if( campoCirculo == undefined || campoCirculo == null ){
+				new FilterSelect({
+					id: 'circleNameSearch',
+					class: 'campo-contato',
+					store: poolStore.circles.st2,
+					onKeyPress: function( event ){
+						// requisicao que adiciona o circulo para o contato
+						// depois atualiza/renderiza as tags que são criadas em boxListContactCircles
+					}
+				}, "boxCircleNameSearch").startup();
+			}else{
+				registry.byId("circleNameSearch").setStore( poolStore.circles.st2 );
+			}
+		}
 		 
 	}
 	

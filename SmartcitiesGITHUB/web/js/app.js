@@ -89,7 +89,8 @@ require([
     "js/restServices.js",
 	"js/dataSource/dataSource.js",
     "js/dataSource/importDB.js",
-	"js/view.js"
+	"js/view.js",
+	"js/dataManager.js"
 ],
         function (
                 ready,
@@ -116,7 +117,8 @@ require([
                 restServices,
 				dataSource,
                 importDB,
-				view
+				view,
+				dataManager
                 ) {
 
             ready(function () {
@@ -902,7 +904,7 @@ require([
                 } else if (pagina == CIRCLES_CONTACTS) {                    
                     setEventsCircleContacts();
                     refreshGridCircleContacts();
-					loadSelectCircles();
+					dataManager.loadSelectCircles();
 					i18nContactCircle();
                 } else if (pagina == CIRCLES_MANAGE) {
                     i18nCircles();
