@@ -697,3 +697,6 @@ img.fundo {
 	margin-right: 3px;
 	margin-bottom: 3px;
 }
+.delete-circle-contact{
+	cursor: pointer;
+}

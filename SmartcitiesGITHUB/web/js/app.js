@@ -907,7 +907,8 @@ require([
 					dataManager.loadSelectCircles();
 					i18nContactCircle();
                 } else if (pagina == CIRCLES_MANAGE) {
-                    i18nCircles();
+					//dataManager.loadCirclesSearch();
+                    //i18nCircles();
                     refreshGridCircles();
                 } else if (pagina == MAP_CONFIG) {
                     i18nMapConfig();
@@ -1313,13 +1314,13 @@ require([
                 function i18nCircles() {
                     dom.byId("tituloCircles").innerHTML = textos.tituloCirculos;
                     dom.byId("rotNomeCircles").innerHTML = textos.gNome;
-                    dom.byId("rotBtBuscarCircles").innerHTML = textos.btBuscar;
+					//registry.byId("txtCircleNameSearch").set("placeHolder", textos.nomeCirculo);
+                    //dom.byId("rotBtBuscarCircles").innerHTML = textos.btBuscar;
                     dom.byId("colGridCirculoCircles").innerHTML = textos.gCirculo;
                     dom.byId("colGridMembrosCircles").innerHTML = textos.gMembros;
                     dom.byId("rotBtNovoCircles").innerHTML = textos.rotNovo;
                     dom.byId("rotBtSalvarCircles").innerHTML = textos.rotSalvar;
                     dom.byId("rotBtExcluirCircles").innerHTML = textos.rotExcluir;
-                    dom.byId("rotBtHistoricoCircles").innerHTML = textos.rotHistorico;
                 }
             }
 

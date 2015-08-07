@@ -71,6 +71,26 @@ function (
 			return store;
 		}
 	
+		//TODO mover funcao para circles.js em futura refatoração
+		var deleteCircleContact = function( idCircle ){			
+			//TODO requisicao rest que deleta circulo vinculado ao contato (quais os dados/informacoes necessarias??)
+			
+			//TODO chama novamente a função que atualiza as tags
+		}
+		
+		//TODO mover funcao para circles.js em futura refatoração
+		var updateCircleContacts = function( circulos ){
+			for(var i = 0; i < circulos.length; i++ ){
+				var strDOM = "<div id='contactCircle" + circulos[i].id + "' class='tag-contact-circle'>" +
+						circulos[i].name +
+						" <span id='delete_circle_contact_" + circulos[i].id + "' class='delete-circle-contact'>X</span></div>";
+				var objDOM = domConstruct.toDom( strDOM );
+				domConstruct.place( objDOM, "boxListContactCircles");
+				on(dom.byId("delete_circle_contact_" + circulos[i].id), "click", function () {
+					deleteCircleContact( circulos[i].id );
+				});
+			}
+		}
 	 
 	return{
 		
@@ -92,26 +112,43 @@ function (
 					onKeyPress: function( event ){
 						if( event.keyCode == 13 ){
 							//TODO requisicao rest que adiciona o circulo para o contato(nao esta criando novo e sim vinculando ao contato)
-							
-							//limpa area
-							
-							// depois atualiza/renderiza as tags que são criadas em boxListContactCircles					
+							// uma lista atualizada com esses relacionamentos devem estar disponiveis logo em seguida
 							var dadosTeste = [{'id':'1','name':'empresa'}];
+							
+							//limpa area antes de exibir qualquer conteudo
+							//domConstruct.empty("boxListContactCircles");
+							
+							// depois atualiza/renderiza as tags que são criadas em boxListContactCircles
 							var circulos = dadosTeste;
-							for(var i = 0; i < circulos.length; i++ ){
-								var strDOM = "<div id='contactCircle" + circulos[i].id + "' class='tag-contact-circle'>" +
-										circulos[i].name + " X</div>";
-								var objDOM = domConstruct.toDom( strDOM );
-								domConstruct.place( objDOM, "boxListContactCircles");
-							}
+							updateCircleContacts( circulos );							
 						}
 					}
 				}, "boxCircleNameSearch").startup();
 			}else{
 				registry.byId("circleNameSearch").setStore( poolStore.circles.st2 );
 			}
+		},
+		
+		loadCirclesSearch: function( jsonObject ){
+			var dados = [{'name':'familia','id':'1'}];
+			poolStore.circles.st2 = fillStoreMemory(poolStore.circles.st2, dados );
+			var campoCirculo = dom.byId("circleNameSearch");
+			//TODO refatorar colocando a criação do componente e o comportamento dentro do modulo circles.js(quando existir)
+			if( campoCirculo == undefined || campoCirculo == null ){
+				new FilterSelect({
+					id: 'circleNameSearch',
+					class: 'campo-contato',
+					required: false,
+					//placeHolder: textos.nomeCirculo,
+					store: poolStore.circles.st2,
+					onKeyPress: function( event ){
+						// realiza a busca no grid
+					}
+				}, "boxCircleNameSearch").startup();
+			}else{
+				registry.byId("circleNameSearch").setStore( poolStore.circles.st2 );
+			}
 		}
-		 
 	}
 	
 });
