@@ -38,21 +38,33 @@ public class ImporterUtil {
     private EnumDriverType dbType;
     private Connection conn;
     private ArrayList<String> lTables;
-    private ArrayList<MCollumn> tColumns;
+
     private DatabaseMetaData md;
     private ResultSet rs;
     private Statement stmt;
     private ResultSetMetaData rsmd;
     private String url;
+    
+    public static final String COLUMN_TYPE = "columnType";
+    public static final String COLUMN_NAME = "columnName";
+    public static final String ORDER = "order";
+    public static final String PK_NAME = "pkName";
 
-    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
+    public static final String FK_NAME = "fkName";
+    public static final String FK_COLUMN_NAME = "fkColumnName";
+    public static final String FK_TABLE_NAME = "fkTableName";
+    public static final String PK_COLUMN_NAME = "pkColumnName";
+    public static final String PK_TABLE_NAME = "pkTableName";
+
+    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String sid, String schema) throws ClassNotFoundException {
         //Set database type
         this.dbType = dbTp;
         //Register driver
         Class.forName(dbType.toString());
         //Estabeçece a conexão com o banco
         try {
-            this.conn = DriverManager.getConnection(url, user, pass);
+            String urlConnection = makeDBConnURL(url, port, user, pass, sid, schema, dbTp);
+            this.conn = DriverManager.getConnection(urlConnection);
 
             return !this.conn.isClosed();
 
@@ -60,8 +72,34 @@ public class ImporterUtil {
             return false;
         }
     }
-       //@TODO retornar JSONArray com as tabelas
-    public ArrayList<String> getTablesFromConnection(Connection conn) throws SQLException {
+    private String makeDBConnURL(String host,String port,String user,String pass,String sid, String schema, EnumDriverType dt){
+        StringBuilder sb = new StringBuilder();
+        
+        if(dt.equals(EnumDriverType.ORACLE)){
+            sb.append("jdbc:oracle:thin:");
+            sb.append(user);
+            sb.append("@");
+            sb.append(host);
+            sb.append(":");
+            sb.append(port);
+            sb.append(":");
+            sb.append(sid);
+            
+        }else if(dt.equals(EnumDriverType.POSTGRES)){
+            sb.append("jdbc:postgresql://");
+            sb.append(host);
+            sb.append("/");
+            sb.append(schema);
+            sb.append("?user=");
+            sb.append(user);
+            sb.append("&password=");
+            sb.append(pass);
+        }
+        return sb.toString();
+    }
+
+    //@TODO retornar JSONArray com as tabelas
+    public ArrayList<String> getTablesFromConnection() throws SQLException {
         lTables = new ArrayList<String>();
         md = conn.getMetaData();
         rs = md.getTables(null, null, "%", null);
@@ -71,9 +109,10 @@ public class ImporterUtil {
         }
         return lTables;
     }
+
     //@TODO retornar JSON com as propriedades dads colunas
-    public ArrayList<MCollumn> getColumnsFromTable(String tableName, Connection conn) throws SQLException {
-        tColumns = new ArrayList<MCollumn>();
+    public JSONArray getColumnsFromTable(String tableName) throws SQLException {
+        JSONArray ja = new JSONArray();
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT * FROM " + tableName);
         rsmd = rs.getMetaData();
@@ -81,12 +120,46 @@ public class ImporterUtil {
         boolean b = rsmd.isSearchable(1);
 
         for (int i = 0; i < numberOfColumns; i++) {
-            MCollumn mc = new MCollumn();
-            mc.columnName = rsmd.getColumnName(i);
-            mc.columnType = rsmd.getColumnTypeName(i);
+            JSONObject js = new JSONObject();
+            js.put(COLUMN_NAME, rsmd.getColumnName(i));//Nome da table que tem a fk
+            js.put(COLUMN_TYPE, rsmd.getColumnTypeName(i));//Nome da table que tem a fk
+            ja.put(js);
         }
 
-        return tColumns;
+        return ja;
+    }
+
+    public JSONArray getPKsFromTable(String schema, String tableName) throws SQLException {
+        JSONArray ja = new JSONArray();
+        ResultSet rs = md.getPrimaryKeys(null, schema, tableName);
+
+        while (rs.next()) {
+            JSONObject js = new JSONObject();
+            js.put(COLUMN_NAME, rs.getString(4));//Nome da table que tem a fk
+            js.put(PK_NAME, rs.getString(6));//Nome da table que tem a fk
+            js.put(ORDER, rs.getString(5));//Nome da table que tem a fk
+
+            ja.put(js);
+        }
+        return ja;
+    }
+
+    public JSONArray getFKsFromTable(String schema, String tableName) throws SQLException {
+        JSONArray ja = new JSONArray();
+        ResultSet rs = md.getImportedKeys(null, schema, tableName);
+
+        while (rs.next()) {
+            JSONObject js = new JSONObject();
+            js.put(PK_TABLE_NAME, rs.getString(3));//Nome da table que tem a fk
+            js.put(PK_COLUMN_NAME, rs.getString(4));//Nome da coluna que é fk
+
+            js.put(FK_TABLE_NAME, rs.getString(7));//Nome da table que e referenciada
+            js.put(FK_COLUMN_NAME, rs.getString(8));//Nome da coluna que é id referenciada
+
+            js.put(FK_NAME, rs.getString(12));//Nome da fk que tem a fk
+            ja.put(js);
+        }
+        return ja;
     }
 
     public static JSONArray makeJSONFromCsv(String path, String delimiter) {
@@ -244,8 +317,4 @@ public class ImporterUtil {
             }
         }
     }
-}
-class MCollumn {
-
-    protected String columnName, columnType;
 }

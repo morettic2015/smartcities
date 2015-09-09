@@ -5,6 +5,7 @@
  */
 package br.com.moretic.rest;
 
+import br.com.moretic.util.EnumDriverType;
 import br.com.moretic.util.ImporterUtil;
 import br.com.moretic.util.SmartProxyFilter;
 import javax.persistence.EntityManager;
@@ -26,6 +27,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import javax.ejb.Stateless;
@@ -43,7 +45,7 @@ import org.json.XML;
 @Stateless
 @Path("/importer")
 public class ImporterEndpoint {
-    
+
     @PersistenceContext(unitName = "smartcitie_db")
     private EntityManager em;
 
@@ -111,7 +113,7 @@ public class ImporterEndpoint {
 
         //COnverte para XML        
         //grava no arquivo de novo
-        String xmlOutput = "<?xml version=\"1.0\"?>"+XML.toString(js);
+        String xmlOutput = "<?xml version=\"1.0\"?>" + XML.toString(js);
         out.print(xmlOutput);
         out.flush();
         out.close();
@@ -137,6 +139,30 @@ public class ImporterEndpoint {
 
         return Response.ok(fs).build();
 
+    }
+
+    @GET
+    @Path("/db_poll/{pUser}/{pPass}/{dbType}/{url}/{port}/{schema}/{sid}")
+    @Produces("application/json")
+    public Response connectDbGetTables(@PathParam("pUser") String pUser,
+            @PathParam("pPass") String pPass,
+            @PathParam("dbType") String dbType,
+            @PathParam("url") String url,
+            @PathParam("port") String port,
+            @PathParam("schema") String schema,
+             @PathParam("sid") String sid,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) throws Exception {
+
+        ImporterUtil iu = new ImporterUtil();
+        if (iu.connect(EnumDriverType.valueOf(dbType), url, port, pUser, pPass, sid, schema)) {
+
+            //@todo persisir dados da conexão do usuario
+            ArrayList<String> lTables = iu.getTablesFromConnection();
+            return Response.ok(lTables).build();
+        }
+        return Response.ok(null).build();
+        
     }
 
     @GET
@@ -307,4 +333,5 @@ public class ImporterEndpoint {
         return fName.toString();
 
     }
+
 }
