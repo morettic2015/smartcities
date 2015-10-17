@@ -1619,6 +1619,9 @@ require([
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
+                on(dom.byId("txtUrlFileLocate"), "blur", function () {
+                    alert("blur");
+                });
                 on(dom.byId("btProximoFileLocate"), "click", function () {
                     var txtNome = registry.byId("txtSourceNameLocate");
                     //var txtDesc = registry.byId("txtDescFile");

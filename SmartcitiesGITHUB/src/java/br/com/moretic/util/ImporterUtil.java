@@ -44,7 +44,7 @@ public class ImporterUtil {
     private Statement stmt;
     private ResultSetMetaData rsmd;
     private String url;
-    
+
     public static final String COLUMN_TYPE = "columnType";
     public static final String COLUMN_NAME = "columnName";
     public static final String ORDER = "order";
@@ -72,10 +72,11 @@ public class ImporterUtil {
             return false;
         }
     }
-    private String makeDBConnURL(String host,String port,String user,String pass,String sid, String schema, EnumDriverType dt){
+
+    private String makeDBConnURL(String host, String port, String user, String pass, String sid, String schema, EnumDriverType dt) {
         StringBuilder sb = new StringBuilder();
-        
-        if(dt.equals(EnumDriverType.ORACLE)){
+
+        if (dt.equals(EnumDriverType.ORACLE)) {
             sb.append("jdbc:oracle:thin:");
             sb.append(user);
             sb.append("@");
@@ -84,8 +85,8 @@ public class ImporterUtil {
             sb.append(port);
             sb.append(":");
             sb.append(sid);
-            
-        }else if(dt.equals(EnumDriverType.POSTGRES)){
+
+        } else if (dt.equals(EnumDriverType.POSTGRES)) {
             sb.append("jdbc:postgresql://");
             sb.append(host);
             sb.append("/");
@@ -99,13 +100,23 @@ public class ImporterUtil {
     }
 
     //@TODO retornar JSONArray com as tabelas
-    public ArrayList<String> getTablesFromConnection() throws SQLException {
+    public ArrayList<String> getTablesFromConnection(String schema) throws SQLException {
         lTables = new ArrayList<String>();
         md = conn.getMetaData();
         rs = md.getTables(null, null, "%", null);
         while (rs.next()) {
-
-            lTables.add(rs.getString(3));
+            
+            if (rs.getString(4) != null && rs.getString(2) != null) {
+            
+                System.out.println(rs.getString(4));
+                System.out.println("********");
+                
+                System.out.println(rs.getString(2));
+                
+                if (rs.getString(4).equals("TABLE") && rs.getString(2).equals(schema)) {
+                    lTables.add(rs.getString(3));
+                }
+            }
         }
         return lTables;
     }

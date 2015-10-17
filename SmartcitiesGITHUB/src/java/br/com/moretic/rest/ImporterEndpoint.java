@@ -83,6 +83,14 @@ public class ImporterEndpoint {
 
         return Response.ok(kml).build();
     }
+    
+    @GET
+    @Path("/copy_soutce/{url}")
+    @Produces("application/json")
+    public Response copySource(@PathParam("ccol") String ccol, @Context HttpServletRequest req, @Context HttpServletResponse res){
+        
+        return null;
+    }
 
     @GET
     @Path("/xml_update/{ccol}")
@@ -142,7 +150,7 @@ public class ImporterEndpoint {
     }
 
     @GET
-    @Path("/db_poll/{pUser}/{pPass}/{dbType}/{url}/{port}/{schema}/{sid}")
+    @Path("/db_poll/{pUser}/{pPass}/{dbType}/{url}/{port}/{schema}/{sid}/{ssc}")
     @Produces("application/json")
     public Response connectDbGetTables(@PathParam("pUser") String pUser,
             @PathParam("pPass") String pPass,
@@ -151,6 +159,8 @@ public class ImporterEndpoint {
             @PathParam("port") String port,
             @PathParam("schema") String schema,
              @PathParam("sid") String sid,
+             
+             @PathParam("ssc") String ssc,
             @Context HttpServletRequest req,
             @Context HttpServletResponse res) throws Exception {
 
@@ -158,7 +168,7 @@ public class ImporterEndpoint {
         if (iu.connect(EnumDriverType.valueOf(dbType), url, port, pUser, pPass, sid, schema)) {
 
             //@todo persisir dados da conexão do usuario
-            ArrayList<String> lTables = iu.getTablesFromConnection();
+            ArrayList<String> lTables = iu.getTablesFromConnection(ssc);
             return Response.ok(lTables).build();
         }
         return Response.ok(null).build();
