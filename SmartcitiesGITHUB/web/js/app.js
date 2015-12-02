@@ -295,7 +295,8 @@ require([
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
                 on(dom.byId("btExportarDados"), "click", function () {
-                    prepareDataSourceExport();
+                    //prepareDataSourceExport();
+                     view.abrePopUpModal(EULA, "EXPORT");
                 });
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_COPY);
@@ -1504,7 +1505,7 @@ require([
             /*
              function setEventsHeader() {
              on(dom.byId("btConfigHeader"), "click", function () {
-             view.abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
+             
              });
              
              }*/

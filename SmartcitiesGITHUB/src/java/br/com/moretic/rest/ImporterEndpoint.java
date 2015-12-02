@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.NoSuchEntityException;
 import javax.ejb.Stateless;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
@@ -88,8 +89,7 @@ public class ImporterEndpoint {
         return Response.ok(kml).build();
     }
 
-    
-    private JSONArray exportTableData(String dataSourceId, String tableName){
+    private JSONArray exportTableData(String dataSourceId, String tableName) {
         ImporterUtil ui = new ImporterUtil();
         JSONArray ja = new JSONArray();
         //Recupera o datasource
@@ -121,9 +121,10 @@ public class ImporterEndpoint {
             Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR CONNECTING TO DATABASE DRIVER NOT FOUND!\n" + ex.toString());
             return new JSONArray();
         }
-        
+
         return ja;
     }
+
     @GET
     @Path("/export_table_xml/{datasource_id}/{table_name}")
     @Produces("application/xml")
@@ -132,6 +133,7 @@ public class ImporterEndpoint {
         JSONArray ja = exportTableData(dataSourceId, tableName);
         return Response.ok(ja.toString()).build();
     }
+
     @GET
     @Path("/export_table_json/{datasource_id}/{table_name}")
     @Produces("application/json")
@@ -139,6 +141,44 @@ public class ImporterEndpoint {
         //Instancia o importer
         JSONArray ja = exportTableData(dataSourceId, tableName);
         return Response.ok(ja.toString()).build();
+    }
+
+    @GET
+    @Path("/export_columns_json/{datasource_id}/{table_name}")
+    @Produces("application/json")
+    public Response exportTableColumnsJSON(@PathParam("datasource_id") String dataSourceId, @PathParam("table_name") String tableName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+        //Instancia o importer
+        ImporterUtil ui = new ImporterUtil();
+        DataSource de;
+        JSONArray ja = new JSONArray();
+        try {
+            de = em.find(DataSource.class, Long.parseLong(dataSourceId));
+        } catch (NoSuchEntityException e) {
+            Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR RETRIEVING TABLE METADATA!\n" + e.toString());
+            return Response.ok(ja.toString()).build();//Datasource not found
+        }
+
+        EnumDriverType databaseType = de.getDataSourceDriver();
+        String dbName = de.getNmDatasource();
+        String user = de.getDataUsername();
+        String pPort = de.getPport().toString();
+        String passwd = de.getDataPassword();
+        String urlDb = de.getDataSourceUrl();
+        String mSchema = de.getDeSchema();
+
+        try {
+            if (ui.connect(databaseType, urlDb, pPort, user, passwd, dbName)) {
+
+                ja.put(ui.getColumnsFromTable(mSchema, tableName));
+                ja.put(ui.getPKsFromTable(mSchema, tableName));
+                ja.put(ui.getFKsFromTable(mSchema, tableName));
+            }
+
+        } catch (Exception e) {
+            ja = new JSONArray();
+        } finally {
+            return Response.ok(ja.toString()).build();
+        }
     }
 
     @GET

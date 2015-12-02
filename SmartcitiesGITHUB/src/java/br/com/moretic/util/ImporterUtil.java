@@ -134,7 +134,7 @@ public class ImporterUtil {
             java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
         }
 
-        rs = stmt.executeQuery("SELECT * FROM " + tableName);
+        rs = stmt.executeQuery("SELECT DISTINCT * FROM " + tableName);
 
         rsmd = rs.getMetaData();
         int numberOfColumns = rsmd.getColumnCount();
@@ -149,8 +149,9 @@ public class ImporterUtil {
                 } catch (SQLException sQLException) {
                     js.put(colName, "ERROR");
                 }
-                ja.put(js);
+                
             }
+            ja.put(js);
         }
 
         return ja;
@@ -182,6 +183,7 @@ public class ImporterUtil {
 
     public JSONArray getPKsFromTable(String schema, String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
+        md = conn.getMetaData();
         ResultSet rs = md.getPrimaryKeys(null, schema, tableName);
 
         while (rs.next()) {
@@ -197,6 +199,7 @@ public class ImporterUtil {
 
     public JSONArray getFKsFromTable(String schema, String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
+        md = conn.getMetaData();
         ResultSet rs = md.getImportedKeys(null, schema, tableName);
 
         while (rs.next()) {
