@@ -85,7 +85,7 @@ function(
 		/**
 		 *	Métodos públicos
 		 */
-		loadListaDBSelection: function() {
+		loadListaDBSelection: function(dataInfo) {
 			var boxLista = new Source("listaTabelas", {
 				creator: function (item, hint) {
 					var objDom = domConstruct.toDom("<div>" + item.nome + "</div>");
@@ -103,8 +103,21 @@ function(
 			 */
 			var dados;
 			// dados = buscarTabelasDB();
-
-
+                        
+                        /**
+                         * myProfile.dsName = dom.byId("nome_fonte_dados_importacao");
+                    myProfile.dbName = dom.byId("nome_bd_importacao");
+                    myProfile.dbType = dom.byId("cmb_tipo_banco_dados");
+                    myProfile.dbUrl = dom.byId("url_fonte_dados_importacao");
+                    myProfile.dbSchema = dom.byId("url_schema");
+                    myProfile.dbPort = dom.byId("porta_bd_importacao");
+                    myProfile.dbUser = dom.byId("usuario_bd_importacao");
+                    myProfile.dbPass
+                         * 
+                         * */
+                        //alert();
+                       
+                        
 			dados = [
 				{nome: 'Pessoa', type: 'tabela', campos: ["nome", "cpf", "endereco", "dataNasc"]},
 				{nome: 'Cidade', type: 'tabela', campos: ["idCidade", "nome", "estado"], fk: [{atributo: "estado", entidade: "Estado"}, {atributo: "nome", entidade: "Pessoa"}]},
@@ -113,7 +126,7 @@ function(
 				{nome: 'Usuario', type: 'tabela', campos: ["nome", "senha", "permissoes", "tipo"]},
 				{nome: 'Permissao', type: 'tabela', campos: ["descricao", "operacao", "leitura", "escrita", "execucao"]}
 			];
-			boxLista.insertNodes(false, dados);
+			boxLista.insertNodes(false, dataInfo);
 			// Listeners do boxLista
 			aspect.after(boxLista, "onMouseDown", function () {
 				dom.byId("targetDragDrop").style.display = '';

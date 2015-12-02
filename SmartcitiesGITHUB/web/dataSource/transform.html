@@ -15,61 +15,22 @@
     </h1>
 
     <p id="p1TransformData" style="margin:10px;">
-        Selecione uma ou mais fontes de dados a esquerda e construa sua transforma&ccedil;&atilde;o de dados
+        Selecione a fonte de dados origem e a destino para fazer a transformação de dados
     </p>
-
     <div class="celula-form-1">
-        <span class="rotulo" style="right:80%"><span id="nomeTransformData">Nome</span>:</span>
-        <input class="campo" style="left:21%" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="Nome da transforma&amp;ccedil;&amp;atilde;o"></input>
+        <span class="rotulo" style="float: left;width:25%">
+            <span id='nmDataSource'>Source:<select id="srcListDataMDD"></select></span>
+        </span>
+        <span class="rotulo" style="float: left;left: 200px;width:30%">
+            <span id='nmDataTo'>To:<select id="srcListToMDD"></select></span>
+        </span>
     </div>
-    <div class="celula-form-1">
-        <span class="rotulo" style="right:80%"><span id="gzipTransformData">Trafegar em GZIP</span>:</span>
-        <input class="campo" style="left:21%" type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon" style="position: absolute; z-index: 900; "></input>
-    </div>
-    <div class="celula-form-1">
-        <span class="rotulo" style="right:80%"><span id="httpsTransformData">Trafegar em https</span>:</span>
-        <input class="campo" style="left:21%" type="checkbox" data-dojo-type="dijit/form/CheckBox" intermediateChanges="false" iconClass="dijitNoIcon" style="position: absolute; z-index: 900;"></input>
-    </div>
-	<div class="celula-form-1">
-        <span class="rotulo" style="right:80%"><span id="criptografiaTransformData">Criptografia</span>:</span>
-        <select class="campo" style="left:21%" data-dojo-type="dijit/form/ComboBox" searchDelay="0" intermediateChanges="false"  style="position: absolute; z-index: 900;">
-			<option value="1">SSL</option>
-		</select>
-    </div>
-	<div class="celula-form-1">
-        <span class="rotulo" style="right:80%"><span id="chaveCriptoTransformData">Chave Criptografica</span>:</span>
-        <input class="campo" id="chaveCriptograficaTransformData" style="left:21%" type="file" style="position: absolute; z-index: 900;"></input>
-    </div>
-
-    <div data-dojo-type="dijit/layout/ContentPane">
-        
-        <div id="espacoTreeDataTransform" style="border: 1px solid black; border-radius: 6px; -moz-border-radius: 6px; min-height: 1em; box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; -moz-box-sizing: border-box; right: 1em; width: 225.1875px; height: 111px; float:left;"></div>
-
-        <input type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="Nome do campo" style="margin-left:10px;"></input>
-        <br>
-        <select data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" style="margin-left:10px;margin-top:10px;">
-            <option value="String">String</option>
-            <option id="opNumericoTransformData" value="Numerico">Numerico</option>
-            <option id="opBlobTransformData" value="Blob">Blob</option>
-            <option id="opLogicoTransformData" value="Logico">Logico</option>
-        </select>
-		
-        <br>
-        <select data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" style="margin-left:10px;margin-top:10px;">
-            <option id="opMascaraTransformData" value="Mascara" selected="true">Mascara</option>
-            <option value="dd/mm/yyyy">dd/mm/yyyy</option>
-            <option value="####@########">####@########</option>
-        </select>
-    </div>
-
-    <div data-dojo-type="dijit/layout/ContentPane">        
-        <table data-dojo-type="gridx/Grid" id="gridDataTransform" jsId="gridDataTransform" style="min-width: 1em; min-height: 1em; width: 100%; height: 120px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
-			structure:[
-				{width:'auto',name:'<span id=\'rotGridIDTransfomData\'>ID</span>',field:'id'},
-				{width:'auto',name:'<span id=\'rotGridNomeTransformData\'>Nome da transformação</span>',field:'nome'}
-			],store:storeMemory">
-		</table>
-    </div>
-
-
+    <fieldset name="fieldList">
+        <legend>Field list</legend>
+        <div id="fieldListSetMDD"></div>
+    </fieldset>
+    <fieldset name="fieldList">
+        <legend>Filters</legend>
+        <div id="fieldListSetFiltersMDD"></div>
+    </fieldset>
 </div>

@@ -6,13 +6,13 @@
  *	Globais
  */
 
-var map;								// MAPA DO GOOGLE
+var map;					// MAPA DO GOOGLE
 var storePais;
 var resProfileGeocoder = null;			// Guarda o objeto resultado do Geocoder do Google
-var selectedAddress = null;				// Objeto JSON criado quando o usuário seleciona seu endereço
+var selectedAddress = null;			// Objeto JSON criado quando o usuário seleciona seu endereço
 var profileAddressMarker = null;		// Marcador do endereço do usuário em Profile Address
 var dataImportObject = null;			// Guarda um objeto qualquer com as propriedades necessárias para importar dados  
-var myProfile;   						// Perfil do usuario com todos os dados dele
+var myProfile;   				// Perfil do usuario com todos os dados dele
 
 /**
  *	Constantes: uri dos arquivos/telas
@@ -87,10 +87,10 @@ require([
     "dijit/form/Button",
     "dojox/gfx",
     "js/restServices.js",
-	"js/dataSource/dataSource.js",
+    "js/dataSource/dataSource.js",
     "js/dataSource/importDB.js",
-	"js/view.js",
-	"js/dataManager.js"
+    "js/view.js",
+    "js/dataManager.js"
 ],
         function (
                 ready,
@@ -115,10 +115,10 @@ require([
                 Button,
                 gfx,
                 restServices,
-				dataSource,
+                dataSource,
                 importDB,
-				view,
-				dataManager
+                view,
+                dataManager
                 ) {
 
             ready(function () {
@@ -172,16 +172,16 @@ require([
                 // Modulo Perfil
                 on(dom.byId("btProfileInfo"), "click", function () {
                     carregaTelaPerfil(PROFILE_INFO, function () {
-                        
-						registry.byId("txtNameProfile").set("value", myProfile.nmUser );                        
-						registry.byId("txtEmailProfile").set("value", myProfile.email );
-                        var objBirthDate = new Date(myProfile.nascimento+"T00:00:00");
-						registry.byId("txtBirthdateProfile").set("value", objBirthDate );
-						registry.byId("txtCpfCnpjProfile").set("value", myProfile.cpfCnpj );
-						registry.byId("txtPasswordProfile").set("value", myProfile.password );
-						registry.byId("txtConfirmPassProfile").set("value", myProfile.password );
-						registry.byId("txtBioProfile").set("value", myProfile.bioText );
-						registry.byId("txtTelefoneProfileInfo").set("value", myProfile.telefone );
+
+                        registry.byId("txtNameProfile").set("value", myProfile.nmUser);
+                        registry.byId("txtEmailProfile").set("value", myProfile.email);
+                        var objBirthDate = new Date(myProfile.nascimento + "T00:00:00");
+                        registry.byId("txtBirthdateProfile").set("value", objBirthDate);
+                        registry.byId("txtCpfCnpjProfile").set("value", myProfile.cpfCnpj);
+                        registry.byId("txtPasswordProfile").set("value", myProfile.password);
+                        registry.byId("txtConfirmPassProfile").set("value", myProfile.password);
+                        registry.byId("txtBioProfile").set("value", myProfile.bioText);
+                        registry.byId("txtTelefoneProfileInfo").set("value", myProfile.telefone);
                         dom.byId("userAvatarInput").value = myProfile.avatars[0].path;
                         dom.byId("userAvatarImage").src = myProfile.avatars[0].path;
                         if (myProfile.cpfCnpj != null) {
@@ -193,9 +193,9 @@ require([
                 on(dom.byId("btProfileAddress"), "click", function () {
                     carregaTelaPerfil(PROFILE_ADDRESS, function () {
 
-                        if (myProfile.adresses.length > 0) {                            
-							registry.byId("txtEnderecoRua").set("value", myProfile.adresses[0].street );
-							registry.byId("txtEnderecoComplemento").set("value", myProfile.adresses[0].otherinfo );
+                        if (myProfile.adresses.length > 0) {
+                            registry.byId("txtEnderecoRua").set("value", myProfile.adresses[0].street);
+                            registry.byId("txtEnderecoComplemento").set("value", myProfile.adresses[0].otherinfo);
                             //TODO MARCAR A POSIção DO USUARIO NO MAPA
                             addMarkerToMap(myProfile.adresses[0].street + "<br>" + myProfile.adresses[0].otherinfo, myProfile.adresses[0].street, myProfile.adresses[0].lat, myProfile.adresses[0].lon)
                         }
@@ -206,10 +206,10 @@ require([
                     carregaTelaPerfil(PROFILE_SECURITY, function () {
                         //alert(myProfile.securityInfo.length);
                         if (myProfile.securityInfo.length > 0) {
-							registry.byId("txtSegurancaEmail").set("value", myProfile.securityInfo[0].emailRecorey1 );
-							registry.byId("txtSegurancaFrase").set("value", myProfile.securityInfo[0].secretWord );
-							registry.byId("txtSegurancaCelular").set("value", myProfile.securityInfo[0].telefoneRecorey1 );
-							registry.byId("txtSegurancaTelefone").set("value", myProfile.securityInfo[0].telefoneRecorey2 );
+                            registry.byId("txtSegurancaEmail").set("value", myProfile.securityInfo[0].emailRecorey1);
+                            registry.byId("txtSegurancaFrase").set("value", myProfile.securityInfo[0].secretWord);
+                            registry.byId("txtSegurancaCelular").set("value", myProfile.securityInfo[0].telefoneRecorey1);
+                            registry.byId("txtSegurancaTelefone").set("value", myProfile.securityInfo[0].telefoneRecorey2);
                         }
 
                     });
@@ -294,14 +294,63 @@ require([
                     var param = {tipoArquivo: "XML"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
-				on(dom.byId("btExportarDados"), "click", function(){
-					prepareDataSourceExport();
-				});
+                on(dom.byId("btExportarDados"), "click", function () {
+                    prepareDataSourceExport();
+                });
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_COPY);
                 });
                 on(dom.byId("mnuFerramentaDadosTransform"), "click", function () {
-                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM);
+                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM, null, function () {
+                        var mainSourceList = document.getElementById("srcListDataMDD");
+                        var mainToList = document.getElementById("srcListToMDD");
+
+                        var myFtpList = myProfile.myFtps;
+                        var sourcesList = myProfile.mySources;
+                        var myDbs = myProfile.myDbs;
+                        //ZERA TODOS
+
+                        mainSourceList.innerHTML = "";
+                        mainToList.innetHTML = "";
+                        // alert(sourcesList);
+                        for (i = 0; i < sourcesList.length; i++) {
+                            var myTpInfo = sourcesList[i].myTp.toLowerCase();
+                            //alert(myTpInfo);
+
+                            var opt = document.createElement('option');
+                            opt.value = myTpInfo + "_" + sourcesList[i].id;
+                            opt.innerHTML = sourcesList[i].fileTit + "(" + sourcesList[i].fileUrl + ")";
+                            mainToList.appendChild(opt);
+                            var opt = document.createElement('option');
+                            opt.value = myTpInfo + "_" + sourcesList[i].id;
+                            opt.innerHTML = sourcesList[i].fileTit + "(" + sourcesList[i].fileUrl + ")";
+                            mainSourceList.appendChild(opt);
+                        }
+
+                        for (i = 0; i < myFtpList.length; i++) {
+
+                            var opt = document.createElement('option');
+                            opt.value = "ftp_" + myFtpList[i].id;
+                            opt.innerHTML = myFtpList[i].host + "(" + myFtpList[i].user + ")";
+                            mainToList.appendChild(opt);
+                            var opt = document.createElement('option');
+                            opt.value = "ftp_" + myFtpList[i].id;
+                            opt.innerHTML = myFtpList[i].host + "(" + myFtpList[i].user + ")";
+                            mainSourceList.appendChild(opt);
+                        }
+
+                        for (i = 0; i < myDbs.length; i++) {
+
+                            var opt = document.createElement('option');
+                            opt.value = "dtb_" + myDbs[i].iddataSource;
+                            opt.innerHTML = myDbs[i].dataSourceUrl + "(" + myDbs[i].dataSourceDriver + " / " + myDbs[i].nmDatasource + ")";
+                            mainToList.appendChild(opt);
+                            var opt = document.createElement('option');
+                            opt.value = "dtb_" + myDbs[i].iddataSource;
+                            opt.innerHTML = myDbs[i].dataSourceUrl + "(" + myDbs[i].dataSourceDriver + " / " + myDbs[i].nmDatasource + ")";
+                            mainSourceList.appendChild(opt);
+                        }
+                    });
                 });
                 on(dom.byId("btHistoricoDados"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_HISTORY);
@@ -326,7 +375,7 @@ require([
                 on(dom.byId("btMapaView"), "click", function () {
                     makeGmap();
                 });
-				on(dom.byId("btMapaExportar"), "click", function () {
+                on(dom.byId("btMapaExportar"), "click", function () {
                     var strKML = BlitzMap.smartcitiesGmapToKml(map);
                     console.log(strKML);
                 });
@@ -464,6 +513,7 @@ require([
             function loadDataSourcelistElements() {
                 var myFtpList = myProfile.myFtps;
                 var sourcesList = myProfile.mySources;
+                var myDbs = myProfile.myDbs;
                 //ZERA TODOS
                 document.getElementById("ftpGroup").innerHTML = "";
                 document.getElementById("xmlGroup").innerHTML = "";
@@ -485,11 +535,19 @@ require([
                     selectDataOption.appendChild(opt);
                 }
                 var selectDataOption = document.getElementById("ftpGroup");
-                for (i = 0; i < myFtpList.length; i++) {                    
+                for (i = 0; i < myFtpList.length; i++) {
 
                     var opt = document.createElement('option');
                     opt.value = myFtpList[i].id;
                     opt.innerHTML = myFtpList[i].host + "(" + myFtpList[i].user + ")";
+                    selectDataOption.appendChild(opt);
+                }
+                var selectDataOption = document.getElementById("dbGroup");
+                for (i = 0; i < myDbs.length; i++) {
+
+                    var opt = document.createElement('option');
+                    opt.value = myDbs[i].iddataSource;
+                    opt.innerHTML = myDbs[i].dataSourceUrl + "(" + myDbs[i].dataSourceDriver + " / " + myDbs[i].nmDatasource + ")";
                     selectDataOption.appendChild(opt);
                 }
             }
@@ -817,32 +875,32 @@ require([
              * @argument {largura} define a largura do modal. Opcional.
              * @argument {altura} define a altura do modal. Opcional.
              * 
-            function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
-                var larguraModal = largura != undefined && largura != null ? largura : 400;
-                var alturaModal = altura != undefined && altura != null ? altura : 200;
-                var larguraContent = larguraModal - 25;
-                var alturaContent = alturaModal - 52;
-                //dom.byId("tituloModal").innerHTML = titulo;
-                if (messageOnly) {
-                    contentPane_PopUp.set("content", paginaConteudo);
-                } else {
-                    contentPane_PopUp.set("href", paginaConteudo);
-                }
-                domStyle.set("myDialog", "width", larguraModal + "px");
-                domStyle.set("myDialog", "height", alturaModal + "px");
-                domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
-                domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
-                myDialog.set("title", titulo);
-                exibeModal();
-            }
-
-            function exibeModal() {
-                myDialog.show();
-            }
-
-            function modalMessage(message, type) {
-                abrePopUpModal(message, type, null, 150, true);
-            }*/
+             function abrePopUpModal(paginaConteudo, titulo, largura, altura, messageOnly) {
+             var larguraModal = largura != undefined && largura != null ? largura : 400;
+             var alturaModal = altura != undefined && altura != null ? altura : 200;
+             var larguraContent = larguraModal - 25;
+             var alturaContent = alturaModal - 52;
+             //dom.byId("tituloModal").innerHTML = titulo;
+             if (messageOnly) {
+             contentPane_PopUp.set("content", paginaConteudo);
+             } else {
+             contentPane_PopUp.set("href", paginaConteudo);
+             }
+             domStyle.set("myDialog", "width", larguraModal + "px");
+             domStyle.set("myDialog", "height", alturaModal + "px");
+             domStyle.set(contentPane_PopUp.domNode, "width", larguraContent + "px");
+             domStyle.set(contentPane_PopUp.domNode, "height", alturaContent + "px");
+             myDialog.set("title", titulo);
+             exibeModal();
+             }
+             
+             function exibeModal() {
+             myDialog.show();
+             }
+             
+             function modalMessage(message, type) {
+             abrePopUpModal(message, type, null, 150, true);
+             }*/
 
 
             function configuraTela(pagina) {
@@ -883,8 +941,8 @@ require([
                     i18nCopyData();
                 } else if (pagina == DATAIMPORT_TRANSFORM) {
                     i18nDataTransform();
-                    loadTreeDataTransform();
-                    refreshGridDataTransform();
+                    //loadTreeDataTransform();
+                    //refreshGridDataTransform();
                 } else if (pagina == DATAIMPORT_SHARE) {
                     i18nDataShare();
                     refreshGridDataShare();
@@ -901,13 +959,13 @@ require([
                     i18nBillingTransactions();
                 } else if (pagina == BILLING_CREDITDEBT) {
                     i18nBillingCredit();
-                } else if (pagina == CIRCLES_CONTACTS) {                    
+                } else if (pagina == CIRCLES_CONTACTS) {
                     setEventsCircleContacts();
                     refreshGridCircleContacts();
-					dataManager.loadSelectCircles();
-					i18nContactCircle();
+                    dataManager.loadSelectCircles();
+                    i18nContactCircle();
                 } else if (pagina == CIRCLES_MANAGE) {
-					//dataManager.loadCirclesSearch();
+                    //dataManager.loadCirclesSearch();
                     //i18nCircles();
                     refreshGridCircles();
                 } else if (pagina == MAP_CONFIG) {
@@ -922,10 +980,10 @@ require([
                     i18nImportDatabaseSelection();
                     //loadTreeDBSelection();
                     // a arvore foi substituida por uma lista em vista da imcompatibilidade do dijit/tree/dndSource com o dojo/dnd/source
-                    importDB.loadListaDBSelection();
-                    importDB.loadDragDropDBSelection();
-                    importDB.objetosDropadosDB = [];
-                    importDB.linhasDB = [];
+                    /*importDB.loadListaDBSelection(myProfile.databaseMdd);
+                     importDB.loadDragDropDBSelection();
+                     importDB.objetosDropadosDB = [];
+                     importDB.linhasDB = [];*/
                 } else if (pagina == DATAIMPORT_KML) {
                     i18nImportKml();
                     setEventsImportKml();
@@ -990,9 +1048,9 @@ require([
             /**
              *	Atribuição de textos e internacionalização das telas
              */
-			 
-			
-			
+
+
+
             { // Profile
                 function i18nProfileInfo() {
                     dom.byId("rotBtSalvarProfileInfo").innerHTML = textos.rotSalvar;
@@ -1093,17 +1151,17 @@ require([
                     dom.byId("rotBtTestarTransformData").innerHTML = textos.btTestarDados;
                     dom.byId("tituloTransformData").innerHTML = textos.tituloTransformarDados;
                     dom.byId("p1TransformData").innerHTML = textos.p1TransformarDados;
-                    dom.byId("nomeTransformData").innerHTML = textos.gNome;
-                    dom.byId("gzipTransformData").innerHTML = textos.rotGZIPDados;
-                    dom.byId("httpsTransformData").innerHTML = textos.rotHttpsDados;
+                    //dom.byId("nomeTransformData").innerHTML = textos.gNome;
+                    //dom.byId("gzipTransformData").innerHTML = textos.rotGZIPDados;
+                    //dom.byId("httpsTransformData").innerHTML = textos.rotHttpsDados;
                     //dom.byId("rotNomeCampoTransform").innerHTML = textos.rotNomeCampoDados;
                     //dom.byId("opStringTransformData").innerHTML = textos.gString;
                     //dom.byId("opNumericoTransformData").innerHTML = textos.gNumerico;
                     //dom.byId("opBlobTransformData").innerHTML = textos.gBlob;
                     //dom.byId("opLogicoTransformData").innerHTML = textos.gLogico;
                     //dom.byId("opMascaraTransformData").innerHTML = textos.gMascara;
-                    dom.byId("rotGridIDTransfomData").innerHTML = textos.gID;
-                    dom.byId("rotGridNomeTransformData").innerHTML = textos.rotNomeTransformacaoDados;
+                    //dom.byId("rotGridIDTransfomData").innerHTML = textos.gID;
+                    //dom.byId("rotGridNomeTransformData").innerHTML = textos.rotNomeTransformacaoDados;
                 }
                 function i18nDataShare() {
                     dom.byId("tituloShareData").innerHTML = textos.tituloCompartilharDados;
@@ -1181,7 +1239,7 @@ require([
                     dom.byId("rotPortaDBImport").innerHTML = textos.gPorta;
                     dom.byId("rotUsuarioDBImport").innerHTML = textos.gUsuario;
                     dom.byId("rotSenhaDBImport").innerHTML = textos.gSenha;
-                    dom.byId("rotBtTestarDBImport").innerHTML = textos.testarConexao;
+                    //dom.byId("rotBtTestarDBImport").innerHTML = textos.testarConexao;
                 }
                 function i18nImportDatabaseSelection() {
                     dom.byId("rotBtAnteriorDatabaseSelection").innerHTML = textos.gAnterior;
@@ -1306,15 +1364,15 @@ require([
                     dom.byId("rotBtSalvarCircleContacts").innerHTML = textos.rotSalvar;
                     dom.byId("rotBtExcluirCircleContacts").innerHTML = textos.rotExcluir;
                     dom.byId("rotBtImportarCircleContacts").innerHTML = textos.rotImportar;
-					var circleName = registry.byId("txtCircleNameSearch");
-					circleName.set("placeHolder", textos.nomeCirculo);
-					circleName.set("title", textos.instrucaoNomeCirculo )
-					
+                    var circleName = registry.byId("txtCircleNameSearch");
+                    circleName.set("placeHolder", textos.nomeCirculo);
+                    circleName.set("title", textos.instrucaoNomeCirculo)
+
                 }
                 function i18nCircles() {
                     dom.byId("tituloCircles").innerHTML = textos.tituloCirculos;
                     dom.byId("rotNomeCircles").innerHTML = textos.gNome;
-					//registry.byId("txtCircleNameSearch").set("placeHolder", textos.nomeCirculo);
+                    //registry.byId("txtCircleNameSearch").set("placeHolder", textos.nomeCirculo);
                     //dom.byId("rotBtBuscarCircles").innerHTML = textos.btBuscar;
                     dom.byId("colGridCirculoCircles").innerHTML = textos.gCirculo;
                     dom.byId("colGridMembrosCircles").innerHTML = textos.gMembros;
@@ -1324,11 +1382,11 @@ require([
                 }
             }
 
-            function i18nMapConfig() {                
+            function i18nMapConfig() {
                 dom.byId("rotBtFiltrarMapConfig").innerHTML = textos.rotFiltrar;
                 dom.byId("rotBtSalvarMapConfig").innerHTML = textos.rotSalvar;
             }
-            function i18nGeneralConfig() {                
+            function i18nGeneralConfig() {
                 dom.byId("tituloConfiguracao").innerHTML = textos.gConfiguracao;
                 dom.byId("rotConfigRegion").innerHTML = textos.gRegiao;
             }
@@ -1443,13 +1501,13 @@ require([
              */
 
             // Header/Cabeçalho
-			/*
-            function setEventsHeader() {
-                on(dom.byId("btConfigHeader"), "click", function () {
-                    view.abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
-                });
-
-            }*/
+            /*
+             function setEventsHeader() {
+             on(dom.byId("btConfigHeader"), "click", function () {
+             view.abrePopUpModal(CONFIGURATION, textos.gConfiguracao, 300, 200);
+             });
+             
+             }*/
 
             // Eventos no modulo Perfil
 
@@ -1496,7 +1554,8 @@ require([
                     //console.log(this.value);
                     //dom.byId("userAvatarImage").src = this.value;
                     //view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 250);
-                    view.abrePopUpModal(UPLOAD, "File Upload", 400, 300);
+                    //view.abrePopUpModal(UPLOAD, "File Upload", 400, 300);
+                    view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
                 });
             }
 
@@ -1504,7 +1563,7 @@ require([
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
                     saveProfileAddress();
                 });
-                
+
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);
                 });
@@ -1602,6 +1661,81 @@ require([
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
                 on(dom.byId("btProximoImportDBConnect"), "click", function () {
+                    //alert("hie");
+
+
+
+                    var db = dom.byId("nome_bd_importacao").value;
+                    var dbType = dom.byId("cmb_tipo_banco_dados").value;
+                    var schema = dom.byId("url_schema").value;
+                    var url = dom.byId("url_fonte_dados_importacao").value;
+                    var porta = dom.byId("porta_bd_importacao").value;
+                    var usuario = dom.byId("usuario_bd_importacao").value;
+                    var senha = dom.byId("senha_bd_importacao").value;
+
+                    //http://localhost:8080/smartcities/rest/importer/db_poll/postgres/m0r3tt02013/POSTGRES/localhost/3128/smartcities/public
+                    var url = "importer/db_poll/" + usuario + "/" + senha + "/" + dbType + "/" + url + "/" + porta + "/" + db + "/" + schema;
+                    var resultado = restServices.salvaObjeto(url);
+                    resultado.then(function (dat) {
+                        if (!(dat instanceof Object)) {
+                            alert("ERROR CONNECTING TO DATABASE!");
+                        } else {
+                            // alert(dat);
+
+
+                            // Retorna { nodeName: "/", fullPath: null, type: "DIR", lFiles: [ { nodeName: "pub", ...} , size: 0 }
+                            //view.modalMessage(textos.gSalvoSucesso, "FTP");
+
+                            /**
+                             * 
+                             * 
+                             * dados = [
+                             
+                             {nome: 'Pessoa', type: 'tabela', campos: ["nome", "cpf", "endereco", "dataNasc"]},
+                             {nome: 'Cidade', type: 'tabela', campos: ["idCidade", "nome", "estado"], fk: [{atributo: "estado", entidade: "Estado"}, {atributo: "nome", entidade: "Pessoa"}]},
+                             // fk: [{chave_estrangeira,lookup_table},{...}] 
+                             {nome: 'Estado', type: 'tabela', campos: ["idEstado", "nome", "uf", "pais"]},
+                             {nome: 'Usuario', type: 'tabela', campos: ["nome", "senha", "permissoes", "tipo"]},
+                             {nome: 'Permissao', type: 'tabela', campos: ["descricao", "operacao", "leitura", "escrita", "execucao"]}
+                             
+                             ];
+                             * 
+                             * */
+
+                            var mddInfoMapped = new Object();
+
+                            mddInfoMapped.lTables = [];
+
+                            for (i = 0; i < dat.mdd.length; i++) {
+                                var tableBean = new Object();
+                                tableBean.nome = dat.mdd[i].tName;
+                                tableBean.type = 'tabela';
+                                tableBean.campos = [];
+
+                                for (j = 0; j < dat.mdd[i].columns.length; j++) {
+                                    tableBean.campos.push(dat.mdd[i].columns[j].columnName);
+                                }
+
+
+                                tableBean.fk = [];
+                                for (j = 0; j < dat.mdd[i].fks.length; j++) {
+
+                                    var fkObject = new Object();
+                                    fkObject.atributo = dat.mdd[i].fks[j].fkColumnName;
+                                    fkObject.entidade = dat.mdd[i].fks[j].pkTableName;
+
+                                    tableBean.fk.push(fkObject);
+                                }
+
+                                mddInfoMapped.lTables.push(tableBean);
+                            }
+                            importDB.loadListaDBSelection(mddInfoMapped.lTables);
+                            importDB.loadDragDropDBSelection();
+                            importDB.objetosDropadosDB = [];
+                            importDB.linhasDB = [];
+                        }
+                    });
+
                     carregaTelaFerramentaDados(DATAIMPORT_DB_SELECTION);
                 });
             }
@@ -1653,11 +1787,11 @@ require([
                 on(dom.byId("btUploadFileLocate"), "click", function () {
                     view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
                 });
-				/*
-                on(dom.byId("btPendencyDirectory"), "click", function () {
-                    view.abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
-                });
-				*/
+                /*
+                 on(dom.byId("btPendencyDirectory"), "click", function () {
+                 view.abrePopUpModal(DATAIMPORT_PENDENCY_FILES);
+                 });
+                 */
             }
             function setEventsImportCsv() {
                 on(dom.byId("btAnteriorImportCsv"), "click", function () {
@@ -1727,7 +1861,9 @@ require([
                     carregaTelaFerramentaDados(DATAIMPORT_TASK)
                 });
                 on(dom.byId("rotSplashTransformData"), "click", function () {
-                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM)
+                    carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM);
+                    // alert(myProfile.myDbs);
+                    // alert(myProfile.myDbs);
                 });
             }
             function setEventsSplashProfile() {
@@ -2230,11 +2366,11 @@ require([
 
 
 
-            function loadUserCTX() {                
+            function loadUserCTX() {
                 var resultado = restServices.loadCtx();
                 return resultado.then(function (dados) {
                     if (typeof dados == "string") {
-                        view.modalMessage(dados, textos.gErro );
+                        view.modalMessage(dados, textos.gErro);
                         return false;
                     } else if (dados instanceof Object) {
                         myProfile = eval(dados);
@@ -2729,89 +2865,89 @@ require([
                 }
             }
 
-            function populateStoreCover(){
-				// exemplo
-				var productsHigh = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:0},{name:"Consumo Supermercado", desc:"ddd",valor:0}];
-				var productsFree = [{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"Ruas São José",desc:"logradouros",valor:0},{name:"dados diversos", desc:"ddd",valor:0},{name:"A coisa lá",desc:"coisa", valor: 0}];
-				var productsPaid = [{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"Clientes Supermercado",desc:"Dados preferenciais",valor:100},{name:"Consumo Supermercado", desc:"ddd",valor:10},{name:"pogobol",desc:"estrela",valor:90}];
-				//TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
-				
-				populateBoxStore( "highlightStore", productsHigh );
-				populateBoxStore( "paidStore", productsPaid );
-				populateBoxStore( "freeStore", productsFree );
-				
-			}
-			
-			// Popula uma seção de produtos da loja usando uma lista/array de produtos
-			function populateBoxStore( targetPlace, products ){
-				var limitBoxes = 4;
-				
-				// Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
-				for( var i = 0; i < products.length ; i++ ){
-					if( i == limitBoxes ){
-						var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace+"SeeMore'></div>";
-						domConstruct.place( boxSeeMore, targetPlace );	
-						var btViewMore = new Button({
-							label: textos.verMais,
-							class: "button-see-more",
-							onClick: function(){
-								//TODO abre alguma tela em algum lugar
-								view.modalMessage("teste", "clicou");
-							}
-						}, targetPlace+"SeeMore" ).startup();
-						
-						break;
-					}
-					var cssStyle;				
-					if( products[i].valor > 0 ){ //TODO funciona se houver uma propriedade valor, senão trocar
-						cssStyle = "pago";
-					}else{
-						cssStyle = "free";
-					}					
-					if( targetPlace == "highlightStore" ){
-						cssStyle += " highlight";
-					}
-					var name = products[i].name //TODO colocar a propriedade certa do objeto
-					var description = products[i].desc; //TODO colocar a propriedade certa do objeto
-					var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
-					createProductBoxStore( cssStyle, name, description, image, targetPlace );					
-					
-				}
-				
-			}
-			
-			function createProductBoxStore( cssStyle, name, description, uriImage, targetPlace ){
-				var html = "<div class='box-store-item "+cssStyle+"'>" +
-							"<img class='image-store-item' src='" + uriImage + "'>" +
-							"<span class='name-store-item'>" + name + "</span>" +
-							"<span class='desc-store-item'>" + description + "</span>";
-				if( cssStyle.indexOf("pago") > -1 ){
-					html += "<div class='buy'></div>";
-				}else{
-					html += "<div class='import'></div>";
-				}
-				html += "</div>";
-						
-				var boxStore = domConstruct.toDom( html );
-				domConstruct.place( html, targetPlace );
-			}
-			
-			function prepareDataSourceExport(){
-				// get the selected sources
-				var lstOptions = dom.byId("listaFontesDados").options;				
-				var idSource = null;
-				for( var i = 0; i < lstOptions.length; i++ ){
-					if( lstOptions[i].selected == true ){
-						idSource = lstOptions[i].value;
-					}
-				}
-				
-				// let the id available in the global parameter
-				parametrosTela = {idDataSourceExport: idSource };
-				console.log( parametrosTela);
-				// open export window
-				
-			}
+            function populateStoreCover() {
+                // exemplo
+                var productsHigh = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}, {name: "Consumo Supermercado", desc: "ddd", valor: 0}];
+                var productsFree = [{name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "Ruas São José", desc: "logradouros", valor: 0}, {name: "dados diversos", desc: "ddd", valor: 0}, {name: "A coisa lá", desc: "coisa", valor: 0}];
+                var productsPaid = [{name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "Clientes Supermercado", desc: "Dados preferenciais", valor: 100}, {name: "Consumo Supermercado", desc: "ddd", valor: 10}, {name: "pogobol", desc: "estrela", valor: 90}];
+                //TODO realizar as buscas pelos produtos e usar o populateBoxStore para preencher as listas adequadas
+
+                populateBoxStore("highlightStore", productsHigh);
+                populateBoxStore("paidStore", productsPaid);
+                populateBoxStore("freeStore", productsFree);
+
+            }
+
+            // Popula uma seção de produtos da loja usando uma lista/array de produtos
+            function populateBoxStore(targetPlace, products) {
+                var limitBoxes = 4;
+
+                // Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
+                for (var i = 0; i < products.length; i++) {
+                    if (i == limitBoxes) {
+                        var boxSeeMore = "<div style='width:98%;position:absolute;' id='" + targetPlace + "SeeMore'></div>";
+                        domConstruct.place(boxSeeMore, targetPlace);
+                        var btViewMore = new Button({
+                            label: textos.verMais,
+                            class: "button-see-more",
+                            onClick: function () {
+                                //TODO abre alguma tela em algum lugar
+                                view.modalMessage("teste", "clicou");
+                            }
+                        }, targetPlace + "SeeMore").startup();
+
+                        break;
+                    }
+                    var cssStyle;
+                    if (products[i].valor > 0) { //TODO funciona se houver uma propriedade valor, senão trocar
+                        cssStyle = "pago";
+                    } else {
+                        cssStyle = "free";
+                    }
+                    if (targetPlace == "highlightStore") {
+                        cssStyle += " highlight";
+                    }
+                    var name = products[i].name //TODO colocar a propriedade certa do objeto
+                    var description = products[i].desc; //TODO colocar a propriedade certa do objeto
+                    var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
+                    createProductBoxStore(cssStyle, name, description, image, targetPlace);
+
+                }
+
+            }
+
+            function createProductBoxStore(cssStyle, name, description, uriImage, targetPlace) {
+                var html = "<div class='box-store-item " + cssStyle + "'>" +
+                        "<img class='image-store-item' src='" + uriImage + "'>" +
+                        "<span class='name-store-item'>" + name + "</span>" +
+                        "<span class='desc-store-item'>" + description + "</span>";
+                if (cssStyle.indexOf("pago") > -1) {
+                    html += "<div class='buy'></div>";
+                } else {
+                    html += "<div class='import'></div>";
+                }
+                html += "</div>";
+
+                var boxStore = domConstruct.toDom(html);
+                domConstruct.place(html, targetPlace);
+            }
+
+            function prepareDataSourceExport() {
+                // get the selected sources
+                var lstOptions = dom.byId("listaFontesDados").options;
+                var idSource = null;
+                for (var i = 0; i < lstOptions.length; i++) {
+                    if (lstOptions[i].selected == true) {
+                        idSource = lstOptions[i].value;
+                    }
+                }
+
+                // let the id available in the global parameter
+                parametrosTela = {idDataSourceExport: idSource};
+                console.log(parametrosTela);
+                // open export window
+
+            }
             /*
              *	Fim da declaração das funções
              */

@@ -298,6 +298,16 @@ public class ProfileEndpoint {
             entityFtps = findByFtpSource.getResultList();
             //entity.getlLog().clear();
             entity.getMyFtps().addAll(entityFtps);
+            
+              
+            //Carrega a lista de database
+            TypedQuery<DataSource> findByDataSource = em.createQuery("SELECT DISTINCT a FROM DataSource a  WHERE a.idProfile = :entityId ORDER BY a.nmDatasource", DataSource.class);
+            findByDataSource.setParameter("entityId", id);
+            List<DataSource> entityDataSources;
+            //findByFtpSource.setParameter("entityId", id);
+            entityDataSources = findByDataSource.getResultList();
+            //entity.getlLog().clear();
+            entity.getMyDbs().addAll(entityDataSources);
 
             findByIdProf = null;
             findByIdSec = null;
@@ -309,6 +319,7 @@ public class ProfileEndpoint {
             entitAvatar = null;
             entityUserLog = null;
             entitySec = null;
+            entityDataSources = null;
 
         } catch (NoResultException nre) {
             entity = null;

@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import br.com.moretic.vo.*;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -27,9 +28,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
@@ -83,12 +87,65 @@ public class ImporterEndpoint {
 
         return Response.ok(kml).build();
     }
+
     
+    private JSONArray exportTableData(String dataSourceId, String tableName){
+        ImporterUtil ui = new ImporterUtil();
+        JSONArray ja = new JSONArray();
+        //Recupera o datasource
+        DataSource de;
+        try {
+            de = em.find(DataSource.class, Long.parseLong(dataSourceId));
+        } catch (Exception numberFormatException) {
+            Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR RETRIEVING TABLE METADATA!\n" + numberFormatException.toString());
+            return new JSONArray();
+        }
+
+        EnumDriverType databaseType = de.getDataSourceDriver();
+        String dbName = de.getNmDatasource();
+        String user = de.getDataUsername();
+        String pPort = de.getPport().toString();
+        String passwd = de.getDataPassword();
+        String urlDb = de.getDataSourceUrl();
+        String dbSchema = de.getSchema();
+
+        try {
+            if (ui.connect(databaseType, urlDb, pPort, user, passwd, dbName)) {
+
+                ja = ui.getTableData(dbSchema, tableName);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR RETRIEVING TABLE DATA!\n" + ex.toString());
+            return new JSONArray();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR CONNECTING TO DATABASE DRIVER NOT FOUND!\n" + ex.toString());
+            return new JSONArray();
+        }
+        
+        return ja;
+    }
+    @GET
+    @Path("/export_table_xml/{datasource_id}/{table_name}")
+    @Produces("application/xml")
+    public Response exportTableDataXML(@PathParam("datasource_id") String dataSourceId, @PathParam("table_name") String tableName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+        //Instancia o importer
+        JSONArray ja = exportTableData(dataSourceId, tableName);
+        return Response.ok(ja.toString()).build();
+    }
+    @GET
+    @Path("/export_table_json/{datasource_id}/{table_name}")
+    @Produces("application/json")
+    public Response exportTableDataJSON(@PathParam("datasource_id") String dataSourceId, @PathParam("table_name") String tableName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+        //Instancia o importer
+        JSONArray ja = exportTableData(dataSourceId, tableName);
+        return Response.ok(ja.toString()).build();
+    }
+
     @GET
     @Path("/copy_soutce/{url}")
     @Produces("application/json")
-    public Response copySource(@PathParam("ccol") String ccol, @Context HttpServletRequest req, @Context HttpServletResponse res){
-        
+    public Response copySource(@PathParam("ccol") String ccol, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+
         return null;
     }
 
@@ -149,31 +206,117 @@ public class ImporterEndpoint {
 
     }
 
+    /**
+     * http://localhost:8080/smartcities/rest/importer/db_poll/postgres/m0r3tt02013/POSTGRES/localhost/3128/smartcities/public
+     */
     @GET
-    @Path("/db_poll/{pUser}/{pPass}/{dbType}/{url}/{port}/{schema}/{sid}/{ssc}")
+    @Path("/db_poll/{pUser}/{pPass}/{dbType}/{url}/{port}/{databaseModel}/{schema}")
     @Produces("application/json")
     public Response connectDbGetTables(@PathParam("pUser") String pUser,
             @PathParam("pPass") String pPass,
             @PathParam("dbType") String dbType,
             @PathParam("url") String url,
             @PathParam("port") String port,
+            @PathParam("databaseModel") String databaseModel,
             @PathParam("schema") String schema,
-             @PathParam("sid") String sid,
-             
-             @PathParam("ssc") String ssc,
             @Context HttpServletRequest req,
             @Context HttpServletResponse res) throws Exception {
 
         ImporterUtil iu = new ImporterUtil();
-        if (iu.connect(EnumDriverType.valueOf(dbType), url, port, pUser, pPass, sid, schema)) {
+
+        EnumDriverType mdriver = EnumDriverType.valueOf(dbType.toUpperCase());
+
+        if (iu.connect(mdriver, url, port, pUser, pPass, databaseModel)) {
 
             //@todo persisir dados da conexão do usuario
-            ArrayList<String> lTables = iu.getTablesFromConnection(ssc);
-            return Response.ok(lTables).build();
+            ArrayList<String> lTables = iu.getTablesFromConnection(schema);
+
+            JSONObject jsTable = new JSONObject();
+
+            jsTable.put(SCHEMAA, schema);
+            jsTable.put(P_DB, databaseModel);
+            jsTable.put(P_DRIVER, mdriver);
+            jsTable.put(P_URL, url);
+            jsTable.put(P_PORT, port);
+            jsTable.put(P_USER, pUser);
+            //jsTable.put(SID, sid);
+
+            JSONArray databaseModelMetaData = new JSONArray();
+
+            for (String tName : lTables) {
+                JSONObject js = new JSONObject();
+                js.put("tName", tName);
+
+                JSONArray cols = new JSONArray();
+                JSONArray pks = new JSONArray();
+                JSONArray fks = new JSONArray();
+
+                //Recover all the columns
+                try {
+                    cols = iu.getColumnsFromTable(schema, tName);
+                } catch (SQLException sQLException) {
+                    Logger.getAnonymousLogger().log(Level.WARNING, "iu.getColumnsFromTable(" + schema + "," + tName + ")");
+                }
+                js.put(COLUMNS, cols);
+
+                //Recover all the pk from table
+                try {
+                    pks = iu.getPKsFromTable(schema, tName);
+                } catch (SQLException sQLException) {
+                    Logger.getAnonymousLogger().log(Level.WARNING, "iu.getPKsFromTable(" + schema + "," + tName + ")");
+                }
+                js.put(PKS, pks);
+
+                //Recover all the fk from table
+                try {
+                    fks = iu.getFKsFromTable(schema, tName);
+                } catch (SQLException sQLException) {
+                    Logger.getAnonymousLogger().log(Level.WARNING, "iu.getFKsFromTable(" + schema + "," + tName + ")");
+                }
+                js.put(FKS, fks);
+
+                databaseModelMetaData.put(js);
+
+            }
+            jsTable.put("mdd", databaseModelMetaData);
+
+            Profile p = ProfileEndpoint.getProfileSession(req);
+
+            //Persiste o datasource
+            try {
+                DataSource de = new DataSource();
+                de.setDataPassword(pPass);
+                de.setDataUsername(pUser);
+                de.setPport(new Integer(port));
+                de.setDataSourceUrl(url);
+                de.setDataSourceDriver(mdriver);
+                de.setNmDatasource(databaseModel);
+                de.setDeSchema(schema);
+
+                de.setOwner(p);
+                de.setIdProfile(p.getIdprofile());
+
+                em.persist(de);
+            } catch (Exception numberFormatException) {
+                numberFormatException.printStackTrace();
+            }
+
+            return Response.ok(jsTable.toString()).build();
         }
         return Response.ok(null).build();
-        
+
     }
+    public static final String P_DB = "pDb";
+    public static final String SID = "sid";
+    public static final String P_USER = "pUser";
+    public static final String P_PORT = "pPort";
+    public static final String P_URL = "pUrl";
+    public static final String P_DRIVER = "pDriver";
+    public static final String TABLE = "table";
+    public static final String SCHEMAA = "databaseModel";
+    public static final String FKS = "fks";
+    public static final String PKS = "pks";
+    public static final String COLUMNS = "columns";
 
     @GET
     @Path("/csv_update/{ccol}")

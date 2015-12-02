@@ -5,6 +5,7 @@
  */
 package br.com.moretic.util;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.copy.HierarchicalStreamCopier;
@@ -26,7 +27,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -56,14 +59,14 @@ public class ImporterUtil {
     public static final String PK_COLUMN_NAME = "pkColumnName";
     public static final String PK_TABLE_NAME = "pkTableName";
 
-    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String sid, String schema) throws ClassNotFoundException {
+    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
         //Set database type
         this.dbType = dbTp;
         //Register driver
         Class.forName(dbType.toString());
         //Estabeçece a conexão com o banco
         try {
-            String urlConnection = makeDBConnURL(url, port, user, pass, sid, schema, dbTp);
+            String urlConnection = makeDBConnURL(url, port, user, pass, schema, dbTp);
             this.conn = DriverManager.getConnection(urlConnection);
 
             return !this.conn.isClosed();
@@ -73,7 +76,7 @@ public class ImporterUtil {
         }
     }
 
-    private String makeDBConnURL(String host, String port, String user, String pass, String sid, String schema, EnumDriverType dt) {
+    private String makeDBConnURL(String host, String port, String user, String pass, String schema, EnumDriverType dt) {
         StringBuilder sb = new StringBuilder();
 
         if (dt.equals(EnumDriverType.ORACLE)) {
@@ -84,7 +87,7 @@ public class ImporterUtil {
             sb.append(":");
             sb.append(port);
             sb.append(":");
-            sb.append(sid);
+            sb.append(schema);
 
         } else if (dt.equals(EnumDriverType.POSTGRES)) {
             sb.append("jdbc:postgresql://");
@@ -105,14 +108,14 @@ public class ImporterUtil {
         md = conn.getMetaData();
         rs = md.getTables(null, null, "%", null);
         while (rs.next()) {
-            
+
             if (rs.getString(4) != null && rs.getString(2) != null) {
-            
+
                 System.out.println(rs.getString(4));
                 System.out.println("********");
-                
+
                 System.out.println(rs.getString(2));
-                
+
                 if (rs.getString(4).equals("TABLE") && rs.getString(2).equals(schema)) {
                     lTables.add(rs.getString(3));
                 }
@@ -121,16 +124,53 @@ public class ImporterUtil {
         return lTables;
     }
 
+    public JSONArray getTableData(String schema, String tableName) throws SQLException {
+        JSONArray ja = new JSONArray();
+
+        stmt = conn.createStatement();
+        try {
+            conn.setSchema(schema);
+        } catch (Exception sQLException) {
+            java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
+        }
+
+        rs = stmt.executeQuery("SELECT * FROM " + tableName);
+
+        rsmd = rs.getMetaData();
+        int numberOfColumns = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            JSONObject js = new JSONObject();
+
+            for (int i = 1; i < numberOfColumns; i++) {
+                String colName = rsmd.getColumnName(i);
+                try {
+                    js.put(colName, rs.getString(i));//Nome da table que tem a fk
+                } catch (SQLException sQLException) {
+                    js.put(colName, "ERROR");
+                }
+                ja.put(js);
+            }
+        }
+
+        return ja;
+    }
+
     //@TODO retornar JSON com as propriedades dads colunas
-    public JSONArray getColumnsFromTable(String tableName) throws SQLException {
+    public JSONArray getColumnsFromTable(String schema, String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
         stmt = conn.createStatement();
+        try {
+            conn.setSchema(schema);
+        } catch (Exception sQLException) {
+            java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
+        }
         rs = stmt.executeQuery("SELECT * FROM " + tableName);
         rsmd = rs.getMetaData();
         int numberOfColumns = rsmd.getColumnCount();
         boolean b = rsmd.isSearchable(1);
 
-        for (int i = 0; i < numberOfColumns; i++) {
+        for (int i = 1; i < numberOfColumns; i++) {
             JSONObject js = new JSONObject();
             js.put(COLUMN_NAME, rsmd.getColumnName(i));//Nome da table que tem a fk
             js.put(COLUMN_TYPE, rsmd.getColumnTypeName(i));//Nome da table que tem a fk

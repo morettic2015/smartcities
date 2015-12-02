@@ -85,8 +85,7 @@ public class Profile implements java.io.Serializable {
     public ArrayList<UserLog> getlLog() {
         return lLog;
     }
-    
- 
+
     public Set<FtpClient> getMyFtps() {
         return myFtps;
     }
@@ -105,8 +104,19 @@ public class Profile implements java.io.Serializable {
     @Transient
     private Set<FtpClient> myFtps = new HashSet<FtpClient>(0);
 
+    @Transient
+    private Set<DataSource> myDbs = new HashSet<DataSource>(0);
+
     public Set<FileSource> getMySources() {
         return mySources;
+    }
+
+    public Set<DataSource> getMyDbs() {
+        return myDbs;
+    }
+
+    public void setMyDbs(Set<DataSource> myDbs) {
+        this.myDbs = myDbs;
     }
 
     public void setMySources(Set<FileSource> mySources) {

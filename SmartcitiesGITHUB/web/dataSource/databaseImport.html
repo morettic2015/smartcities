@@ -9,7 +9,7 @@
         Importar Banco de Dados ( PASSO 1 de 2 )
     </h1>
     <form style="height: 500px;">
-        <div class="celula-form-1" id="div_nome_fonte_dados_importacao">
+        <div class="celula-form-1" id="div_nome_fonte_dados_importacao" style="visibility: hidden">
             <span class="rotulo" style="right: 80%;"><span id="rotNomeFonteDBImport">Nome da fonte de dados</span>:</span>
             <input id="nome_fonte_dados_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="My Database" ></input>
         </div>
@@ -21,16 +21,20 @@
         <div class="celula-form-1" id="div_tipo_banco_dados">
             <span class="rotulo" style="right: 80%;"><span id="rotTipoDBImport">Tipo Base de Dados</span>:</span>
             <select class="campo" style="left: 21%;" data-dojo-type="dijit/form/ComboBox" id="cmb_tipo_banco_dados" value="mySQL" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" >
-                <option value="mySQL">mySQL</option>
-                <option value="Oracle">Oracle</option>
-                <option value="Postgres">Postgres</option>
-                <option value="Firebird">Firebird</option>
-                <option value="MS SQL Server">MS SQL Server</option>
+                <option value="MYSQL">mySQL</option>
+                <option value="ORACLE">Oracle</option>
+                <option value="POSTGRES" selected>Postgres</option>
+                <option value="FIREBIRD">Firebird</option>
+                <option value="MSSQLSERVER">MS SQL Server</option>
             </select>
         </div>
         <div class="celula-form-1" id="div_url_fonte_dados_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotUrlDBImport">Url</span>:</span>
             <input id="url_fonte_dados_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="127.0.0.1" ></input>
+        </div>
+         <div class="celula-form-1" id="div_schema">
+            <span class="rotulo" style="right: 80%;"><span id="rotUrlDBSchema">Schema</span>:</span>
+            <input id="url_schema" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="public" ></input>
         </div>
         <div class="celula-form-1" id="div_porta_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotPortaDBImport">Porta</span>:</span>
@@ -45,10 +49,10 @@
             <input id="senha_bd_importacao" data-dojo-type="dijit/form/TextBox" type="password" class="campo" style="left: 21%;width:120px;" placeHolder="passwd" ></input>
         </div>
 
-        <div class="celula-form-1" id="div_btTestarConexaoDados">
+      <!--  <div class="celula-form-1" id="div_btTestarConexaoDados">
             <button id="btTestarConexaoDados" data-dojo-type="dijit/form/Button" title="Clique para testar o acesso &agrave; fonte de dados" class="campo" style="left: 21%;" label="<span id='rotBtTestarDBImport'>Testar Conexão</span>">
                 Testar Conexão
             </button>
-        </div>
+        </div> -->
 
     </form>

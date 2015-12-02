@@ -31,10 +31,10 @@ public class ShareView implements java.io.Serializable {
 			@AttributeOverride(name = "iddataSource", column = @Column(name = "iddata_source", nullable = false, insertable = false, updatable = false)) })
 	private ShareViewId id;
 
-	@JsonIgnore
+	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "data_source_driver_iddata_source_driver", nullable = false, insertable = false, updatable = false)
-	private DataSourceDriver dataSourceDriver;
+	private DataSourceDriver dataSourceDriver;-*/
 
 	@Column(name = "data_source_driver_iddata_source_driver", nullable = false, insertable = true, updatable = true)
 	private Integer idDataSourceDriver;
@@ -84,43 +84,8 @@ public class ShareView implements java.io.Serializable {
 	public ShareView() {
 	}
 
-	public ShareView(ShareViewId id, DataSourceDriver dataSourceDriver,
-			ShareType shareType, DataSource dataSource, Profile profile,
-			String reqUrl, String resUrl, String shareToken) {
-		this.id = id;
-		this.dataSourceDriver = dataSourceDriver;
-		this.idDataSourceDriver = dataSourceDriver.getIddataSourceDriver();
-		this.shareType = shareType;
-		this.idShareType = shareType.getIdshareType();
-		this.dataSource = dataSource;
-		this.idDataSource = dataSource.getIddataSource();
-		this.profile = profile;
-		this.idProfile = profile.getIdprofile();
-		this.reqUrl = reqUrl;
-		this.resUrl = resUrl;
-		this.shareToken = shareToken;
-	}
+	
 
-	public ShareView(ShareViewId id, DataSourceDriver dataSourceDriver,
-			ShareType shareType, DataSource dataSource, Profile profile,
-			String reqUrl, String resUrl, String shareToken, Boolean canShare,
-			Set<ViewRule> viewRules, Set<ShareViewWith> shareViewWiths) {
-		this.id = id;
-		this.dataSourceDriver = dataSourceDriver;
-		this.idDataSourceDriver = dataSourceDriver.getIddataSourceDriver();
-		this.shareType = shareType;
-		this.idShareType = shareType.getIdshareType();
-		this.dataSource = dataSource;
-		this.idDataSource = dataSource.getIddataSource();
-		this.profile = profile;
-		this.idProfile = profile.getIdprofile();
-		this.reqUrl = reqUrl;
-		this.resUrl = resUrl;
-		this.shareToken = shareToken;
-		this.canShare = canShare;
-		this.viewRules = viewRules;
-		this.shareViewWiths = shareViewWiths;
-	}
 
 	public ShareViewId getId() {
 		return this.id;
@@ -130,13 +95,7 @@ public class ShareView implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public DataSourceDriver getDataSourceDriver() {
-		return this.dataSourceDriver;
-	}
 
-	public void setDataSourceDriver(DataSourceDriver dataSourceDriver) {
-		this.dataSourceDriver = dataSourceDriver;
-	}
 
 	public ShareType getShareType() {
 		return this.shareType;
