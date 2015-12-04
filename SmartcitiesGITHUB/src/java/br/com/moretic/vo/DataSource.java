@@ -197,7 +197,7 @@ public class DataSource implements java.io.Serializable {
     }
 
     public String getSchema() {
-        return this.schema;
+        return this.getDeSchema();
     }
 
     public void setSchema(String schema) {

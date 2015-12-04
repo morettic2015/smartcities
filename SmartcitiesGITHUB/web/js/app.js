@@ -2343,10 +2343,13 @@ require([
                     var vAvatar = "blank";
                     if (myProfile.uploadBean != undefined) {
                         vAvatar = myProfile.uploadBean.name;
-                        dom.byId("userAvatarImage").src = myProfile.uploadBean.myUrl;
+                        avatar.src = myProfile.uploadBean.myUrl;
                     }
+                    
+                    var strCfpCnpj = encodeURIComponent(cpfCnpj.value);
+                    strCfpCnpj = strCfpCnpj.replace(/\D/g,'');
 
-                    var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + encodeURIComponent(cpfCnpj.value) + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
+                    var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + strCfpCnpj + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
                         if (typeof dados == "string") {

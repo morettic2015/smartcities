@@ -58,13 +58,13 @@ function initFormUPLOAD() {
         var notice = document.getElementById('upload-status');
         var uploadBtn = document.getElementById('upload-button-id');
         
-		require([
+		/*require([
 			"dojo/i18n!./nls/texts.js"
 		],function(
 			textos
 		){
 			notice.innerHTML = textos.escolhaArquivo;
-		});
+		});*/
 		
         uploadBtn.removeAttribute('disabled');
         // Init the Ajax form submission

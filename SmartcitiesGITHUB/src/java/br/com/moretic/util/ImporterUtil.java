@@ -5,6 +5,8 @@
  */
 package br.com.moretic.util;
 
+import br.com.moretic.vo.DataSource;
+import br.com.moretic.vo.Transformation;
 import com.sun.media.jfxmedia.logging.Logger;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -19,6 +21,7 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -26,6 +29,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import org.json.JSONArray;
@@ -142,14 +146,14 @@ public class ImporterUtil {
         while (rs.next()) {
             JSONObject js = new JSONObject();
 
-            for (int i = 1; i < numberOfColumns; i++) {
+            for (int i = 1; i <= numberOfColumns; i++) {
                 String colName = rsmd.getColumnName(i);
                 try {
                     js.put(colName, rs.getString(i));//Nome da table que tem a fk
                 } catch (SQLException sQLException) {
                     js.put(colName, "ERROR");
                 }
-                
+
             }
             ja.put(js);
         }
@@ -171,7 +175,7 @@ public class ImporterUtil {
         int numberOfColumns = rsmd.getColumnCount();
         boolean b = rsmd.isSearchable(1);
 
-        for (int i = 1; i < numberOfColumns; i++) {
+        for (int i = 1; i <= numberOfColumns; i++) {
             JSONObject js = new JSONObject();
             js.put(COLUMN_NAME, rsmd.getColumnName(i));//Nome da table que tem a fk
             js.put(COLUMN_TYPE, rsmd.getColumnTypeName(i));//Nome da table que tem a fk
@@ -370,5 +374,95 @@ public class ImporterUtil {
                 }
             }
         }
+    }
+
+    public int[] copyData(Transformation t1, JSONArray fromData, int indice, JSONArray pks) throws SQLException {
+
+        this.conn.setAutoCommit(false);
+
+        String tableTo = t1.getTableTo();
+        //DataSource destiny = t1.getToDatabase();
+        PreparedStatement preparedStatement = null;
+        JSONArray colunas = getColumnsFromTable(t1.getToDatabase().getSchema(), tableTo);
+
+        StringBuilder query = new StringBuilder("INSERT INTO "+tableTo+"(");
+        String pkName = pks.getJSONObject(0).getString(COLUMN_NAME);
+
+        ArrayList<String> lColumns = new ArrayList<String>(0);
+        for (int i = 0; i < colunas.length(); i++) {
+            JSONObject js = colunas.getJSONObject(i);
+            if (js.getString(COLUMN_NAME).equalsIgnoreCase(pkName))//PK E A ULTIMA SEMPRE
+            {
+                continue;
+            }
+
+            lColumns.add(js.getString(COLUMN_NAME));
+            query.append(js.getString(COLUMN_NAME));
+            query.append(",");
+
+        }
+
+        query.append(pkName);
+        query.append(") VALUES (");
+
+        int total = lColumns.size();
+        total++;
+        for (int i = 0; i <= total; i++) {
+            query.append("?");
+            if (total-- > 1) {
+                query.append(",");
+            }
+        }
+
+        query.append(")");
+
+        preparedStatement = this.conn.prepareStatement(query.toString());
+
+        for (int i = 0; i < fromData.length(); i++) {
+            JSONObject data = fromData.getJSONObject(i);
+            int cNum = 1;
+            for (String c : lColumns) {
+                String realColumn = t1.getMyFields().get(c);
+                String realData = data.getString(realColumn);
+                preparedStatement.setString(cNum++, realData);
+            }
+
+            preparedStatement.setLong(cNum++, indice++);
+
+            preparedStatement.addBatch();
+
+        }
+
+        int[] r = null;
+        try {
+            r = preparedStatement.executeBatch();
+
+            this.conn.commit();
+        } catch (SQLException sQLException) {
+            sQLException.printStackTrace();
+            sQLException.getNextException().printStackTrace();
+            this.conn.rollback();
+        } finally {
+            this.conn.close();
+        }
+        return r;
+
+    }
+
+    public int getMaxElementFrom(JSONArray ja, String tableTo) throws SQLException {
+
+        JSONObject js = ja.getJSONObject(0);
+        String pkName = js.getString(COLUMN_NAME);
+
+        int max = 0;
+
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("select (max(" + pkName + ")+10) as pk from " + tableTo);
+
+        if (rs.next()) {
+            max = rs.getInt("pk");
+        }
+
+        return ++max;
     }
 }

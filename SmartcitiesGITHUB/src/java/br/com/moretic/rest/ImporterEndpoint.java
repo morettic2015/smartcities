@@ -31,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +39,8 @@ import javax.ejb.NoSuchEntityException;
 import javax.ejb.Stateless;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -132,6 +135,102 @@ public class ImporterEndpoint {
         //Instancia o importer
         JSONArray ja = exportTableData(dataSourceId, tableName);
         return Response.ok(ja.toString()).build();
+    }
+    
+    @GET
+    @Path("/copy_data/{idTtransformation}")
+    @Produces("application/json")
+    public Response copyDataSource(@PathParam("idTtransformation") String idTtransformation) throws ClassNotFoundException, SQLException{
+        
+        Transformation t1 = em.find(Transformation.class,Long.parseLong(idTtransformation));
+        DataSource from1 = t1.getFromDatabase();
+        DataSource to1 = t1.getToDatabase();
+        
+        JSONArray fromData = new JSONArray();
+        
+        ImporterUtil iu = new ImporterUtil();
+        ImporterUtil iu2 = new ImporterUtil();
+        if(iu.connect(from1.getDataSourceDriver(), from1.getDataSourceUrl(), from1.getPport().toString(), from1.getDataUsername(),from1.getDataPassword(), from1.getNmDatasource())){
+            fromData  = iu.getTableData(from1.getSchema(), t1.getTableFrom());
+        }
+        
+        if(iu2.connect(to1.getDataSourceDriver(), to1.getDataSourceUrl(), to1.getPport().toString(), to1.getDataUsername(),to1.getDataPassword(), to1.getNmDatasource())){
+            JSONArray ja = iu2.getPKsFromTable(to1.getSchema(),t1.getTableTo());
+            
+            int indice = iu2.getMaxElementFrom(ja,t1.getTableTo());
+            iu2.copyData(t1,fromData,indice,ja);
+        }
+       
+        return Response.ok(fromData.toString()).build();
+        
+        
+        
+    }    
+    
+    @GET
+    @Path("/transformation/{idDataSourceFrom}/{idDataSourceTo}/{tbFrom}/{tbTo}/{fKeys}")
+    @Produces("application/json")
+    public Response saveTransformation(@PathParam("idDataSourceFrom") String idDataSourceFrom,
+            @PathParam("idDataSourceTo") String idDataSourceTo,
+            @PathParam("tbFrom") String tableFrom,
+            @PathParam("tbTo") String tableTo,
+            @PathParam("fKeys") String uuid,
+            @Context UriInfo uriInfo,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) {
+
+        Transformation t1 = new Transformation();
+        t1.setTableFrom(tableFrom);
+        t1.setTableTo(tableTo);
+
+        MultivaluedMap params = uriInfo.getQueryParameters();
+        HashMap<String, String> fieldMap = new HashMap<String, String>();
+        for (Object key : params.keySet()) {
+            String fFrom = key.toString();
+            String fTo = params.getFirst(key).toString();
+            fieldMap.put(fFrom, fTo);
+        }
+
+        Profile p = ProfileEndpoint.getProfileSession(req);
+        Profile pOwner = em.find(Profile.class, p.getIdprofile());
+        t1.setOwner(pOwner);
+        t1.setIdProfile(p.getIdprofile());
+        t1.setMyFields(fieldMap);//
+
+        String fromTp[] = idDataSourceFrom.split("_");
+        String toTp[] = idDataSourceTo.split("_");
+
+        DataSource fromDb, toDB;
+        FileSource fromSrc, toSrc;
+
+        Long idDtsrc = Long.parseLong(fromTp[1]);
+
+        if (fromTp[0].equalsIgnoreCase("dtb")) {
+            fromDb = em.find(DataSource.class, idDtsrc);
+            t1.setFromDatabase(fromDb);
+            t1.setIdFromDatabase(fromDb.getIddataSource().intValue());
+        } else {
+            fromSrc = em.find(FileSource.class, idDtsrc);
+            t1.setFromSource(fromSrc);
+            t1.setIdFromSource(fromSrc.getId().intValue());
+        }
+
+        idDtsrc = Long.parseLong(toTp[1]);
+        
+        if (toTp[0].equalsIgnoreCase("dtb")) {
+            toDB = em.find(DataSource.class, idDtsrc);
+            t1.setToDatabase(toDB);
+            t1.setIdToDatabase(toDB.getIddataSource().intValue());
+        } else {
+            toSrc = em.find(FileSource.class, idDtsrc);
+            t1.setToSource(toSrc);
+            t1.setIdToSource(toSrc.getId().intValue());
+        }
+        //Salva a transformação
+        em.persist(t1);
+
+        //Retorna o json
+        return Response.ok(t1).build();
     }
 
     @GET
