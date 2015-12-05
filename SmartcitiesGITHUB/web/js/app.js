@@ -296,7 +296,7 @@ require([
                 });
                 on(dom.byId("btExportarDados"), "click", function () {
                     //prepareDataSourceExport();
-                     view.abrePopUpModal(EULA, "EXPORT");
+                    view.abrePopUpModal(EULA, "EXPORT");
                 });
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_COPY);
@@ -305,6 +305,27 @@ require([
                     carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM, null, function () {
                         var mainSourceList = document.getElementById("srcListDataMDD");
                         var mainToList = document.getElementById("srcListToMDD");
+                        var destinyList = document.getElementById("srcListFTableMDD");
+                        
+                        mainSourceList.onblur = function () {
+                            var url = "importer/get_columns/" + mainSourceList.value;
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                    for (i = 0; i < dados.length; i++) {
+                                       // var myTpInfo = dados[i].myTp.toLowerCase();
+                                        //alert(myTpInfo);
+
+                                        var opt = document.createElement('option');
+                                        opt.value = dados[i];
+                                        opt.innerHTML = dados[i];
+                                        destinyList.appendChild(opt);
+                                    }
+                                }
+                            });
+                        }
 
                         var myFtpList = myProfile.myFtps;
                         var sourcesList = myProfile.mySources;
@@ -444,7 +465,6 @@ require([
                     //TODO script de logout
                     event.stop(evt);
                 });
-
                 /**
                  *	Atribuição das strings dos dicionários (Conteúdo que é carregado na inicialização)
                  */
@@ -1088,6 +1108,8 @@ require([
 
                     //setDadosComboPais();
                 }
+
+
                 /*
                  function setDadosComboPais(){
                  // Cria store memory com valores retirados do dicionario
@@ -1564,7 +1586,6 @@ require([
                 on(dom.byId("btSalvarEnderecoPerfil"), "click", function () {
                     saveProfileAddress();
                 });
-
                 on(dom.byId("btBuscarEnderecoProfile"), "click", function () {
                     showFoundedAddresses(dom.byId("txtEnderecoRua").value);
                 });
@@ -1673,7 +1694,6 @@ require([
                     var porta = dom.byId("porta_bd_importacao").value;
                     var usuario = dom.byId("usuario_bd_importacao").value;
                     var senha = dom.byId("senha_bd_importacao").value;
-
                     //http://localhost:8080/smartcities/rest/importer/db_poll/postgres/m0r3tt02013/POSTGRES/localhost/3128/smartcities/public
                     var url = "importer/db_poll/" + usuario + "/" + senha + "/" + dbType + "/" + url + "/" + porta + "/" + db + "/" + schema;
                     var resultado = restServices.salvaObjeto(url);
@@ -1704,15 +1724,12 @@ require([
                              * */
 
                             var mddInfoMapped = new Object();
-
                             mddInfoMapped.lTables = [];
-
                             for (i = 0; i < dat.mdd.length; i++) {
                                 var tableBean = new Object();
                                 tableBean.nome = dat.mdd[i].tName;
                                 tableBean.type = 'tabela';
                                 tableBean.campos = [];
-
                                 for (j = 0; j < dat.mdd[i].columns.length; j++) {
                                     tableBean.campos.push(dat.mdd[i].columns[j].columnName);
                                 }
@@ -1724,7 +1741,6 @@ require([
                                     var fkObject = new Object();
                                     fkObject.atributo = dat.mdd[i].fks[j].fkColumnName;
                                     fkObject.entidade = dat.mdd[i].fks[j].pkTableName;
-
                                     tableBean.fk.push(fkObject);
                                 }
 
@@ -1736,7 +1752,6 @@ require([
                             importDB.linhasDB = [];
                         }
                     });
-
                     carregaTelaFerramentaDados(DATAIMPORT_DB_SELECTION);
                 });
             }
@@ -2345,10 +2360,9 @@ require([
                         vAvatar = myProfile.uploadBean.name;
                         avatar.src = myProfile.uploadBean.myUrl;
                     }
-                    
-                    var strCfpCnpj = encodeURIComponent(cpfCnpj.value);
-                    strCfpCnpj = strCfpCnpj.replace(/\D/g,'');
 
+                    var strCfpCnpj = encodeURIComponent(cpfCnpj.value);
+                    strCfpCnpj = strCfpCnpj.replace(/\D/g, '');
                     var url = "profiles/bio/" + name.value + "/" + email.value + "/" + strBirthDate + "/" + strCfpCnpj + "/" + password.value + "/" + escape(telephone.value) + "/" + lang.value + "/" + bio.value + "/" + encodeURIComponent(vAvatar);
                     var resultado = restServices.salvaObjeto(url);
                     resultado.then(function (dados) {
@@ -2879,13 +2893,11 @@ require([
                 populateBoxStore("highlightStore", productsHigh);
                 populateBoxStore("paidStore", productsPaid);
                 populateBoxStore("freeStore", productsFree);
-
             }
 
             // Popula uma seção de produtos da loja usando uma lista/array de produtos
             function populateBoxStore(targetPlace, products) {
                 var limitBoxes = 4;
-
                 // Cria os boxes até chegar o limite definido acima, daí cria um espaço para o botão 'ver mais'
                 for (var i = 0; i < products.length; i++) {
                     if (i == limitBoxes) {
@@ -2899,7 +2911,6 @@ require([
                                 view.modalMessage("teste", "clicou");
                             }
                         }, targetPlace + "SeeMore").startup();
-
                         break;
                     }
                     var cssStyle;
@@ -2915,7 +2926,6 @@ require([
                     var description = products[i].desc; //TODO colocar a propriedade certa do objeto
                     var image = "images/icons/Dados/48X48.png"; //TODO captar do objeto
                     createProductBoxStore(cssStyle, name, description, image, targetPlace);
-
                 }
 
             }
@@ -2931,7 +2941,6 @@ require([
                     html += "<div class='import'></div>";
                 }
                 html += "</div>";
-
                 var boxStore = domConstruct.toDom(html);
                 domConstruct.place(html, targetPlace);
             }
@@ -2952,6 +2961,7 @@ require([
                 // open export window
 
             }
+
             /*
              *	Fim da declaração das funções
              */

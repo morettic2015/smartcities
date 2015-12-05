@@ -63,7 +63,21 @@ public class ImporterUtil {
     public static final String PK_COLUMN_NAME = "pkColumnName";
     public static final String PK_TABLE_NAME = "pkTableName";
 
-    public boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
+    public ImporterUtil(EnumDriverType dataSourceDriver, String dataSourceUrl, String pport, String dataUsername, String dataPassword, String nmDatasource) throws ClassNotFoundException {
+        this.connect(dataSourceDriver, dataSourceUrl, pport , dataUsername, dataPassword, nmDatasource);
+        
+        try {
+            conn.setSchema(nmDatasource);
+        } catch (Exception sQLException) {
+            java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
+        }
+    }
+    
+    public boolean isConnOpen() throws SQLException{
+        return !this.conn.isClosed();
+    }
+
+    private boolean connect(EnumDriverType dbTp, String url, String port, String user, String pass, String schema) throws ClassNotFoundException {
         //Set database type
         this.dbType = dbTp;
         //Register driver
@@ -77,6 +91,14 @@ public class ImporterUtil {
 
         } catch (SQLException sQLException) {
             return false;
+        }
+    }
+    
+    public void quit(){
+        try {
+            this.conn.close();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(ImporterUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -128,17 +150,21 @@ public class ImporterUtil {
         return lTables;
     }
 
-    public JSONArray getTableData(String schema, String tableName) throws SQLException {
+    public JSONArray getTableData(String schema, String tableName,String... filters) throws SQLException {
         JSONArray ja = new JSONArray();
 
         stmt = conn.createStatement();
-        try {
-            conn.setSchema(schema);
-        } catch (Exception sQLException) {
-            java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
-        }
+        
 
-        rs = stmt.executeQuery("SELECT DISTINCT * FROM " + tableName);
+        StringBuilder query = new StringBuilder("SELECT DISTINCT * FROM " + tableName);
+        
+        //Concatena os filtros
+        if(filters.length>0){
+            query.append(" WHERE ");
+            query.append(filters[0]);
+        }
+        
+        rs = stmt.executeQuery(query.toString());
 
         rsmd = rs.getMetaData();
         int numberOfColumns = rsmd.getColumnCount();
@@ -165,11 +191,7 @@ public class ImporterUtil {
     public JSONArray getColumnsFromTable(String schema, String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
         stmt = conn.createStatement();
-        try {
-            conn.setSchema(schema);
-        } catch (Exception sQLException) {
-            java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
-        }
+       
         rs = stmt.executeQuery("SELECT * FROM " + tableName);
         rsmd = rs.getMetaData();
         int numberOfColumns = rsmd.getColumnCount();
@@ -449,7 +471,7 @@ public class ImporterUtil {
 
     }
 
-    public int getMaxElementFrom(JSONArray ja, String tableTo) throws SQLException {
+    public int getMaxElementFrom(JSONArray ja, String table) throws SQLException {
 
         JSONObject js = ja.getJSONObject(0);
         String pkName = js.getString(COLUMN_NAME);
@@ -457,12 +479,16 @@ public class ImporterUtil {
         int max = 0;
 
         stmt = conn.createStatement();
-        rs = stmt.executeQuery("select (max(" + pkName + ")+10) as pk from " + tableTo);
+        rs = stmt.executeQuery("select (max(" + pkName + ")) as pk from " + table);
 
         if (rs.next()) {
             max = rs.getInt("pk");
         }
 
         return ++max;
+    }
+
+    public void destroy() throws SQLException {
+        this.conn.close();
     }
 }

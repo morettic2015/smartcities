@@ -21,17 +21,29 @@
         <span class="rotulo" >
             <span id='nmDataSource'>Source: </span>
         </span>
-        <select id="srcListDataMDD" class="campo" ></select>
+        <select id="srcListDataMDD" class="campo" onchange="loadTablesFromDB(this)"></select>
     </div>
     <div class="celula-form-1">
         <span class="rotulo" >
             <span id='nmDataTo'>To: </span>
         </span>
-        <select id="srcListToMDD" class="campo" ></select>
+        <select id="srcListToMDD" class="campo" onchange="loadTablesFromDB(this)"></select>
     </div>
     <fieldset name="fieldList">
-        <legend>Field list</legend>
-        <div id="fieldListSetMDD"></div>
+        <legend>Table map</legend>
+        <div id="fieldListSetMDD">
+            <div class="celula-form-1">
+                <span class="rotulo" >
+                    <span >Table from: </span>
+                </span>
+                <select id="srcListFTableMDD" class="campo" ></select>
+            </div>
+            <div class="celula-form-1">
+                <span class="rotulo" >
+                    <span id='nmDataTo'>Table To: </span>
+                </span>
+                <select id="srcListTTableMDD" class="campo" ></select>
+            </div>
     </fieldset>
     <fieldset name="fieldList">
         <legend>Filters</legend>

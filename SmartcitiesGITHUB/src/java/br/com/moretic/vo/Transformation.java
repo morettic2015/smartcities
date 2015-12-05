@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -45,24 +47,16 @@ public class Transformation implements Serializable {
     @Basic
     private String tableFrom;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_next_t", nullable = false, insertable = false, updatable = false)
+    private Transformation next;
+
+    @Column(name = "id_next_t", updatable = true, insertable = true)
+    private Long idNext;
 
     @Column(nullable = false)
     private Long maxIdLastOp = 0l;
 
-    public Long getMaxIdLastOp() {
-        return maxIdLastOp;
-    }
-
-    public void setMaxIdLastOp(Long maxIdLastOp) {
-        this.maxIdLastOp = maxIdLastOp;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_idprofile", nullable = false, insertable = false, updatable = false)
@@ -212,6 +206,39 @@ public class Transformation implements Serializable {
 
     public void setTableFrom(String tableFrom) {
         this.tableFrom = tableFrom;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getMaxIdLastOp() {
+        return maxIdLastOp;
+    }
+
+    public void setMaxIdLastOp(Long maxIdLastOp) {
+        this.maxIdLastOp = maxIdLastOp;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Transformation getNext() {
+        return next;
+    }
+
+    public void setNext(Transformation next) {
+        this.idNext = next.getId();
+        this.next = next;
+    }
+
+    public Long getIdNext() {
+        return idNext;
+    }
+
+    public void setIdNext(Long idNext) {
+        this.idNext = idNext;
     }
 
 }

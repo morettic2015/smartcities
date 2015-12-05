@@ -67,6 +67,39 @@ public class ImporterEndpoint {
      * @throws java.security.NoSuchAlgorithmException
      */
     @GET
+    @Path("/get_columns/{source}")
+    @Produces("application/json")
+    public Response findColumnsByDataSource(@PathParam("source") String source, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
+
+        String infoCode[] = source.split("_");
+        ArrayList ja = null;
+        
+        //
+        if (infoCode[0].equalsIgnoreCase("dtb")) {
+
+            DataSource de = em.find(DataSource.class, Long.parseLong(infoCode[1]));
+            EnumDriverType databaseType = de.getDataSourceDriver();
+            String dbName = de.getNmDatasource();
+            String user = de.getDataUsername();
+            String pPort = de.getPport().toString();
+            String passwd = de.getDataPassword();
+            String urlDb = de.getDataSourceUrl();
+            //String mSchema = de.getDeSchema();
+            ImporterUtil ui;
+
+            try {
+                ui = new ImporterUtil(databaseType, urlDb, pPort, user, passwd, dbName);
+                if (ui.isConnOpen()) {
+                    ja = ui.getTablesFromConnection(de.getDeSchema());
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return Response.ok(ja).build();
+    }
+
+    @GET
     @Path("/kml/{source}/{description}")
     @Produces("application/json")
     public Response kml(@PathParam("source") String source, @PathParam("description") String description, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
@@ -93,7 +126,7 @@ public class ImporterEndpoint {
     }
 
     private JSONArray exportTableData(String dataSourceId, String tableName) {
-        ImporterUtil ui = new ImporterUtil();
+        ImporterUtil ui;
         JSONArray ja = new JSONArray();
         //Recupera o datasource
         DataSource de;
@@ -111,9 +144,10 @@ public class ImporterEndpoint {
         String passwd = de.getDataPassword();
         String urlDb = de.getDataSourceUrl();
         String dbSchema = de.getSchema();
-
         try {
-            if (ui.connect(databaseType, urlDb, pPort, user, passwd, dbName)) {
+            ui = new ImporterUtil(databaseType, urlDb, pPort, user, passwd, dbName);
+
+            if (ui.isConnOpen()) {
 
                 ja = ui.getTableData(dbSchema, tableName);
             }
@@ -123,6 +157,12 @@ public class ImporterEndpoint {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, "ERROR CONNECTING TO DATABASE DRIVER NOT FOUND!\n" + ex.toString());
             return new JSONArray();
+        }
+
+        try {
+            ui.destroy();
+        } catch (SQLException ex) {
+            Logger.getLogger(ImporterEndpoint.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return ja;
@@ -136,37 +176,58 @@ public class ImporterEndpoint {
         JSONArray ja = exportTableData(dataSourceId, tableName);
         return Response.ok(ja.toString()).build();
     }
-    
+
     @GET
     @Path("/copy_data/{idTtransformation}")
     @Produces("application/json")
-    public Response copyDataSource(@PathParam("idTtransformation") String idTtransformation) throws ClassNotFoundException, SQLException{
-        
-        Transformation t1 = em.find(Transformation.class,Long.parseLong(idTtransformation));
+    public Response copyDataSource(@PathParam("idTtransformation") String idTtransformation) throws ClassNotFoundException, SQLException {
+
+        Transformation t1 = em.find(Transformation.class, Long.parseLong(idTtransformation));
         DataSource from1 = t1.getFromDatabase();
         DataSource to1 = t1.getToDatabase();
-        
+
         JSONArray fromData = new JSONArray();
-        
-        ImporterUtil iu = new ImporterUtil();
-        ImporterUtil iu2 = new ImporterUtil();
-        if(iu.connect(from1.getDataSourceDriver(), from1.getDataSourceUrl(), from1.getPport().toString(), from1.getDataUsername(),from1.getDataPassword(), from1.getNmDatasource())){
-            fromData  = iu.getTableData(from1.getSchema(), t1.getTableFrom());
+
+        ImporterUtil iu = new ImporterUtil(from1.getDataSourceDriver(), from1.getDataSourceUrl(), from1.getPport().toString(), from1.getDataUsername(), from1.getDataPassword(), from1.getNmDatasource());
+        ImporterUtil iu2 = new ImporterUtil(to1.getDataSourceDriver(), to1.getDataSourceUrl(), to1.getPport().toString(), to1.getDataUsername(), to1.getDataPassword(), to1.getNmDatasource());
+        //PKS
+        JSONArray ja = iu2.getPKsFromTable(to1.getSchema(), t1.getTableTo());
+        JSONArray ja1 = iu.getPKsFromTable(from1.getSchema(), t1.getTableFrom());
+        //INDICE NO BANCO
+        int indice = iu2.getMaxElementFrom(ja, t1.getTableTo());
+
+        if (iu.isConnOpen()) {
+
+            if (indice > 1) {
+
+                StringBuilder filter = new StringBuilder(ja1.getJSONObject(0).getString(ImporterUtil.COLUMN_NAME));
+
+                filter.append(">");
+                int pos = indice - 1;
+                filter.append(pos);
+
+                fromData = iu.getTableData(from1.getSchema(), t1.getTableFrom(), filter.toString());
+            } else {
+                fromData = iu.getTableData(from1.getSchema(), t1.getTableFrom());
+            }
         }
-        
-        if(iu2.connect(to1.getDataSourceDriver(), to1.getDataSourceUrl(), to1.getPport().toString(), to1.getDataUsername(),to1.getDataPassword(), to1.getNmDatasource())){
-            JSONArray ja = iu2.getPKsFromTable(to1.getSchema(),t1.getTableTo());
-            
-            int indice = iu2.getMaxElementFrom(ja,t1.getTableTo());
-            iu2.copyData(t1,fromData,indice,ja);
+
+        if (iu2.isConnOpen()) {
+
+            iu2.copyData(t1, fromData, indice, ja);
+
+            t1.setMaxIdLastOp(new Long(--indice));
+            em.merge(t1);
+
         }
-       
+        //Close conn
+        iu.quit();
+        iu2.quit();
+
         return Response.ok(fromData.toString()).build();
-        
-        
-        
-    }    
-    
+
+    }
+
     @GET
     @Path("/transformation/{idDataSourceFrom}/{idDataSourceTo}/{tbFrom}/{tbTo}/{fKeys}")
     @Produces("application/json")
@@ -216,7 +277,7 @@ public class ImporterEndpoint {
         }
 
         idDtsrc = Long.parseLong(toTp[1]);
-        
+
         if (toTp[0].equalsIgnoreCase("dtb")) {
             toDB = em.find(DataSource.class, idDtsrc);
             t1.setToDatabase(toDB);
@@ -247,7 +308,7 @@ public class ImporterEndpoint {
     @Produces("application/json")
     public Response exportTableColumnsJSON(@PathParam("datasource_id") String dataSourceId, @PathParam("table_name") String tableName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
         //Instancia o importer
-        ImporterUtil ui = new ImporterUtil();
+        ImporterUtil ui = null;
         DataSource de;
         JSONArray ja = new JSONArray();
         try {
@@ -266,7 +327,8 @@ public class ImporterEndpoint {
         String mSchema = de.getDeSchema();
 
         try {
-            if (ui.connect(databaseType, urlDb, pPort, user, passwd, dbName)) {
+            ui = new ImporterUtil(databaseType, urlDb, pPort, user, passwd, dbName);
+            if (ui.isConnOpen()) {
 
                 ja.put(ui.getColumnsFromTable(mSchema, tableName));
                 ja.put(ui.getPKsFromTable(mSchema, tableName));
@@ -274,8 +336,14 @@ public class ImporterEndpoint {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             ja = new JSONArray();
         } finally {
+            try {
+                ui.destroy();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return Response.ok(ja.toString()).build();
         }
     }
@@ -361,11 +429,10 @@ public class ImporterEndpoint {
             @Context HttpServletRequest req,
             @Context HttpServletResponse res) throws Exception {
 
-        ImporterUtil iu = new ImporterUtil();
-
         EnumDriverType mdriver = EnumDriverType.valueOf(dbType.toUpperCase());
+        ImporterUtil iu = new ImporterUtil(mdriver, url, port, pUser, pPass, databaseModel);
 
-        if (iu.connect(mdriver, url, port, pUser, pPass, databaseModel)) {
+        if (iu.isConnOpen()) {
 
             //@todo persisir dados da conexão do usuario
             ArrayList<String> lTables = iu.getTablesFromConnection(schema);
