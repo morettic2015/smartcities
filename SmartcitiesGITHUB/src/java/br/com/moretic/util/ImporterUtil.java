@@ -64,16 +64,16 @@ public class ImporterUtil {
     public static final String PK_TABLE_NAME = "pkTableName";
 
     public ImporterUtil(EnumDriverType dataSourceDriver, String dataSourceUrl, String pport, String dataUsername, String dataPassword, String nmDatasource) throws ClassNotFoundException {
-        this.connect(dataSourceDriver, dataSourceUrl, pport , dataUsername, dataPassword, nmDatasource);
-        
+        this.connect(dataSourceDriver, dataSourceUrl, pport, dataUsername, dataPassword, nmDatasource);
+
         try {
             conn.setSchema(nmDatasource);
         } catch (Exception sQLException) {
             java.util.logging.Logger.getAnonymousLogger().log(Level.WARNING, "conn.setSchema(schema) not supported! old JDBC DRIVER!");
         }
     }
-    
-    public boolean isConnOpen() throws SQLException{
+
+    public boolean isConnOpen() throws SQLException {
         return !this.conn.isClosed();
     }
 
@@ -93,8 +93,8 @@ public class ImporterUtil {
             return false;
         }
     }
-    
-    public void quit(){
+
+    public void quit() {
         try {
             this.conn.close();
         } catch (SQLException ex) {
@@ -124,6 +124,15 @@ public class ImporterUtil {
             sb.append(user);
             sb.append("&password=");
             sb.append(pass);
+        } else if (dt.equals(EnumDriverType.MYSQL)) {
+            sb.append("jdbc:mysql://");
+            sb.append(host);
+            sb.append("/");
+            sb.append(schema);
+            sb.append("?user=");
+            sb.append(user);
+            sb.append("&password=");
+            sb.append(pass);
         }
         return sb.toString();
     }
@@ -133,37 +142,38 @@ public class ImporterUtil {
         lTables = new ArrayList<String>();
         md = conn.getMetaData();
         rs = md.getTables(null, null, "%", null);
-        while (rs.next()) {
+        if (this.dbType.equals(EnumDriverType.MYSQL)) {//Não tem schema no banco 
+            while (rs.next()) {
 
-            if (rs.getString(4) != null && rs.getString(2) != null) {
-
-                System.out.println(rs.getString(4));
-                System.out.println("********");
-
-                System.out.println(rs.getString(2));
-
-                if (rs.getString(4).equals("TABLE") && rs.getString(2).equals(schema)) {
+                if (rs.getString(4) != null && rs.getString(4).equalsIgnoreCase("TABLE")) {
                     lTables.add(rs.getString(3));
+                }
+            }
+        } else {
+            while (rs.next()) {
+
+                if (rs.getString(4) != null && rs.getString(2) != null && rs.getString(4).equals("TABLE") && rs.getString(2).equals(schema)) {
+                    lTables.add(rs.getString(3));
+
                 }
             }
         }
         return lTables;
     }
 
-    public JSONArray getTableData(String schema, String tableName,String... filters) throws SQLException {
+    public JSONArray getTableData(String schema, String tableName, String... filters) throws SQLException {
         JSONArray ja = new JSONArray();
 
         stmt = conn.createStatement();
-        
 
         StringBuilder query = new StringBuilder("SELECT DISTINCT * FROM " + tableName);
-        
+
         //Concatena os filtros
-        if(filters.length>0){
+        if (filters.length > 0) {
             query.append(" WHERE ");
             query.append(filters[0]);
         }
-        
+
         rs = stmt.executeQuery(query.toString());
 
         rsmd = rs.getMetaData();
@@ -191,7 +201,7 @@ public class ImporterUtil {
     public JSONArray getColumnsFromTable(String schema, String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
         stmt = conn.createStatement();
-       
+
         rs = stmt.executeQuery("SELECT * FROM " + tableName);
         rsmd = rs.getMetaData();
         int numberOfColumns = rsmd.getColumnCount();
@@ -407,7 +417,7 @@ public class ImporterUtil {
         PreparedStatement preparedStatement = null;
         JSONArray colunas = getColumnsFromTable(t1.getToDatabase().getSchema(), tableTo);
 
-        StringBuilder query = new StringBuilder("INSERT INTO "+tableTo+"(");
+        StringBuilder query = new StringBuilder("INSERT INTO " + tableTo + "(");
         String pkName = pks.getJSONObject(0).getString(COLUMN_NAME);
 
         ArrayList<String> lColumns = new ArrayList<String>(0);

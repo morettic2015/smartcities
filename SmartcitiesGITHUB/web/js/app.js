@@ -306,22 +306,77 @@ require([
                         var mainSourceList = document.getElementById("srcListDataMDD");
                         var mainToList = document.getElementById("srcListToMDD");
                         var destinyList = document.getElementById("srcListFTableMDD");
-                        
+                        var destinyList1 = document.getElementById("srcListTTableMDD");
+                        var srcListTTableMDD = document.getElementById("srcListTTableMDD");
+                        var srcListFTableMDD = document.getElementById("srcListFTableMDD");
+                        var myTableArea = document.getElementById("fieldListSetFieldsMDD");
+
                         mainSourceList.onblur = function () {
-                            var url = "importer/get_columns/" + mainSourceList.value;
+                            var url = "importer/get_tables/" + mainSourceList.value;
+                            destinyList.innerHTML = "";
                             var resultado = restServices.salvaObjeto(url);
                             resultado.then(function (dados) {
                                 if (dados instanceof String) {
                                     view.modalMessage(dados, textos.gErro);
                                 } else if (dados instanceof Object) {
                                     for (i = 0; i < dados.length; i++) {
-                                       // var myTpInfo = dados[i].myTp.toLowerCase();
-                                        //alert(myTpInfo);
-
                                         var opt = document.createElement('option');
                                         opt.value = dados[i];
                                         opt.innerHTML = dados[i];
                                         destinyList.appendChild(opt);
+                                    }
+                                }
+                            });
+                        }
+
+                        srcListFTableMDD.onblur = function () {
+                            var url = "importer/get_columns/" + mainSourceList.value + "/" + srcListFTableMDD.value;
+                            //srcListFTableMDD.innerHTML = "";
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                   
+                                    myProfile.fieldToCreateFrom = dados;
+                                    var gridDataModdel = [];
+                                    for (var ia = 0; ia < myProfile.fieldToCreateFrom.length; ia++) {
+                                        var fValue = myProfile.fieldToCreateFrom[ia].columnName + "("+myProfile.fieldToCreateFrom[ia].columnType+")";
+                                        var sValue = "?";
+                                        var fieldInfoMain = {
+                                            fromFieldValue:fValue,
+                                            setFieldValue: sValue
+                                        };
+                                        gridDataModdel.push(fieldInfoMain);
+                                    }
+
+                                    gridDataFieldsTransformation.model.clearCache();
+                                    gridDataFieldsTransformation.model.store.setData(gridDataModdel);
+                                    gridDataFieldsTransformation.body.refresh();
+                                }
+                            });
+
+                        }
+
+                        srcListTTableMDD.onblur = function () {
+
+                        }
+
+                        mainToList.onblur = function () {
+                            var url = "importer/get_tables/" + mainToList.value;
+
+                            destinyList1.innerHTML = "";
+                            var resultado = restServices.salvaObjeto(url);
+
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                    for (i = 0; i < dados.length; i++) {
+                                        var opt = document.createElement('option');
+                                        opt.value = dados[i];
+                                        opt.innerHTML = dados[i];
+                                        destinyList1.appendChild(opt);
                                     }
                                 }
                             });

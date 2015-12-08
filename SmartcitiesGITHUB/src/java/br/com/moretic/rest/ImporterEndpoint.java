@@ -67,13 +67,13 @@ public class ImporterEndpoint {
      * @throws java.security.NoSuchAlgorithmException
      */
     @GET
-    @Path("/get_columns/{source}")
+    @Path("/get_tables/{source}")
     @Produces("application/json")
-    public Response findColumnsByDataSource(@PathParam("source") String source, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
+    public Response findTablesByDataSource(@PathParam("source") String source, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
 
         String infoCode[] = source.split("_");
         ArrayList ja = null;
-        
+
         //
         if (infoCode[0].equalsIgnoreCase("dtb")) {
 
@@ -97,6 +97,39 @@ public class ImporterEndpoint {
             }
         }
         return Response.ok(ja).build();
+    }
+
+    @GET
+    @Path("/get_columns/{source}/{tb}")
+    @Produces("application/json")
+    public Response findTableColumnsByDataSource(@PathParam("source") String source,@PathParam("tb") String ttable, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
+
+        String infoCode[] = source.split("_");
+        JSONArray ja = null;
+
+        //
+        if (infoCode[0].equalsIgnoreCase("dtb")) {
+
+            DataSource de = em.find(DataSource.class, Long.parseLong(infoCode[1]));
+            EnumDriverType databaseType = de.getDataSourceDriver();
+            String dbName = de.getNmDatasource();
+            String user = de.getDataUsername();
+            String pPort = de.getPport().toString();
+            String passwd = de.getDataPassword();
+            String urlDb = de.getDataSourceUrl();
+            //String mSchema = de.getDeSchema();
+            ImporterUtil ui;
+
+            try {
+                ui = new ImporterUtil(databaseType, urlDb, pPort, user, passwd, dbName);
+                if (ui.isConnOpen()) {
+                    ja = ui.getColumnsFromTable(dbName,ttable);
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return Response.ok(ja.toString()).build();
     }
 
     @GET
@@ -181,7 +214,6 @@ public class ImporterEndpoint {
     @Path("/copy_data/{idTtransformation}")
     @Produces("application/json")
     public Response copyDataSource(@PathParam("idTtransformation") String idTtransformation) throws ClassNotFoundException, SQLException {
-
         Transformation t1 = em.find(Transformation.class, Long.parseLong(idTtransformation));
         DataSource from1 = t1.getFromDatabase();
         DataSource to1 = t1.getToDatabase();
@@ -227,7 +259,12 @@ public class ImporterEndpoint {
         return Response.ok(fromData.toString()).build();
 
     }
-
+    /**
+     http://localhost:8080/smartcities/rest/importer/transformation/dtb_1/dtb_4/t1/t2_nm1/params?t2_nm1col=descriptiont1
+     * 
+     * na lista de parametros a chave é a coluna destino e o valor correspondente no mapa é a tabela origem
+     
+     */
     @GET
     @Path("/transformation/{idDataSourceFrom}/{idDataSourceTo}/{tbFrom}/{tbTo}/{fKeys}")
     @Produces("application/json")

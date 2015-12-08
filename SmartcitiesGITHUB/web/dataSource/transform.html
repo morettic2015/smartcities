@@ -21,13 +21,13 @@
         <span class="rotulo" >
             <span id='nmDataSource'>Source: </span>
         </span>
-        <select id="srcListDataMDD" class="campo" onchange="loadTablesFromDB(this)"></select>
+        <select id="srcListDataMDD" class="campo"></select>
     </div>
     <div class="celula-form-1">
         <span class="rotulo" >
             <span id='nmDataTo'>To: </span>
         </span>
-        <select id="srcListToMDD" class="campo" onchange="loadTablesFromDB(this)"></select>
+        <select id="srcListToMDD" class="campo" ></select>
     </div>
     <fieldset name="fieldList">
         <legend>Table map</legend>
@@ -46,7 +46,31 @@
             </div>
     </fieldset>
     <fieldset name="fieldList">
+        <legend>Fields</legend>
+         <table data-dojo-type="gridx/Grid" 
+                id="gridDataFieldsTransformation" 
+                jsId="gridDataFieldsTransformation" 
+                style="min-width: 2em; min-height: 2em; width: 450px; height: 120px;" 
+                data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+                 structure:[
+                 {width:'225px',name:'<span>Get</span>',field:'fromFieldValue'},
+                 {width:'225px',name:'<span>Set</span>',field:'setFieldValue'}
+               
+                 ],store:storeMemory">
+          </table>
+    </fieldset>
+    <fieldset name="filtersList">
         <legend>Filters</legend>
-        <div id="fieldListSetFiltersMDD"></div>
+         <table data-dojo-type="gridx/Grid" 
+                id="gridDataFiltersTransformation" 
+                jsId="gridDataFiltersTransformation" 
+                style="min-width: 2em; min-height: 2em; width: 450px; height: 120px;" 
+                data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+                 structure:[
+                 {width:'200px',name:'<span>field</span>',field:'id'},
+                 {width:'50px',name:'<span>filter</span>',field:'filter'},
+                 {width:'200px',name:'<span>value</span>',field:'valuef'}               
+                 ],store:storeMemory">
+          </table>
     </fieldset>
 </div>
