@@ -36,41 +36,38 @@
                 <span class="rotulo" >
                     <span >Table from: </span>
                 </span>
-                <select id="srcListFTableMDD" class="campo" ></select>
+                <select id="srcListFTableMDD" class="campo" ></select> 
+                <input type="button" class="icon_busca_dados" id="btViewSampreFTable"/>
             </div>
             <div class="celula-form-1">
                 <span class="rotulo" >
                     <span id='nmDataTo'>Table To: </span>
                 </span>
-                <select id="srcListTTableMDD" class="campo" ></select>
+                <select id="srcListTTableMDD" class="campo" ></select> 
+                <input type="button" class="icon_busca_dados"  id="btViewSampreTTable"/>
             </div>
     </fieldset>
     <fieldset name="fieldList">
         <legend>Fields</legend>
-         <table data-dojo-type="gridx/Grid" 
-                id="gridDataFieldsTransformation" 
-                jsId="gridDataFieldsTransformation" 
-                style="min-width: 2em; min-height: 2em; width: 450px; height: 120px;" 
-                data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
-                 structure:[
-                 {width:'225px',name:'<span>Get</span>',field:'fromFieldValue'},
-                 {width:'225px',name:'<span>Set</span>',field:'setFieldValue'}
-               
-                 ],store:storeMemory">
-          </table>
+        <div class="celula-form-1">
+            <label>Column from</label>
+            <select  id="fromFieldTableMDD"  data-dojo-type="dijit/form/ComboBox" value="Item 1" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="200" style=" width: 150px; left: 80px; ">
+            </select>
+            <label style="">Column to</label>
+            <select id="toFieldTableMDD" data-dojo-type="dijit/form/ComboBox" value="Item 1" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="200" style="width: 150px; left: 314px;">
+            </select>
+            <input data-dojo-type="dijit/form/Button" intermediateChanges="false"  type="button" label="Map" iconClass="dijitNoIcon" style=""  id="btMapFieldsMDD"></input>
+        </div>
+        <div class="celula-form-1">
+            <select id="selMappedFields" size="5" multiple style="width: 500px;height: 120px;">
+            </select>
+            <br>
+            <input type="button" id="btRMapFieldsMDD" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Remove" iconClass="dijitNoIcon"></input>
+        </div>
     </fieldset>
     <fieldset name="filtersList">
         <legend>Filters</legend>
-         <table data-dojo-type="gridx/Grid" 
-                id="gridDataFiltersTransformation" 
-                jsId="gridDataFiltersTransformation" 
-                style="min-width: 2em; min-height: 2em; width: 450px; height: 120px;" 
-                data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
-                 structure:[
-                 {width:'200px',name:'<span>field</span>',field:'id'},
-                 {width:'50px',name:'<span>filter</span>',field:'filter'},
-                 {width:'200px',name:'<span>value</span>',field:'valuef'}               
-                 ],store:storeMemory">
-          </table>
+        <div class="celula-form-1"></div>
     </fieldset>
 </div>
+

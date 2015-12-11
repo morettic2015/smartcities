@@ -59,7 +59,7 @@ function (
 		},
 
 		modalMessage: function (message, type) {
-			openModal(message, type, null, 150, true);
+			openModal(message, type, 200, 80, true);
 		}
 	}		
 

@@ -56,7 +56,11 @@
     height: 16px;
     text-align: center;
 }
-
+.icon_busca_dados{
+    background: url(images/icons/Visualizar/12X12.png);
+    width: 15px;
+    height: 15px
+}
 .icone-perfil{
     background-repeat: no-repeat;
     width: 24px;

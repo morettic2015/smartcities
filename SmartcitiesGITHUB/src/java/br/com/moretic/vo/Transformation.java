@@ -7,7 +7,9 @@ package br.com.moretic.vo;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -21,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -86,11 +89,12 @@ public class Transformation implements Serializable {
 
     @Column(name = "id_from_source", updatable = true, insertable = true)
     private Integer idFromSource;
-
+    
     @ManyToOne
     @JoinColumn(name = "id_to_source", updatable = false, insertable = false)
     private FileSource toSource;
-
+   
+    @JsonIgnore
     @Column(name = "id_to_source", updatable = true, insertable = true)
     private Integer idToSource;
 
@@ -99,6 +103,17 @@ public class Transformation implements Serializable {
     @Column(name = "f_to")
     @CollectionTable(name = "transformation_fields", joinColumns = @JoinColumn(name = "transformation_fields_id"))
     private Map<String, String> myFields = new HashMap<String, String>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "idT1")
+    private Set<SQLFilter> filters = new HashSet<SQLFilter>(0);
+
+    public Set<SQLFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Set<SQLFilter> filters) {
+        this.filters = filters;
+    }
 
     public DataSource getFromDatabase() {
         return fromDatabase;

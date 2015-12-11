@@ -313,7 +313,7 @@ public class ImporterUtil {
             }
 
             StringWriter buffer = new StringWriter();
-            HierarchicalStreamReader sourceReader = new XppReader(new StringReader(sbXml.toString()));
+            HierarchicalStreamReader sourceReader = new XppReader(new StringReader(sbXml.toString())); 
             JettisonMappedXmlDriver jettisonDriver = new JettisonMappedXmlDriver();
             jettisonDriver.createWriter(buffer);
             HierarchicalStreamWriter destinationWriter = jettisonDriver.createWriter(buffer);

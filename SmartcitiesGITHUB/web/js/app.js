@@ -299,7 +299,8 @@ require([
                     view.abrePopUpModal(EULA, "EXPORT");
                 });
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
-                    carregaTelaFerramentaDados(DATAIMPORT_COPY);
+                    view.abrePopUpModal(DATAIMPORT_COPY, "COPY");
+                    //carregaTelaFerramentaDados();
                 });
                 on(dom.byId("mnuFerramentaDadosTransform"), "click", function () {
                     carregaTelaFerramentaDados(DATAIMPORT_TRANSFORM, null, function () {
@@ -309,7 +310,64 @@ require([
                         var destinyList1 = document.getElementById("srcListTTableMDD");
                         var srcListTTableMDD = document.getElementById("srcListTTableMDD");
                         var srcListFTableMDD = document.getElementById("srcListFTableMDD");
-                        var myTableArea = document.getElementById("fieldListSetFieldsMDD");
+                        var selMappedFields = document.getElementById("selMappedFields");
+
+                        on(dom.byId("btViewSampreFTable"), "click", function () {
+                            view.abrePopUpModal(EULA, "SAMPLE DATA FROM:" + srcListFTableMDD.value, 480, 320, null);
+                        });
+                        on(dom.byId("btViewSampreTTable"), "click", function () {
+                            view.abrePopUpModal(EULA, "SAMPLE DATA FROM:" + srcListTTableMDD.value, 480, 320, null);
+                        });
+                        on(dom.byId("btFiltrarTransformData"), "click", function () {
+                            view.abrePopUpModal(EULA, "FILTERS");
+                        });
+                        on(dom.byId("btAgruparTransformData"), "click", function () {
+                            view.abrePopUpModal(EULA, "FILTERS");
+                        });
+                        on(dom.byId("btSalvarTransformData"), "click", function () {
+                            ///rest/importer/transformation/dtb_1/dtb_4/t1/t2_nm1/params?t2_nm1col=descriptiont1
+                            
+                            var params = "";
+                            
+                            var vFields = document.getElementById("selMappedFields").options;
+                            for(ir = vFields.length-1;ir>=0;ir--){
+                                params+=vFields[ir].value;
+                                if(ir>0){
+                                    params+="&";
+                                }
+                            }
+                            
+                            var url = "importer/transformation/" + mainSourceList.value + "/" + mainToList.value +"/" + srcListFTableMDD.value +"/" +srcListTTableMDD.value + "/params?" + params;
+                           
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                    myProfile.transformation = dados;
+                                    view.abrePopUpModal("TRANSFORMATION SAVED", "SUCESS", 200, 80, true);
+                                }
+                            });
+                        });
+                        on(dom.byId("btAgruparTransformData"), "click", function () {
+                            view.abrePopUpModal(EULA, "FILTERS");
+                        });
+                        on(dom.byId("btExcluirTransformData"), "click", function () {
+                            view.abrePopUpModal(EULA, "FILTERS");
+                        });
+                        on(dom.byId("btRMapFieldsMDD"), "click", function () {
+                            var itemRemove = selMappedFields.selectedIndex;
+                            selMappedFields.removeChild(selMappedFields[itemRemove]);
+                        });
+                        on(dom.byId("btMapFieldsMDD"), "click", function () {
+                            var opt = document.createElement('option');
+                            var col1 = document.getElementById('toFieldTableMDD').value.split("(");
+                            var col2 = document.getElementById('fromFieldTableMDD').value.split("(");
+
+                            opt.value = col1[0] + "=" + col2[0];
+                            opt.innerHTML = col1[0] + "=" + col2[0];
+                            selMappedFields.appendChild(opt);
+                        });
 
                         mainSourceList.onblur = function () {
                             var url = "importer/get_tables/" + mainSourceList.value;
@@ -337,29 +395,37 @@ require([
                                 if (dados instanceof String) {
                                     view.modalMessage(dados, textos.gErro);
                                 } else if (dados instanceof Object) {
-                                   
+
                                     myProfile.fieldToCreateFrom = dados;
-                                    var gridDataModdel = [];
+                                    dijit.byId('fromFieldTableMDD').store.data = [];
                                     for (var ia = 0; ia < myProfile.fieldToCreateFrom.length; ia++) {
-                                        var fValue = myProfile.fieldToCreateFrom[ia].columnName + "("+myProfile.fieldToCreateFrom[ia].columnType+")";
-                                        var sValue = "?";
-                                        var fieldInfoMain = {
-                                            fromFieldValue:fValue,
-                                            setFieldValue: sValue
-                                        };
-                                        gridDataModdel.push(fieldInfoMain);
+
+                                        registry.byId("fromFieldTableMDD").get('store').add({name: myProfile.fieldToCreateFrom[ia].columnName + "(" + myProfile.fieldToCreateFrom[ia].columnType + ")", id: myProfile.fieldToCreateFrom[ia].columnName});
                                     }
 
-                                    gridDataFieldsTransformation.model.clearCache();
-                                    gridDataFieldsTransformation.model.store.setData(gridDataModdel);
-                                    gridDataFieldsTransformation.body.refresh();
                                 }
                             });
 
                         }
 
                         srcListTTableMDD.onblur = function () {
+                            var url = "importer/get_columns/" + mainToList.value + "/" + srcListTTableMDD.value;
+                            //srcListFTableMDD.innerHTML = "";
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
 
+                                    myProfile.fieldToCreateFrom = dados;
+                                    dijit.byId('toFieldTableMDD').store.data = [];
+                                    for (var ia = 0; ia < myProfile.fieldToCreateFrom.length; ia++) {
+
+                                        registry.byId("toFieldTableMDD").get('store').add({name: myProfile.fieldToCreateFrom[ia].columnName + "(" + myProfile.fieldToCreateFrom[ia].columnType + ")", id: myProfile.fieldToCreateFrom[ia].columnName});
+                                    }
+
+                                }
+                            });
                         }
 
                         mainToList.onblur = function () {
