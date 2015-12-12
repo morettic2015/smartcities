@@ -102,7 +102,7 @@ public class ImporterEndpoint {
     @GET
     @Path("/get_columns/{source}/{tb}")
     @Produces("application/json")
-    public Response findTableColumnsByDataSource(@PathParam("source") String source,@PathParam("tb") String ttable, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
+    public Response findTableColumnsByDataSource(@PathParam("source") String source, @PathParam("tb") String ttable, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, UnknownHostException, Exception {
 
         String infoCode[] = source.split("_");
         JSONArray ja = null;
@@ -123,7 +123,7 @@ public class ImporterEndpoint {
             try {
                 ui = new ImporterUtil(databaseType, urlDb, pPort, user, passwd, dbName);
                 if (ui.isConnOpen()) {
-                    ja = ui.getColumnsFromTable(dbName,ttable);
+                    ja = ui.getColumnsFromTable(dbName, ttable);
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -210,6 +210,32 @@ public class ImporterEndpoint {
         return Response.ok(ja.toString()).build();
     }
 
+    /**
+     *
+     * http://localhost:8080/smartcities/rest/importer/view_sample/3/t2
+     *
+     */
+    @GET
+    @Path("/view_sample/{idDataSource}/{tableSampe}")
+    @Produces("application/json")
+    public Response viewSampleData(@PathParam("idDataSource") String idDataSource,
+            @PathParam("tableSampe") String tableSampe,
+            @Context HttpServletRequest req,
+            @Context HttpServletResponse res) throws ClassNotFoundException, SQLException {
+        DataSource from1 = em.find(DataSource.class, Long.parseLong(idDataSource));
+
+        ImporterUtil iu = new ImporterUtil(from1.getDataSourceDriver(), from1.getDataSourceUrl(), from1.getPport().toString(), from1.getDataUsername(), from1.getDataPassword(), from1.getNmDatasource());
+
+        JSONObject fromData = iu.getSampleTableData(tableSampe);
+
+        
+        req.getSession(true).setAttribute(iu.SAMPLE_DATA, fromData);
+        
+        iu.quit();
+
+        return Response.ok(fromData.toString()).build();
+    }
+
     @GET
     @Path("/copy_data/{idTtransformation}")
     @Produces("application/json")
@@ -259,11 +285,13 @@ public class ImporterEndpoint {
         return Response.ok(fromData.toString()).build();
 
     }
+
     /**
-     http://localhost:8080/smartcities/rest/importer/transformation/dtb_1/dtb_4/t1/t2_nm1/params?t2_nm1col=descriptiont1
-     * 
-     * na lista de parametros a chave é a coluna destino e o valor correspondente no mapa é a tabela origem
-     
+     * http://localhost:8080/smartcities/rest/importer/transformation/dtb_1/dtb_4/t1/t2_nm1/params?t2_nm1col=descriptiont1
+     *
+     * na lista de parametros a chave é a coluna destino e o valor
+     * correspondente no mapa é a tabela origem
+     *
      */
     @GET
     @Path("/transformation/{idDataSourceFrom}/{idDataSourceTo}/{tbFrom}/{tbTo}/{fKeys}")
@@ -285,6 +313,9 @@ public class ImporterEndpoint {
         HashMap<String, String> fieldMap = new HashMap<String, String>();
         for (Object key : params.keySet()) {
             String fFrom = key.toString();
+            if (fFrom.equals(REQUESTPREVENT_CACHE)) {
+                continue;
+            }
             String fTo = params.getFirst(key).toString();
             fieldMap.put(fFrom, fTo);
         }
@@ -330,6 +361,7 @@ public class ImporterEndpoint {
         //Retorna o json
         return Response.ok(t1).build();
     }
+    public static final String REQUESTPREVENT_CACHE = "request.preventCache";
 
     @GET
     @Path("/export_table_json/{datasource_id}/{table_name}")

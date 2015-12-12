@@ -160,6 +160,46 @@ public class ImporterUtil {
         }
         return lTables;
     }
+    
+    public JSONObject getSampleTableData(String tableName) throws SQLException {
+        JSONArray ja = new JSONArray();
+        JSONObject js1 = new JSONObject();
+        js1.append(TABLE_NAME, tableName);
+        conn.setAutoCommit(false);
+        
+        stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY,java.sql.ResultSet.CONCUR_READ_ONLY);
+        
+        stmt.setFetchSize(10);
+        stmt.setMaxRows(10);
+        StringBuilder query = new StringBuilder("SELECT DISTINCT * FROM " + tableName);
+
+        rs = stmt.executeQuery(query.toString());
+
+        rsmd = rs.getMetaData();
+        int numberOfColumns = rsmd.getColumnCount();
+        //int tot = 0;
+        while (rs.next()) {
+            JSONObject js = new JSONObject();
+
+            for (int i = 1; i <= numberOfColumns; i++) {
+                String colName = rsmd.getColumnName(i);
+                try {
+                    js.put(colName, rs.getString(i));//Nome da table que tem a fk
+                } catch (SQLException sQLException) {
+                    js.put(colName, "ERROR");
+                }
+
+            }
+          /*  if(tot++>10){
+                break;
+            }*/
+            ja.put(js);
+        }
+        js1.put(SAMPLE_DATA, ja);
+        return js1;
+    }
+    public static final String SAMPLE_DATA = "sampleData";
+    public static final String TABLE_NAME = "tableName";
 
     public JSONArray getTableData(String schema, String tableName, String... filters) throws SQLException {
         JSONArray ja = new JSONArray();

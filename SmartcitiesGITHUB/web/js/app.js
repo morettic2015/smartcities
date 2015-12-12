@@ -60,6 +60,7 @@ var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
 var CONFIGURATION = "configuration.html";
 var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
+var SAMPLE_VIEW = "dataSource/sampleData.jsp";
 var UPLOAD = "upload/index.html";
 var STORE_COVER = "store/storeCover.html";
 var HELP_START = "help/index.html";
@@ -313,10 +314,32 @@ require([
                         var selMappedFields = document.getElementById("selMappedFields");
 
                         on(dom.byId("btViewSampreFTable"), "click", function () {
-                            view.abrePopUpModal(EULA, "SAMPLE DATA FROM:" + srcListFTableMDD.value, 480, 320, null);
+
+                            var a1 = mainSourceList.value.split("_");
+                            var url = "importer/view_sample/" + a1[1] + "/" + destinyList.value;
+
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListFTableMDD.value, 480, 320, false);
+                                }
+                            });
+
                         });
                         on(dom.byId("btViewSampreTTable"), "click", function () {
-                            view.abrePopUpModal(EULA, "SAMPLE DATA FROM:" + srcListTTableMDD.value, 480, 320, null);
+                            var a1 = mainToList.value.split("_");
+                            var url = "importer/view_sample/" + a1[1] + "/" + destinyList1.value;
+
+                            var resultado = restServices.salvaObjeto(url);
+                            resultado.then(function (dados) {
+                                if (dados instanceof String) {
+                                    view.modalMessage(dados, textos.gErro);
+                                } else if (dados instanceof Object) {
+                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListTTableMDD.value, 480, 320, false);
+                                }
+                            });
                         });
                         on(dom.byId("btFiltrarTransformData"), "click", function () {
                             view.abrePopUpModal(EULA, "FILTERS");
@@ -326,19 +349,24 @@ require([
                         });
                         on(dom.byId("btSalvarTransformData"), "click", function () {
                             ///rest/importer/transformation/dtb_1/dtb_4/t1/t2_nm1/params?t2_nm1col=descriptiont1
-                            
+
                             var params = "";
-                            
+
                             var vFields = document.getElementById("selMappedFields").options;
-                            for(ir = vFields.length-1;ir>=0;ir--){
-                                params+=vFields[ir].value;
-                                if(ir>0){
-                                    params+="&";
+                            for (ir = vFields.length - 1; ir >= 0; ir--) {
+                                params += vFields[ir].value;
+                                if (ir > 0) {
+                                    params += "&";
                                 }
                             }
-                            
-                            var url = "importer/transformation/" + mainSourceList.value + "/" + mainToList.value +"/" + srcListFTableMDD.value +"/" +srcListTTableMDD.value + "/params?" + params;
-                           
+
+                            if (vFields.length < 1 || srcListFTableMDD.value == "" || srcListTTableMDD.value == "") {
+                                view.abrePopUpModal("VERIFY YOUR FIELDS AND CONTINUE.", "WARNING", 240, 80, true);
+                                return;
+                            }
+
+                            var url = "importer/transformation/" + mainSourceList.value + "/" + mainToList.value + "/" + srcListFTableMDD.value + "/" + srcListTTableMDD.value + "/params?" + params;
+
                             var resultado = restServices.salvaObjeto(url);
                             resultado.then(function (dados) {
                                 if (dados instanceof String) {

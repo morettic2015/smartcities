@@ -15,6 +15,11 @@ public enum EnumCriteriaType {
     LESS_THEN("<"),
     LESS_THEN_EQUALS("<"),
     LIKE("LIKE"),
+    NOT_LIKE("NOT_LIKE"),
+    DIFFERENT("<>"),
+    IN("IN"),
+    NOT_IN("NOT IN"),
+    LIMIT("LIMIT"),
     EQUALS("=");
 
     private EnumCriteriaType(String dbType) {
