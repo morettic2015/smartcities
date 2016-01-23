@@ -51,7 +51,8 @@ final class FacebookUtil {
          UsuarioFacebook usuarioFacebook = new UsuarioFacebook(resp);
          System.out.println(usuarioFacebook.toString());*/
     }
-
+    
+    
 
     private String readURL(URL url) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,6 +68,11 @@ final class FacebookUtil {
         return "https://graph.facebook.com/oauth/authorize?client_id="
                 + client_id + "&display=page&redirect_uri=" + redirect_uri
                 + "&scope=email,publish_actions,picture";
+    }
+    
+    public String getFriendList(String idFb) throws MalformedURLException, IOException{
+        //idFb = "me";
+        return readURL(new URL("https://graph.facebook.com/"+idFb+"/friends"));
     }
 
     private String getAuthURL(String authCode) {

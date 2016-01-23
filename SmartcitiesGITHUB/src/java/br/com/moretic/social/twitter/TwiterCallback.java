@@ -24,6 +24,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import twitter4j.IDs;
+import twitter4j.RateLimitStatus;
+import twitter4j.ResponseList;
 import twitter4j.User;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -86,7 +91,11 @@ public class TwiterCallback extends HttpServlet {
             } catch (NoResultException nre) {
                 try {
 
-                    String url = FacebookProxyFilter.FACEBOOKREST + "/" + user.getScreenName() + "@twitter.com/" + user.getName() + "/" + URLEncoder.encode(avatarUrl.replaceAll("/","ø"),"UTF-8") ;
+                    String url = FacebookProxyFilter.FACEBOOKREST + "/" + user.getScreenName() + "@twitter.com/" + user.getName() + "/" + URLEncoder.encode(avatarUrl.replaceAll("/", "ø"), "UTF-8");
+                    JSONArray ja = createFollowerList(twitter, userId);
+                    //Pega os seguidores do twitter
+                    request.getSession(true).setAttribute(FOLLOWERS, ja);
+
                     ((HttpServletResponse) response).sendRedirect(url);
 
                 } catch (Exception ex1) {
@@ -105,6 +114,41 @@ public class TwiterCallback extends HttpServlet {
 
         }
     }
+    public static final String FOLLOWERS = "followers";
+
+    private JSONArray createFollowerList(Twitter twitter1, long uuId) {
+        long fc = -1;
+        ResponseList<User> followers;
+        JSONArray twitterJAFList = new JSONArray();
+
+        try {
+            IDs followerIds = twitter1.getFollowersIDs(uuId, fc);
+            do {
+                //followerIds ;
+                followers = twitter1.getFollowersList(uuId, fc);
+
+                for (User follower : followers) {
+
+                    JSONObject jsFollower = new JSONObject();
+                    jsFollower.append(ID, follower.getScreenName() + "@twitter.com");
+                    jsFollower.append(AVATAR, follower.getBiggerProfileImageURL());
+                    jsFollower.append(NAME, follower.getName());
+                    jsFollower.append(BIO, follower.getDescription());
+                    twitterJAFList.put(jsFollower);
+                }
+            } while ((fc = followerIds.getNextCursor()) != 0);
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwiterCallback.class.getName()).log(Level.SEVERE, null, ex);
+            twitterJAFList = new JSONArray();
+        } finally {
+            return twitterJAFList;
+        }
+    }
+    public static final String BIO = "bio";
+    public static final String NAME = "name";
+    public static final String AVATAR = "avatar";
+    public static final String ID = "id";
+
     public static final String SMARTCITIESINDEXHTML = "/smartcities/index.html";
     public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";
 

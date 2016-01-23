@@ -86,7 +86,7 @@ public class FacebookProxyFilter implements Filter {
 
         TypedQuery<Profile> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars WHERE p.email = :entityId ORDER BY p.idprofile", Profile.class);
         findByIdQuery.setParameter("entityId", profileJson.getString("email"));
-
+        String uIdFb = null;
         Profile entity = null;
         try {
             //Ja existe recupera e fechou
@@ -98,13 +98,15 @@ public class FacebookProxyFilter implements Filter {
         } catch (Exception nre) {
             nre.printStackTrace();
             try {
-                String uIdFb = profileJson.getString("id");
+                uIdFb = profileJson.getString("id");
                 //graph.facebook.com/10205211352462356/picture
                 String urlImg = "http://graph.facebook.com/" + uIdFb + "/picture/";
-              
-               
 
-                String url = FACEBOOKREST + "/" + profileJson.getString("email") + "/" + profileJson.getString("name") + "/" + URLEncoder.encode(urlImg.replaceAll("/","ø"),"UTF-8") ;
+                String fList;
+
+                //fList = URLDecoder.decode(fbu.getFriendList(uIdFb), "UTF-8");
+
+                String url = FACEBOOKREST + "/" + profileJson.getString("email") + "/" + profileJson.getString("name") + "/" + URLEncoder.encode(urlImg.replaceAll("/", "ø"), "UTF-8");
                 ((HttpServletResponse) response).sendRedirect(url);
 
             } catch (Exception ex1) {
@@ -117,12 +119,6 @@ public class FacebookProxyFilter implements Filter {
 
         }
 
-        //System.out.print(profileJson);
-        //Verifica se o usuario e valido
-        // req.getRequestDispatcher("/login.jsp").forward(request, response);
-        //System.out.print(profileJson);
-        //Verifica se o usuario e valido
-        // req.getRequestDispatcher("/login.jsp").forward(request, response);
     }
     public static final String SMARTCITIESINDEXHTML = "/smartcities/index.html";
     public static final String SMARTCITIESMAINHTML = "/smartcities/main.html";

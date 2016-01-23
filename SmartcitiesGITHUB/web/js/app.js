@@ -323,10 +323,9 @@ require([
                                 if (dados instanceof String) {
                                     view.modalMessage(dados, textos.gErro);
                                 } else if (dados instanceof Object) {
-                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListFTableMDD.value, 480, 320, false);
+                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListFTableMDD.value, 640, 480, false);
                                 }
                             });
-
                         });
                         on(dom.byId("btViewSampreTTable"), "click", function () {
                             var a1 = mainToList.value.split("_");
@@ -337,7 +336,7 @@ require([
                                 if (dados instanceof String) {
                                     view.modalMessage(dados, textos.gErro);
                                 } else if (dados instanceof Object) {
-                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListTTableMDD.value, 480, 320, false);
+                                    view.abrePopUpModal(SAMPLE_VIEW, "SAMPLE DATA FROM:" + srcListTTableMDD.value, 640, 480, false);
                                 }
                             });
                         });

@@ -4,22 +4,28 @@
     Author     : LuisAugusto
 --%>
 
+<%@page import="org.json.JSONException"%>
 <%@page import="java.util.Set"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONObject"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    /**
+     *
+     * Moretto 2015
+     *
+     */
+    try {
+        JSONObject js = new JSONObject(request.getSession().getAttribute("sampleData").toString());
+        JSONArray ja = js.getJSONArray("sampleData");
+        Set<String> columnns = null;
+        if (ja.getJSONObject(0) != null) {
+            JSONObject js1 = ja.getJSONObject(0);
+            columnns = js1.keySet();
+        }
 
-    JSONObject js = new JSONObject(request.getSession().getAttribute("sampleData").toString());
-    JSONArray ja = js.getJSONArray("sampleData");
-    Set<String> columnns = null;
-    if (ja.getJSONObject(0) != null) {
-        JSONObject js1 = ja.getJSONObject(0);
-        columnns = js1.keySet();
-    }
-
-    String tbName = js.getJSONArray("tableName").get(0).toString();
+        String tbName = js.getJSONArray("tableName").get(0).toString();
 %>
 
 
@@ -51,3 +57,8 @@
 
 <span data-dojo-type="dojo/data/ItemFileReadStore" id="ItemFileReadStore_2gridSampleDataModel" jsId="ItemFileReadStore_2gridSampleDataModel" data="{'items':<%=clearJsonString%>}"></span>
 <table data-dojo-type="gridx/Grid" style="min-width: 1em; min-height: 1em; width: 100%; height: 240px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',structure:[<%=sb.toString()%>],store:ItemFileReadStore_2gridSampleDataModel"></table>
+<%
+    } catch (JSONException e) {
+        out.print("<h1>No data</h1>");
+    }
+%>

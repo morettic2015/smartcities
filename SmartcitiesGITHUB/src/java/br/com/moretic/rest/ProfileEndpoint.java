@@ -1,6 +1,7 @@
 package br.com.moretic.rest;
 
 import br.com.moretic.social.twitter.TwiterCallback;
+import static br.com.moretic.social.twitter.TwiterCallback.*;
 import br.com.moretic.util.MD5Crypt;
 import br.com.moretic.util.SmartProxyFilter;
 import br.com.moretic.util.ValidatorUtil;
@@ -40,6 +41,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -298,8 +301,7 @@ public class ProfileEndpoint {
             entityFtps = findByFtpSource.getResultList();
             //entity.getlLog().clear();
             entity.getMyFtps().addAll(entityFtps);
-            
-              
+
             //Carrega a lista de database
             TypedQuery<DataSource> findByDataSource = em.createQuery("SELECT DISTINCT a FROM DataSource a  WHERE a.idProfile = :entityId ORDER BY a.nmDatasource", DataSource.class);
             findByDataSource.setParameter("entityId", id);
@@ -451,9 +453,45 @@ public class ProfileEndpoint {
             em.persist(a);
 
             p.getAvatars().add(a);
+            em.merge(p);
         }
         HttpSession session = req.getSession();
         session.setAttribute(PROFILE, p);
+
+        //Has a follower list to associate with
+        if (req.getSession(true).getAttribute(FOLLOWERS) != null) {
+            JSONArray followersList = (JSONArray) req.getSession(true).getAttribute(FOLLOWERS);
+            for (int i = 0; i < followersList.length(); i++) {
+
+                JSONObject follower = followersList.getJSONObject(i);
+
+                Profile p1 = new Profile();
+                p1.setEmail(follower.getJSONArray(ID).getString(0));
+                p1.setNmUser(follower.getJSONArray(NAME).getString(0));
+                p1.setBio(follower.getJSONArray(BIO).getString(0).getBytes());
+                p1.setPassword(MD5Crypt.getHash(follower.getJSONArray(NAME).getString(0)));
+                em.persist(p1);
+
+                Avatar a1 = new Avatar();
+                a1.setIdProfile(p1.getIdprofile());
+                a1.setPath(follower.getJSONArray(AVATAR).getString(0).replaceAll("ø", "/"));
+                a1.setProfile(p1);
+
+                em.persist(a1);
+
+                p1.getAvatars().add(a1);
+                em.merge(p1);
+                
+                ProfileContactId pcId = new ProfileContactId(p.getIdprofile(),p1.getIdprofile());
+                
+                ProfileContact pContact = new ProfileContact(pcId,p,p1);
+                pContact.setEnabled(Boolean.TRUE);
+                
+                em.persist(pContact);
+
+            }
+
+        }
 
         res.sendRedirect(SMARTCITIESMAINHTML);
 

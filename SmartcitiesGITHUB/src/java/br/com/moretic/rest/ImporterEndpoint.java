@@ -66,6 +66,18 @@ public class ImporterEndpoint {
      * @param res
      * @throws java.security.NoSuchAlgorithmException
      */
+    
+    
+    @GET
+    @Path("/crawler/{params}")
+    @Produces("application/json")
+    public Response searchWeb(@PathParam("source") String source, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+        
+        
+        
+        
+        return null;
+    }
     @GET
     @Path("/get_tables/{source}")
     @Produces("application/json")
