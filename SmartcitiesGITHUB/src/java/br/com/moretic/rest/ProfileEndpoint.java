@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -86,39 +87,91 @@ public class ProfileEndpoint {
     /**
      * Create a circle if does not exists then associate the contact to the
      * circle
+     *
+     * @Moretto
      */
     @GET
     @Path("/addToCircle/{emailContact}/{circleName}")
     @Produces("application/json")
     public Response addToCircle(@PathParam("emailContact") String emailContact, @PathParam("circleName") String circleName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
-        String jpaQuery = "SELECT p FROM Profile p where p.email LIKE %:pEmail%";
+        String jpaQuery = "SELECT p FROM Profile p where p.email LIKE :pEmail";
         Query q = em.createQuery(jpaQuery);
-        q.setParameter(":pEmail", emailContact);
+        q.setParameter("pEmail", "%" + emailContact + "%");
         Profile circleContact = (Profile) q.getSingleResult();
+        Profile owner = getProfileSession(req);
 
-        jpaQuery = "SELECT c FROM Circle c where c.circleName LIKE %:pCircleName%";
+        jpaQuery = "SELECT c FROM Circle c where c.circleName LIKE :pCircleName";
         q = em.createQuery(jpaQuery);
-        q.setParameter(":pCircleName", circleName);
+        q.setParameter("pCircleName", "%" + circleName + "%");
         Circle circleGroup = null;
 
         try {//Recupera o circulo existente e edita
             circleGroup = (Circle) q.getSingleResult();
         } catch (NoResultException e) {//Não encontrado. Primeira try ele cria e depois associa tanto o novo como o antigo.
-            Profile owner = getProfileSession(req);
+
+            owner = em.find(Profile.class, owner.getIdprofile());
+
             circleGroup = new Circle();
             circleGroup.setOwner(owner);
-            
+            circleGroup.setCircleName(circleName);
+
             em.persist(circleGroup);
         }
 
-        circleGroup.getCircleList().add(circleContact);
+        circleGroup.getMyMembers().add(circleContact.getIdprofile());
 
         em.merge(circleGroup);
 
-        return Response.ok(circleGroup).build();
+        //RETORNA OS CIRCULOS OS QUAIS O USUARIO ESTÁ ASSOCIADO
+        String querySql
+                = " SELECT "
+                + "    c1.* "
+                + " FROM "
+                + "    \"public\".circle as c1, "
+                + "    \"public\".circle_member as c2 "
+                + " WHERE "
+                + "    c1.idcircle = c2.circle_member_fk "
+                + "    AND c2.circle_member_id_profile = :member "
+                + "    AND c1.owner_idprofile = :owner ";
+
+        q = em.createNativeQuery(querySql, Circle.class);
+        q.setParameter("owner", owner.getIdprofile());
+        q.setParameter("member", circleContact.getIdprofile());
+        
+        List<Circle> cListMember = q.getResultList();
+        
+        Set<String> lVoCircleTags = new HashSet<String>();
+        for(Circle cc:cListMember){
+            lVoCircleTags.add(cc.getCircleName());
+        }
+        
+        return Response.ok(lVoCircleTags).build();
 
     }
 
+    
+    public HashSet<String> findMyCircles(int ownerId, EntityManager em1){
+           String querySql
+                = " SELECT "
+                + "    c1.* "
+                + " FROM "
+                + "    \"public\".circle as c1 "
+                + " WHERE "
+                + "   c1.owner_idprofile = :owner ";
+
+        Query q;   
+        q = em1.createNativeQuery(querySql, Circle.class);
+        q.setParameter("owner", ownerId);
+        List<Circle> cListMember = q.getResultList();
+        
+        HashSet<String> lVoCircleTags = new HashSet<String>();
+        for(Circle cc:cListMember){
+            lVoCircleTags.add(cc.getCircleName());
+        }
+        
+        return lVoCircleTags;
+    }
+    
     @GET
     @Path("/security/{email}/{fone}/{cel}/{phrase}")
     @Produces("application/json")
@@ -387,6 +440,9 @@ public class ProfileEndpoint {
             entityDataSources = findByDataSource.getResultList();
             //entity.getlLog().clear();
             entity.getMyDbs().addAll(entityDataSources);
+            
+            entity.setCirclesOwner(findMyCircles(entity.getIdprofile(),em));
+            
 
             findByIdProf = null;
             findByIdSec = null;

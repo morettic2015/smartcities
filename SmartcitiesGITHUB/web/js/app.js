@@ -591,36 +591,49 @@ require([
                             gridCircleContacts.model.store.setData(gridDataMovdel);
                             gridCircleContacts.body.refresh();
 
-
-                        /*    for (i = 0; i < dados.length; i++) {
-
-                                var objAtual = "chkContact" + dados[i].code;
-                                
-
-                                document.getElementById(objAtual).onClick=function () {
-                                    alert(this.value);
-                                   var r1 = restServices.salvaObjeto("profiles/contactList");
-                                    r1.then(function (dados) {
-                                        for (i = 0; i < dados.length; i++) {
-                                            if (dados[i].code == this.value) {
-                                                document.getElementById("txtCircleContactName").value = dados[i].name;
-                                                document.getElementById("txtCircleContactBio").value = dados[i].bio;
-                                                document.getElementById("txtCircleContactEmail").value = dados[i].id;
-                                                document.getElementById("imgContactPhoto").src = dados[i].avatar;
-                                            }
+                            on(dom.byId("btAddECircleTO"), "click", function () {
+                                //alert("btAddECircleTO");
+                                /**
+                                 * profiles/addToCircle/Luizmirand4@twitter.com/UNIMED_FPOLIS
+                                 * 
+                                 
+                                 * */
+                                var emailCContact = document.getElementById("txtCircleContactEmail").value;
+                                var mCircleName = document.getElementById("txtCircleListContact").value;
+                                var mUrl = "profiles/addToCircle/" + emailCContact + "/" + mCircleName;
+                                var rq1 = restServices.salvaObjeto(mUrl);
+                                rq1.then(function (retorno) {
+                                    var vetorCircles = [];
+                                    for (j = 0; j < retorno.length; j++) {
+                                        var newLine = {
+                                            circle: retorno[j],
+                                            checkbox: "<input id=\'chkCircle_" + retorno[j] + "\' value=\'" + retorno[j] + "\' type=\'checkbox\' onclick=showCIt2(\'" + retorno[j] + "\',this)>"
                                         }
-                                    });
-                                }
-                            }*/
+                                        vetorCircles.push(newLine);
+                                        gridProfileContactsCircles.model.store.put(newLine);
+                                    }
+                                    gridProfileContactsCircles.model.clearCache();
+                                    gridProfileContactsCircles.model.store.setData(vetorCircles);
+                                    gridProfileContactsCircles.body.refresh();
+                                    //Adiciona a opção ao combobox autocomplete
+                                    var scl = document.getElementById("txtCircleListContact");
+                                    var opt1 = document.createElement('option');
+
+                                    opt1.value = mCircleName;
+                                    opt1.innerHTML = mCircleName;
+                                    scl.appendChild(opt1);
+                                });
+                            });
+
                         });
                     })
                 });
 
 
-               /* on(dom.byId("btCirculos"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_CONTACTS, function () {
-                    });
-                });*/
+                /* on(dom.byId("btCirculos"), "click", function () {
+                 carregaTelaCirculos(CIRCLES_CONTACTS, function () {
+                 });
+                 });*/
                 /**
                  *	Delegação de evento para conteudo carregado dinamicamente
                  */

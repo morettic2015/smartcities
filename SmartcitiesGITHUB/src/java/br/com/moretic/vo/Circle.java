@@ -6,6 +6,12 @@
 package br.com.moretic.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -46,14 +53,6 @@ public class Circle implements Serializable {
         this.owner = owner;
     }
 
-    public Set<Profile> getCircleList() {
-        return circleList;
-    }
-
-    public void setCircleList(Set<Profile> circleList) {
-        this.circleList = circleList;
-    }
-
     public String getCircleName() {
         return circleName;
     }
@@ -61,13 +60,26 @@ public class Circle implements Serializable {
     public void setCircleName(String circleName) {
         this.circleName = circleName;
     }
-
-    @OneToOne(optional = false, cascade = CascadeType.MERGE)
+    
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     private Profile owner;
 
-    @OneToMany
-    private Set<Profile> circleList;
+    @ElementCollection
+    @Column(name = "circle_member_id_profile")
+    @CollectionTable(name = "circle_member", joinColumns = @JoinColumn(name = "circle_member_fk"))
+    private List<Integer> myMembers = new ArrayList<Integer>(); 
 
+    public List<Integer> getMyMembers() {
+        return myMembers;
+    }
+
+    public void setMyMembers(List<Integer> myMembers) {
+        this.myMembers = myMembers;
+    }
+    
+    
+    
     @Column(name = "circle_name", nullable = false)
     private String circleName;
 

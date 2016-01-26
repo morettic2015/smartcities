@@ -109,7 +109,8 @@ public class TwiterCallback extends HttpServlet {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().fine("TWITTER LOGIN ERROR");
+            log(e.getLocalizedMessage());
         } finally {
 
         }

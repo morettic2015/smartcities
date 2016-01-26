@@ -38,6 +38,9 @@ public class Profile implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
     @Column(name = "idprofile", unique = true, nullable = false)
     private int idprofile;
+    
+    @Transient
+    private Set<String> circlesOwner = new HashSet<String>();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -121,6 +124,14 @@ public class Profile implements java.io.Serializable {
 
     public void setMySources(Set<FileSource> mySources) {
         this.mySources = mySources;
+    }
+
+    public Set<String> getCirclesOwner() {
+        return circlesOwner;
+    }
+
+    public void setCirclesOwner(Set<String> circlesOwner) {
+        this.circlesOwner = circlesOwner;
     }
 
     @JsonProperty()

@@ -34,6 +34,29 @@
         height: 50px;
         margin-left: 0px;	
     }
+    .roundedOne {
+	width: 28px;
+	height: 28px;
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+	margin: 20px auto;
+
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+
+	-webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+	position: relative;
+}
+
 
 </style>
 
@@ -50,7 +73,7 @@
         Contatos
     </h1>
 
-    <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: auto; min-height: 300px; z-index: 0; width: 100%; height: 95%;" >
+    <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: auto; min-height: 300px; z-index: 0; width: 100%; height: 500px;" >
 
         <div id="boxContact" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="left" splitter="true" maxSize="Infinity" doLayout="true">
             <img id="imgContactPhoto" src="images/profile.png" style="" class="HtmlWidget"></img>
@@ -66,14 +89,14 @@
             <textarea id="txtCircleContactBio" title="Bio e notas" data-dojo-type="dijit/form/SimpleTextarea" class="campo-contato12" rows="4"></textarea>
             <br>
             <br>
-            <input id="txtCircleListContact" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" propercase="true" selectOnClick="true"  class="campo-contato campo-nome"/>
-            <input type="button" value="+" title="+"/>
+            <select id="txtCircleListContact" data-dojo-type="dijit/form/ComboBox" intermediateChanges="false" trim="false" uppercase="true" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="200" style=" width: 70% "></select>
+            <input type="button" id="btAddECircleTO" value="+" title="+" style="width: 15%"/>
             <br>
             <br>
-            <table data-dojo-type="gridx/Grid" id="gridProfileContactsCircles" jsId="gridProfileContactsCircles" style="min-width: 1em; min-height: 1em; width: 90%; height: 80px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+            <table data-dojo-type="gridx/Grid" id="gridProfileContactsCircles" jsId="gridProfileContactsCircles" style="min-width: 1em; min-height: 1em; width: 90%; height: 30%;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
                    structure:[
                    {width:'15px',name:'<input type=\'checkbox\'>',field:'checkbox'},
-                   {width:'100px',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'circle'}
+                   {width:'190px',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'circle'}
                    ],store:storeMemory">
             </table>
 
@@ -84,8 +107,8 @@
         <div data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="center" splitter="true" maxSize="Infinity" doLayout="true" >
             <table data-dojo-type="gridx/Grid" id="gridCircleContacts" jsId="gridCircleContacts" style="min-width: 1em; min-height: 1em; width: 100%; height: 100%;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
                    structure:[
-                   {width:'15px',name:'<input type=\'checkbox\'>',field:'checkbox'},
-                   {width:'auto',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'nome'},
+                   {width:'5%',name:'<input type=\'checkbox\'>',field:'checkbox'},
+                   {width:'60%',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'nome'},
                    {width:'30%',name:'<span id=\'colGridEmailCircleContacts\'>E-mail</span>',field:'email'}
                    ],store:storeMemory">
             </table>
@@ -96,6 +119,9 @@
 
 </div>
 <script>
+    /**
+     * SHow a contact profile
+     * */
     function showCIt(id, element) {
         //alert(id);
 
@@ -106,9 +132,20 @@
                 document.getElementById("txtCircleContactBio").value = myProfile.contacts[i].bio;
                 document.getElementById("imgContactPhoto").src = myProfile.contacts[i].avatar;
                 element.checked = false;
+                document.getElementById("btAddECircleTO").click();//Force load grid by click event
+                element.className = "roundedOne";
                 break;
             }
         }
+    }
+    //Load circle combobox itens from JS in memory loaded from profile
+    var selectCirclesList = document.getElementById("txtCircleListContact");
+    for (i = 0; i < myProfile.circlesOwner.length; i++) {
+        var opt = document.createElement('option');
+      
+        opt.value = myProfile.circlesOwner[i];
+        opt.innerHTML = myProfile.circlesOwner[i];
+        selectCirclesList.appendChild(opt);
     }
 </script>
 
