@@ -164,7 +164,8 @@ require([
                 carregaTelaMapa(MAP_SPLASH);
                 carregaTelaAlarmes(ALARMS_SPLASH);
                 carregaTelaFaturamento(BILLING_SPLASH);
-                carregaTelaCirculos(CIRCLES_SPLASH);
+                carregaTelaCirculos(CIRCLES_SPLASH, function () {
+                });
                 carregaTelaLoja(STORE_COVER);
                 /**
                  *	Atribuindo Eventos
@@ -559,13 +560,67 @@ require([
                 on(dom.byId("btCreditoDebito"), "click", function () {
                     carregaTelaFaturamento(BILLING_CREDITDEBT)
                 });
+
                 // Aba/Módulo Círculos
                 on(dom.byId("btContatos"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_CONTACTS);
+                    carregaTelaCirculos(CIRCLES_CONTACTS, null, function () {
+                        var resultado = restServices.salvaObjeto("profiles/contactList");
+                        //Armazena dados temporariamente 
+
+
+                        resultado.then(function (dados) {
+                            myProfile.contacts = dados;
+
+                            /* var objContainer = contentPane_FerramentaDados;
+                             objContainer.set("href", DATAIMPORT_FTP_SELECTION);*/
+
+                            var gridDataMovdel = [];
+
+                            for (i = 0; i < dados.length; i++) {
+                                var newLine = {
+                                    nome: dados[i].name,
+                                    email: dados[i].id,
+                                    circulos: "<div><img src=\'" + dados[i].avatar + "\'/></div>",
+                                    checkbox: "<input id=\'chkContact" + dados[i].code + "\' value=\'" + dados[i].code + "\' type=\'checkbox\' onclick=showCIt(\'" + dados[i].code + "\',this)>"
+                                }
+                                //Coloca no model o novo objeto showCIt
+                                gridDataMovdel.push(newLine);
+                                gridCircleContacts.model.store.put(newLine);
+                            }
+                            gridCircleContacts.model.clearCache();
+                            gridCircleContacts.model.store.setData(gridDataMovdel);
+                            gridCircleContacts.body.refresh();
+
+
+                        /*    for (i = 0; i < dados.length; i++) {
+
+                                var objAtual = "chkContact" + dados[i].code;
+                                
+
+                                document.getElementById(objAtual).onClick=function () {
+                                    alert(this.value);
+                                   var r1 = restServices.salvaObjeto("profiles/contactList");
+                                    r1.then(function (dados) {
+                                        for (i = 0; i < dados.length; i++) {
+                                            if (dados[i].code == this.value) {
+                                                document.getElementById("txtCircleContactName").value = dados[i].name;
+                                                document.getElementById("txtCircleContactBio").value = dados[i].bio;
+                                                document.getElementById("txtCircleContactEmail").value = dados[i].id;
+                                                document.getElementById("imgContactPhoto").src = dados[i].avatar;
+                                            }
+                                        }
+                                    });
+                                }
+                            }*/
+                        });
+                    })
                 });
-                on(dom.byId("btCirculos"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_MANAGE);
-                });
+
+
+               /* on(dom.byId("btCirculos"), "click", function () {
+                    carregaTelaCirculos(CIRCLES_CONTACTS, function () {
+                    });
+                });*/
                 /**
                  *	Delegação de evento para conteudo carregado dinamicamente
                  */
@@ -655,7 +710,7 @@ require([
                 dom.byId("rotBtTransacoes").innerHTML = textos.rotTransacoes;
                 dom.byId("rotBtCreditoDebito").innerHTML = textos.rotCreditoDebito;
                 dom.byId("rotBtContatos").innerHTML = textos.rotContatos;
-                dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
+                //dom.byId("rotBtCirculos").innerHTML = textos.rotCirculos;
                 dom.byId("tituloArvoreFontesDados").innerHTML = textos.fontesDados;
                 registry.byId("searchDataSource").set("placeHolder", textos.btBuscar);
                 // dom.byId("tituloArvorePendencias").innerHTML = textos.importacoesPendentes;
@@ -1027,8 +1082,16 @@ require([
                 objContainer.set("href", paginaConteudo);
             }
 
-            function carregaTelaCirculos(paginaConteudo, parametros) {
+
+
+            function carregaTelaCirculos(paginaConteudo, parametros, fFunc) {
                 parametrosTela = parametros; // Setando variável global
+
+                contentPane_Circulos.set("onDownloadEnd", function () {
+                    //configuraTela(this.get("href"));
+                    fFunc();
+                });
+
                 var objContainer = contentPane_Circulos;
                 objContainer.set("href", paginaConteudo);
             }
@@ -1531,9 +1594,9 @@ require([
                     dom.byId("colGridNomeCircleContacts").innerHTML = textos.gNome;
                     dom.byId("colGridEmailCircleContacts").innerHTML = textos.gEmail;
                     dom.byId("colGridCirculosCircleContacts").innerHTML = textos.gCirculo;
-                    dom.byId("rotBtNovoCircleContacts").innerHTML = textos.rotNovo;
-                    dom.byId("rotBtSalvarCircleContacts").innerHTML = textos.rotSalvar;
-                    dom.byId("rotBtExcluirCircleContacts").innerHTML = textos.rotExcluir;
+                    //dom.byId("rotBtNovoCircleContacts").innerHTML = textos.rotNovo;
+                    //dom.byId("rotBtSalvarCircleContacts").innerHTML = textos.rotSalvar;
+                    //dom.byId("rotBtExcluirCircleContacts").innerHTML = textos.rotExcluir;
                     dom.byId("rotBtImportarCircleContacts").innerHTML = textos.rotImportar;
                     var circleName = registry.byId("txtCircleNameSearch");
                     circleName.set("placeHolder", textos.nomeCirculo);
@@ -1627,8 +1690,8 @@ require([
                 dom.byId("pSplashImportContacts").innerHTML = textos.descImportarContatosCirculos;
                 dom.byId("rotSplashNewContact").innerHTML = textos.rotNovoContato;
                 dom.byId("pSplashNewContact").innerHTML = textos.descNovoContatoCirculos;
-                dom.byId("rotSplashCircles").innerHTML = textos.rotCirculos;
-                dom.byId("pSplashCircles").innerHTML = textos.descCirculos;
+                //dom.byId("rotSplashCircles").innerHTML = textos.rotCirculos;
+                //dom.byId("pSplashCircles").innerHTML = textos.descCirculos;
             }
 
             function i18nFormPaypal() {
@@ -2089,10 +2152,12 @@ require([
                     view.abrePopUpModal(CIRCLES_IMPORTOPTIONS);
                 });
                 on(dom.byId("rotSplashNewContact"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_CONTACTS)
+                    carregaTelaCirculos(CIRCLES_CONTACTS, function () {
+                    })
                 });
                 on(dom.byId("rotSplashCircles"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_MANAGE)
+                    carregaTelaCirculos(CIRCLES_MANAGE, function () {
+                    })
                 });
             }
 

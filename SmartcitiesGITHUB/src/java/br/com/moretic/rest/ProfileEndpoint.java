@@ -28,6 +28,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import br.com.moretic.vo.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
@@ -35,10 +36,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 import org.json.JSONArray;
@@ -78,6 +81,42 @@ public class ProfileEndpoint {
         }
         em.remove(entity);
         return Response.noContent().build();
+    }
+
+    /**
+     * Create a circle if does not exists then associate the contact to the
+     * circle
+     */
+    @GET
+    @Path("/addToCircle/{emailContact}/{circleName}")
+    @Produces("application/json")
+    public Response addToCircle(@PathParam("emailContact") String emailContact, @PathParam("circleName") String circleName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
+        String jpaQuery = "SELECT p FROM Profile p where p.email LIKE %:pEmail%";
+        Query q = em.createQuery(jpaQuery);
+        q.setParameter(":pEmail", emailContact);
+        Profile circleContact = (Profile) q.getSingleResult();
+
+        jpaQuery = "SELECT c FROM Circle c where c.circleName LIKE %:pCircleName%";
+        q = em.createQuery(jpaQuery);
+        q.setParameter(":pCircleName", circleName);
+        Circle circleGroup = null;
+
+        try {//Recupera o circulo existente e edita
+            circleGroup = (Circle) q.getSingleResult();
+        } catch (NoResultException e) {//Não encontrado. Primeira try ele cria e depois associa tanto o novo como o antigo.
+            Profile owner = getProfileSession(req);
+            circleGroup = new Circle();
+            circleGroup.setOwner(owner);
+            
+            em.persist(circleGroup);
+        }
+
+        circleGroup.getCircleList().add(circleContact);
+
+        em.merge(circleGroup);
+
+        return Response.ok(circleGroup).build();
+
     }
 
     @GET
@@ -231,6 +270,44 @@ public class ProfileEndpoint {
         Profile p = getProfileSession(req);
 
         return findById(p.getIdprofile());
+    }
+
+    @GET
+    @Path("/contactList/")
+    @Produces("application/json")
+    public Response findContactList(@Context HttpServletRequest req, @Context HttpServletResponse res) {
+
+        Profile p = getProfileSession(req);
+
+        p = em.find(Profile.class, p.getIdprofile());
+
+        //Carrega a lista de database
+        TypedQuery<ProfileContact> findByProfileContact = em.createQuery("SELECT DISTINCT a FROM ProfileContact a  WHERE a.profileByProfileIdprofile = :entityId ", ProfileContact.class);
+        findByProfileContact.setParameter("entityId", p);
+        List<ProfileContact> entityDataSources;
+        //findByFtpSource.setParameter("entityId", id);
+        entityDataSources = findByProfileContact.getResultList();
+        List<HashMap<String, String>> lP = new ArrayList<HashMap<String, String>>();
+        for (ProfileContact pContact : entityDataSources) {
+
+            HashMap<String, String> pcVo = new HashMap<String, String>();
+
+            Set<Avatar> lA = pContact.getProfileByProfileIdprofile1().getAvatars();
+
+            pcVo.put(TwiterCallback.CODE, pContact.getProfileByProfileIdprofile1().getIdprofile() + "");
+            pcVo.put(TwiterCallback.ID, pContact.getProfileByProfileIdprofile1().getEmail());
+            pcVo.put(TwiterCallback.NAME, pContact.getProfileByProfileIdprofile1().getNmUser());
+            pcVo.put(TwiterCallback.BIO, pContact.getProfileByProfileIdprofile1().getBioText());
+            if (lA.size() > 0) {
+                pcVo.put(TwiterCallback.AVATAR, lA.iterator().next().getPath());
+            } else {
+                pcVo.put(TwiterCallback.AVATAR, "x");
+            }
+            lP.add(pcVo);
+        }
+
+        return Response.ok(lP).build();
+
     }
 
     @GET
@@ -481,13 +558,16 @@ public class ProfileEndpoint {
 
                 p1.getAvatars().add(a1);
                 em.merge(p1);
-                
-                ProfileContactId pcId = new ProfileContactId(p.getIdprofile(),p1.getIdprofile());
-                
-                ProfileContact pContact = new ProfileContact(pcId,p,p1);
+
+                ProfileContactId pcId = new ProfileContactId(p.getIdprofile(), p1.getIdprofile());
+
+                ProfileContact pContact = new ProfileContact(pcId, p, p1);
                 pContact.setEnabled(Boolean.TRUE);
-                
+
                 em.persist(pContact);
+
+                logAction(p1.getIdprofile(), em, "TWITTER / contact " + p.getEmail(), req);
+                logAction("TWITTER / contact " + p1.getEmail(), req, res);
 
             }
 
@@ -670,6 +750,30 @@ public class ProfileEndpoint {
 
         return findById(f.getIdprofile());
 
+    }
+
+    @GET
+    public void logAction(int id, EntityManager em1, String action, HttpServletRequest req) {
+
+        try {
+            Profile p = em1.find(Profile.class, id);
+
+            p = em1.find(Profile.class, p.getIdprofile());
+
+            if (p == null) {
+                return;
+            }
+
+            UserLog log = new UserLog();
+            log.setAction(action);
+            log.setProfile(p);
+            log.setIdProfile(p.getIdprofile());
+            log.setIpAddrs(req.getRemoteAddr());
+
+            em1.persist(log);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @GET

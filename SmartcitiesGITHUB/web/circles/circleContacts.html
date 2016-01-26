@@ -6,8 +6,8 @@
     #imgContactPhoto{
         border: 1px solid black;
         padding: 0px;
-        width: 104px;
-        height: 104px;
+        width: 48px;
+        height: 48px;
         float:left;
         margin-right:10px;
     }
@@ -17,6 +17,11 @@
 
     .campo-contato{
         width: 182px;
+        margin-top:10px;
+        margin-left:0px;
+    }
+    .campo-contato12{
+        width: 252px;
         margin-top:10px;
         margin-left:0px;
     }
@@ -33,9 +38,9 @@
 </style>
 
 <span data-dojo-type="dijit/Toolbar">
-    <input id="btNovoContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtNovoCircleContacts'>Novo</span>" iconClass="icone-novo-contato"></input>
+    <!--<input id="btNovoContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtNovoCircleContacts'>Novo</span>" iconClass="icone-novo-contato"></input>
     <input id="btSalvarContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtSalvarCircleContacts'>Salvar</span>" iconClass="icone-salvar"></input>
-    <input id="btExcluirContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcluirCircleContacts'>Excluir</span>" iconClass="icone-excluir"></input>
+    <input id="btExcluirContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExcluirCircleContacts'>Excluir</span>" iconClass="icone-excluir"></input>-->
     <input id="btImportarContatos" type="button" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtImportarCircleContacts'>Importar</span>" iconClass="icone-importar"></input>
 </span>
 
@@ -45,21 +50,33 @@
         Contatos
     </h1>
 
-    <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: auto; min-height: 300px; z-index: 0; width: 100%; height: 300px;" >
+    <div data-dojo-type="dijit/layout/BorderContainer" design="sidebar" persist="false" gutters="true" style="min-width: auto; min-height: 300px; z-index: 0; width: 100%; height: 95%;" >
 
         <div id="boxContact" data-dojo-type="dijit/layout/ContentPane" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" region="left" splitter="true" maxSize="Infinity" doLayout="true">
             <img id="imgContactPhoto" src="images/profile.png" style="" class="HtmlWidget"></img>
-            <input id="txtCircleContactName" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" propercase="true" selectOnClick="true" placeHolder="nome" class="campo-contato campo-nome"></input>
+            <input id="txtCircleContactName" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" propercase="true" selectOnClick="true"  class="campo-contato campo-nome"></input>
             <!--<input type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtBuscarCircleContacts'>Buscar" iconClass="icone-buscar"></input>-->
-            <br>
+            <!--<br>
             <input id="txtCircleContactCompany" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="false" selectOnClick="true" placeHolder="empresa" class="campo-contato"></input>
+            <br>-->
+            <input id="txtCircleContactEmail" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="true" lowercase="true" selectOnClick="true"  class="campo-contato"></input>
+            <!--  <br>
+              <input id="txtCircleContactCelphone" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="true" selectOnClick="true" placeHolder="celular" class="campo-contato"></input>
+              <br>-->
+            <textarea id="txtCircleContactBio" title="Bio e notas" data-dojo-type="dijit/form/SimpleTextarea" class="campo-contato12" rows="4"></textarea>
             <br>
-            <input id="txtCircleContactEmail" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="true" lowercase="true" selectOnClick="true" placeHolder="e-mail" class="campo-contato"></input>
             <br>
-            <input id="txtCircleContactCelphone" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="true" selectOnClick="true" placeHolder="celular" class="campo-contato"></input>
+            <input id="txtCircleListContact" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" propercase="true" selectOnClick="true"  class="campo-contato campo-nome"/>
+            <input type="button" value="+" title="+"/>
             <br>
-            <textarea id="txtCircleContactBio" title="Bio e notas" data-dojo-type="dijit/form/SimpleTextarea" class="campo-contato campo-bio"></textarea>
             <br>
+            <table data-dojo-type="gridx/Grid" id="gridProfileContactsCircles" jsId="gridProfileContactsCircles" style="min-width: 1em; min-height: 1em; width: 90%; height: 80px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+                   structure:[
+                   {width:'15px',name:'<input type=\'checkbox\'>',field:'checkbox'},
+                   {width:'100px',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'circle'}
+                   ],store:storeMemory">
+            </table>
+
             <div id="boxCircleNameSearch" ></div>			
             <div id="boxListContactCircles"></div>
         </div>
@@ -69,8 +86,7 @@
                    structure:[
                    {width:'15px',name:'<input type=\'checkbox\'>',field:'checkbox'},
                    {width:'auto',name:'<span id=\'colGridNomeCircleContacts\'>Nome</span>',field:'nome'},
-                   {width:'30%',name:'<span id=\'colGridEmailCircleContacts\'>E-mail</span>',field:'email'},
-                   {width:'20%',name:'<span id=\'colGridCirculosCircleContacts\'>Círculos',field:'círculos'}
+                   {width:'30%',name:'<span id=\'colGridEmailCircleContacts\'>E-mail</span>',field:'email'}
                    ],store:storeMemory">
             </table>
         </div>
@@ -79,5 +95,20 @@
 
 
 </div>
+<script>
+    function showCIt(id, element) {
+        //alert(id);
 
+        for (i = 0; i < myProfile.contacts.length; i++) {
+            if (myProfile.contacts[i].code == id) {
+                document.getElementById("txtCircleContactName").value = myProfile.contacts[i].name;
+                document.getElementById("txtCircleContactEmail").value = myProfile.contacts[i].id;
+                document.getElementById("txtCircleContactBio").value = myProfile.contacts[i].bio;
+                document.getElementById("imgContactPhoto").src = myProfile.contacts[i].avatar;
+                element.checked = false;
+                break;
+            }
+        }
+    }
+</script>
 

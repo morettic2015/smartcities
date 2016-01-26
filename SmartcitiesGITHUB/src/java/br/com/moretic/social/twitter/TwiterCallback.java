@@ -115,6 +115,7 @@ public class TwiterCallback extends HttpServlet {
         }
     }
     public static final String FOLLOWERS = "followers";
+    public static final String CODE = "code";
 
     private JSONArray createFollowerList(Twitter twitter1, long uuId) {
         long fc = -1;
