@@ -581,7 +581,7 @@ require([
                                     nome: dados[i].name,
                                     email: dados[i].id,
                                     circulos: "<div><img src=\'" + dados[i].avatar + "\'/></div>",
-                                    checkbox: "<input id=\'chkContact" + dados[i].code + "\' value=\'" + dados[i].code + "\' type=\'checkbox\' onclick=showCIt(\'" + dados[i].code + "\',this)>"
+                                    checkbox: "<input class=\'roundedOne\' id=\'chkContact" + dados[i].code + "\' value=\'" + dados[i].code + "\' type=\'checkbox\' onclick=showCIt(\'" + dados[i].code + "\',this)><label for=\'chkContact" + dados[i].code + "\'></label>"
                                 }
                                 //Coloca no model o novo objeto showCIt
                                 gridDataMovdel.push(newLine);
@@ -600,6 +600,7 @@ require([
                                  * */
                                 var emailCContact = document.getElementById("txtCircleContactEmail").value;
                                 var mCircleName = document.getElementById("txtCircleListContact").value;
+                                mCircleName = (mCircleName == "" || mCircleName == undefined) ? "DEFAULT" : mCircleName;
                                 var mUrl = "profiles/addToCircle/" + emailCContact + "/" + mCircleName;
                                 var rq1 = restServices.salvaObjeto(mUrl);
                                 rq1.then(function (retorno) {
@@ -607,14 +608,12 @@ require([
                                     for (j = 0; j < retorno.length; j++) {
                                         var newLine = {
                                             circle: retorno[j],
-                                            checkbox: "<input id=\'chkCircle_" + retorno[j] + "\' value=\'" + retorno[j] + "\' type=\'checkbox\' onclick=showCIt2(\'" + retorno[j] + "\',this)>"
+                                            checkbox: "<input id=\'chkCircle_" + retorno[j] + "\' value=\'" + retorno[j] + "\' type=\'checkbox\' onclick=showCIt2(\'" + retorno[j] + "\',this)><label for=\'chkContact" + retorno[j] + "\'></label>"
                                         }
                                         vetorCircles.push(newLine);
                                         gridProfileContactsCircles.model.store.put(newLine);
                                     }
-                                    gridProfileContactsCircles.model.clearCache();
-                                    gridProfileContactsCircles.model.store.setData(vetorCircles);
-                                    gridProfileContactsCircles.body.refresh();
+
                                     //Adiciona a opção ao combobox autocomplete
                                     var scl = document.getElementById("txtCircleListContact");
                                     var opt1 = document.createElement('option');
@@ -622,6 +621,12 @@ require([
                                     opt1.value = mCircleName;
                                     opt1.innerHTML = mCircleName;
                                     scl.appendChild(opt1);
+
+                                    //popula o grid de contatos
+                                    gridProfileContactsCircles.model.clearCache();
+                                    gridProfileContactsCircles.model.store.setData(vetorCircles);
+                                    gridProfileContactsCircles.body.refresh();
+
                                 });
                             });
 

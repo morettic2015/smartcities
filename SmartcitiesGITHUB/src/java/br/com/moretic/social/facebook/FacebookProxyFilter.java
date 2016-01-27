@@ -42,6 +42,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -105,6 +106,8 @@ public class FacebookProxyFilter implements Filter {
                 String fList;
 
                 //fList = URLDecoder.decode(fbu.getFriendList(uIdFb), "UTF-8");
+                
+                JSONArray friendList = fbu.createFriendList();
 
                 String url = FACEBOOKREST + "/" + profileJson.getString("email") + "/" + profileJson.getString("name") + "/" + URLEncoder.encode(urlImg.replaceAll("/", "ø"), "UTF-8");
                 ((HttpServletResponse) response).sendRedirect(url);

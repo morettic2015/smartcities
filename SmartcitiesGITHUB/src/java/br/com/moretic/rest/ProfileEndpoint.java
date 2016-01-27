@@ -99,17 +99,19 @@ public class ProfileEndpoint {
         q.setParameter("pEmail", "%" + emailContact + "%");
         Profile circleContact = (Profile) q.getSingleResult();
         Profile owner = getProfileSession(req);
+        owner = em.find(Profile.class, owner.getIdprofile());
 
-        jpaQuery = "SELECT c FROM Circle c where c.circleName LIKE :pCircleName";
+        jpaQuery = "SELECT DISTINCT c FROM Circle c where c.circleName LIKE :pCircleName and c.owner = :owner";
         q = em.createQuery(jpaQuery);
-        q.setParameter("pCircleName", "%" + circleName + "%");
+        q.setParameter("pCircleName",  circleName );
+        q.setParameter("owner", owner);
         Circle circleGroup = null;
 
         try {//Recupera o circulo existente e edita
             circleGroup = (Circle) q.getSingleResult();
         } catch (NoResultException e) {//Não encontrado. Primeira try ele cria e depois associa tanto o novo como o antigo.
 
-            owner = em.find(Profile.class, owner.getIdprofile());
+            //owner = em.find(Profile.class, owner.getIdprofile());
 
             circleGroup = new Circle();
             circleGroup.setOwner(owner);

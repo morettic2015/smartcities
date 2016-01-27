@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONArray;
 
 /**
- *
  * @author LuisAugusto
  */
 final class FacebookUtil {
@@ -20,6 +22,39 @@ final class FacebookUtil {
     private static final String client_secret = "84b4de4ec8db88ad215393d40c982c20";
     private static final String client_id = "880918378640520";
     private static final String redirect_uri = "http://localhost:8080/smartcities/rest/facebook";
+    private static String FRIENDS_PATH = "https://graph.facebook.com/me/friends?fields=cover,name,id,third_party_id,email&access_token=";
+    private static final String PROFILE_PATH = "https://graph.facebook.com/me?access_token=" ;
+    private String ACESSTOKEN = null;
+
+    public JSONArray createFriendList() {
+        long fc = -1;
+        JSONArray twitterJAFList = new JSONArray();
+        String retorno;
+        try {
+            retorno = readURL(new URL(FRIENDS_PATH+ACESSTOKEN));
+            /*
+            try {
+            for (User follower : followers) {
+            
+            JSONObject jsFollower = new JSONObject();
+            jsFollower.append(br.com.moretic.social.twitter.TwiterCallback.ID, follower.getScreenName() + "@facebook.com");
+            jsFollower.append(br.com.moretic.social.twitter.TwiterCallback.AVATAR, follower.getBiggerProfileImageURL());
+            jsFollower.append(br.com.moretic.social.twitter.TwiterCallback.NAME, follower.getName());
+            jsFollower.append(br.com.moretic.social.twitter.TwiterCallback.BIO, follower.getDescription());
+            twitterJAFList.put(jsFollower);
+            }
+            } catch (Exception ex) {
+            ex.printStackTrace();
+            twitterJAFList = new JSONArray();
+            } finally {
+            return twitterJAFList;
+            }*/
+        } catch (IOException ex) {
+            Logger.getLogger(FacebookUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
 
     public String getFBProfile(String code)
             throws MalformedURLException, IOException {
@@ -43,16 +78,22 @@ final class FacebookUtil {
                 }
             }
         }
-
-        return readURL(new URL("https://graph.facebook.com/me?access_token=" + accessToken));
+        ACESSTOKEN = accessToken;
+        return readURL(new URL(PROFILE_PATH+ ACESSTOKEN));
 
         /*JSONObject resp = new JSONObject());
 
          UsuarioFacebook usuarioFacebook = new UsuarioFacebook(resp);
          System.out.println(usuarioFacebook.toString());*/
     }
-    
-    
+
+    public static String getFRIENDS_PATH() {
+        return FRIENDS_PATH;
+    }
+
+    public String getACESSTOKEN() {
+        return ACESSTOKEN;
+    }
 
     private String readURL(URL url) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,14 +108,14 @@ final class FacebookUtil {
     private String getLoginRedirectURL() {
         return "https://graph.facebook.com/oauth/authorize?client_id="
                 + client_id + "&display=page&redirect_uri=" + redirect_uri
-                + "&scope=email,publish_actions,picture";
-    }
-    
-    public String getFriendList(String idFb) throws MalformedURLException, IOException{
-        //idFb = "me";
-        return readURL(new URL("https://graph.facebook.com/"+idFb+"/friends"));
+                + "&scope=user_hometown,user_about_me,user_friends,email,publish_actions,picture";
     }
 
+/*    public String getFriendList(String idFb) throws MalformedURLException, IOException {
+        //idFb = "me";
+        return readURL(new URL("https://graph.facebook.com/" + idFb + "/friends"));
+    }
+*/
     private String getAuthURL(String authCode) {
         return "https://graph.facebook.com/oauth/access_token?client_id="
                 + client_id + "&redirect_uri=" + redirect_uri
