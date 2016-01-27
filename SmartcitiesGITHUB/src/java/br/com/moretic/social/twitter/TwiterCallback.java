@@ -42,6 +42,14 @@ import twitter4j.auth.RequestToken;
 @WebServlet(name = "TwiterCallback", urlPatterns = {"/rest/twitter/callback"})
 public class TwiterCallback extends HttpServlet {
 
+    public static final String UPDATED_TIME = "updated_time";
+    public static final String USER_ID = "user_id";
+    public static final String PREFERRED = "preferred";
+    public static final String PERSONAL = "personal";
+    public static final String BUSINESS = "business";
+    public static final String EMAILS = "emails";
+    public static final String ACCOUNT = "account";
+
     @PersistenceContext(unitName = "smartcitie_db", type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 

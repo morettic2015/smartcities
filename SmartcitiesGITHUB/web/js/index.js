@@ -50,6 +50,7 @@ require([
 			myDialog.set("title", titulo);
 			myDialog.show();
 		}
+                
 
 	}
 );

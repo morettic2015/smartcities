@@ -17,7 +17,7 @@ import org.json.JSONArray;
 /**
  * @author LuisAugusto
  */
-final class FacebookUtil {
+public final class FacebookUtil {
 
     private static final String client_secret = "84b4de4ec8db88ad215393d40c982c20";
     private static final String client_id = "880918378640520";
@@ -95,7 +95,7 @@ final class FacebookUtil {
         return ACESSTOKEN;
     }
 
-    private String readURL(URL url) throws IOException {
+    public static String readURL(URL url) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         InputStream is = url.openStream();
         int r;

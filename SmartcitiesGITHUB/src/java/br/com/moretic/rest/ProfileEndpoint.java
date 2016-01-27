@@ -103,7 +103,7 @@ public class ProfileEndpoint {
 
         jpaQuery = "SELECT DISTINCT c FROM Circle c where c.circleName LIKE :pCircleName and c.owner = :owner";
         q = em.createQuery(jpaQuery);
-        q.setParameter("pCircleName",  circleName );
+        q.setParameter("pCircleName", circleName);
         q.setParameter("owner", owner);
         Circle circleGroup = null;
 
@@ -112,7 +112,6 @@ public class ProfileEndpoint {
         } catch (NoResultException e) {//Não encontrado. Primeira try ele cria e depois associa tanto o novo como o antigo.
 
             //owner = em.find(Profile.class, owner.getIdprofile());
-
             circleGroup = new Circle();
             circleGroup.setOwner(owner);
             circleGroup.setCircleName(circleName);
@@ -139,21 +138,20 @@ public class ProfileEndpoint {
         q = em.createNativeQuery(querySql, Circle.class);
         q.setParameter("owner", owner.getIdprofile());
         q.setParameter("member", circleContact.getIdprofile());
-        
+
         List<Circle> cListMember = q.getResultList();
-        
+
         Set<String> lVoCircleTags = new HashSet<String>();
-        for(Circle cc:cListMember){
+        for (Circle cc : cListMember) {
             lVoCircleTags.add(cc.getCircleName());
         }
-        
+
         return Response.ok(lVoCircleTags).build();
 
     }
 
-    
-    public HashSet<String> findMyCircles(int ownerId, EntityManager em1){
-           String querySql
+    public HashSet<String> findMyCircles(int ownerId, EntityManager em1) {
+        String querySql
                 = " SELECT "
                 + "    c1.* "
                 + " FROM "
@@ -161,19 +159,19 @@ public class ProfileEndpoint {
                 + " WHERE "
                 + "   c1.owner_idprofile = :owner ";
 
-        Query q;   
+        Query q;
         q = em1.createNativeQuery(querySql, Circle.class);
         q.setParameter("owner", ownerId);
         List<Circle> cListMember = q.getResultList();
-        
+
         HashSet<String> lVoCircleTags = new HashSet<String>();
-        for(Circle cc:cListMember){
+        for (Circle cc : cListMember) {
             lVoCircleTags.add(cc.getCircleName());
         }
-        
+
         return lVoCircleTags;
     }
-    
+
     @GET
     @Path("/security/{email}/{fone}/{cel}/{phrase}")
     @Produces("application/json")
@@ -442,9 +440,8 @@ public class ProfileEndpoint {
             entityDataSources = findByDataSource.getResultList();
             //entity.getlLog().clear();
             entity.getMyDbs().addAll(entityDataSources);
-            
-            entity.setCirclesOwner(findMyCircles(entity.getIdprofile(),em));
-            
+
+            entity.setCirclesOwner(findMyCircles(entity.getIdprofile(), em));
 
             findByIdProf = null;
             findByIdSec = null;
@@ -601,31 +598,43 @@ public class ProfileEndpoint {
                 JSONObject follower = followersList.getJSONObject(i);
 
                 Profile p1 = new Profile();
-                p1.setEmail(follower.getJSONArray(ID).getString(0));
-                p1.setNmUser(follower.getJSONArray(NAME).getString(0));
-                p1.setBio(follower.getJSONArray(BIO).getString(0).getBytes());
-                p1.setPassword(MD5Crypt.getHash(follower.getJSONArray(NAME).getString(0)));
-                em.persist(p1);
 
-                Avatar a1 = new Avatar();
-                a1.setIdProfile(p1.getIdprofile());
-                a1.setPath(follower.getJSONArray(AVATAR).getString(0).replaceAll("ø", "/"));
-                a1.setProfile(p1);
+                String emailPk = follower.getJSONArray(ID).getString(0);
 
-                em.persist(a1);
+                String jpaQueryEmail = "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email = :account";
+                Query q1 = em.createQuery(jpaQueryEmail);
+                q1.setParameter(TwiterCallback.ACCOUNT, emailPk);
 
-                p1.getAvatars().add(a1);
-                em.merge(p1);
+                try {//Verifica se esse filho de uma egua existe.
+                    Profile f = (Profile) q1.getSingleResult();
+                } catch (NoResultException nre) {
 
-                ProfileContactId pcId = new ProfileContactId(p.getIdprofile(), p1.getIdprofile());
+                    p1.setEmail(follower.getJSONArray(ID).getString(0));
+                    p1.setNmUser(follower.getJSONArray(NAME).getString(0));
+                    p1.setBio(follower.getJSONArray(BIO).getString(0).getBytes());
+                    p1.setPassword(MD5Crypt.getHash(follower.getJSONArray(ID).getString(0)));
+                    em.persist(p1);
 
-                ProfileContact pContact = new ProfileContact(pcId, p, p1);
-                pContact.setEnabled(Boolean.TRUE);
+                    Avatar a1 = new Avatar();
+                    a1.setIdProfile(p1.getIdprofile());
+                    a1.setPath(follower.getJSONArray(AVATAR).getString(0).replaceAll("ø", "/"));
+                    a1.setProfile(p1);
 
-                em.persist(pContact);
+                    em.persist(a1);
 
-                logAction(p1.getIdprofile(), em, "TWITTER / contact " + p.getEmail(), req);
-                logAction("TWITTER / contact " + p1.getEmail(), req, res);
+                    p1.getAvatars().add(a1);
+                    em.merge(p1);
+
+                    ProfileContactId pcId = new ProfileContactId(p.getIdprofile(), p1.getIdprofile());
+
+                    ProfileContact pContact = new ProfileContact(pcId, p, p1);
+                    pContact.setEnabled(Boolean.TRUE);
+
+                    em.persist(pContact);
+
+                    logAction(p1.getIdprofile(), em, "TWITTER / contact " + p.getEmail(), req);
+                    logAction("TWITTER / contact " + p1.getEmail(), req, res);
+                }
 
             }
 

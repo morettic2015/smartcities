@@ -1,0 +1,7 @@
+<script>
+    var mUrl = window.location.href.replace("#","?")
+    var url = mUrl; // or window.location.href for current url
+    var captured = /access_token=([^&]+)/.exec(url)[1]; // Value is in [1] ('384' in our case)
+    var result = captured ? captured : 'myDefaultValue';
+    window.location.href = "http://localhost:8080/smartcities/rest/live/login?token="+result;
+</script>

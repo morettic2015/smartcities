@@ -66,6 +66,7 @@ public class Profile implements java.io.Serializable {
     private Boolean online;
 
     @JsonProperty
+    @Column(name = "bio_text_line",length = 500)
     private String bioText;
 
     public String getBioText() {

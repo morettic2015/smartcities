@@ -101,7 +101,7 @@ public class SmartProxyFilter implements Filter {
         doAfterProcessing(request, response);
     }
 
-    private static String getHostInfo(HttpServletRequest request) {
+    public static final String getHostInfo(HttpServletRequest request) {
         StringBuilder requestURL = new StringBuilder(request.getScheme());
         requestURL.append("://");
         requestURL.append(request.getServerName());
@@ -114,7 +114,7 @@ public class SmartProxyFilter implements Filter {
         return requestURL.toString();
     }
 
-    private static String getHostCTX(HttpServletRequest request) {
+    public static String getHostCTX(HttpServletRequest request) {
         StringBuilder requestURL = new StringBuilder(request.getScheme());
         requestURL.append("://");
         requestURL.append(request.getServerName());
