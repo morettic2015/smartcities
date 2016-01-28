@@ -124,6 +124,18 @@ public class WindowsLiveLogin extends HttpServlet {
                     // em.getTransaction().rollback();
                 }
 
+            }finally{//Limpar a lixeira
+                token = null;
+                acc = null;
+                avatarUrl = null;
+                buss = null;
+                emails = null;
+                entity = null;
+                jpaQueryEmail = null;
+                pers = null;
+                profile = null;
+                pref = null;
+                findByIdQuery = null;
             }
             // out.print(friends);
         } catch (Exception e) {

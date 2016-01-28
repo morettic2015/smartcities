@@ -632,8 +632,8 @@ public class ProfileEndpoint {
 
                     em.persist(pContact);
 
-                    logAction(p1.getIdprofile(), em, "TWITTER / contact " + p.getEmail(), req);
-                    logAction("TWITTER / contact " + p1.getEmail(), req, res);
+                    logAction(p1.getIdprofile(), em, "SOCIAL NETWORK / contact " + p.getEmail(), req);
+                    logAction("SOCIAL NETWORK / contact " + p1.getEmail(), req, res);
                 }
 
             }

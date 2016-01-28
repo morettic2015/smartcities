@@ -4,8 +4,8 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>Smartcities Framework</title>
-		
-		<link rel="shortcut icon" href="images/icons/Buscar/12X12.png" type="image/x-icon">
+
+        <link rel="shortcut icon" href="images/icons/Buscar/12X12.png" type="image/x-icon">
 
         <style>
             @import "themes/claro/document.css";
@@ -34,11 +34,10 @@
         <script type="text/javascript" src="js/smartcities.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.10&amp;&amp;libraries=drawing,weather"></script>
-		
-		<script src="lib/blitz-map/json2.js" type="text/javascript"></script>
-		<script src="lib/blitz-map/xmlwriter.js" type="text/javascript"></script>
-		<script src="js/smartcities-blitz-map.js" type="text/javascript"></script>
-	
+        <script src="lib/blitz-map/json2.js" type="text/javascript"></script>
+        <script src="lib/blitz-map/xmlwriter.js" type="text/javascript"></script>
+        <script src="js/smartcities-blitz-map.js" type="text/javascript"></script>
+
         <script type="text/javascript">
 
             require([
@@ -51,7 +50,15 @@
                 "dojo/data/ItemFileReadStore",
                 "dojo/store/Memory",
                 "gridx/Grid",
+                //"gridx/gallery/gallery",
+                "gridx/core/model/extensions/FormatSort",
+                "gridx/modules/ColumnResizer",
+                "gridx/modules/RowHeader",
+                "gridx/modules/VirtualVScroller",
                 "gridx/core/model/cache/Async",
+                "gridx/modules/SingleSort",
+                "gridx/modules/TouchVScroller",
+                "gridx/modules/Rotater",
                 "dijit/layout/BorderContainer",
                 "dijit/layout/ContentPane",
                 "dijit/layout/TabContainer",
@@ -130,7 +137,7 @@
                                 <div id="mnuImportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-database'">Database</div>
                                 <div id="mnuImportDataFtp" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ftp'">FTP</div>
                                 <div id="mnuImportDataLdap" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ldap'">LDAP</div>									
-								<div id="mnuImportWebcrawler" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-webcrawler'">Web crawler</div>
+                                <div id="mnuImportWebcrawler" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-webcrawler'">Web crawler</div>
                                 <div data-dojo-type="dijit/MenuSeparator"></div>
                                 <div data-dojo-type="dijit/PopupMenuItem" iconClass="icone-item-file-black">
                                     <span>Arquivo</span>
@@ -150,30 +157,30 @@
                         </div>
 
                         <div id="btExportarDados" data-dojo-type="dijit/form/Button" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtExportarDados'>Exportar</span>" iconClass="icone-exportar" ></div>
-							<!--
-                            <div data-dojo-type="dijit/DropDownMenu" id="mnuDrpExportData">
-                                <div id="mnuExportDataAD" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-active-directory'">Active Directory</div>
-                                <div id="mnuExportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-database'">Database</div>
-                                <div id="mnuExportDataFtp" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ftp'">FTP</div>
-                                <div id="mnuExportDataLdap" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ldap'">LDAP</div>									
-                                <div data-dojo-type="dijit/MenuSeparator"></div>
-                                <div data-dojo-type="dijit/PopupMenuItem" iconClass="icone-item-file-black">
-                                    <span>Arquivo</span>
-                                    <div data-dojo-type="dijit/DropDownMenu" id="submnuDrpFileExportData">
-                                        <div id="itemCsvExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-green'">Csv</div>                                        
-                                        <div id="itemJsonExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Json</div>
-                                        <div id="itemKmlxport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Kml</div>                                        
-                                        <div id="itemRssExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Rss</div>
-                                        
-                                                                                <div id="itemWsdlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Wsdl</div>
-                                        <div id="itemXlsExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-green'">Xls</div>
-                                        
-                                        <div id="itemXmlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Xml</div>
-                                    </div>
-                                </div>
-                            </div>
-							-->
-                        
+                        <!--
+<div data-dojo-type="dijit/DropDownMenu" id="mnuDrpExportData">
+<div id="mnuExportDataAD" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-active-directory'">Active Directory</div>
+<div id="mnuExportDataDB" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-database'">Database</div>
+<div id="mnuExportDataFtp" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ftp'">FTP</div>
+<div id="mnuExportDataLdap" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-ldap'">LDAP</div>									
+<div data-dojo-type="dijit/MenuSeparator"></div>
+<div data-dojo-type="dijit/PopupMenuItem" iconClass="icone-item-file-black">
+    <span>Arquivo</span>
+    <div data-dojo-type="dijit/DropDownMenu" id="submnuDrpFileExportData">
+        <div id="itemCsvExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-green'">Csv</div>                                        
+        <div id="itemJsonExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Json</div>
+        <div id="itemKmlxport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Kml</div>                                        
+        <div id="itemRssExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Rss</div>
+        
+                                                <div id="itemWsdlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-blue'">Wsdl</div>
+        <div id="itemXlsExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-green'">Xls</div>
+        
+        <div id="itemXmlExport" data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'icone-item-file-orange'">Xml</div>
+    </div>
+</div>
+</div>
+                        -->
+
 
                         <div id="btDataTools" data-dojo-type="dijit/form/DropDownButton" tabIndex="-1" intermediateChanges="false" label="<span id='rotBtFerramentasDados'>Ferramentas</span>" iconClass="icone-ferramentas" >
                             <div data-dojo-type="dijit/DropDownMenu" id="mnuDrpDataTools">
@@ -197,7 +204,7 @@
                             <span id="tituloArvoreFontesDados" style="color:#000b29;font-size:10pt;">Fontes de dados</span>
                             <!--<div id="espacoTreeDataSources" style="margin-bottom:15px;border:1px solid #ccc"></div> -->
                             <!--<span id="searchDataSource" style="color:#000b29;font-size:10pt;">-->
-                                <input id="searchDataSource" type="text" data-dojo-type="dijit/form/TextBox" style="width:85%;margin-top:3px;"/><input type="button" data-dojo-type="dijit/form/Button" data-dojo-props="showLabel:false" iconClass="icone-buscar" style="height:20px;width:20px;" />
+                            <input id="searchDataSource" type="text" data-dojo-type="dijit/form/TextBox" style="width:85%;margin-top:3px;"/><input type="button" data-dojo-type="dijit/form/Button" data-dojo-props="showLabel:false" iconClass="icone-buscar" style="height:20px;width:20px;" />
                             <!--</span>-->
 
                             <select multiple id="listaFontesDados" class="list-groups" >
@@ -321,7 +328,7 @@
                 </div>
 
                 <!-- 
-						Módulo : Loja
+                                                Módulo : Loja
                 -->
                 <div data-dojo-type="dojox/layout/ContentPane" title="&lt;img class='imgIcon' src='images/icons/Loja/loja2-grande.png'&gt;&lt;br&gt;<span id='rotuloAbaLoja'></span>" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true">
                     <!-- Container das telas no módulo Loja -->					
