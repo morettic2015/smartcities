@@ -35,6 +35,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -133,7 +134,7 @@ public class ProfileEndpoint {
                 + " WHERE "
                 + "    c1.idcircle = c2.circle_member_fk "
                 + "    AND c2.circle_member_id_profile = :member "
-                + "    AND c1.owner_idprofile = :owner ";
+                + "    AND c1.owner_idprofile = :owner ORDER BY c1.circle_name ASC";
 
         q = em.createNativeQuery(querySql, Circle.class);
         q.setParameter("owner", owner.getIdprofile());
@@ -157,7 +158,7 @@ public class ProfileEndpoint {
                 + " FROM "
                 + "    \"public\".circle as c1 "
                 + " WHERE "
-                + "   c1.owner_idprofile = :owner ";
+                + "   c1.owner_idprofile = :owner ORDER BY c1.circle_name ASC";
 
         Query q;
         q = em1.createNativeQuery(querySql, Circle.class);
@@ -340,6 +341,9 @@ public class ProfileEndpoint {
         List<ProfileContact> entityDataSources;
         //findByFtpSource.setParameter("entityId", id);
         entityDataSources = findByProfileContact.getResultList();
+        //Ordena a lista por email do perfil
+        Collections.sort(entityDataSources);
+        //Mapa de Strings para o retorno
         List<HashMap<String, String>> lP = new ArrayList<HashMap<String, String>>();
         for (ProfileContact pContact : entityDataSources) {
 
@@ -358,7 +362,6 @@ public class ProfileEndpoint {
             }
             lP.add(pcVo);
         }
-
         return Response.ok(lP).build();
 
     }
@@ -568,13 +571,21 @@ public class ProfileEndpoint {
 
         logAction("SOCIAL NETWORK LOGIN", req, res);
 
-        //String password = UUID.randomUUID().toString().substring(0, 8);
-        Profile p = new Profile();
-        p.setEmail(email);
-        p.setNmUser(pname);
-        p.setPassword(MD5Crypt.getHash(email));
+        String jpaQueryEmail = "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email LIKE :account";
+        Query q1 = em.createQuery(jpaQueryEmail);
+        q1.setParameter(TwiterCallback.ACCOUNT, "%" + email + "%");
+        Profile p;
+        try {//Verifica se esse filho de uma egua existe.
+            p = (Profile) q1.getSingleResult();
+        } catch (NoResultException nre) {
+            //String password = UUID.randomUUID().toString().substring(0, 8);
+            p = new Profile();
+            p.setEmail(email);
+            p.setNmUser(pname);
+            p.setPassword(MD5Crypt.getHash(email));
 
-        em.persist(p);
+            em.persist(p);
+        }
         if (avatar != null) {
             Avatar a = new Avatar();
             a.setIdProfile(p.getIdprofile());
@@ -601,9 +612,8 @@ public class ProfileEndpoint {
 
                 String emailPk = follower.getJSONArray(ID).getString(0);
 
-                String jpaQueryEmail = "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email = :account";
-                Query q1 = em.createQuery(jpaQueryEmail);
-                q1.setParameter(TwiterCallback.ACCOUNT, emailPk);
+                q1 = em.createQuery(jpaQueryEmail);
+                q1.setParameter(TwiterCallback.ACCOUNT, "%" + emailPk + "%");
 
                 try {//Verifica se esse filho de uma egua existe.
                     Profile f = (Profile) q1.getSingleResult();

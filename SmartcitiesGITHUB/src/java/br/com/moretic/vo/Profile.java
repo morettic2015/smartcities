@@ -31,7 +31,7 @@ import org.codehaus.jackson.annotate.*;
 @Entity
 @Table(name = "profile", schema = "public")
 @XmlRootElement
-public class Profile implements java.io.Serializable {
+public class Profile implements java.io.Serializable, Comparable<Profile> {
 
     @Id
     @SequenceGenerator(name = "profile_seq", sequenceName = "profile_idprofile_seq", allocationSize = 1)
@@ -242,11 +242,11 @@ public class Profile implements java.io.Serializable {
     }
 
     public String getNmUser() {
-        return this.nmUser;
+        return this.nmUser.toUpperCase();
     }
 
     public void setNmUser(String nmUser) {
-        this.nmUser = nmUser;
+        this.nmUser = nmUser.toUpperCase();
     }
 
     public String getEmail() {
@@ -422,6 +422,11 @@ public class Profile implements java.io.Serializable {
 
     public void setProfileLang(Set<ProfileLang> profileLang) {
         this.profileLang = profileLang;
+    }
+
+    @Override
+    public int compareTo(Profile o) {
+        return this.email.toUpperCase().compareTo(o.getEmail());
     }
 
 }

@@ -38,7 +38,7 @@ define({
 		rotImagem: "Imagem",
 		rotNovo: "Novo",
 		rotTransacoes: "Transa&ccedil;&otilde;es",
-		rotCreditoDebito: "Cr&eacute;dito & D&eacute;bito",
+		rotCreditoDebito: "D&eacute;bito",
 		rotContatos: "Contatos",
 		rotCirculos: "C&iacute;rculos",
 		

@@ -26,6 +26,7 @@
 .icone-vincular,
 .icone-agrupar,
 .icone-anterior,
+.icone-rede-social-circulo2,
 .icone-proximo,
 .icone-novo-generico,
 .icone-ferramentas,
@@ -126,6 +127,10 @@
 
 .icone-salvar{
     background-image: url(images/icons/Salvar/12X12.png);
+}
+
+.icone-rede-social-circulo2{
+    background-image: url(images/icons/Circulo/12X12.png);
 }
 
 .icone-novo-contato{

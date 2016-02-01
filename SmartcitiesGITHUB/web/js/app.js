@@ -64,6 +64,10 @@ var SAMPLE_VIEW = "dataSource/sampleData.jsp";
 var UPLOAD = "upload/index.html";
 var STORE_COVER = "store/storeCover.html";
 var HELP_START = "help/index.html";
+var SOCIAL_IMPORT = "registerSocialNetwork.html";
+var BILLING_EARNING = "billing/billingPaypal.html";
+var BILLING_CRED_GRIDX = "billing/billingCredicardGridx.html";
+var BILLING_HT = "billing/billingHistory.html";
 
 require([
     "dojo/ready",
@@ -555,11 +559,15 @@ require([
                 });
                 // Aba/Módulo Faturamento
                 on(dom.byId("btTransacoes"), "click", function () {
-                    carregaTelaFaturamento(BILLING_TRANSACTIONS)
+                    view.abrePopUpModal(BILLING_HT, "Billing Transactions History", 540, 390, false);
                 });
                 on(dom.byId("btCreditoDebito"), "click", function () {
-                    carregaTelaFaturamento(BILLING_CREDITDEBT)
+                    view.abrePopUpModal(BILLING_CRED_GRIDX, "Configure Payments", 380, 500, false);
                 });
+                on(dom.byId("btCreditoIncoming"), "click", function () {
+                     view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
+                });
+                
 
                 // Aba/Módulo Círculos
                 on(dom.byId("btContatos"), "click", function () {
@@ -631,6 +639,10 @@ require([
                             });
 
                         });
+
+                        on(dom.byId("btImportarContatos"), "click", function () {
+                            view.abrePopUpModal(CIRCLES_IMPORTOPTIONS, "Import social network contacts", 600, 300, false);
+                        });
                     })
                 });
 
@@ -668,11 +680,6 @@ require([
                     event.stop(evt);
                 });
                 // Modulo Circulos
-                on(dom.byId("conteudo_circulos"), "#btImportarContatos:click", function () {
-                    //abreImportarContato();
-                    view.modalMessage(" importar contato", "Teste");
-                });
-                // Tela de Configuração
 
                 query("#container_modal").on("#flagUS:click", function (evt) {
                     alteraLocale("en");
@@ -1710,6 +1717,11 @@ require([
                 dom.byId("pSplashNewContact").innerHTML = textos.descNovoContatoCirculos;
                 //dom.byId("rotSplashCircles").innerHTML = textos.rotCirculos;
                 //dom.byId("pSplashCircles").innerHTML = textos.descCirculos;
+                
+                
+                on(dom.byId("pSplashImportContacts"), "click", function () {
+                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS, "Import social network contacts", 600, 300, false);
+                });
             }
 
             function i18nFormPaypal() {
@@ -2156,34 +2168,34 @@ require([
             }
             function setEventsSplashBilling() {
                 on(dom.byId("rotSplashCredit"), "click", function () {
-                    carregaTelaFaturamento(BILLING_CREDITDEBT);
+                    view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
                 });
                 on(dom.byId("rotSplashDebit"), "click", function () {
-                    carregaTelaFaturamento(BILLING_CREDITDEBT);
+                    view.abrePopUpModal(BILLING_CRED_GRIDX, "Configure Payments", 380, 500, false);
                 });
                 on(dom.byId("rotSplashTransactions"), "click", function () {
-                    carregaTelaFaturamento(BILLING_TRANSACTIONS);
+                    view.abrePopUpModal(BILLING_HT, "Billing Transactions History", 540, 390, false);
                 });
             }
             function setEventsSplashCircles() {
-                on(dom.byId("rotSplashImportContacts"), "click", function () {
-                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS);
+                on(dom.byId("divImportContactsSocial"), "click", function () {
+                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS, "Import social network contacts", 400, 300, false);
                 });
-                on(dom.byId("rotSplashNewContact"), "click", function () {
+                /*on(dom.byId("rotSplashNewContact"), "click", function () {
                     carregaTelaCirculos(CIRCLES_CONTACTS, function () {
                     })
                 });
                 on(dom.byId("rotSplashCircles"), "click", function () {
                     carregaTelaCirculos(CIRCLES_MANAGE, function () {
                     })
-                });
+                });*/
             }
 
             // Eventos nas telas do módulo Círculos
             function setEventsCircleContacts() {
-                on(dom.byId("btImportarContatos"), "click", function () {
-                    view.abrePopUpModal(CIRCLES_IMPORTOPTIONS);
-                });
+                /*on(dom.byId("btImportarContatos"), "click", function () {
+                 view.abrePopUpModal(CIRCLES_IMPORTOPTIONS,"Import social network contacts",400,300,false);
+                 });*/
             }
 
             // Eventos no módulo Loja

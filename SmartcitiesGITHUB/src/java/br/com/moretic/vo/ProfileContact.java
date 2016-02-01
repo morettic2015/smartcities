@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "profile_contact", schema = "public")
-public class ProfileContact implements java.io.Serializable {
+public class ProfileContact implements java.io.Serializable, Comparable<ProfileContact>{
 
 	@EmbeddedId
 	@AttributeOverrides({
@@ -87,5 +87,10 @@ public class ProfileContact implements java.io.Serializable {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
+
+    @Override
+    public int compareTo(ProfileContact o) {
+        return this.profileByProfileIdprofile1.getEmail().compareTo(o.getProfileByProfileIdprofile1().getEmail());
+    }
 
 }
