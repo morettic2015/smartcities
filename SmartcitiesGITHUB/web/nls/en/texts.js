@@ -5,7 +5,7 @@ define({
 	tituloAjuda: "Help & Tutorials",
 	quotaDisco: "Disk Quota",
 	prepQuotaDisco: "of",
-	
+	pSplashImportContacts: "Importe seus contatos das redes sociais",	
 	// Main
 	rotAbaPerfil: "Profile",
 	rotAbaDados: "Data Source",

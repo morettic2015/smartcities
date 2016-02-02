@@ -65,7 +65,7 @@ var UPLOAD = "upload/index.html";
 var STORE_COVER = "store/storeCover.html";
 var HELP_START = "help/index.html";
 var SOCIAL_IMPORT = "registerSocialNetwork.html";
-var BILLING_EARNING = "billing/billingPaypal.html";
+var BILLING_EARNING = "billing/billingPaypal.jsp";
 var BILLING_CRED_GRIDX = "billing/billingCredicardGridx.html";
 var BILLING_HT = "billing/billingHistory.html";
 
@@ -565,9 +565,9 @@ require([
                     view.abrePopUpModal(BILLING_CRED_GRIDX, "Configure Payments", 380, 500, false);
                 });
                 on(dom.byId("btCreditoIncoming"), "click", function () {
-                     view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
+                    view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
                 });
-                
+
 
                 // Aba/Módulo Círculos
                 on(dom.byId("btContatos"), "click", function () {
@@ -1717,8 +1717,7 @@ require([
                 dom.byId("pSplashNewContact").innerHTML = textos.descNovoContatoCirculos;
                 //dom.byId("rotSplashCircles").innerHTML = textos.rotCirculos;
                 //dom.byId("pSplashCircles").innerHTML = textos.descCirculos;
-                
-                
+
                 on(dom.byId("pSplashImportContacts"), "click", function () {
                     view.abrePopUpModal(CIRCLES_IMPORTOPTIONS, "Import social network contacts", 600, 300, false);
                 });
@@ -2167,6 +2166,8 @@ require([
                 });
             }
             function setEventsSplashBilling() {
+                
+                myProfile.restServices = restServices;
                 on(dom.byId("rotSplashCredit"), "click", function () {
                     view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
                 });
@@ -2182,13 +2183,13 @@ require([
                     view.abrePopUpModal(CIRCLES_IMPORTOPTIONS, "Import social network contacts", 400, 300, false);
                 });
                 /*on(dom.byId("rotSplashNewContact"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_CONTACTS, function () {
-                    })
-                });
-                on(dom.byId("rotSplashCircles"), "click", function () {
-                    carregaTelaCirculos(CIRCLES_MANAGE, function () {
-                    })
-                });*/
+                 carregaTelaCirculos(CIRCLES_CONTACTS, function () {
+                 })
+                 });
+                 on(dom.byId("rotSplashCircles"), "click", function () {
+                 carregaTelaCirculos(CIRCLES_MANAGE, function () {
+                 })
+                 });*/
             }
 
             // Eventos nas telas do módulo Círculos

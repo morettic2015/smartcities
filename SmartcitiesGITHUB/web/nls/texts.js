@@ -71,7 +71,7 @@ define({
 		rotNovoContato: "Novo Contato",
 		descNovoContatoCirculos: "Cadastre um novo contato",
 		descCirculos: "Gerencie seus c&iacute;rculos de contatos",
-				
+		pSplashImportContacts: "Importe seus contatos das redes sociais",		
 		// Módulo Perfil		
 		btSalvarPerfil: "Salvar",
 		tituloDadosPessoais: "Dados pessoais",

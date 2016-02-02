@@ -41,7 +41,12 @@ public class Profile implements java.io.Serializable, Comparable<Profile> {
     
     @Transient
     private Set<String> circlesOwner = new HashSet<String>();
-
+    
+    @Column(name = "paypal_acc",nullable = true,updatable = true,length = 200,unique = true)
+    private String paypal;
+    
+    
+    
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idprofile_organization", updatable = false, insertable = false)
@@ -427,6 +432,14 @@ public class Profile implements java.io.Serializable, Comparable<Profile> {
     @Override
     public int compareTo(Profile o) {
         return this.email.toUpperCase().compareTo(o.getEmail());
+    }
+
+    public String getPaypal() {
+        return paypal;
+    }
+
+    public void setPaypal(String paypal) {
+        this.paypal = paypal;
     }
 
 }
