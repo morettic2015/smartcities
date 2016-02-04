@@ -43,6 +43,11 @@
             -->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            
+            <!-- Propriedades do cache-->
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.SingletonEhCacheProvider"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

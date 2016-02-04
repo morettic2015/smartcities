@@ -31,22 +31,22 @@
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='nameProfileInfo'>Nome</span>:</span>
-        <input placeHolder="Bill Gates"  id="txtNameProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="true" selectOnClick="false"/>
+        <input placeHolder="Bill Gates" promptMessage="Name"  id="txtNameProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="true" uppercase="false" lowercase="false" propercase="true" selectOnClick="false"/>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='emailProfileInfo'>Email</span>:</span>
-        <input placeHolder="my@mail.com"  id="txtEmailProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[a-zA-Z]+[_a-zA-Z0-9]*([\\.|\\-|_][_a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)+" invalidMessage="email invalido" intermediateChanges="false" trim="true" lowercase="true" selectOnClick="false"></input>
+        <input placeHolder="my@mail.com" promptMessage="Contact email. Ex:myemail@gmail.com"  id="txtEmailProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[a-zA-Z]+[_a-zA-Z0-9]*([\\.|\\-|_][_a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)+" invalidMessage="email invalido" intermediateChanges="false" trim="true" lowercase="true" selectOnClick="false"></input>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='birthProfileInfo'>Data de Nasc.</span>:</span>
-        <input placeHolder="08-11-2015"  id="txtBirthdateProfile" class="campo" type="text" data-dojo-type="dijit/form/DateTextBox" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$"></input>
+        <input placeHolder="08-11-2015" promptMessage="Birthday"  id="txtBirthdateProfile" class="campo" type="text" data-dojo-type="dijit/form/DateTextBox" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$"></input>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='cpfCnpjProfileInfo'>CPF/CNPJ</span>:</span>
-        <input placeHolder="xxx.xxx.xxx-xx"  id="txtCpfCnpjProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" invalidMessage="$_unset_$"/>
+        <input placeHolder="xxx.xxx.xxx-xx" promptMessage="Document number" id="txtCpfCnpjProfile" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" invalidMessage="$_unset_$"/>
     </div>
 
     <div class="celula-form-1">
@@ -61,7 +61,7 @@
 
     <div class="celula-form-1" style="margin-bottom:45px;">
         <span class="rotulo"><span id='bioProfileInfo'>Bio</span>:</span>
-        <textarea placeHolder="About me"  id="txtBioProfile" class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="true" uppercase="false" style="width: auto; min-height: 60px; max-height:60px;" scrollOnFocus="true"></textarea>
+        <textarea placeHolder="About me" promptMessage="Bio info, professional information and contacts"  id="txtBioProfile" class="campo" type="text" data-dojo-type="dijit/form/Textarea" intermediateChanges="false" rows="3" cols="50" trim="true" uppercase="false" style="width: auto; min-height: 60px; max-height:60px;" scrollOnFocus="true"></textarea>
     </div>
 
     <div class="celula-form-1" style="margin-bottom:10px;">

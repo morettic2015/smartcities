@@ -66,7 +66,7 @@ var STORE_COVER = "store/storeCover.html";
 var HELP_START = "help/index.html";
 var SOCIAL_IMPORT = "registerSocialNetwork.html";
 var BILLING_EARNING = "billing/billingPaypal.jsp";
-var BILLING_CRED_GRIDX = "billing/billingCredicardGridx.html";
+var BILLING_CRED_GRIDX = "billing/billingCredicardGridx.jsp";
 var BILLING_HT = "billing/billingHistory.html";
 
 require([
@@ -562,6 +562,7 @@ require([
                     view.abrePopUpModal(BILLING_HT, "Billing Transactions History", 540, 390, false);
                 });
                 on(dom.byId("btCreditoDebito"), "click", function () {
+                    myProfile.view = view;
                     view.abrePopUpModal(BILLING_CRED_GRIDX, "Configure Payments", 380, 500, false);
                 });
                 on(dom.byId("btCreditoIncoming"), "click", function () {
@@ -2166,12 +2167,13 @@ require([
                 });
             }
             function setEventsSplashBilling() {
-                
+
                 myProfile.restServices = restServices;
                 on(dom.byId("rotSplashCredit"), "click", function () {
                     view.abrePopUpModal(BILLING_EARNING, "Configure Earnings", 400, 220, false);
                 });
                 on(dom.byId("rotSplashDebit"), "click", function () {
+                    myProfile.view = view;
                     view.abrePopUpModal(BILLING_CRED_GRIDX, "Configure Payments", 380, 500, false);
                 });
                 on(dom.byId("rotSplashTransactions"), "click", function () {
@@ -2433,7 +2435,7 @@ require([
                 }
 
             }
-
+            
             function refreshInternationalPhoneMask(event, campo) {
                 var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
@@ -2461,7 +2463,6 @@ require([
                         campo.value = valorAtual;
                     }
                 }
-
             }
 
             /* Realiza a busca do endereço, verifica resultados e exibe num box especial */

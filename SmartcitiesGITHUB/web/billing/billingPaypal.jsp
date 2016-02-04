@@ -12,7 +12,6 @@
     Profile p = (Profile) session.getAttribute(ProfileEndpoint.PROFILE);
     String paypal = p.getPaypal();
     String id = "" + p.getIdprofile();
-
 %>
 <div data-dojo-type="dijit/layout/ContentPane" title="Pane" doLayout="false" style="position: absolute; z-index: 900; width: 380px; height: 140px; left: 1px; top: 0px;">
     

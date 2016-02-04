@@ -1,4 +1,4 @@
-<div style="margin:10px;min-width: 1em; min-height: 1em; width:90%; height:90%;">
+<div style="margin:10px;min-width: 1em; min-height: 1em; width:98%; height:90%;">
     <h1><span id='tituloProfileHistory'>Log de acesso da conta</span></h1>
 
     <span style="margin:8px;">
@@ -6,14 +6,14 @@
         &nbsp;<span id='rotAteProfileHistory'>at&eacute;</span>&nbsp;<input type="text" data-dojo-type="dijit/form/DateTextBox" intermediateChanges="false" trim="false" style="width:120px"></input>
         &nbsp;<input type="button" data-dojo-type="dijit/form/Button" label="<span id='rotBtBuscarProfileHistory'>Buscar</span>" title="Buscar" iconClass="icone-buscar"></input>
     </span>
-    <div data-dojo-type="dijit/layout/ContentPane" title="" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false" style="min-width: 1em; min-height: 1em; width: 90%; height:90%;">
+    <div data-dojo-type="dijit/layout/ContentPane" title="" extractContent="false" preventCache="false" preload="false" refreshOnShow="false" doLayout="true" closable="false" style="min-width: 1em; min-height: 1em; width: 98%; height:90%;">
 
-        <table data-dojo-type="gridx/Grid" id="gridProfileHistory" jsId="gridProfileHistory" style="min-width: 1em; min-height: 1em; width: 90%; height:90%;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+        <table data-dojo-type="gridx/Grid" id="gridProfileHistory" jsId="gridProfileHistory" style="min-width: 1em; min-height: 1em; width: 98%; height:90%;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
                structure:[
-               {width:'50px',name:'<span id=\'rotColIDProfileHistory\'>ID</span>',field:'id'},
+               {width:'40px',name:'<span id=\'rotColIDProfileHistory\'>ID</span>',field:'id'},
                {width:'90px',name:'<span id=\'rotColDataProfileHistory\'>data</span>',field:'dTime'},
                {width:'auto',name:'<span id=\'rotColTipoProfileHistory\'>tipo</span>',field:'action'},
-               {width:'150px',name:'<span id=\'rotColIPProfileHistory\'>ip</span>',field:'ipAddrs'}
+               {width:'120px',name:'<span id=\'rotColIPProfileHistory\'>ip</span>',field:'ipAddrs'}
                ],store:storeMemory">
         </table>
 

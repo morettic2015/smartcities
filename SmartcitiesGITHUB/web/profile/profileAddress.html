@@ -12,7 +12,7 @@
         <div class="celula-form-1" style="margin-bottom:15px;">
             <span class="rotulo"><span id='ruaProfileAddress'>Endereço</span>:</span>
             <div class="campo" style="width:85%">
-                <input placeHolder="Rua General Bittencourt 397, Centro Florianopolis"  id="txtEnderecoRua" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" style="float:left;width:450px;height:23px;font-size:11pt;margin-right:5px;"></input>
+                <input placeHolder="Rua General Bittencourt 397, Centro Florianopolis"  id="txtEnderecoRua" type="text" promptMessage="Your Address. Ex:Rua General Bittencourt 397, Centro Florianopolis" data-dojo-type="dijit/form/ValidationTextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" style="float:left;width:450px;height:23px;font-size:11pt;margin-right:5px;"></input>
                 <button id="btBuscarEnderecoProfile" data-dojo-type="dijit/form/Button" style="float:left">Buscar</button>
 
             </div>
@@ -20,7 +20,7 @@
 
         <div class="celula-form-1" style="margin-bottom:10px;">
             <span class="rotulo"><span id='complProfileAddress'>Complemento</span>:</span>
-            <input placeHolder="house"  id="txtEnderecoComplemento" class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"></input>
+            <input placeHolder="house" id="txtEnderecoComplemento" class="campo" type="text"  promptMessage="Ex: apartment number 801" data-dojo-type="dijit/form/ValidationTextBox" uppercase="true"></input>
         </div>
 
     </div>

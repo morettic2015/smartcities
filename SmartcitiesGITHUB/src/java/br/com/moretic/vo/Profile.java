@@ -42,8 +42,8 @@ public class Profile implements java.io.Serializable, Comparable<Profile> {
     @Transient
     private Set<String> circlesOwner = new HashSet<String>();
     
-    @Column(name = "paypal_acc",nullable = true,updatable = true,length = 200,unique = true)
-    private String paypal;
+    @Column(name = "paypal_acc",nullable = true,updatable = true,length = 200,unique = false)
+    private String paypal = null;
     
     
     

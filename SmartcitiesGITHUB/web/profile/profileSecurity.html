@@ -7,20 +7,20 @@
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='emailProfileSecurity'>Email para recuperar senha</span>:</span>
-        <input placeHolder="mail@mail.com"  id="txtSegurancaEmail" class="campo" title="Email para recuperação de senha" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[a-zA-Z]+[_a-zA-Z0-9]*([\\.|\\-|_][_a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)+" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"/>
+        <input placeHolder="mail@mail.com" promptMessage="Alternative email. Ex: email2@gmail.com"  id="txtSegurancaEmail" class="campo" title="Email para recuperação de senha" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[a-zA-Z]+[_a-zA-Z0-9]*([\\.|\\-|_][_a-zA-Z0-9]+)*@[a-zA-Z]+[a-zA-Z0-9]*([\\.|\\-|_][a-zA-Z0-9]+)+" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false"/>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='telefoneProfileSecurity'>Telefone</span>:</span>
-        <input placeHolder="*55 48 33333333"  id="txtSegurancaTelefone" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false"  selectOnClick="true"/>
+        <input placeHolder="*55 48 33333333"  id="txtSegurancaTelefone" class="campo" promptMessage="Phone Number. Ex: +55 47 98966655" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false"  selectOnClick="true"/>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='celularProfileSecurity'>Celular</span>:</span>
-        <input placeHolder="*55 48 99999999"  id="txtSegurancaCelular" class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" selectOnClick="true"/>
+        <input placeHolder="*55 48 99999999"  id="txtSegurancaCelular" class="campo" promptMessage="Celphone" type="text" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" selectOnClick="true"/>
     </div>
 
     <div class="celula-form-1">
         <span class="rotulo"><span id='fraseProfileSecurity'>Frase Secreta</span>:</span>
-        <textarea placeHolder="My Dogs Name?"  id="txtSegurancaFrase" class="campo" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="false" style="width: 300px; height: auto;"></textarea>
+        <textarea placeHolder="My Dogs Name?"  id="txtSegurancaFrase" class="campo" promptMessage="purple haze (remeber these words!)" data-dojo-type="dijit/form/ValidationTextBox" required="true" intermediateChanges="false" trim="false" style="width: 300px; height: auto;"></textarea>
     </div>
