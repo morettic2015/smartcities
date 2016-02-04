@@ -105,7 +105,7 @@
     <span style="position: absolute; z-index: 900; left: 15px; top: 125px;">Posting code</span>
     <span style="position: absolute; z-index: 900; left: 236px; top: 128px;">Country</span>
     <input type="button" onclick="saveLoadCredicard()" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Add card" id="btSalvarCredicard" iconClass="icone-salvar" style="position: absolute; z-index: 900; left: 258px; top: 167px;"></input>
-    <input type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Cancel" iconClass="icone-excluir" style="position: absolute; z-index: 900; left: 180px; top: 167px;"></input>
+   <!-- <input type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Cancel" iconClass="icone-excluir" style="position: absolute; z-index: 900; left: 180px; top: 167px;"></input> -->
     <table data-dojo-type="gridx/Grid" 
            style="min-width: 1em; min-height: 1em; position: absolute; z-index: 900; left: 15px; top: 204px; width: 320px; height: 233px;" 
            jsId="gridCredicards"
