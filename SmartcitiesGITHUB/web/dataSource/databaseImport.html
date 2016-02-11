@@ -11,17 +11,17 @@
     <form style="height: 500px;">
         <div class="celula-form-1" id="div_nome_fonte_dados_importacao" style="visibility: hidden">
             <span class="rotulo" style="right: 80%;"><span id="rotNomeFonteDBImport">Nome da fonte de dados</span>:</span>
-            <input id="nome_fonte_dados_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="My Database" ></input>
+            <input id="nome_fonte_dados_importacao"  data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Database Name" invalidMessage="Please inform your database name" required="true"  class="campo" style="left: 21%;" placeHolder="Database Name" ></input>
         </div>
 
         <div class="celula-form-1" id="div_nome_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotNomeBaseDBImport">Nome da base de dados</span>:</span>
-            <input id="nome_bd_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="databaseName" ></input>
+            <input id="nome_bd_importacao"  data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Database Name" invalidMessage="Please inform your database name" required="true"   class="campo" style="left: 21%;" placeHolder="databaseName" ></input>
         </div>
         <div class="celula-form-1" id="div_tipo_banco_dados">
             <span class="rotulo" style="right: 80%;"><span id="rotTipoDBImport">Tipo Base de Dados</span>:</span>
-            <select class="campo" style="left: 21%;" data-dojo-type="dijit/form/ComboBox" id="cmb_tipo_banco_dados" value="mySQL" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" >
-                <option value="MYSQL">mySQL</option>
+            <select class="campo" style="left: 21%;" data-dojo-type="dijit/form/ComboBox" id="cmb_tipo_banco_dados" value="mySQL" intermediateChanges="false" trim="false" uppercase="true" lowercase="false" propercase="false" invalidMessage="$_unset_$" pageSize="Infinity" searchDelay="0" >
+                <option value="MYSQL">Mysql</option>
                 <option value="ORACLE">Oracle</option>
                 <option value="POSTGRES" selected>Postgres</option>
                 <option value="FIREBIRD">Firebird</option>
@@ -30,29 +30,36 @@
         </div>
         <div class="celula-form-1" id="div_url_fonte_dados_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotUrlDBImport">Url</span>:</span>
-            <input id="url_fonte_dados_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="127.0.0.1" ></input>
+            <input id="url_fonte_dados_importacao"  data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Database url" invalidMessage="Please inform your database url. Ex: http://morettic.com.br" required="true"   class="campo" style="left: 21%;" placeHolder="127.0.0.1" ></input>
         </div>
-         <div class="celula-form-1" id="div_schema">
+        <div class="celula-form-1" id="div_schema">
             <span class="rotulo" style="right: 80%;"><span id="rotUrlDBSchema">Schema</span>:</span>
-            <input id="url_schema" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;" placeHolder="public" ></input>
+            <input id="url_schema" data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Database schema" invalidMessage="Please inform your database schema. Ex: public" required="true" class="campo" style="left: 21%;" placeHolder="public" ></input>
         </div>
         <div class="celula-form-1" id="div_porta_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotPortaDBImport">Porta</span>:</span>
-            <input id="porta_bd_importacao" data-dojo-type="dijit/form/TextBox" class="campo" style="left: 21%;width:50px" placeHolder="3306" ></input>
+            <input id="porta_bd_importacao" data-dojo-type="dijit/form/ValidationTextBox"
+                   required="true"
+                   value="3128"
+                   class="campo" 
+                   invalidMessage="Please inform your database port. Ex: 3128 (postgres) / 3306 (mysql)..."
+                   regExp="[0-9]*" 
+                   style="left: 21%;width:50px" 
+                   placeHolder="3306" ></input>
         </div>
         <div class="celula-form-1" id="div_usuario_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotUsuarioDBImport">Usu&aacute;rio</span>:</span>
-            <input id="usuario_bd_importacao" data-dojo-type="dijit/form/TextBox"  class="campo" style="left: 21%;width:120px;" placeHolder="dbuser" ></input>
+            <input id="usuario_bd_importacao" data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Database user" invalidMessage="Please inform your database user. Ex: admin, root..." required="true"  class="campo" style="left: 21%;width:120px;" placeHolder="dbuser" ></input>
         </div>
         <div class="celula-form-1" id="div_senha_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotSenhaDBImport">Senha</span>:</span>
             <input id="senha_bd_importacao" data-dojo-type="dijit/form/TextBox" type="password" class="campo" style="left: 21%;width:120px;" placeHolder="passwd" ></input>
         </div>
 
-      <!--  <div class="celula-form-1" id="div_btTestarConexaoDados">
-            <button id="btTestarConexaoDados" data-dojo-type="dijit/form/Button" title="Clique para testar o acesso &agrave; fonte de dados" class="campo" style="left: 21%;" label="<span id='rotBtTestarDBImport'>Testar Conexão</span>">
-                Testar Conexão
-            </button>
-        </div> -->
+        <!--  <div class="celula-form-1" id="div_btTestarConexaoDados">
+              <button id="btTestarConexaoDados" data-dojo-type="dijit/form/Button" title="Clique para testar o acesso &agrave; fonte de dados" class="campo" style="left: 21%;" label="<span id='rotBtTestarDBImport'>Testar Conexão</span>">
+                  Testar Conexão
+              </button>
+          </div> -->
 
     </form>

@@ -60,6 +60,7 @@ var CIRCLES_IMPORTOPTIONS = "circles/opcoesImportacaoContato.html";
 var CONFIGURATION = "configuration.html";
 var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
+var EXPORT_DATA = "dataSource/export.jsp";
 var SAMPLE_VIEW = "dataSource/sampleData.jsp";
 var UPLOAD = "upload/index.html";
 var UPLOAD_URL = "upload/register_file_session.jsp";
@@ -294,7 +295,7 @@ require([
                 });
                 on(dom.byId("btExportarDados"), "click", function () {
                     //prepareDataSourceExport();
-                    view.abrePopUpModal(EULA, "EXPORT");
+                    view.abrePopUpModal(EXPORT_DATA, "EXPORT",640,320,false);
                 });
                 on(dom.byId("mnuFerramentaDadosCopy"), "click", function () {
                     view.abrePopUpModal(DATAIMPORT_COPY, "COPY");

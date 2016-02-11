@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Cacheable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,7 @@ import org.codehaus.jackson.annotate.*;
 @Entity
 @Table(name = "profile", schema = "public")
 @XmlRootElement
+@Cacheable(true)
 public class Profile implements java.io.Serializable, Comparable<Profile> {
 
     @Id

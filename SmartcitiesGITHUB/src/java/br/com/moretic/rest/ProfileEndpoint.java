@@ -469,35 +469,34 @@ public class ProfileEndpoint {
         return Response.ok(entity).build();
     }
 
-    private synchronized static List<Country> initCTRList(EntityManager em) {
+    protected static List<Country> initCTRList(EntityManager em) {
         if (lCt.size() > 0) {
             return lCt;
         }
-        synchronized (lCt) {
-            JSONArray jaCountries = new JSONArray(CountryEndpoint.COUNTRIES);
-            Query q = em.createQuery("SELECT c FROM Country c");
-            lCt = q.getResultList();
-            if (lCt.isEmpty()) {
-                CREATE_COUNTRIES:
-                for (int i = 0; i < jaCountries.length(); i++) {
-                    JSONObject js = jaCountries.getJSONObject(i);
-                    Country c = new Country();
-                    String name = js.getString("name");
-                    q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
-                    q.setParameter("pName", name);
-                    if (!q.getResultList().isEmpty()) {
-                        continue CREATE_COUNTRIES;
-                    }
-                    c.setNmCountry(name);
-                    c.setCode(js.getString("code"));
-                    em.persist(c);
-                }
-            }
-            q = em.createQuery("SELECT DISTINCT c FROM Country c");
-            lCt = q.getResultList();
-        }
 
+        JSONArray jaCountries = new JSONArray(CountryEndpoint.COUNTRIES);
+        Query q = em.createQuery("SELECT c FROM Country c");
+        lCt = q.getResultList();
+        if (lCt.isEmpty()) {
+            CREATE_COUNTRIES:
+            for (int i = 0; i < jaCountries.length(); i++) {
+                JSONObject js = jaCountries.getJSONObject(i);
+                Country c = new Country();
+                String name = js.getString("name");
+                q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
+                q.setParameter("pName", name);
+                if (!q.getResultList().isEmpty()) {
+                    continue CREATE_COUNTRIES;
+                }
+                c.setNmCountry(name);
+                c.setCode(js.getString("code"));
+                em.persist(c);
+            }
+        }
+        q = em.createQuery("SELECT DISTINCT c FROM Country c");
+        lCt = q.getResultList();
         return lCt;
+
     }
     public static final String COUNTRIES = "countries";
 

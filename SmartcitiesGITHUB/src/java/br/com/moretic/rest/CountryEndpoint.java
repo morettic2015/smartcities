@@ -279,20 +279,7 @@ public class CountryEndpoint {
     private EntityManager em;
 
     public  List<Country> initCTRList() {
-        JSONArray jaCountries = new JSONArray(COUNTRIES);
-        Query q = em.createQuery("SELECT c FROM Country c");
-        List<Country> lCt = q.getResultList();
-        if (lCt.size() < 1) {
-            for (int i = 0; i < jaCountries.length(); i++) {
-                JSONObject js = jaCountries.getJSONObject(i);
-                Country c = new Country();
-                c.setNmCountry(js.getString("name"));
-                c.setCode(js.getString("code"));
-                em.persist(c);
-            }
-        }
-        q = em.createQuery("SELECT c FROM Country c");
-        return q.getResultList();
+        return ProfileEndpoint.initCTRList(em);
     }
 
     @POST
