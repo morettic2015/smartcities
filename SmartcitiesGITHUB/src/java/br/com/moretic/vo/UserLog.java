@@ -7,6 +7,7 @@ package br.com.moretic.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -27,6 +30,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 @Table(name = "profile_log", schema = "public")
+@Cacheable(true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class UserLog implements Serializable, Comparable<UserLog> {
 
     private static final long serialVersionUID = 1L;

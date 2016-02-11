@@ -7,12 +7,7 @@ package br.com.moretic.vo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 /**
  *
@@ -28,6 +25,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 @Table(name = "circle", schema = "public")
+@Cacheable(true)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Circle implements Serializable {
 
     private static final long serialVersionUID = 1L;

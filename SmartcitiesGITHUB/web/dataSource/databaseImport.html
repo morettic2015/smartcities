@@ -40,8 +40,9 @@
             <span class="rotulo" style="right: 80%;"><span id="rotPortaDBImport">Porta</span>:</span>
             <input id="porta_bd_importacao" data-dojo-type="dijit/form/ValidationTextBox"
                    required="true"
-                   value="3128"
+                   placeholder="3128"
                    class="campo" 
+                   promptMessage="Database port"
                    invalidMessage="Please inform your database port. Ex: 3128 (postgres) / 3306 (mysql)..."
                    regExp="[0-9]*" 
                    style="left: 21%;width:50px" 
@@ -53,7 +54,7 @@
         </div>
         <div class="celula-form-1" id="div_senha_bd_importacao">
             <span class="rotulo" style="right: 80%;"><span id="rotSenhaDBImport">Senha</span>:</span>
-            <input id="senha_bd_importacao" data-dojo-type="dijit/form/TextBox" type="password" class="campo" style="left: 21%;width:120px;" placeHolder="passwd" ></input>
+            <input id="senha_bd_importacao" data-dojo-type="dijit/form/TextBox" promptMessage="Database password" type="password" class="campo" style="left: 21%;width:120px;" placeHolder="passwd" ></input>
         </div>
 
         <!--  <div class="celula-form-1" id="div_btTestarConexaoDados">

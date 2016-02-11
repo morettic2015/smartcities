@@ -381,7 +381,7 @@ public class ProfileEndpoint {
                         + " LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
                         Profile.class);
         findByIdQuery.setParameter("entityId", id);
-        Profile entity;
+        Profile entity = null;
         try {
             entity = findByIdQuery.getSingleResult();
             //Carrega os endereços
@@ -460,15 +460,23 @@ public class ProfileEndpoint {
 
         } catch (NoResultException nre) {
             entity = null;
-        }
-        if (entity == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        req.getSession(true).setAttribute(PROFILE, entity);
+        } finally {
+            em.flush();
+            if (entity == null) {
+                return Response.status(Status.NOT_FOUND).build();
+            }
+            req.getSession(true).setAttribute(PROFILE, entity);
 
-        return Response.ok(entity).build();
+            return Response.ok(entity).build();
+        }
+
     }
 
+    /**
+     * SIngleton para carregar os paises na memoria
+     *
+     * @param EntityManager em
+     */
     protected static List<Country> initCTRList(EntityManager em) {
         if (lCt.size() > 0) {
             return lCt;
@@ -478,16 +486,16 @@ public class ProfileEndpoint {
         Query q = em.createQuery("SELECT c FROM Country c");
         lCt = q.getResultList();
         if (lCt.isEmpty()) {
-            CREATE_COUNTRIES:
+            //CREATE_COUNTRIES:
             for (int i = 0; i < jaCountries.length(); i++) {
                 JSONObject js = jaCountries.getJSONObject(i);
                 Country c = new Country();
                 String name = js.getString("name");
-                q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
-                q.setParameter("pName", name);
-                if (!q.getResultList().isEmpty()) {
-                    continue CREATE_COUNTRIES;
-                }
+                //q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
+                //q.setParameter("pName", name);
+                //if (!q.getResultList().isEmpty()) {
+                //    continue CREATE_COUNTRIES;
+                //}
                 c.setNmCountry(name);
                 c.setCode(js.getString("code"));
                 em.persist(c);
