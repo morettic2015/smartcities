@@ -18,6 +18,7 @@ public enum FileType {
     DOC,
     XLS,
     JSON,
+    KML,
     RSS,
     XML,
     CSV;

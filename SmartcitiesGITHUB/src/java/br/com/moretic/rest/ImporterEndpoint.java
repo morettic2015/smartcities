@@ -23,9 +23,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -33,10 +37,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.NoSuchEntityException;
 import javax.ejb.Stateless;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -66,18 +74,14 @@ public class ImporterEndpoint {
      * @param res
      * @throws java.security.NoSuchAlgorithmException
      */
-    
-    
     @GET
     @Path("/crawler/{params}")
     @Produces("application/json")
     public Response searchWeb(@PathParam("source") String source, @Context HttpServletRequest req, @Context HttpServletResponse res) {
-        
-        
-        
-        
+
         return null;
     }
+
     @GET
     @Path("/get_tables/{source}")
     @Produces("application/json")
@@ -240,9 +244,8 @@ public class ImporterEndpoint {
 
         JSONObject fromData = iu.getSampleTableData(tableSampe);
 
-        
         req.getSession(true).setAttribute(iu.SAMPLE_DATA, fromData);
-        
+
         iu.quit();
 
         return Response.ok(fromData.toString()).build();
@@ -671,26 +674,38 @@ public class ImporterEndpoint {
     @Produces("application/json")
     public Response genericFileImporter(@PathParam("name") String name, @PathParam("tp") String tp, @PathParam("source") String source, @PathParam("description") String description, @Context HttpServletRequest req, @Context HttpServletResponse res) throws Exception {
 
+        //Recupera usuario logado na session
         Profile p = ProfileEndpoint.getProfileSession(req);
 
+        //Sincroniza elemento na transacao
         Profile pOwner = em.find(Profile.class, p.getIdprofile());
         //@TODO Validar com parser XML o fonte KML 
         String path = SmartProxyFilter.getContextPath();
-        //Arquivo remoto
-        File f;
-        ;
-        String fName = makeFileName(pOwner.getIdprofile(), source);
 
-        source = SmartProxyFilter.getContextUri() + "/" + source;
+        //Arquivo remoto????
+        source = ImporterUtil.decodeURIComponent(source);
+        FileSource fs = new FileSource();
+        String fName = makeFileName(pOwner.getIdprofile(), tp);
+        try {//Se o arquivo for apenas uma URL testa e copia para recuperar os metadados.
+            URL tU = new URL(source);
+            tU.getContent();
+            fs.setFileURI(source);
+        } catch (Exception e) {
+            fs.setFileURI(null);
+            source = SmartProxyFilter.getContextUri() + "/" + source;
+            Logger.getAnonymousLogger().log(Level.INFO, "ARQUIVO JA UPLOADED");
+        }
+
+        File f;
         path += fName;
 
-        FileSource fs = new FileSource();
         fs.setFileTit(name);
         fs.setFileUrl(fName);
         fs.setFileDesc(description);
         fs.setMyTp(FileType.valueOf(tp));
         fs.setIdProfile(pOwner.getIdprofile());
         fs.setOwner(pOwner);
+        
         //Salva o data source do file
         em.persist(fs);
 
@@ -703,7 +718,7 @@ public class ImporterEndpoint {
         if (FileType.valueOf(tp).equals(FileType.CSV)) {
             JSONArray js = ImporterUtil.makeJSONFromCsv(f.getAbsolutePath(), ",");
             return Response.ok(js.toString()).build();
-        } else if (FileType.valueOf(tp).equals(FileType.XML)) {
+        } else if (FileType.valueOf(tp).equals(FileType.XML)||FileType.valueOf(tp).equals(FileType.RSS)) {
             JSONObject js = ImporterUtil.makeJSONFromXml(f.getAbsolutePath());
             return Response.ok(js.toString()).build();
         }
@@ -742,19 +757,18 @@ public class ImporterEndpoint {
      @ Monta o nome do arquivo conforme o tipo usuario e data de criação
     
      */
-    private String makeFileName(int id, String sourceType) {
+    private static  String makeFileName(int id,String tp1) {
 
-        String[] tp = sourceType.split("\\.");
-
+       
         StringBuilder fName = new StringBuilder();
 
         Date dt = new Date();
-
+       
         fName.append(File.separatorChar);
 
         fName.append(id);
         fName.append('_');
-        fName.append(tp[tp.length - 1]);
+        fName.append(tp1);
         fName.append('_');
         fName.append(dt.getDay());
         fName.append('_');
@@ -767,8 +781,10 @@ public class ImporterEndpoint {
         fName.append(dt.getMinutes());
         fName.append('_');
         fName.append(dt.getSeconds());
+        fName.append('_');
+        fName.append(UUID.randomUUID().toString().substring(0, 19));
         fName.append('.');
-        fName.append(tp[tp.length - 1]);
+        fName.append(tp1);
 
         return fName.toString();
 

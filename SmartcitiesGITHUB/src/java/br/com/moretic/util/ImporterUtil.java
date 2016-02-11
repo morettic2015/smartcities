@@ -18,6 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -160,15 +162,15 @@ public class ImporterUtil {
         }
         return lTables;
     }
-    
+
     public JSONObject getSampleTableData(String tableName) throws SQLException {
         JSONArray ja = new JSONArray();
         JSONObject js1 = new JSONObject();
         js1.append(TABLE_NAME, tableName);
         conn.setAutoCommit(false);
-        
-        stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY,java.sql.ResultSet.CONCUR_READ_ONLY);
-        
+
+        stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_READ_ONLY);
+
         stmt.setFetchSize(10);
         stmt.setMaxRows(10);
         StringBuilder query = new StringBuilder("SELECT DISTINCT * FROM " + tableName);
@@ -190,9 +192,9 @@ public class ImporterUtil {
                 }
 
             }
-          /*  if(tot++>10){
-                break;
-            }*/
+            /*  if(tot++>10){
+             break;
+             }*/
             ja.put(js);
         }
         js1.put(SAMPLE_DATA, ja);
@@ -353,7 +355,7 @@ public class ImporterUtil {
             }
 
             StringWriter buffer = new StringWriter();
-            HierarchicalStreamReader sourceReader = new XppReader(new StringReader(sbXml.toString())); 
+            HierarchicalStreamReader sourceReader = new XppReader(new StringReader(sbXml.toString()));
             JettisonMappedXmlDriver jettisonDriver = new JettisonMappedXmlDriver();
             jettisonDriver.createWriter(buffer);
             HierarchicalStreamWriter destinationWriter = jettisonDriver.createWriter(buffer);
@@ -412,8 +414,13 @@ public class ImporterUtil {
             }
         } else if (o instanceof JSONArray) {
             if (((JSONArray) o).length() > 0) {
-                JSONObject js = ((JSONArray) o).getJSONObject(0);
-                readPropertiesJSON(js, prop);
+                if ((((JSONArray) o).get(0)) instanceof JSONObject) {
+                    JSONObject js = ((JSONArray) o).getJSONObject(0);
+                    readPropertiesJSON(js, prop);
+                } else if ((((JSONArray) o).get(0)) instanceof JSONArray) {
+                    JSONArray js = ((JSONArray) o).getJSONArray(0);
+                    readPropertiesJSON(js, prop);
+                }
             }
         }
     }
@@ -540,5 +547,9 @@ public class ImporterUtil {
 
     public void destroy() throws SQLException {
         this.conn.close();
+    }
+
+    public static final String decodeURIComponent(String s) throws UnsupportedEncodingException {
+        return URLDecoder.decode(s, "UTF-8");
     }
 }

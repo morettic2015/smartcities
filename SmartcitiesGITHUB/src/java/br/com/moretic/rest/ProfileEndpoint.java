@@ -28,7 +28,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import br.com.moretic.vo.*;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
@@ -40,13 +39,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.servlet.http.*;
 import javax.ws.rs.core.Context;
-import org.hibernate.exception.ConstraintViolationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -61,7 +56,7 @@ public class ProfileEndpoint {
      * Token para armazenar o perfil na sessao
      */
     public static final String PROFILE = "SMTR_PROFILE";
-
+    private static List<Country> lCt = new ArrayList<Country>();
     //@Context
     //private HttpServletRequest request;
     //@Context HttpServletRequest req, @Context HttpServletResponse res
@@ -406,8 +401,10 @@ public class ProfileEndpoint {
             //Carrega a lista de logs
             TypedQuery<UserLog> findByIdSecUserLog = em.createQuery("SELECT DISTINCT a FROM UserLog a  WHERE a.idProfile = :entityId ORDER BY a.dTime", UserLog.class);
             findByIdSecUserLog.setParameter("entityId", id);
+            findByIdSecUserLog.setMaxResults(200);//Maximo 200 registros....
             List<UserLog> entityUserLog;
             entityUserLog = findByIdSecUserLog.getResultList();
+            Collections.sort(entityUserLog);
             entity.getlLog().clear();
             entity.getlLog().addAll(entityUserLog);
 
@@ -447,7 +444,7 @@ public class ProfileEndpoint {
 
             entity.setCirclesOwner(findMyCircles(entity.getIdprofile(), em));
 
-            req.getSession(true).setAttribute(COUNTRIES, initCTRList());
+            req.getSession(true).setAttribute(COUNTRIES, initCTRList(em));
 
             findByIdProf = null;
             findByIdSec = null;
@@ -472,28 +469,35 @@ public class ProfileEndpoint {
         return Response.ok(entity).build();
     }
 
-    private List<Country> initCTRList() {
-        JSONArray jaCountries = new JSONArray(CountryEndpoint.COUNTRIES);
-        Query q = em.createQuery("SELECT c FROM Country c");
-        List<Country> lCt = q.getResultList();
-        if (lCt.isEmpty()) {
-            CREATE_COUNTRIES:
-            for (int i = 0; i < jaCountries.length(); i++) {
-                JSONObject js = jaCountries.getJSONObject(i);
-                Country c = new Country();
-                String name = js.getString("name");
-                q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
-                q.setParameter("pName", name);
-                if(!q.getResultList().isEmpty()){
-                    continue CREATE_COUNTRIES;
-                }
-                c.setNmCountry(name);
-                c.setCode(js.getString("code"));
-                em.persist(c);
-            }
+    private synchronized static List<Country> initCTRList(EntityManager em) {
+        if (lCt.size() > 0) {
+            return lCt;
         }
-        q = em.createQuery("SELECT DISTINCT c FROM Country c");
-        return q.getResultList();
+        synchronized (lCt) {
+            JSONArray jaCountries = new JSONArray(CountryEndpoint.COUNTRIES);
+            Query q = em.createQuery("SELECT c FROM Country c");
+            lCt = q.getResultList();
+            if (lCt.isEmpty()) {
+                CREATE_COUNTRIES:
+                for (int i = 0; i < jaCountries.length(); i++) {
+                    JSONObject js = jaCountries.getJSONObject(i);
+                    Country c = new Country();
+                    String name = js.getString("name");
+                    q = em.createQuery("SELECT c FROM Country c WHERE c.nmCountry like :pName");
+                    q.setParameter("pName", name);
+                    if (!q.getResultList().isEmpty()) {
+                        continue CREATE_COUNTRIES;
+                    }
+                    c.setNmCountry(name);
+                    c.setCode(js.getString("code"));
+                    em.persist(c);
+                }
+            }
+            q = em.createQuery("SELECT DISTINCT c FROM Country c");
+            lCt = q.getResultList();
+        }
+
+        return lCt;
     }
     public static final String COUNTRIES = "countries";
 

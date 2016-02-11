@@ -62,6 +62,7 @@ var HEADER_MAIN = "header_smartcities.jsp";
 var EULA = "info/eula.html";
 var SAMPLE_VIEW = "dataSource/sampleData.jsp";
 var UPLOAD = "upload/index.html";
+var UPLOAD_URL = "upload/register_file_session.jsp";
 var STORE_COVER = "store/storeCover.html";
 var HELP_START = "help/index.html";
 var SOCIAL_IMPORT = "registerSocialNetwork.html";
@@ -283,19 +284,10 @@ require([
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
                 on(dom.byId("itemRssImport"), "click", function () {
-                    var param = {tipo: "RSS"};
-                    carregaTelaFerramentaDados(DATAIMPORT_KML, param);
+                    var param = {tipoArquivo: "RSS"};
+                    carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
                 });
-                /*
-                 on(dom.byId("itemWsdlImport"), "click", function () {
-                 var param = {tipoArquivo: "WSDL"};
-                 carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
-                 });
-                 on(dom.byId("itemXlsImport"), "click", function () {
-                 var param = {tipoArquivo: "XLS"};
-                 carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
-                 });
-                 */
+
                 on(dom.byId("itemXmlImport"), "click", function () {
                     var param = {tipoArquivo: "XML"};
                     carregaTelaFerramentaDados(DATAIMPORT_FILE_LOCATE, param);
@@ -622,6 +614,10 @@ require([
                                         vetorCircles.push(newLine);
                                         gridProfileContactsCircles.model.store.put(newLine);
                                     }
+                                    //popula o grid de contatos
+                                    gridProfileContactsCircles.model.clearCache();
+                                    gridProfileContactsCircles.model.store.setData(vetorCircles);
+                                    gridProfileContactsCircles.body.refresh();
 
                                     //Adiciona a opção ao combobox autocomplete
                                     var scl = document.getElementById("txtCircleListContact");
@@ -629,12 +625,11 @@ require([
 
                                     opt1.value = mCircleName;
                                     opt1.innerHTML = mCircleName;
+                                    opt1.selected = true;
+                                    opt1.label = mCircleName;
                                     scl.appendChild(opt1);
 
-                                    //popula o grid de contatos
-                                    gridProfileContactsCircles.model.clearCache();
-                                    gridProfileContactsCircles.model.store.setData(vetorCircles);
-                                    gridProfileContactsCircles.body.refresh();
+
 
                                 });
                             });
@@ -2010,8 +2005,19 @@ require([
                 on(dom.byId("btAnteriorFileLocate"), "click", function () {
                     carregaTelaFerramentaDados(DATASOURCE_SPLASH);
                 });
+                //Carrega a URL do arquivo na session para posterior
                 on(dom.byId("txtUrlFileLocate"), "blur", function () {
-                    alert("blur");
+                    var fvalue = document.getElementById("txtUrlFileLocate").value;
+                    if (fvalue != "") {
+                        myProfile.uploadBean = {
+                            name: (encodeURIComponent(fvalue)),
+                            bytes: 0000,
+                            contentType: "??",
+                            fullPath: (encodeURIComponent(fvalue)),
+                            myUrl: (encodeURIComponent(fvalue))
+                        };
+                        //view.abrePopUpModal(mUrl, "File URL", 400, 200);
+                    }
                 });
                 on(dom.byId("btProximoFileLocate"), "click", function () {
                     var txtNome = registry.byId("txtSourceNameLocate");
@@ -2027,19 +2033,26 @@ require([
                         pagina = DATAIMPORT_CSV;
                         saveCSVFile(parametrosTela);
                     } else if (parametrosTela.tipoArquivo == "JSON") {
-                        pagina = DATAIMPORT_JSON;
+                        //pagina = DATAIMPORT_JSON;
+                        saveGenericFile(parametrosTela, "JSON")
                     } else if (parametrosTela.tipoArquivo == "XLS") {
                         pagina = DATAIMPORT_CSV;
+                        saveCSVFile(parametrosTela);
                     } else if (parametrosTela.tipoArquivo == "XML") {
                         pagina = DATAIMPORT_JSON;
-                        saveXMLFile(parametrosTela);
+                        saveXMLFile(parametrosTela, "XML");
+                    } else if (parametrosTela.tipoArquivo == "RSS") {
+                        pagina = DATAIMPORT_JSON;
+                        saveXMLFile(parametrosTela, "RSS");
+                    } else if (parametrosTela.tipoArquivo == "KML") {
+                        //pagina = DATAIMPORT_CSV;
+                        saveGenericFile(parametrosTela, "KML");
                     } else if (parametrosTela.tipoArquivo == "WSDL") {
                         pagina = DATAIMPORT_WSDL;
-                    } else if (parametrosTela.tipoArquivo == "KML") {
-                        pagina = "";
                     }
-
-                    carregaTelaFerramentaDados(pagina, param);
+                    if (pagina != "") {
+                        carregaTelaFerramentaDados(pagina, param);
+                    }
                 });
                 on(dom.byId("btUploadFileLocate"), "click", function () {
                     view.abrePopUpModal(UPLOAD, textos.tituloUpload, 400, 200);
@@ -2435,7 +2448,7 @@ require([
                 }
 
             }
-            
+
             function refreshInternationalPhoneMask(event, campo) {
                 var key = event.keyCode || event.charCode;
                 var caracter = String.fromCharCode(key);
@@ -2735,14 +2748,14 @@ require([
                 });
             }
 
-            function saveXMLFile(parametrosTela) {
+            function saveXMLFile(parametrosTela, mType) {
 
                 var urlCSV = myProfile.uploadBean.name;
                 var fName1 = dom.byId("txtSourceNameLocate").value;
                 // TODO usar URLENCODE utf-8 para não perder os caracteres
                 var description = dom.byId("txtDescriptionFile").value;
                 //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
-                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/XML/" + escape(description);
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/" + mType + "/" + escape(description);
                 var resultado = restServices.salvaObjeto(url);
                 resultado.then(function (dados) {
                     //alert(dados);
@@ -2811,7 +2824,6 @@ require([
                     }
                 });
             }
-
             function saveCSVFile(parametrosTela) {
 
                 var urlCSV = myProfile.uploadBean.name;
@@ -2885,6 +2897,33 @@ require([
                                 });
                             }
                         });
+                    }
+                });
+            }
+            function saveGenericFile(parametrosTela, tp) {
+
+                var urlCSV = myProfile.uploadBean.name;
+                var fName1 = dom.byId("txtSourceNameLocate").value;
+                // TODO usar URLENCODE utf-8 para não perder os caracteres
+                var description = dom.byId("txtDescriptionFile").value;
+                //var http = ""; //"/file/{source}/{name}/{tp}/{description}"
+                var url = "importer/file/" + escape(urlCSV) + "/" + fName1 + "/" + tp + "/" + escape(description);
+                var resultado = restServices.salvaObjeto(url);
+                resultado.then(function (dados) {
+                    //alert(dados);
+                    if (dados instanceof String) {
+                        //modalMessage(dados, textos.gErro);
+                    } else if (dados instanceof Object) {
+                        //load window on Contentpane
+
+
+                        //Message to confirm
+                        contentPane_PopUp.set("href", "info/dataImport.html");
+                        myDialog.set("title", "Sucess");
+                        myDialog.show();
+                        //Set myProfile csv data on memory
+                        myProfile.csv = dados;
+
                     }
                 });
             }

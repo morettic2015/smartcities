@@ -27,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 @Entity
 @Table(name = "profile_log", schema = "public")
-public class UserLog implements Serializable {
+public class UserLog implements Serializable, Comparable<UserLog> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,10 +39,10 @@ public class UserLog implements Serializable {
     public Long getId() {
         return id;
     }
-    @Column(name = "ip_addr",nullable = false,updatable = false)
+    @Column(name = "ip_addr", nullable = false, updatable = false)
     private String ipAddrs;
 
-    @Column(name = "log_action",nullable = false,updatable = false)
+    @Column(name = "log_action", nullable = false, updatable = false)
     private String action;
 
     @XmlTransient
@@ -130,6 +130,11 @@ public class UserLog implements Serializable {
     @Override
     public String toString() {
         return "br.com.moretic.vo.UserLog[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(UserLog o) {
+        return o.getId().compareTo(this.getId());
     }
 
 }
