@@ -26,15 +26,18 @@ import javax.servlet.http.HttpSession;
  *
  * @author lmrosario
  *
- * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
- */
-@WebFilter(filterName = "SmartProxyFilter",
-        urlPatterns = {"/main.html",
+ * 
+ *  /*,
             "/configuration.html",
             "/rest/importer/upload/*",
             //"/upload/*",
             "/rest/ftp/*",
-            "/rest/importer/*"},
+            "/rest/importer/*
+ * 
+ * @TODO MAP ALL SERVICES THAT REQUIRES AUTHENTICATION
+ */
+@WebFilter(filterName = "SmartProxyFilter",
+        urlPatterns = {"/main.html"},
         dispatcherTypes = {
             DispatcherType.FORWARD,
             DispatcherType.ERROR,

@@ -1,281 +1,429 @@
-//>>built
-define("gridx/core/model/extensions/Move",["dojo/_base/declare","dojo/_base/lang","dojo/_base/Deferred","dojo/DeferredList","../_Extension"],function(_1,_2,_3,_4,_5){
-var _6=_2.hitch;
-function _7(_8,_9){
-var i,_a,_b=[],_c=[],_d,_e=1,_f=1,_10=_9,_11=_9,pos;
-for(i=0,_a=_8.length;i<_a;++i){
-_b[_8[i]]=1;
-}
-for(i=0,_a=_b.length;i<_a;++i){
-if(_b[i]){
-if(i<_9){
-if(_e){
-_e=0;
-_d=[i,1];
-pos=_c.length;
-_c.unshift(_d);
-}else{
-if(_b[i-1]){
-++_d[1];
-}
-}
-}else{
-if(_f){
-_f=0;
-_d=[i,1,_11];
-_c.push(_d);
-++_11;
-}else{
-if(_b[i-1]){
-++_d[1];
-++_11;
-}
-}
-}
-}else{
-_e=_f=1;
-}
-}
-for(i=0;i<=pos;++i){
-_d=_c[i];
-_d[2]=_10;
-_10-=_d[1];
-}
-return _c;
-};
-function _12(_13,_14,_15,map){
-var _16={},_17,to,i,_18={};
-if(_15>_13+_14){
-for(i=0;i<_14;++i){
-_16[_13+i]=_15+i-_14;
-}
-for(i=0;i<_15-_13-_14;++i){
-_16[_13+_14+i]=_13+i;
-}
-}else{
-if(_15<_13){
-for(i=0;i<_14;++i){
-_16[_13+i]=_15+i;
-}
-for(i=0;i<_13-_15;++i){
-_16[_15+i]=_15+i+_14;
-}
-}else{
-return;
-}
-}
-for(_17 in map){
-_18[map[_17]]=parseInt(_17,10);
-}
-for(_17 in _16){
-to=_16[_17];
-if(_18.hasOwnProperty(_17)){
-_17=_18[_17];
-}
-if(_17==to){
-delete map[_17];
-}else{
-map[_17]=to;
-}
-}
-};
-return _1(_5,{name:"move",priority:10,constructor:function(_19,_1a){
-var t=this,_1b=_19._cache.options=_19._cache.options||{};
-t._mixinAPI("move","moveIndexes","insert");
-_19.onMoved=function(){
-};
-if(_1a.updateStore){
-t.updateStore=_1a.updateStore;
-}
-if(_1a.moveSortInfo){
-_1b.sort=_1a.moveSortInfo;
-}else{
-_1b.sort=[{attribute:t.moveField=_1a.moveField||"order",descending:t.moveFieldDescending=_1a.moveFieldDescending||false}];
-}
-},move:function(_1c,_1d,_1e){
-if(_1c>=0&&_1c<Infinity&&_1d>0&&_1d<Infinity&&_1e>=0&&_1e<Infinity&&(_1e<_1c||_1e>_1c+_1d)){
-this.model._addCmd({name:"_cmdMove",scope:this,args:[_1c,_1d,_1e],async:1});
-}
-},moveIndexes:function(_1f,_20){
-this.model._addCmd({name:"_cmdMove",scope:this,args:[_1f,_20],async:1});
-},insert:function(_21,_22,_23){
-var _24=new _3(),_25=_6(_24,_24.callback),_26=_6(_24,_24.errback),_27=this.moveField,_28=this.model.store,i,_29,dl=[],_2a=function(_2b){
-return _28.fetch?_28.getValue(_2b,_27):_2b[_27];
-},_2c=_22?_2a(_22):null,_2d=_23?_2a(_23):null;
-for(i=0;_29=_21[i];++i){
-if(_2c===null&&_2d===null){
-_2c=Math.random();
-}else{
-if(_2c===null){
-_2c=_2d-1;
-}else{
-if(_2d===null){
-_2c=_2c+1;
-}else{
-_2c=(_2c+_2d)/2;
-}
-}
-}
-_29[_27]=_2c;
-if(_28.fetch){
-_28.newItem(_29);
-}else{
-var d=new _3();
-_3.when(_28.add(_29),_6(d,d.callback),_6(d,d.errback));
-dl.push(d);
-}
-}
-if(_28.fetch){
-_28.save({onComplete:_25,onError:_26});
-}else{
-new _4(dl).then(_25,_26);
-}
-return _24;
-},updateStore:function(_2e,_2f,map){
-var _30=[],_31=[],_32=[],_33=[],_34,to,m={},i,dif,cat={},_35,_36=0,t=this,_37=t.inner,_38=t.model.store,_39=t.moveField,dl=[],_3a=function(to){
-if(to>0){
-return _30[to-1]===undefined?to-1:_30[to-1];
-}else{
-return -1;
-}
-},_3b=function(to){
-for(;to<_30.length;++to){
-var _3c=_30[to];
-if(!_31[_3c]){
-return _3c===undefined?to:_3c;
-}
-}
-return to;
-},_3d=function(_3e){
-var row=_37._call("byIndex",[_3e]);
-return row&&row.item;
-},_3f=function(_40){
-return _38.fetch?_38.getValue(_40,_39):_40[_39];
-},_41=function(_42,_43){
-var _44=_31[_42];
-if(_44){
-return _44.value;
-}else{
-if(_42<0){
-return _3f(_3d(0))-1;
-}else{
-if(_42<_43){
-return _3f(_3d(_42));
-}else{
-return _3f(_3d(_43-1))+1;
-}
-}
-}
-},_45=function(_46,_47){
-if(_38.fetch){
-_38.setValue(_46,_39,_47);
-}else{
-_46=_2.clone(_46);
-_46[_39]=_47;
-var d=new _3();
-_3.when(_38.put(_46,{overwrite:true}),_6(d,d.callback));
-dl.push(d);
-}
-},_48=function(){
-if(_38.fetch){
-_38.save({onComplete:function(){
-_2e.callback();
-},onError:function(e){
-_2e.errback(e);
-}});
-}else{
-(new _4(dl)).then(function(){
-_2e.callback();
-},function(e){
-_2e.errback(e);
-});
-}
-};
-var _49=Infinity;
-for(_34 in map){
-_34=parseInt(_34,10);
-to=map[_34];
-m[_34]=to;
-if(to<_49){
-_49=to;
-}
-_30[to]=_34;
-}
-for(i=_49;i<_30.length;++i){
-if(_30[i]===undefined){
-_30[i]=i;
-m[i]=i;
-}
-}
-for(_34 in m){
-_34=parseInt(_34,10);
-to=m[_34];
-dif=to-_34;
-if(cat[dif]===undefined){
-cat[dif]=1;
-}else{
-++cat[dif];
-}
-}
-for(dif in cat){
-if(cat[dif]>_36){
-_36=cat[dif];
-_35=dif;
-}
-}
-for(to=0;to<_30.length;++to){
-_34=_30[to];
-if(_34!==undefined&&to-_34!=_35){
-_31[_34]={};
-_32.push(_34);
-}
-}
-for(i=0;i<_32.length;++i){
-_34=_32[i];
-to=m[_34];
-var _4a=_31[_34].before=_3a(to),_4b=_31[_34].after=_3b(to);
-_33.push({start:_34,count:1},{start:_4b,count:1});
-if(_4a>=0){
-_33.push({start:_4a,count:1});
-}
-}
-_37._call("when",[{id:[],range:_33},function(){
-var _4c=_37._call("size");
-for(var i=0;i<_32.length;++i){
-_34=_32[i];
-var _4d=_3d(_34),_4e=_31[_34],_4f=_41(_4e.before,_4c),_50=_41(_4e.after,_4c),_51=(_4f+_50)/2;
-_4e.value=_51;
-_45(_4d,_51);
-}
-_48();
-}]);
-},_cmdMove:function(){
-var d=new _3(),t=this,m=t.model,i,_52,map={},_53,_54=[],_55=t.inner._call("size");
-for(i=0;_52=arguments[i];++i){
-m._msg("beforeMove",_52);
-if(_52.length==2){
-_54=_54.concat(_7(_52[0],_52[1]));
-}else{
-_54.push(_52);
-}
-}
-for(i=0;_52=_54[i];++i){
-_12(_52[0],_52[1],_52[2],map);
-}
-for(i in map){
-_53=1;
-break;
-}
-if(_53){
-t.updateStore(d,_54,map);
-}else{
-d.callback();
-}
-d.then(function(){
-m._cache.clear();
-m._msg("moved",map);
-m.onMoved(_54,map);
-});
-return d;
-}});
+define([
+	"dojo/_base/declare",
+	"dojo/_base/lang",
+	"dojo/_base/Deferred",
+	"dojo/DeferredList",
+	/*====='../Model',=====*/
+	'../_Extension'
+], function(declare, lang, Deferred, DeferredList,
+	/*=====Model, =====*/
+	_Extension){
+
+/*=====
+	Model.move = function(){};
+	Model.moveIndexes = function(){};
+	Model.insert = function(){};
+	Model.onMoved = function(){};
+
+	return declare(_Extension, {
+		// summary:
+		//		Move rows by means of sorting a special field (default to "order").
+	});
+=====*/
+
+	var hitch = lang.hitch;
+
+	function getMoves(indexes, target){
+		//Transform arbitrary index array to an array of standard moves: [start, count, target].
+		var i, len, arr = [], moves = [], move, 
+			beforeBegin = 1, afterBegin = 1,
+			beforeTarget = target, afterTarget = target, pos;
+		for(i = 0, len = indexes.length; i < len; ++i){
+			arr[indexes[i]] = 1;
+		}
+		for(i = 0, len = arr.length; i < len; ++i){
+			if(arr[i]){
+				if(i < target){
+					if(beforeBegin){
+						beforeBegin = 0;
+						move = [i, 1];
+						pos = moves.length;
+						moves.unshift(move);
+					}else if(arr[i - 1]){
+						++move[1];
+					}
+				}else{
+					if(afterBegin){
+						afterBegin = 0;
+						move = [i, 1, afterTarget];
+						moves.push(move);
+						++afterTarget;
+					}else if(arr[i - 1]){
+						++move[1];
+						++afterTarget;
+					}
+				}
+			}else{
+				beforeBegin = afterBegin = 1;
+			}
+		}
+		for(i = 0; i <= pos; ++i){
+			move = moves[i];
+			move[2] = beforeTarget;
+			beforeTarget -= move[1];
+		}
+		return moves;
+	}
+
+	function mapIndex(start, count, target, map){
+		//Do the actual mapping index work.
+		var mapping = {}, from, to, i, revMap = {};
+
+		if(target > start + count){
+			//target is after the range
+			for(i = 0; i < count; ++i){
+				mapping[start + i] = target + i - count;
+			}
+			for(i = 0; i < target - start - count; ++i){
+				mapping[start + count + i] = start + i;
+			}
+		}else if(target < start){
+			//target is before the range
+			for(i = 0; i < count; ++i){
+				mapping[start + i] = target + i;
+			}
+			for(i = 0; i < start - target; ++i){
+				mapping[target + i] = target + i + count;
+			}
+		}else{
+			//target is in the range
+			return;
+		}
+		for(from in map){
+			revMap[map[from]] = parseInt(from, 10);
+		}
+		for(from in mapping){
+			to = mapping[from];
+			if(revMap.hasOwnProperty(from)){
+				from = revMap[from];
+			}
+			if(from == to){
+				delete map[from];
+			}else{
+				map[from] = to;
+			}
+		}
+	}
+	return declare(_Extension, {
+		// Not compatible with Sort and Map extensions!
+		name: 'move',
+
+		priority: 10,
+
+		constructor: function(model, args){
+			var t = this, options = model._cache.options = model._cache.options || {};
+			t._mixinAPI('move', 'moveIndexes', 'insert');
+			model.onMoved = function(){};
+			//User can customize how to deal with moved rows by providing his own updateStore method.
+			if(args.updateStore){
+				t.updateStore = args.updateStore;
+			}
+			if(args.moveSortInfo){
+				//User can customize the whole sort info.
+				options.sort = args.moveSortInfo;
+			}else{
+				//Or just provide a field indicating the moving order (recommended)
+				options.sort = [{
+					attribute: t.moveField = args.moveField || 'order',
+					descending: t.moveFieldDescending = args.moveFieldDescending || false
+				}];
+			}
+		},
+
+		//Public---------------------------------------------------------------------
+		//moveField: 'order',
+
+		//moveFieldDescending: false,
+
+		//moveSortInfo: [],
+
+		move: function(start, count, target){
+			// summary
+			//		Move rows by row index.
+			if(start >= 0 && start < Infinity && 
+				count > 0 && count < Infinity && 
+				target >= 0 && target < Infinity && 
+				(target < start || target > start + count)){
+				this.model._addCmd({
+					name: '_cmdMove',
+					scope: this,
+					args: [start, count, target],
+					async: 1
+				});
+			}
+		},
+
+		moveIndexes: function(indexes, target){
+			this.model._addCmd({
+				name: '_cmdMove',
+				scope: this,
+				args: [indexes, target],
+				async: 1
+			});
+		},
+
+		insert: function(dataArray, prevItem, nextItem){
+			var finished = new Deferred(),
+				success = hitch(finished, finished.callback),
+				fail = hitch(finished, finished.errback),
+				moveField = this.moveField,
+				store = this.model.store,
+				i, data, dl = [],
+				getValue = function(item){
+					return store.fetch ? store.getValue(item, moveField) : item[moveField];
+				},
+				prevValue = prevItem ? getValue(prevItem) : null,
+				nextValue = nextItem ? getValue(nextItem) : null;
+			for(i = 0; data = dataArray[i]; ++i){
+				if(prevValue === null && nextValue === null){
+					//No data in grid
+					prevValue = Math.random();
+				}else if(prevValue === null){
+					//Be first row in grid
+					prevValue = nextValue - 1;
+				}else if(nextValue === null){
+					//Be last row in grid
+					prevValue = prevValue + 1;
+				}else{
+					//Between 2 existing rows
+					prevValue = (prevValue + nextValue) / 2;
+				}
+				data[moveField] = prevValue;
+				if(store.fetch){
+					store.newItem(data);
+				}else{
+					var d = new Deferred();
+					Deferred.when(store.add(data), hitch(d, d.callback), hitch(d, d.errback));
+					dl.push(d);
+				}
+			}
+			if(store.fetch){
+				store.save({
+					onComplete: success,
+					onError: fail
+				});
+			}else{
+				new DeferredList(dl).then(success, fail);
+			}
+			return finished;
+		},
+		
+		updateStore: function(finishDef, moves, map){
+			// summary:
+			//		Do the actual moving work here, that is to change the moveField of moved rows.
+			//		User can overwrite this function to provide customized logic.
+			//		Here a default implementation is provided. This implementation requires the
+			//		moveField is a field of number type, and it can accept any number. In other words,
+			//		this moveField is just a field to indicate row order without any other meanings.
+			//		This default implementation tries to reduce the overall requests sent to store, 
+			//		because the current store implementation sends a separate PUT command to store for every
+			//		single item one by one.
+			//
+			//		Note: this is more like a public attribute rather than a public method, because users
+			//		should assign a value to is rather can directly call it.
+			//
+			// finishDef: dojo.Deferred
+			//		A Deferred object to indicate when the update is finished. finishDef.callback() or finishDef.errback()
+			//		must be called in this function, otherwise the grid will break.
+			// moves: Array
+			//		This is an array of arrays. Each element is an array of 3 numbers: startIndex, rowCount, targetIndex.
+			//		These numbers represents a single movement operation, which has the following semantic:
+			//			"rowCount" rows from index "startIndex" are moved to index "targetIndex"
+			//		These movement operations take place in the given order, so the index in later movement is different from
+			//		those in the previous movement, since it is based on the result of the previous movement.
+			// map: Association array
+			//		An index mapping from the original indexes to the new indexes. This map is generated from the "moves" argument,
+			//		so it has exactly the same information as "moves". But it is pre-processed to reflect the final index mapping
+			//		after all these movements are done, so it might be easier to use.
+			var reverseIndexes = [], info = [], indexes = [], ranges = [],
+				from, to, m = {}, i, dif, cat = {}, mostDif, maxCount = 0, t = this, 
+				inner = t.inner, store = t.model.store, moveField = t.moveField, dl = [],
+
+				findBefore = function(to){
+					if(to > 0){
+						return reverseIndexes[to - 1] === undefined ? to - 1 : reverseIndexes[to - 1];
+					}else{
+						return -1;
+					}
+				},
+				findAfter = function(to){
+					for(; to < reverseIndexes.length; ++to){
+						var from = reverseIndexes[to];
+						if(!info[from]){
+							return from === undefined ? to : from;
+						}
+					}
+					return to;
+				},
+				getItem = function(index){
+					var row = inner._call('byIndex', [index]);
+					return row && row.item;
+				},
+				getValue = function(item){
+					return store.fetch ? store.getValue(item, moveField) : item[moveField];
+				},
+				calcValue = function(index, size){
+					var context = info[index];
+					if(context){
+						return context.value;
+					}else if(index < 0){
+						return getValue(getItem(0)) - 1;
+					}else if(index < size){
+						return getValue(getItem(index));
+					}else{
+						return getValue(getItem(size - 1)) + 1;
+					}
+				},
+				setValue = function(item, value){
+					if(store.fetch){
+						store.setValue(item, moveField, value);
+					}else{
+						item = lang.clone(item);
+						item[moveField] = value;
+//                        console.log('setValue:', item, moveField, value);
+						var d = new Deferred();
+						Deferred.when(store.put(item, {
+							overwrite: true
+						}), hitch(d, d.callback));
+						dl.push(d);
+					}
+				},
+				saveStore = function(){
+					if(store.fetch){
+						store.save({
+							onComplete: function(){
+								finishDef.callback();
+							},
+							onError: function(e){
+								finishDef.errback(e);
+							}
+						});
+					}else{
+						(new DeferredList(dl)).then(function(){
+							finishDef.callback();
+						}, function(e){
+							finishDef.errback(e);
+						});
+					}
+				};
+
+			var first = Infinity;
+			for(from in map){
+				from = parseInt(from, 10);
+				to = map[from];
+				m[from] = to;
+				if(to < first){
+					first = to;
+				}
+				reverseIndexes[to] = from;
+			}
+			for(i = first; i < reverseIndexes.length; ++i){
+				if(reverseIndexes[i] === undefined){
+					reverseIndexes[i] = i;
+					m[i] = i;
+				}
+			}
+			//Categorize mappings
+			for(from in m){
+				from = parseInt(from, 10);
+				to = m[from];
+				dif = to - from;
+				if(cat[dif] === undefined){
+					cat[dif] = 1;
+				}else{
+					++cat[dif];
+				}
+			}
+			//Find the category with most rows
+			for(dif in cat){
+				if(cat[dif] > maxCount){
+					maxCount = cat[dif];
+					mostDif = dif;
+				}
+			}
+			//Find out the rows that need to update (all the rows not belong to the biggest category)
+			for(to = 0; to < reverseIndexes.length; ++to){
+				from = reverseIndexes[to];
+				if(from !== undefined && to - from != mostDif){
+					info[from] = {};
+					indexes.push(from);
+				}
+			}
+			//For every row to change, find it's previous and next row in the final order.
+			for(i = 0; i < indexes.length; ++i){
+				from = indexes[i];
+				to = m[from];
+				var before = info[from].before = findBefore(to),
+					after = info[from].after = findAfter(to);
+				ranges.push({
+					start: from,
+					count: 1
+				}, {
+					start: after,
+					count: 1
+				});
+				if(before >= 0){
+					ranges.push({
+						start: before,
+						count: 1
+					});
+				}
+			}
+//            console.log('info:', info, cat);
+			//Apply the change to store.
+			inner._call('when', [{
+				id: [],
+				range: ranges
+			}, function(){
+				var size = inner._call('size');
+				for(var i = 0; i < indexes.length; ++i){
+					from = indexes[i];
+					var fromItem = getItem(from),
+						context = info[from],
+						beforeValue = calcValue(context.before, size),
+						afterValue = calcValue(context.after, size),
+						value = (beforeValue + afterValue) / 2;
+					context.value = value;
+					setValue(fromItem, value);
+				}
+				saveStore();
+			}]);
+		},
+
+		//Private--------------------------------------------------------------------
+		_cmdMove: function(){
+			//Process the move command
+			var d = new Deferred(), t = this,
+				m = t.model, i, args,
+				map = {}, moved, moves = [],
+				size = t.inner._call('size');
+
+			for(i = 0; args = arguments[i]; ++i){
+				m._msg('beforeMove', args);
+				if(args.length == 2){
+					moves = moves.concat(getMoves(args[0], args[1]));
+				}else{
+					moves.push(args);
+				}
+			}
+			for(i = 0; args = moves[i]; ++i){
+				mapIndex(args[0], args[1], args[2], map);
+			}
+			for(i in map){
+				moved = 1;
+				break;
+			}
+			if(moved){
+				t.updateStore(d, moves, map);
+			}else{
+				d.callback();
+			}
+			d.then(function(){
+				m._cache.clear();
+				m._msg('moved', map);
+				m.onMoved(moves, map);
+			});
+			return d;
+		}
+	});
 });

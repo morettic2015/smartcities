@@ -1,7 +1,15 @@
-//>>built
-define("gridx/tests/support/stores/TreeJsonRestStore",["dojo","dojox/data/JsonRestStore"],function(_1,_2){
-return function(_3){
-_1.xhrPost({url:_3.path+"/test_tree_jsonRestStore.php?totalsize="+_3.size,sync:true});
-return new _2({idAttribute:"id",target:_3.path+"/test_tree_jsonRestStore.php"});
+define([
+	'dojo',
+	'dojox/data/JsonRestStore'
+], function(dojo, JsonRestStore){
+
+return function(args){
+	//Clear put/delete records file, so we can always start with a brand new store.
+	dojo.xhrPost({url: args.path + '/test_tree_jsonRestStore.php?totalsize=' + args.size, sync: true});
+
+	return new JsonRestStore({
+		idAttribute: 'id',
+		target: args.path + '/test_tree_jsonRestStore.php'
+	});
 };
 });

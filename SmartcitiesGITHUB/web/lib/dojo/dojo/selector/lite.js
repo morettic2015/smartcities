@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2004-2012, The Dojo Foundation All Rights Reserved.
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
 	Available via Academic Free License >= 2.1 OR the modified BSD license.
 	see: http://dojotoolkit.org/license for details
 */
@@ -8,7 +8,7 @@
 define("dojo/selector/lite",["../has","../_base/kernel"],function(_1,_2){
 "use strict";
 var _3=document.createElement("div");
-var _4=_3.matchesSelector||_3.webkitMatchesSelector||_3.mozMatchesSelector||_3.msMatchesSelector||_3.oMatchesSelector;
+var _4=_3.matches||_3.webkitMatchesSelector||_3.mozMatchesSelector||_3.msMatchesSelector||_3.oMatchesSelector;
 var _5=_3.querySelectorAll;
 var _6=/([^\s,](?:"(?:\\.|[^"])+"|'(?:\\.|[^'])+'|[^,])*)/g;
 _1.add("dom-matches-selector",!!_4);
@@ -21,7 +21,7 @@ var _b=_9?_9.ownerDocument||_9:_2.doc||document,_c=(_5?/^([\w]*)#([\w\-]+$)|^(\.
 _9=_9||_b;
 if(_c){
 if(_c[2]){
-var _d=_2.byId?_2.byId(_c[2]):_b.getElementById(_c[2]);
+var _d=_2.byId?_2.byId(_c[2],_b):_b.getElementById(_c[2]);
 if(!_d||(_c[1]&&_c[1]!=_d.tagName.toLowerCase())){
 return [];
 }

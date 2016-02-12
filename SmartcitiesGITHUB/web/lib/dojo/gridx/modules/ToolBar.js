@@ -1,29 +1,58 @@
-//>>built
-define("gridx/modules/ToolBar",["dojo/_base/kernel","dojo/_base/declare","dijit/Toolbar","../core/_Module"],function(_1,_2,_3,_4){
-_1.experimental("gridx/modules/ToolBar");
-return _2(_4,{name:"toolBar",getAPIPath:function(){
-return {toolBar:this};
-},constructor:function(_5,_6){
-this.widget=new _3(_6);
-this.domNode=this.widget.domNode;
-},preload:function(){
-var t=this,w=t.widget,_7=t.grid.vLayout;
-_7.register(t,"domNode","headerNode",-10);
-t.batchConnect([w,"addChild","reLayout",_7],[w,"removeChild","reLayout",_7]);
-t._initFocus();
-},_initFocus:function(){
-var t=this,_8=t.grid.focus;
-if(_8){
-_8.registerArea({name:t.name,priority:-1,focusNode:t.domNode,scope:t,doFocus:t._doFocus});
-}
-},_doFocus:function(_9){
-var _a=this.widget.getChildren();
-if(_a[0]){
-_a[0].focus();
-}
-return _a.length;
-},destroy:function(){
-this.inherited(arguments);
-this.widget.destroyRecursive();
-}});
+define([
+	"dojo/_base/declare",
+	"dojo/_base/lang",
+	'dijit/Toolbar',
+	"../core/_Module",
+	'./Bar'
+], function(declare, lang, Toolbar, _Module){
+
+/*=====
+	return declare(_Module, {
+		// summary:
+		//		module name: toolBar.
+		//		Add toolbar on top of grid.
+		// description:
+		//		Add toolbar based on Bar module. This module is only for conveniency and backward compatibility.
+		//		Using Bar module directly is recommended.
+
+		// widget: [readonly] Object
+		//		
+		widget: null,
+
+		// domNode: [readonly] HTMLElement
+		//		
+		domNode: null
+	});
+=====*/
+
+	return declare(_Module, {
+		name: 'toolBar',
+
+		required: ['bar'],
+
+		constructor: function(grid, args){
+			this._def = lang.mixin(args, {
+				bar: 'top',
+				row: 0,
+				col: 0,
+				pluginClass: Toolbar,
+				'aria-label': 'grid toolbar',
+				className: 'gridxBarToolBar'
+			});
+		},
+
+		preload: function(){
+			this.grid.bar.defs.push(this._def);
+		},
+
+		load: function(){
+			var t = this,
+				bar = t.grid.bar;
+			bar.loaded.then(function(){
+				t.widget = bar.plugins.top[0][0];
+				t.domNode = t.widget.domNode;
+				t.loaded.callback();
+			});
+		}
+	});
 });

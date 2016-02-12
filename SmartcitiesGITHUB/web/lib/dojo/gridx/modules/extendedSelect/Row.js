@@ -1,175 +1,509 @@
-//>>built
-define("gridx/modules/extendedSelect/Row",["dojo/_base/declare","dojo/_base/array","dojo/_base/query","dojo/_base/lang","dojo/_base/Deferred","dojo/_base/sniff","dojo/dom-class","dojo/mouse","dojo/keys","../../core/_Module","./_RowCellBase"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9,_a,_b){
-return _1(_b,{name:"selectRow",rowMixin:{select:function(){
-this.grid.select.row.selectById(this.id);
-return this;
-},deselect:function(){
-this.grid.select.row.deselectById(this.id);
-return this;
-},isSelected:function(){
-return this.model.getMark(this.id)===true;
-}},triggerOnCell:false,treeMode:true,getSelected:function(){
-return this.model.getMarkedIds();
-},isSelected:function(){
-return _2.every(arguments,function(id){
-return this.model.getMark(id)===true;
-},this);
-},clear:function(_c){
-_3(".gridxRowSelected",this.grid.mainNode).forEach(function(_d){
-_7.remove(_d,"gridxRowSelected");
-_d.removeAttribute("aria-selected");
-});
-_3(".gridxRowPartialSelected",this.grid.mainNode).forEach(function(_e){
-_7.remove(_e,"gridxRowPartialSelected");
-});
-this._clear();
-this.model.clearMark();
-if(!_c){
-this._onSelectionChange();
-}
-},onHighlightChange:function(){
-},_type:"row",_init:function(){
-var t=this,g=t.grid;
-t.model.treeMarkMode("",t.arg("treeMode"));
-t.inherited(arguments);
-t.model._spTypes.select=1;
-t.batchConnect(g.rowHeader&&[g.rowHeader,"onMoveToRowHeaderCell","_onMoveToRowHeaderCell"],[g,"onRowMouseDown",function(e){
-if(_8.isLeft(e)&&((t.arg("triggerOnCell")&&!_7.contains(e.target,"gridxTreeExpandoIcon")&&!_7.contains(e.target,"gridxTreeExpandoInner"))||!e.columnId)){
-t._isOnCell=e.columnId;
-if(t._isOnCell){
-g.body._focusCellCol=e.columnIndex;
-}
-t._start({row:e.visualIndex},g._isCopyEvent(e),e.shiftKey);
-}
-}],[g,"onRowMouseOver",function(e){
-if(t._selecting&&t.arg("triggerOnCell")&&e.columnId){
-g.body._focusCellCol=e.columnIndex;
-}
-t._highlight({row:e.visualIndex});
-}],[g,_6("ff")<4?"onRowKeyUp":"onRowKeyDown",function(e){
-if(e.keyCode==_9.SPACE&&(!e.columnId||(t.arg("triggerOnCell")&&(!g.focus||g.focus.currentArea()=="body")))){
-t._isOnCell=e.columnId;
-t._start({row:e.visualIndex},g._isCopyEvent(e),e.shiftKey);
-t._end();
-}
-}]);
-},_markById:function(_f,_10){
-var m=this.model;
-_2.forEach(_f,function(arg){
-m.markById(arg,_10);
-});
-m.when();
-},_markByIndex:function(_11,_12){
-var g=this.grid,m=this.model,_13=g.body,_14;
-_2.forEach(_11,function(arg){
-if(_4.isArrayLike(arg)){
-var _15=arg[0],end=arg[1],i,_16;
-if(_15>=0&&_15<Infinity){
-if(end>=_15&&end<Infinity){
-_16=end-_15+1;
-}else{
-_16=_13.visualCount-_15;
-}
-_14=_13.getRowInfo({visualIndex:_15});
-_15=_14.rowIndex;
-for(i=0;i<_16;++i){
-m.markByIndex(i+_15,_12,"",_14.parentId);
-}
-}
-}else{
-if(arg>=0&&arg<Infinity){
-_14=_13.getRowInfo({visualIndex:arg});
-m.markByIndex(_14.rowIndex,_12,"",_14.parentId);
-}
-}
-});
-return m.when();
-},_onRender:function(_17,_18){
-var t=this,i,end=_17+_18;
-for(i=_17;i<end;++i){
-var _19={row:i};
-if(t._isSelected(_19)||(t._selecting&&t._toSelect&&t._inRange(i,t._startItem.row,t._currentItem.row,1))){
-t._doHighlight(_19,1);
-}
-}
-},_onMark:function(id,_1a,_1b,_1c){
-if(_1c=="select"){
-var _1d=_3("[rowid=\""+id+"\"]",this.grid.mainNode);
-if(_1d.length){
-_1d.forEach(function(_1e){
-var _1f=_1a&&_1a!="mixed";
-_7.toggle(_1e,"gridxRowSelected",_1f);
-_7.toggle(_1e,"gridxRowPartialSelected",_1a=="mixed");
-_1e.setAttribute("aria-selected",!!_1f);
-});
-this.onHighlightChange({row:parseInt(_1d[0].getAttribute("visualindex"),10)},_1a);
-}
-}
-},_onMoveToCell:function(_20,_21,e){
-var t=this;
-if(t.arg("triggerOnCell")&&e.shiftKey&&(e.keyCode==_9.UP_ARROW||e.keyCode==_9.DOWN_ARROW)){
-t._start({row:_20},t.grid._isCopyEvent(e),1);
-t._end();
-}
-},_onMoveToRowHeaderCell:function(_22,e){
-if(e.shiftKey){
-this._start({row:_22},this.grid._isCopyEvent(e),1);
-this._end();
-}
-},_isSelected:function(_23){
-var t=this,id=t._getRowId(_23.row);
-return t._isRange?_2.indexOf(t._refSelectedIds,id)>=0:t.model.getMark(id);
-},_beginAutoScroll:function(){
-var _24=this.grid.autoScroll;
-this._autoScrollH=_24.horizontal;
-_24.horizontal=false;
-},_endAutoScroll:function(){
-this.grid.autoScroll.horizontal=this._autoScrollH;
-},_doHighlight:function(_25,_26){
-_3("[visualindex=\""+_25.row+"\"]",this.grid.mainNode).forEach(function(_27){
-_7.toggle(_27,"gridxRowSelected",_26);
-_27.setAttribute("aria-selected",!!_26);
-});
-this.onHighlightChange(_25,_26);
-},_end:function(){
-this.inherited(arguments);
-delete this._isOnCell;
-},_focus:function(_28){
-var g=this.grid,_29=g.focus;
-if(_29){
-g.body._focusCellRow=_28.row;
-_29.focusArea(this._isOnCell?"body":"rowHeader",true);
-}
-},_addToSelected:function(_2a,end,_2b){
-var t=this,bd=t.grid.body,m=t.model,_2c=t._lastEndItem,a,b,i,d;
-if(!t._isRange){
-t._refSelectedIds=m.getMarkedIds();
-}
-if(t._isRange&&t._inRange(end.row,_2a.row,_2c.row)){
-a=Math.min(end.row,_2c.row);
-b=Math.max(end.row,_2c.row);
-_2a=bd.getRowInfo({visualIndex:a}).rowIndex+1;
-end=bd.getRowInfo({visualIndex:b}).rowIndex;
-d=new _5();
-m.when({start:_2a,count:end-_2a+1},function(){
-for(i=_2a;i<=end;++i){
-var id=m.indexToId(i),_2d=_2.indexOf(t._refSelectedIds,id)>=0;
-m.markById(id,_2d);
-}
-}).then(function(){
-m.when(null,function(){
-d.callback();
-});
-});
-return d;
-}else{
-a=Math.min(_2a.row,end.row);
-b=Math.max(_2a.row,end.row);
-for(i=a;i<=b;++i){
-var _2e=bd.getRowInfo({visualIndex:i});
-m.markByIndex(_2e.rowIndex,_2b,"",_2e.parentId);
-}
-return m.when();
-}
-}});
+define([
+/*====="../../core/Row", =====*/
+	"dojo/_base/declare",
+	"dojo/_base/array",
+	"dojo/_base/event",
+	// "dojo/query",
+	'../../support/query',
+	"dojo/_base/lang",
+	"dojo/_base/Deferred",
+	"dojo/_base/sniff",
+	"dojo/dom-class",
+	"dojo/mouse",
+	"dojo/keys",
+	"../../core/_Module",
+	"./_RowCellBase"
+], function(/*=====Row, =====*/declare, array, event, query, lang, Deferred, has, domClass, mouse, keys, _Module, _RowCellBase){
+
+/*=====
+	Row.select = function(){
+		// summary:
+		//		Select this row.
+	};
+	Row.deselect = function(){
+		// summary:
+		//		Deselect this row.
+	};
+	Row.isSelected = function(){
+		// summary:
+		//		Check whether this row is selected.
+	};
+	Row.isSelectable = function(){
+		// summary:
+		//		Check whether this row is selectable.
+	};
+	Row.setSelectable = function(selectable){
+		// summary:
+		//		Set this row to be selectable or not.
+	};
+	
+	return declare(_RowCellBase, {
+		// summary:
+		//		module name: selectRow.
+		//		Provides advanced row selections.
+		// description:
+		//		This module provides an advanced way for selecting rows by clicking, swiping, SPACE key, or CTRL/SHIFT CLICK to select multiple rows.
+		//		This module uses gridx/core/model/extensions/Mark.
+		//
+		// example:
+		//		1. Use select api on grid row object obtained from grid.row(i)
+		//		|	grid.row(1).select();
+		//		|	grid.row(1).deselect();
+		//		|	grid.row(1).isSelected();
+		//
+		//		2. Use select api on select.row module
+		//		|	grid.select.row.selectById(rowId);
+		//		|	grid.select.row.deSelectById(rowId);
+		//		|	grid.select.row.isSelected(rowId);
+		//		|	grid.select.row.getSelected();//[]
+		//		|	grid.select.row.clear();
+
+		// triggerOnCell: Boolean
+		//		Whether row will be selected by clicking on cell, false by default
+		triggerOnCell: false,
+
+		// treeMode: Boolean
+		//		Whether to apply tri-state selection for child rows.
+		treeMode: true,
+
+		// unselectable: Object
+		//		User can set unselectable rows in this hash object. The hash key is the row ID.
+		unselectable: {},
+
+		selectById: function(rowId){
+			// summary:
+			//		Select rows by id.
+			// rowId: String...
+			//		Row IDs
+		},
+
+		deselectById: function(rowId){
+			// summary:
+			//		Deselect rows by id.
+			// rowId: String...
+			//		Row ID
+		},
+
+		selectByIndex: function(rowIndex){
+			// summary:
+			//		Select a row by index
+			//		This function can also select multiple rows.
+			//	|	//Select several individual rows:
+			//	|	gridx.select.row.selectByIndex(rowIndex1, rowIndex2, rowIndex3, ...);
+			//	|	//Select a range of rows:
+			//	|	gridx.select.row.selectByIndex([rowStartIndex, rowEndIndex]);
+			//	|	//Select multiple ranges of rows:
+			//	|	gridx.select.row.selectByIndex([rowStartIndex1, rowEndIndex1], [rowStartIndex2, rowEndIndex2], ...);
+			// rowIndex: Integer...
+			//		Row visual indexes
+		},
+
+		deSelectByIndex: function(rowIndex){
+			// summary:
+			//		Deselect a row by index.
+			//		This function can also deselect multiple rows. Please refer to selectByIndex().
+			// rowIndex: Integer...
+			//		Row visual indexes
+		},
+
+		getSelected: function(){
+			// summary:
+			//		Get id array of all selected row IDs.
+		},
+
+		isSelected: function(rowId){
+			// summary:
+			//		Check if the given rows are all selected.
+			// rowId: String...
+			//		Row IDs
+			// returns:
+			//		True if all given columns are selected; false if not.
+		},
+
+		clear: function(){
+			// summary:
+			//		Deselected all selected rows;
+		},
+
+		onHighlightChange: function(){
+			// summary:
+			//		Fired when row highlight is changed.
+			// tags:
+			//		private
+		}
+	});
+=====*/
+
+	return declare(_RowCellBase, {
+		name: 'selectRow',
+
+		allowRight: false,		//allow mouse right click to trigger select
+
+		unselectable: {},
+
+		rowMixin: {
+			select: function(){
+				this.grid.select.row.selectById(this.id);
+				return this;
+			},
+
+			deselect: function(){
+				this.grid.select.row.deselectById(this.id);
+				return this;
+			},
+
+			isSelected: function(){
+				return this.model.getMark(this.id) === true;
+			},
+
+			isSelectable: function(){
+				return this.grid.select.row._isSelectable(this.id);
+			},
+
+			setSelectable: function(selectable){
+				this.grid.select.row.setSelectable(this.id, selectable);
+			}
+		},
+
+		//Public-----------------------------------------------------------------
+		treeMode: true,
+
+		setSelectable: function(rowId, selectable){
+			var t = this,
+				m = t.model,
+				n = t.grid.body.getRowNode({
+					rowId: rowId
+				});
+			m.setMarkable(rowId, selectable);
+			t.unselectable[rowId] = !selectable;
+			if(n){
+				domClass.toggle(n, 'gridxRowUnselectable', !selectable);
+				t.onHighlightChange({row: parseInt(n.getAttribute('visualindex'), 10)}, m.getMark(rowId));
+				t.onSelectionChange();
+			}
+		},
+
+		getSelected: function(){
+			return this.model.getMarkedIds();
+		},
+
+		isSelected: function(){
+			return array.every(arguments, function(id){
+				return this.model.getMark(id) === true;
+			}, this);
+		},
+
+		clear: function(silent){
+			query(".gridxRowSelected", this.grid.mainNode).forEach(function(node){
+				domClass.remove(node, 'gridxRowSelected');
+				node.removeAttribute('aria-selected');
+			});
+			query(".gridxRowPartialSelected", this.grid.mainNode).forEach(function(node){
+				domClass.remove(node, 'gridxRowPartialSelected');
+			});	
+			this._clear();
+			this.model.clearMark();
+			if(!silent){
+				this._onSelectionChange();
+			}
+		},
+
+		onHighlightChange: function(){},
+
+		//Private---------------------------------------------------------------------
+		_type: 'row',
+
+		_isSelectable: function(rowId){
+			return !this.arg('unselectable', {})[rowId];
+		},
+
+		_getUnselectableRows: function(){
+			var ret = [],
+				t = this,
+				unselectable = this.arg('unselectable');
+			for(var id in unselectable){
+				if(unselectable[id] && t.model.byId(id)){
+					ret.push(id);
+				}
+			}
+			return ret;
+		},
+
+		_init: function(){
+			var t = this,
+				g = t.grid,
+				unselectable = t.arg('unselectable', {});
+
+			//#12078
+			//tri-state selection status is meaningless for grid without tree module
+			t.model.treeMarkMode('', t.arg('treeMode') && g.tree);
+			for(var id in unselectable){
+				t.model.setMarkable(id, !unselectable[id]);
+			}
+			t.inherited(arguments);
+			//Use special types to make filtered out rows unselected
+			t.model._spTypes.select = 1;	//1 as true
+			t.model.setMarkable(lang.hitch(t, t._isSelectable));
+			function canSelect(e){
+				if(e.columnId){
+					var col = g._columnsById[e.columnId];
+					if(t.arg('triggerOnCell')){
+						return col.rowSelectable !== false &&
+							!domClass.contains(e.target, 'gridxTreeExpandoIcon') &&
+							!domClass.contains(e.target, 'gridxTreeExpandoInner');
+					}
+					return col.rowSelectable;
+				}
+				return !e.columnId;
+			}
+			t.batchConnect(
+				g.rowHeader && [g.rowHeader, 'onMoveToRowHeaderCell', '_onMoveToRowHeaderCell'],
+				[g, 'onRowMouseDown', function(e){
+					if((mouse.isLeft(e) || t.arg('allowRight')) && canSelect(e)){
+						t._isOnCell = e.columnId;
+						if(t._isOnCell){
+							g.body._focusCellCol = e.columnIndex;
+						}
+						t._start({row: e.visualIndex}, g._isCtrlKey(e), e.shiftKey);
+						if(!e.shiftKey && !t.arg('canSwept')){
+							t._end();
+						}
+					}
+				}],
+				[g, 'onRowTouchStart', function(e){
+					if(canSelect(e)){
+						t._isOnCell = e.columnId;
+						if(t._isOnCell){
+							g.body._focusCellCol = e.columnIndex;
+						}
+						t._start({row: e.visualIndex}, g._isCtrlKey(e) || e.columnId === '__indirectSelect__', e.shiftKey);
+						if(!e.shiftKey && !t.arg('canSwept')){
+							t._end();
+						}
+					}
+				}],
+				[g, 'onRowTouchEnd', '_end'],
+				[g.body, 'onAfterRow', function(row){
+					var unselectable = !row.isSelectable();
+					domClass.toggle(row.node(), 'gridxRowUnselectable', unselectable);
+				}],
+				[g, 'onRowMouseOver', function(e){
+					if(t._selecting && t.arg('triggerOnCell') && e.columnId){
+						g.body._focusCellCol = e.columnIndex;
+					}
+					t._highlight({row: e.visualIndex});
+				}],
+				[g, has('ff') < 4 ? 'onRowKeyUp' : 'onRowKeyDown', function(e){
+					if(e.keyCode == keys.SPACE && (!e.columnId ||
+							(g._columnsById[e.columnId].rowSelectable) ||
+							//When trigger on cell, check if we are navigating on body, reducing the odds of conflictions.
+							(t.arg('triggerOnCell') && (!g.focus || g.focus.currentArea() == 'body')))){
+						event.stop(e);
+						t._isOnCell = e.columnId;
+						t._start({row: e.visualIndex}, g._isCtrlKey(e), e.shiftKey);
+						t._end();
+					}
+				}],
+				[g.model, 'setStore', '_syncUnselectable']);
+		},
+
+		_markById: function(args, toSelect){
+			var m = this.model;
+			array.forEach(args, function(arg){
+				m.markById(arg, toSelect);
+			});
+			m.when();
+		},
+
+		_markByIndex: function(args, toSelect){
+			var g = this.grid,
+				m = this.model,
+				view = g.view,
+				rowInfo;
+			array.forEach(args, function(arg){
+				if(lang.isArrayLike(arg)){
+					var start = arg[0],
+						end = arg[1],
+						i, count;
+					if(start >= 0 && start < Infinity){
+						if(end >= start && end < Infinity){
+							count = end - start + 1;
+						}else{
+							count = view.visualCount - start;
+						}
+						rowInfo = view.getRowInfo({visualIndex: start});
+						start = rowInfo.rowIndex;
+						for(i = 0; i < count; ++i){
+							m.markByIndex(i + start, toSelect, '', rowInfo.parentId);
+						}
+					}
+				}else if(arg >= 0 && arg < Infinity){
+					rowInfo = view.getRowInfo({visualIndex: arg});
+					m.markByIndex(rowInfo.rowIndex, toSelect, '', rowInfo.parentId);
+				}
+			});
+			return m.when();
+		},
+
+		_onRender: function(start, count){
+			var t = this, i, end = start + count;
+			for(i = start; i < end; ++i){
+				var item = {row: i},
+					toHighlight = t._isSelected(item) || (t._selecting && t._toSelect &&
+						t._inRange(i, t._startItem.row, t._currentItem.row, 1));
+				if(toHighlight){
+					t._doHighlight(item, toHighlight);
+				}
+			}
+		},
+
+		_onMark: function(id, toMark, oldState, type){
+			if(type == 'select' && this.grid.body.renderedIds[id]){
+			// if(type == 'select'){
+				var nodes = query('[rowid="' + this.grid._escapeId(id) + '"]', this.grid.mainNode);
+				if(nodes.length){
+					nodes.forEach(function(node){
+						var selected = toMark && toMark != 'mixed';
+						domClass.toggle(node, 'gridxRowSelected', selected);
+						domClass.toggle(node, 'gridxRowPartialSelected', toMark == 'mixed');
+						node.setAttribute('aria-selected', !!selected);
+					});
+					this.onHighlightChange({row: parseInt(nodes[0].getAttribute('visualindex'), 10)}, toMark);
+				}
+			}
+		},
+
+		_onMoveToCell: function(rowVisIndex, colIndex, e){
+			var t = this;
+			if(t.arg('triggerOnCell') && e.shiftKey && (e.keyCode == keys.UP_ARROW || e.keyCode == keys.DOWN_ARROW)){
+				t._start({row: rowVisIndex}, t.grid._isCtrlKey(e), 1);	//1 as true
+				t._end();
+			}
+		},
+
+		_onMoveToRowHeaderCell: function(rowVisIndex, e){
+			if(e.shiftKey){
+				this._start({row: rowVisIndex}, this.grid._isCtrlKey(e), 1);	//1 as true
+				this._end();
+			}
+		},
+
+		_isSelected: function(target){
+			var t = this,
+				id = t._getRowId(target.row);
+			return t._isRange ? array.indexOf(t._refSelectedIds, id) >= 0 : t.model.getMark(id);
+		},
+
+		_beginAutoScroll: function(){
+			this.grid.autoScroll.horizontal = false;
+		},
+
+		_endAutoScroll: function(){
+			this.grid.autoScroll.horizontal = true;
+		},
+
+		_doHighlight: function(target, toHighlight){
+			query('[visualindex="' + target.row + '"]', this.grid.mainNode).forEach(function(node){
+				var selected = toHighlight && toHighlight != 'mixed';
+				domClass.toggle(node, 'gridxRowSelected', selected);
+				domClass.toggle(node, 'gridxRowPartialSelected', toHighlight == 'mixed');
+				node.setAttribute('aria-selected', !!selected);
+			});
+			this.onHighlightChange(target, toHighlight);
+		},
+
+		_end: function(){
+			this.inherited(arguments);
+			delete this._isOnCell;
+		},
+
+		_focus: function(target){
+			var g = this.grid, focus = g.focus;
+			if(focus){
+				g.body._focusCellRow = target.row;
+				focus.focusArea(this._isOnCell ? 'body' : 'rowHeader', true);
+			}
+		},
+
+		_clearSelection: function() {
+			var selected = this.getSelected(),
+				t = this;
+
+			query(".gridxRowSelected", this.grid.mainNode).forEach(function(node){
+				domClass.remove(node, 'gridxRowSelected');
+				node.removeAttribute('aria-selected');
+			});
+			query(".gridxRowPartialSelected", this.grid.mainNode).forEach(function(node){
+				domClass.remove(node, 'gridxRowPartialSelected');
+			});
+			array.forEach(selected, function(rowId) {
+				t.model.markById(rowId, 0);
+			});
+		},
+
+		_addToSelected: function(start, end, toSelect){
+			var t = this,
+				view = t.grid.view,
+				m = t.model,
+				lastEndItem = t._lastEndItem,
+				a, b, i, d,
+				selectedRows = [];
+
+			if(!t._isRange){
+				t._refSelectedIds = m.getMarkedIds();
+			}
+			// if (t._isRange) this.model.clearMark();
+			if(t._isRange && t._inRange(end.row, start.row, lastEndItem.row)){
+				console.log(end.row, start.row, lastEndItem.row);
+				a = Math.min(end.row, lastEndItem.row);
+				b = Math.max(end.row, lastEndItem.row);
+				start = view.getRowInfo({visualIndex: a}).rowIndex + 1;
+				end = view.getRowInfo({visualIndex: b}).rowIndex;
+				d = new Deferred();
+				m.when({
+					start: start, 
+					count: end - start + 1
+				}, function(){
+					for(i = start; i <= end; ++i){
+						var id = m.indexToId(i),
+							selected = array.indexOf(t._refSelectedIds, id) >= 0;
+						m.markById(id, selected); 
+					}
+				}).then(function(){
+					m.when(null, function(){
+						d.callback();
+					});
+				});
+				return d;
+			}else{
+				a = Math.min(start.row, end.row);
+				b = Math.max(start.row, end.row);
+
+				this._clearSelection();
+ 				for(i = a; i <= b; ++i){
+					var rowInfo = view.getRowInfo({visualIndex: i});
+					m.markByIndex(rowInfo.rowIndex, toSelect, '', rowInfo.parentId);
+				}
+				return m.when();
+			}
+		},
+
+		_highlightSingle: function(target, toHighlight){	//prevent highlight at UI level if a row is not selectable
+			var rowId = this._getRowId(target.row);
+			if(!this._isSelectable(rowId)){
+				toHighlight = this.model.getMark(rowId);
+			}else{
+				toHighlight = toHighlight ? this._toSelect : this._isSelected(target);
+			}
+			this._doHighlight(target, toHighlight);
+		},
+		
+		_syncUnselectable: function(){
+			var t = this,
+				unselectable = t.arg('unselectable');
+			for(var id in unselectable){
+				t.model.setMarkable(id, !unselectable[id]);
+			}
+		}
+	});
 });

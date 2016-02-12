@@ -1,370 +1,673 @@
-//>>built
-define("gridx/modules/Tree",["dojo/_base/kernel","dojo/_base/declare","dojo/_base/array","dojo/dom-class","dojo/dom-geometry","dojo/_base/lang","dojo/_base/Deferred","dojo/DeferredList","dojo/query","dojo/keys","../core/util","../core/_Module"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9,_a,_b,_c){
-_1.experimental("gridx/modules/Tree");
-function _d(_e){
-var n=_e.firstChild;
-return n&&n.className&&_4.contains(n,"gridxTreeExpandoCell")&&!_4.contains(n,"gridxTreeExpandoLoading");
-};
-_c._markupAttrs.push("!expandLevel");
-return _2(_c,{name:"tree",constructor:function(){
-this._clear();
-},getAPIPath:function(){
-return {tree:this};
-},preload:function(){
-var t=this,g=t.grid;
-if(t.model.treeMarkMode){
-t.model.treeMarkMode("",true);
-}
-g.domNode.setAttribute("role","treegrid");
-t.batchConnect([g.body,"collectCellWrapper","_createCellWrapper"],[g.body,"onAfterRow","_onAfterRow"],[g,"onCellClick","_onCellClick"],[g,"setStore","_clear"]);
-t._initExpandLevel();
-t._initFocus();
-if(g.persist){
-var id,_f=g.persist.registerAndLoad("tree",function(){
-return {openInfo:t._openInfo,parentOpenInfo:t._parentOpenInfo};
-});
-if(_f&&_f.openInfo&&_f.parentOpenInfo){
-var _10=t._openInfo=_f.openInfo,_11=t._parentOpenInfo=_f.parentOpenInfo;
-for(id in _10){
-_10[id].openned=_11[id];
-}
-t._persisted=1;
-}
-}
-},load:function(_12){
-var t=this;
-if(t._persisted){
-t.loaded.callback();
-}else{
-t.model.when({},function(){
-t._openInfo[""].count=t.model.size();
-}).then(function(){
-t.loaded.callback();
-});
-}
-},rowMixin:{canExpand:function(){
-return this.grid.tree.canExpand(this.id);
-},isExpanded:function(){
-return this.grid.tree.isExpanded(this.id);
-},expand:function(){
-return this.grid.tree.expand(this.id);
-},collapse:function(){
-return this.grid.tree.collapse(this.id);
-},expandRecursive:function(){
-return this.grid.expandRecursive(this.id);
-},collapseRecursive:function(){
-return this.grid.collapseRecursive(this.id);
-}},nested:false,expandoPadding:18,expandLevel:1/0,onExpand:function(id){
-},onCollapse:function(id){
-},canExpand:function(id){
-var t=this,m=t.model,_13=m.treePath(id).length,_14=t.arg("expandLevel");
-return m.hasChildren(id)&&(!(_14>0)||_13<=_14);
-},isExpanded:function(id){
-return !!this._openInfo[id];
-},expand:function(id,_15){
-var d=new _7(),t=this;
-if(id&&!t.isExpanded(id)){
-t.model.when({parentId:id,start:0},function(){
-t._logicExpand(id);
-}).then(function(){
-_7.when(t._updateBody(id,_15),function(){
-d.callback();
-t.onExpand(id);
-});
-});
-}else{
-d.callback();
-}
-return d;
-},collapse:function(id,_16){
-var d=new _7(),t=this;
-if(id&&t.isExpanded(id)){
-t._logicCollapse(id);
-_7.when(t._updateBody(id,_16),function(){
-d.callback();
-t.onCollapse(id);
-});
-}else{
-d.callback();
-}
-return d;
-},expandRecursive:function(id,_17){
-var t=this,m=t.model,d=new _7();
-t.expand(id,1).then(function(){
-var i,dl=[],_18=m.size(id);
-m.when({start:0,parentId:id},function(){
-for(i=0;i<_18;++i){
-var _19=m.indexToId(i,id);
-dl.push(t.expandRecursive(_19,1));
-}
-}).then(function(){
-new _8(dl).then(function(){
-_7.when(t._updateBody(id,_17),function(){
-d.callback();
-});
-});
-});
-});
-return d;
-},collapseRecursive:function(id,_1a){
-var d=new _7(),_1b=_6.hitch(d,d.callback),_1c=_6.hitch(d,d.errback),t=this,_1d=t._openInfo[id||""],i,dl=[];
-if(_1d){
-for(i=_1d.openned.length-1;i>=0;--i){
-dl.push(t.collapseRecursive(_1d.openned[i],1));
-}
-new _8(dl).then(function(){
-if(id){
-t.collapse(id,_1a).then(_1b,_1c);
-}else{
-_7.when(t._updateBody("",_1a),_1b,_1c);
-}
-});
-}else{
-_1b();
-}
-return d;
-},refresh:function(){
-var t=this,m=t.model,d=new _7(),_1e=_6.hitch(d,d.callback),_1f=_6.hitch(d,d.errback),id,ids=[],_20=[],_21=t.grid.body;
-for(id in t._openInfo){
-if(m.isId(id)){
-ids.push(id);
-_20.push({parentId:id,start:0});
-}
-}
-t._clear();
-m.when(_20,function(){
-var _22=t._openInfo[""].count=m.size();
-_3.forEach(ids,t._logicExpand,t);
-_21.visualCount=t.getVisualSize(0,_22);
-}).then(function(){
-_21.refresh().then(_1e,_1f);
-},_1f);
-return d;
-},getRowInfoByVisualIndex:function(_23,_24){
-var t=this,_25=t._openInfo[""].openned,_26,i;
-for(i=0;i<_25.length;++i){
-_26=t._openInfo[_25[i]];
-if(_26.index<_24){
-_23+=_26.count+1;
-}else{
-break;
-}
-}
-var _27={parentId:"",preCount:0};
-while(!_27.found){
-_27=t._getChild(_23,_27);
-}
-return _27;
-},getVisualIndexByRowInfo:function(_28,_29,_2a){
-var _2b=this._getAbsoluteVisualIndex(_28,_29);
-return _2b>=0?_2b-this._getAbsoluteVisualIndex("",_2a):null;
-},getVisualSize:function(_2c,_2d,_2e){
-var _2f=this._openInfo[_2e||""];
-if(_2f){
-var i,len=_2f.openned.length,_30,_31=_2d;
-for(i=0;i<len;++i){
-_30=this._openInfo[_2f.openned[i]];
-if(_30.index>=_2c&&_30.index<_2c+_2d){
-_31+=_30.count;
-}
-}
-return _31;
-}
-return 0;
-},_clear:function(){
-var _32=[];
-this._openInfo={"":{id:"",parentId:null,index:-1,count:0,openned:_32}};
-this._parentOpenInfo={"":_32};
-},_initExpandLevel:function(){
-var _33=this.grid._columns;
-if(!_3.some(_33,function(col){
-return col.expandLevel;
-})){
-if(this.arg("nested")){
-_3.forEach(_33,function(col,i){
-col.expandLevel=i+1;
-});
-}else{
-_33[0].expandLevel=1;
-}
-}
-},_createCellWrapper:function(_34,_35,_36){
-var t=this,col=t.grid._columnsById[_36];
-if(col.expandLevel){
-var _37=t.arg("nested"),_38=t.model.treePath(_35).length,_39=t.arg("expandLevel");
-if((!_37||col.expandLevel==_38)&&(!(_39>0)||_38<=_39+1)){
-var _3a=t.model.hasChildren(_35),_3b=t.isExpanded(_35),pad=0,_3c=t.arg("expandoPadding"),ltr=t.grid.isLeftToRight();
-if(!_37){
-pad=(_38-1)*_3c;
-}
-if(_38==_39+1){
-if(_37){
-return;
-}
-_3a=false;
-}
-_34.push({priority:0,wrap:function(_3d){
-return ["<div class='gridxTreeExpandoCell ",_3b?"gridxTreeExpandoCellOpen":"","' style='padding-",ltr?"left":"right",": ",pad+_3c,"px;'>","<span class='gridxTreeExpandoIcon ",_3a?"":"gridxTreeExpandoIconNoChildren","' ","style='margin-",ltr?"left":"right",": ",pad,"px;'>","<span class='gridxTreeExpandoInner'>",_3b?"-":"+","</span></span><span class='gridxTreeExpandoContent'>",_3d,"</span></span>"].join("");
-}});
-}
-}
-},_onCellClick:function(e){
-if(_d(e.cellNode)){
-var t=this,pos=_5.position(_9(".gridxTreeExpandoIcon",e.cellNode)[0]);
-if(e.clientX>=pos.x&&e.clientX<=pos.x+pos.w&&e.clientY>=pos.y&&e.clientY<=pos.y+pos.h){
-if(t.isExpanded(e.rowId)){
-t.collapse(e.rowId);
-}else{
-t.expand(e.rowId);
-}
-}
-}
-},_updateBody:function(id,_3e){
-var t=this,_3f=t.grid.body;
-_3f.updateRootRange(_3f.rootStart,_3f.rootCount);
-if(!_3e){
-var _40=_3f.getRowNode({rowId:id}),n,_41,_42=t.isExpanded(id);
-if(_40){
-n=_9(".gridxTreeExpandoCell",_40)[0];
-if(n){
-_41=_9(".gridxTreeExpandoIcon",n)[0];
-_41.firstChild.innerHTML="o";
-_4.add(n,"gridxTreeExpandoLoading");
-}
-}
-var _43=id?t.getVisualIndexByRowInfo(t.model.treePath(id).pop(),t.model.idToIndex(id),_3f.rootStart):-1;
-return _3f.refresh(_43+1).then(function(){
-if(n){
-_40.setAttribute("aria-expanded",_42?"true":"false");
-_41.firstChild.innerHTML=_42?"-":"+";
-_4.remove(n,"gridxTreeExpandoLoading");
-_4.toggle(n,"gridxTreeExpandoCellOpen",_42);
-}
-});
-}
-return null;
-},_getAbsoluteVisualIndex:function(_44,_45){
-var _46=this._openInfo[_44||""];
-if(_46){
-var _47=0,_48=this._openInfo,_49=function(_4a){
-_47+=_45;
-var _4b,i;
-for(i=0;i<_4a.openned.length;++i){
-_4b=_48[_4a.openned[i]];
-if(_4b.index<_45){
-_47+=_4b.count;
-}else{
-break;
-}
-}
-_45=_4a.index;
-if(_4a.id){
-_47++;
-}
-return _48[_4a.parentId];
-};
-while(_46){
-_46=_49(_46);
-}
-return _47;
-}
-return -1;
-},_logicExpand:function(id){
-var t=this,m=t.model,_4c=m.treePath(id),_4d=_4c.length,_4e=t.arg("expandLevel");
-if(m.hasChildren(id)&&(!(_4e>0)||_4d<=_4e)){
-var _4f=_4c.pop(),_50=t._openInfo,poi=t._parentOpenInfo,_51=poi[_4f]=poi[_4f]||[];
-poi[id]=poi[id]||[];
-if(!_50[id]){
-var _52=m.idToIndex(id);
-if(_52>=0){
-var _53=m.size(id),i=_b.biSearch(_51,function(_54){
-return _50[_54].index-_52;
-});
-if(_51[i]!==id){
-_51.splice(i,0,id);
-}
-for(i=poi[id].length-1;i>=0;--i){
-_53+=_50[poi[id][i]].count;
-}
-_50[id]={id:id,parentId:_4f,index:_52,count:_53,openned:poi[id]};
-var _55=_50[_4f];
-while(_55){
-_55.count+=_53;
-_55=_50[_55.parentId];
-}
-}
-}
-}
-},_logicCollapse:function(id){
-var t=this,_56=t._openInfo[id];
-if(_56){
-var _57=t._openInfo,_58=t.model.treePath(id).pop(),_59=t._parentOpenInfo[_58],i=_b.biSearch(_59,function(_5a){
-return _57[_5a].index-_56.index;
-}),_5b=_56.count;
-_59.splice(i,1);
-_56=_57[_58];
-while(_56){
-_56.count-=_5b;
-_56=_57[_56.parentId];
-}
-delete _57[id];
-}
-},_getChild:function(_5c,_5d){
-var _5e=this._openInfo[_5d.parentId],i,len,_5f=_5d.preCount+_5e.index+1,_60={found:true,visualIndex:_5c,count:1};
-for(i=0,len=_5e.openned.length;i<len;++i){
-var _61=_5e.openned[i],_62=this._openInfo[_61],_63=_62.index+_5f;
-if(_63===_5c){
-return _6.mixin({parentId:_5e.id,start:_62.index},_60);
-}else{
-if(_63>_5c){
-break;
-}else{
-if(_63+_62.count>=_5c){
-return {parentId:_61,preCount:_5f};
-}
-}
-}
-_5f+=_62.count;
-}
-return _6.mixin({parentId:_5e.id,start:_5c-_5f},_60);
-},_onAfterRow:function(row){
-var _64=this.model.hasChildren(row.id);
-if(_64){
-row.node().setAttribute("aria-expanded",this.isExpanded(row.id));
-}
-},_initFocus:function(){
-this.connect(this.grid,"onCellKeyPress","_onKey");
-},_onKey:function(e){
-var t=this;
-if(e.keyCode==_a.ESCAPE){
-var m=t.model,_65=m.treePath(e.rowId),_66=_65.pop(),_67=_65.length,_68=t.grid;
-if(_66){
-var i,col,_69;
-for(i=_68._columns.length-1;i>=0;--i){
-col=_68._columns[i];
-if(col.expandLevel&&(!t.arg("nested")||col.expandLevel==_67)){
-break;
-}
-}
-m.when({id:_66},function(){
-_69=_68.body.getVisualIndex({parentId:_65.pop(),rowIndex:m.idToIndex(_66)}).visualIndex;
-}).then(function(){
-_68.vScroller.scrollToRow(_69).then(function(){
-_68.body._focusCell(null,_69,col.index);
-});
-});
-}
-}else{
-if(e.ctrlKey&&_d(e.cellNode)){
-var ltr=t.grid.isLeftToRight();
-if(e.keyCode==(ltr?_a.LEFT_ARROW:_a.RIGHT_ARROW)&&t._openInfo[e.rowId]){
-t.collapse(e.rowId);
-}else{
-if(e.keyCode==(ltr?_a.RIGHT_ARROW:_a.LEFT_ARROW)&&!t._openInfo[e.rowId]){
-t.expand(e.rowId);
-}
-}
-}
-}
-}});
+define([
+	"dojo/_base/declare",
+	"dojo/_base/array",
+	"dojo/dom-class",
+	"dojo/dom-geometry",
+	"dojo/_base/lang",
+	"dojo/_base/Deferred",
+	"dojo/DeferredList",
+	"dojo/query",
+	"dojo/keys",
+	"../core/_Module"
+//    "dojo/NodeList-dom",
+//    "dojo/NodeList-traverse"
+], function(declare, array, domClass, domGeometry, lang, Deferred, DeferredList, query, keys, _Module){
+
+/*=====
+	Row.canExpand = function(){
+		// summary:
+		//		Whether this row can be expanded.
+		// returns:
+		//		True if can, false if can not.
+	};
+	Row.isExpanded = function(){
+		// summary:
+		//		Whether this row is expanded.
+		// returns:
+		//		True if expanded. False if not.
+	};
+	Row.expand = function(){
+		// summary:
+		//		Expand this row.
+		// returns:
+		//		A Deferred object
+	};
+	Row.collapse = function(){
+		// summary:
+		//		Collapse this row.
+		// returns:
+		//		A Deferred object
+	};
+	Row.expandRecursive = function(){
+		// summary:
+		//		Recursively expand this row.
+		// returns:
+		//		A Deferred object
+	};
+	Row.collapseRecursive = function(){
+		// summary:
+		//		Recursively collapse this row.
+		// returns:
+		//		A Deferred object
+	};
+
+	var Tree = declare(_Module, {
+		// summary:
+		//		module name: tree.
+		//		This module manages row expansion/collapsing in tree grid.
+		// description:
+		//		To use tree grid, the store must have 2 extra methods: hasChildren and getChildren.
+		//		Please refer to Tree.__TreeStoreMixin for more details on these 2 methods.
+		//		
+		//		In tree grid, an expando appears on a row that has child rows. By clicking the expando,
+		//		the row is expanded to show its child rows below it, and the expando becomes expanded status.
+		//		By clicking the expanded expando, the expanded row is then collapsed and all its child rows 
+		//		are hidden. If a descentant row of a collapsed row is expanded, it will appear expanded when that
+		//		collapsed row is expanded (that means the child row expansion status is maintained).
+		//		
+		//		Different levels of expandos can either appear in one column or in several different columns.
+		//		If different expandos appear in different columns, it is called "nested". This can be set using
+		//		the "nested" Boolean parameter.
+		//		
+		//		The default position of the expando is in the first column, but this position can also be changed
+		//		by setting the "expandLevel" parameter in column definition. If "nested" is false, the expandos will 
+		//		appear in the first column with truthy "expandLevel" parameter. If "nested" is true, the expando
+		//		of any 1st level row will be shown in the column with "expandLevel" equal to 1, and the expando of 
+		//		any 2nd level row will be shown in the column with "expandLevel" equal to 2, and so on.
+		//		
+		//		The expansion/collapsing of a row can also be controlled by keyboard when the focus is on the cell 
+		//		with the expando. CTRL+RIGHT_ARROW to expand and CTRL+LEFT_ARROW to collapse. If in RTL mode, the ARROW
+		//		keys are reversed.
+		// example:
+		//		Define the hasChildren and getChildren methods for store (suppose the "children" field contains the child rows):
+		//		If the store is ItemFileReadStore:
+		//	|	store.hasChildren = function(id, item){
+		//	|		return item && store.getValues(item, 'children').length;
+		//	|	};
+		//	|	store.getChildren = function(item){
+		//	|		return store.getValues(item, 'children');
+		//	|	};
+		//		If the store is Memory store:
+		//	|	store.hasChildren = function(id, item){
+		//	|		return item && item.children && item.children.length;
+		//	|	};
+		//	|	store.getChildren = function(item){
+		//	|		return item.children;
+		//	|	};
+		//		If the child rows need to be fetched from server side:
+		//	|	store.hasChildren = function(id, item){
+		//	|		return item&& item.children;	//This children field only indicates whether the row has children.
+		//	|	};
+		//	|	store.getChildren = function(item){
+		//	|		var d = new Deferred();
+		//	|		var children = [];
+		//	|		dojo.request(...).then(function(){
+		//	|			//get the child rows here and populate them into an array.
+		//	|			d.callback(children);
+		//	|		});
+		//	|		return d;
+		//	|	};
+
+		// nested: Boolean
+		//		If set to true, the tree nodes can be shown in nested mode.
+		nested: false,
+
+		// expandoPadding: Integer
+		//		The padding added for each level of expando. Unit is pixel. Default to 18.
+		expandoPadding: 18,
+
+		// expandLevel: Integer
+		//		The maximum allowed expand level of this tree grid.
+		//		If less than 1, then this is not a tree grid at all.
+		expandLevel: 1 / 0,
+
+		// clearOnSetStore: Boolean
+		//		Whether to clear all the recorded expansion info after setStore.
+		clearOnSetStore: true,
+
+		onExpand: function(id){
+			// summary:
+			//		Fired when a row is expanded.
+			// tags:
+			//		callback
+			// id: String
+			//		The ID of the expanded row
+		},
+
+		onCollapse: function(id){
+			// summary:
+			//		Fired when a row is collapsed.
+			// tags:
+			//		callback
+			// id: String
+			//		The ID of the collapsed row.
+		},
+
+		canExpand: function(id){
+			// summary:
+			//		Check whether a row can be expanded.
+			// id: String
+			//		The row ID
+			// returns:
+			//		Whether the row can be expanded.
+		},
+	
+		isExpanded: function(id){
+			// summary:
+			//		Check whether a row is already expanded.
+			// id: String
+			//		The row ID
+			// returns:
+			//		Whether the row is expanded.
+		},
+
+		isPaddingCell: function(rowId, columnId){
+			// summary:
+			//		Check wheter a cell is padding cell. Only meaningful in "nested" tree grid.
+			//		By default, in "nested" tree grid, the cells before the current expando cell are all padding cells.
+			//		A padding cell is an empty cell, nothing is shown in the cell, decorator and formatter functions
+			//		are not called on it either.
+			// rowId: String|Number
+			//		The row ID of the cell
+			// columnId: String|Number
+			//		The column ID of the cell
+		},
+
+		expand: function(id, skipUpdateBody){
+			// summary:
+			//		Expand the row.
+			// id: String
+			//		The row ID
+			// skipUpdateBody: Boolean
+			//		If set to true the grid will not automatically refresh itself after this method,
+			//		so that several grid operations can be executed altogether.
+			// returns:
+			//		A deferred object indicating whether this expanding process has completed.
+		},
+
+		collapse: function(id, skipUpdateBody){
+			// summary:
+			//		Collapse a row.
+			// id: String
+			//		The row ID
+			// skipUpdateBody: Boolean
+			//		If set to true the grid will not automatically refresh itself after this method,
+			//		so that several grid operations can be executed altogether.
+			// returns:
+			//		A deferred object indicating whether this collapsing process has completed.
+		},
+
+		expandRecursive: function(id, skipUpdateBody){
+			// summary:
+			//		Recursively expand a row and all its descendants.
+			// id: String
+			//		The row ID
+			// skipUpdateBody: Boolean
+			//		If set to true the grid will not automatically refresh itself after this method,
+			//		so that several grid operations can be executed altogether.
+			// returns:
+			//		A deferred object indicating whether this expanding process has completed.
+		},
+
+		collapseRecursive: function(id, skipUpdateBody){
+			// summary:
+			//		Recursively collapse a row recursively and all its descendants.
+			// id: String
+			//		The row ID
+			// skipUpdateBody: Boolean
+			//		If set to true the grid will not automatically refresh itself after this method,
+			//		so that several grid operations can be executed altogether.
+			// returns:
+			//		A deferred object indicating whether this collapsing process has completed.
+		}
+	});
+
+	Tree.__ColumnDefinition = declare(Column.__ColumnDefinition, {
+		// expandLevel: Number
+		//		If tree grid is "nested", the expando will be shown in the column whose "expandLevel" equals the
+		//		level of the row. For example, the expando of a root row will be shown in the column whose "expandLevel"
+		//		equals 1. And the child rows of the root row will show their expando in the column with "expandLevel" equals 2,
+		//		and so on.
+		//		If no "expandLevel" is provided for a "nested" tree grid, the first column has "expandLevel" 1, second 2, and so on.
+		//		If tree grid is not "nested", all the expandos will be shown in the first column with truthy "expandLevel".
+		//		If no "expandLevel" is provided for a non-nested tree grid, the first column has all the expandos by default.
+		expandLevel: 0,
+
+		// padding: Boolean
+		//		By default, in "nested" tree grid, the cells before the current expando cell are all padding cells.
+		//		But if some cell matching this condition should not be padding, then this parameter should be
+		//		explicitly set to false for the column of this cell.
+		padding: undefined
+	});
+
+	Tree.__TreeStoreMixin = declare([], {
+		// summary:
+		//		The extra methods for tree store.
+		// description:
+		//		Since the dojo store does not support tree structure by default, some extra methods should be defined to 
+		//		help grid retrieve the child level items.
+
+		hasChildren: function(id, item){
+			// summary:
+			//		Check whether a row has child rows. This function should not throw any error.
+			// id: String|Number
+			//		The row ID
+			// item: Object
+			//		The store item
+			// returns:
+			//		True if the given row has children, false otherwise.
+		},
+
+		getChildren: function(item){
+			// summary:
+			//		Get an array of the child items of the given row item.
+			// item: Object
+			//		The store item
+			// returns:
+			//		An array of the child items of the given row item.
+		}
+	});
+
+	return Tree;
+=====*/
+
+	function isExpando(cellNode){
+		var n = cellNode.firstChild;
+		return n && n.className && domClass.contains(n, 'gridxTreeExpandoCell') &&
+			!domClass.contains(n, 'gridxTreeExpandoLoading');
+	}
+
+	return declare(_Module, {
+		name: "tree",
+
+		forced: ['view'],
+
+		preload: function(){
+			var t = this,
+				g = t.grid;
+			g.domNode.setAttribute('role', 'treegrid');
+			t.aspect(g.body, 'collectCellWrapper', '_createCellWrapper');
+			t.aspect(g.body, 'onAfterRow', '_onAfterRow');
+			t.aspect(g.body, 'onCheckCustomRow', function(row, output){
+				if(!t.nested && t.mergedParentRow){
+					output[row.id] = row.canExpand();
+				}
+			});
+			t.aspect(g.body, 'onBuildCustomRow', function(row, output){
+				output[row.id] = row.id;
+			});
+			t.aspect(g, 'onCellClick', '_onCellClick');
+			t.aspect(g, 'onRowClick', function(e){
+				if(!t.nested && t.mergedParentRow){
+					if(t.canExpand(e.rowId)){
+						if(t.isExpanded(e.rowId)){
+							t.collapse(e.rowId);
+						}else{
+							t.expand(e.rowId);
+						}
+					}
+				}
+			});
+			if(t.arg('autoExpandOnFilter') === true && g.filter){
+				t.aspect(g.filter, 'onFilter', function(msg){
+					t.expandRecursive();
+				});
+			}
+			t._initExpandLevel();
+			t._initFocus();
+		},
+
+		rowMixin: {
+			canExpand: function(){
+				return this.grid.tree.canExpand(this.id);
+			},
+			isExpanded: function(){
+				return this.grid.tree.isExpanded(this.id);
+			},
+			expand: function(){
+				return this.grid.tree.expand(this.id);
+			},
+			collapse: function(){
+				return this.grid.tree.collapse(this.id);
+			},
+			expandRecursive: function(){
+				return this.grid.tree.expandRecursive(this.id);
+			},
+			collapseRecursive: function(){
+				return this.grid.tree.collapseRecursive(this.id);
+			}
+		},
+
+		nested: false,
+
+		expandoWidth: 16,
+
+		expandoPadding: 18,
+
+		expandLevel: 1 / 0,
+
+		clearOnSetStore: true,
+
+		mergedParentRow: false,
+
+		autoExpandOnFilter: true,
+
+		onExpand: function(id){},
+
+		onCollapse: function(id){},
+
+		canExpand: function(id){
+			var t = this,
+				m = t.model,
+				level = m.treePath(id).length,
+				expandLevel = t.arg('expandLevel');
+			return m.hasChildren(id) && (!(expandLevel > 0) || level <= expandLevel);
+		},
+
+		isExpanded: function(id){
+			return this.model.isId(id) && !!this.grid.view._openInfo[id];
+		},
+
+		isPaddingCell: function(rowId, colId){
+			var t = this,
+				level = t.model.treePath(rowId).length,
+				c = t.grid._columnsById[colId];
+			if(t.arg('nested') && level > 1 && c.padding !== false){
+				for(var i = 0; i < t.grid._columns.length; ++i){
+					var col = t.grid._columns[i];
+					if(col.expandLevel == level){
+						return c.index < col.index;
+					}
+				}
+			}
+			return false;
+		},
+
+		expand: function(id, skipUpdateBody){
+			var d = new Deferred(),
+				t = this;
+			if(!t.isExpanded(id) && t.canExpand(id)){
+				t._beginLoading(id);
+				t.grid.view.logicExpand(id).then(function(){
+					Deferred.when(t._updateBody(id, skipUpdateBody, true), function(){
+						t._endLoading(id);
+						d.callback();
+						t.onExpand(id);
+					});
+				});
+			}else{
+				d.callback();
+			}
+			return d;
+		},
+
+		collapse: function(id, skipUpdateBody){
+			var d = new Deferred(),
+				t = this;
+			if(t.isExpanded(id)){
+				t.grid.view.logicCollapse(id);
+				Deferred.when(t._updateBody(id, skipUpdateBody), function(){
+					d.callback();
+					t.onCollapse(id);
+				});
+			}else{
+				d.callback();
+			}
+			return d;
+		},
+
+		expandRecursive: function(id, skipUpdateBody){
+			var t = this,
+				m = t.model,
+				d = new Deferred();
+			t._beginLoading(id);
+			t.expand(id, 1).then(function(){
+				var i, dl = [], size = m.size(id);
+				m.when({start: 0, parentId: id}, function(){
+					for(i = 0; i < size; ++i){
+						var childId = m.indexToId(i, id);
+						dl.push(t.expandRecursive(childId, 1));
+					}
+				}).then(function(){
+					new DeferredList(dl).then(function(){
+						Deferred.when(t._updateBody(id, skipUpdateBody), function(){
+							t._endLoading(id);
+							d.callback();
+						});
+					});
+				});
+			});
+			return d;
+		},
+
+		loadChildRecursive: function(id){
+			var d = new Deferred(),
+				t = this,
+				m = t.model;
+
+			var i, dl = [], size = m.size(id);
+			// console.log(context.size);
+			m.when({start: 0, count: 1, parentId: id}, function(){
+				size = m.size(id);
+				for(i = 0; i < size; ++i){
+					var childId = m.indexToId(i, id);
+					dl.push(t.loadChildRecursive(childId));
+				}
+			}).then(function(){
+				new DeferredList(dl).then(function(){
+					d.callback();
+				});
+			});
+			return d;
+		},
+
+		collapseRecursive: function(id, skipUpdateBody){
+			var d = new Deferred(),
+				success = lang.hitch(d, d.callback),
+				fail = lang.hitch(d, d.errback),
+				t = this,
+				view = t.grid.view,
+				info = view._openInfo[id || ''],
+				i, dl = [];
+			if(info){
+				for(i = info.openned.length - 1; i >= 0; --i){
+					dl.push(t.collapseRecursive(info.openned[i], 1));
+				}
+				new DeferredList(dl).then(function(){
+					if(id){
+						t.collapse(id, skipUpdateBody).then(success, fail);
+					}else{
+						Deferred.when(t._updateBody('', skipUpdateBody), success, fail);
+					}
+				});
+			}else{
+				success();
+			}
+			return d;
+		},
+
+		//Private-------------------------------------------------------------------------------
+		_initExpandLevel: function(){
+			var cols = array.filter(this.grid._columns, function(col){
+				return !col.ignore;
+			});
+			if(!array.some(cols, function(col){
+				return col.expandLevel;
+			})){
+				if(this.arg('nested')){
+					array.forEach(cols, function(col, i){
+						col.expandLevel = i + 1;
+					});
+				}else if(cols.length){
+					cols[0].expandLevel = 1;
+				}
+			}
+		},
+
+		_createCellWrapper: function(wrappers, rowId, colId){
+			var t = this,
+				col = t.grid._columnsById[colId];
+			if(!col || col.expandLevel){
+				var isNested = t.arg('nested'),
+					level = t.model.treePath(rowId).length,
+					expandLevel = t.arg('expandLevel');
+				if((!isNested || (col && col.expandLevel == level)) && 
+						(!(expandLevel > 0) || level <= expandLevel + 1)){
+					var hasChildren = t.model.hasChildren(rowId),
+						isOpen = t.isExpanded(rowId),
+						pad = 0,
+						expandoWidth = t.arg('expandoWidth'),
+						singlePad = t.arg('expandoPadding'),
+						ltr = t.grid.isLeftToRight();
+					if(!isNested){
+						pad = (level - 1) * singlePad;
+					}
+					if(level == expandLevel + 1){
+						//This is one level beyond the last level, there should not be expando
+						if(isNested){
+							//If nested, no indent needed
+							return;
+						}
+						//If not nested, this level still needs indent
+						hasChildren = false;
+					}
+					wrappers.push({
+						priority: 0,
+						wrap: function(cellData){
+							return ["<div class='gridxTreeExpandoCell ",
+								isOpen ? "gridxTreeExpandoCellOpen" : "",
+								"' style='padding-", ltr ? 'left' : 'right', ": ", pad + expandoWidth, "px;'>",
+								"<div class='gridxTreeExpandoIcon ",
+								hasChildren ? '' : 'gridxTreeExpandoIconNoChildren',
+								"' ",
+								"style='margin-", ltr ? 'left' : 'right', ": ", pad, "px;'>",
+								"<div class='gridxTreeExpandoInner'>",
+								isOpen ? "-" : "+",
+								"</div></div><div class='gridxTreeExpandoContent gridxCellContent'>",
+								cellData,
+								"</div></div>"
+							].join('');
+						}
+					});
+				}
+			}
+		},
+
+		_onCellClick: function(e){
+			if(isExpando(e.cellNode)){
+				var t = this,
+					pos = domGeometry.position(query('.gridxTreeExpandoIcon', e.cellNode)[0]);
+				if(e.clientX >= pos.x && e.clientX <= pos.x + pos.w && e.clientY >= pos.y && e.clientY <= pos.y + pos.h){
+					if(t.isExpanded(e.rowId)){
+						t.collapse(e.rowId);
+					}else{
+						t.expand(e.rowId);
+					}
+				}
+			}
+		},
+
+		_beginLoading: function(id){
+			var rowNode = this.grid.body.getRowNode({rowId: id});
+			if(rowNode){
+				query('.gridxTreeExpandoCell', rowNode).addClass('gridxTreeExpandoLoading');
+				query('.gridxTreeExpandoIcon', rowNode).forEach(function(node){
+					node.firstChild.innerHTML = 'o';
+				});
+			}
+		},
+
+		_endLoading: function(id){
+			var rowNode = this.grid.body.getRowNode({rowId: id}),
+				isOpen = this.isExpanded(id);
+			if(rowNode){
+				var nls = this.grid.nls;
+				query('.gridxTreeExpandoCell', rowNode).
+					removeClass('gridxTreeExpandoLoading').
+					toggleClass('gridxTreeExpandoCellOpen', isOpen).
+					closest('.gridxCell').
+					attr('aria-expanded', String(isOpen)).
+					attr('aria-label', isOpen ? nls.treeExpanded : nls.treeCollapsed);
+				query('.gridxTreeExpandoIcon', rowNode).forEach(function(node){
+					node.firstChild.innerHTML = isOpen ? '-' : '+';
+				});
+				rowNode.setAttribute('aria-expanded', String(isOpen));
+			}
+		},
+
+		_updateBody: function(id, skip, refreshPartial){
+			var t = this,
+				view = t.grid.view,
+				body = t.grid.body;
+			if(!skip){
+				var visualIndex = refreshPartial && id ? 
+					view.getRowInfo({
+						rowIndex: t.model.idToIndex(id),
+						parentId: t.model.parentId(id)
+					}).visualIndex : -1;
+				//When collapsing, the row count in current view decrease, if only render partially,
+				//it is possible that the vertical scroll bar disappear, then the upper unrendered rows will be lost.
+				//So refresh the whole body here to make the upper row also visible.
+				//FIXME: need better solution here.
+				return body.refresh(refreshPartial && visualIndex + 1);
+			}
+			return null;
+		},
+
+		_onAfterRow: function(row){
+			var hasChildren = this.model.hasChildren(row.id);
+			if(hasChildren){
+				var rowNode = row.node(),
+					expanded = this.isExpanded();
+				rowNode.setAttribute('aria-expanded', expanded);
+				//This is only to make JAWS readk
+				var nls = this.grid.nls;
+				query('.gridxTreeExpandoCell', rowNode).closest('.gridxCell').
+					attr('aria-expanded', String(expanded)).
+					attr('aria-label', expanded ? nls.treeExpanded : nls.treeCollapsed);
+			}
+		},
+
+		//Focus------------------------------------------------------------------
+		_initFocus: function(){
+			this.connect(this.grid, 'onCellKeyDown', '_onKey'); 
+		},
+
+		_onKey: function(e){
+			var t = this;
+			if(e.keyCode == keys.ESCAPE){
+				var m = t.model,
+					treePath = m.treePath(e.rowId),
+					parentId = treePath.pop(),
+					parentLevel = treePath.length,
+					grid = t.grid;
+				if(parentId){
+					var i, col, visualIndex;
+					for(i = grid._columns.length - 1; i >= 0; --i){
+						col = grid._columns[i];
+						if(col.expandLevel && (!t.arg('nested') || col.expandLevel == parentLevel)){
+							break;
+						}
+					}
+					m.when({id: parentId}, function(){
+						visualIndex = grid.view.getRowInfo({
+							parentId: treePath.pop(), 
+							rowIndex: m.idToIndex(parentId)
+						}).visualIndex;
+					}).then(function(){
+						grid.vScroller.scrollToRow(visualIndex).then(function(){
+							grid.body._focusCell(null, visualIndex, col.index);
+						});
+					});
+				}
+			}else if(t.grid._isCtrlKey(e) && isExpando(e.cellNode)){
+				var ltr = t.grid.isLeftToRight();
+				if(e.keyCode == (ltr ? keys.LEFT_ARROW : keys.RIGHT_ARROW) && t.isExpanded(e.rowId)){
+					t.collapse(e.rowId);
+				}else if(e.keyCode == (ltr ? keys.RIGHT_ARROW : keys.LEFT_ARROW) && !t.isExpanded(e.rowId)){
+					t.expand(e.rowId);
+				}
+			}
+		}
+	});
 });

@@ -1,42 +1,83 @@
-//>>built
-require(["gridx/Grid","gridx/core/model/cache/Sync","gridx/tests/support/data/MusicData","gridx/tests/support/stores/ItemFileWriteStore","gridx/tests/support/TestPane","gridx/tests/support/modules","gridx/modules/Focus","gridx/modules/filter/Filter","gridx/modules/filter/FilterBar","dojo/domReady!"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9){
-grid=new _1({id:"grid",cacheClass:_2,store:_4({dataSource:_3,size:100}),selectRowTriggerOnCell:true,modules:[_8,_6.SingleSort,_6.VirtualVScroller,_6.Focus,{moduleClass:_9,maxRuleCount:5,ruleCountToConfirmClearFilter:2}],structure:_3.layouts[1]});
-grid.placeAt("gridContainer");
-grid.startup();
-window.setStore=function(){
-grid.setStore(_4({dataSource:_3,size:50+parseInt(Math.random()*200,10)}));
-};
-var tp=new _5({});
-tp.placeAt("ctrlPane");
-fb=grid.filterBar;
-applyFilter=function(){
-var _a={"type":"any","conditions":[{"colId":"id","condition":"greater","value":95,"type":"Number"},{"colId":"Artist","condition":"contain","value":"Jimi Hendrix","type":"Text"}]};
-fb.applyFilter(_a);
-};
-clear=function(){
-fb.clearFilter();
-};
-clearWithoutConfirm=function(){
-fb.clearFilter(true);
-};
-showOrHide=function(){
-var _b=fb.domNode.style.display=="none";
-fb[_b?"show":"hide"]();
-this.set("label",_b?"Hide fiter bar":"Show filter bar");
-};
-showFilterDialog=function(){
-fb.showFilterDialog();
-};
-setIdentityFilterable=function(){
-var c=grid.column("id",true);
-c.setFilterable(!c.isFilterable());
-this.set("label",c.isFilterable()?"Set \"Identity\" column un-filterable":"Set \"Identity\" column filterable");
-};
-getConditions=function(){
-var c=grid.column("Download Date",true);
-alert(dojo.toJson(c.filterConditions()));
-};
-tp.addTestSet("Filter Actions",["<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: applyFilter\">Apply a given filter</div><br/>","<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: clear\">Clear current filter</div><br/>","<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: clearWithoutConfirm\">Clear current filter without confirm</div><br/>","<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: showOrHide\">Hide filter bar</div><br/>","<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: showFilterDialog\">Show filter dialog</div><br/>",""].join(""));
-tp.addTestSet("Column Extended Actions",["<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: setIdentityFilterable\">Set \"Identity\" column un-filterable</div><br/>","<div data-dojo-type=\"dijit.form.Button\" data-dojo-props=\"onClick: getConditions\">Get the available conditions of column \"Download Date\"</div><br/>",""].join(""));
-tp.startup();
+require([
+	'dojo/parser',
+	'gridx/tests/support/data/MusicData',
+	'gridx/tests/support/stores/Memory',
+	'dojo/store/JsonRest',
+	'dojo/date/locale',
+	'gridx/Grid',
+	'gridx/core/model/cache/Sync',
+	'gridx/core/model/cache/Async',
+	'gridx/allModules',
+	'dojo/domReady!'
+], function(parser, dataSource, storeFactory, JsonRest, locale, Grid){
+
+	store = storeFactory({
+		dataSource: dataSource,
+		size: 100
+	});
+
+	var localDateFormatter = function(rawData) {
+		var date = rawData['Download Date'];
+		debugger;
+		if (rawData === undefined || rawData === null ||
+			date === undefined || date === null){
+			return "";
+		} else {
+			var item = new Date(date);
+			var localed = locale.format(item, {datePattern: "yyyy/M/d", selector: "date"});
+			return localed;
+		}
+	};
+	// DATE_S_FORMAT_OPTIONS: {datePattern: "yyyy/M/d", selector: "date"},
+
+	layout = [
+		{id: 'id', field: 'id', name: 'Identity', dataType: 'number'},
+		{id: 'Genre', field: 'Genre', name: 'Genre', dataType: 'enum', encode: true,
+			enumOptions: ['a', 'b', 'c']
+		},
+		{id: 'Artist', field: 'Artist', name: 'Artist', dataType: 'enum',
+			enumOptions: ['d', 'e', 'f']
+		},
+		{id: 'Album', field: 'Album', name: 'Album', dataType: 'string', autoComplete: false},
+		{id: 'Name', field: 'Name', name: 'Name', dataType: 'string', autoComplete: false},
+		{id: 'Year', field: 'Year', name: 'Year', dataType: 'number'},
+		{id: 'Length', field: 'Length', name: 'Length', dataType: 'string'},
+		{id: 'Track', field: 'Track', name: 'Track', dataType: 'number'},
+		{id: 'Composer', field: 'Composer', name: 'Composer', dataType: 'string'},
+		{id: 'Download Date', field: 'Download Date', name: 'Download Date', dataType: 'date'},
+		{id: 'Date Time', field: 'datetime', name: 'Date Time', dataType: 'datetime'},
+		{id: 'Last Played', field: 'Last Played', name: 'Last Played', dataType: 'time'},
+		{id: 'Heard', field: 'Heard', name: 'Heard', dataType: 'boolean'}
+	];
+
+	window.generateGrid = function() {
+		if (grid1) grid1.destroy();
+
+		var preCondition = dojo.byId('preFilterInput').value;
+		preCondition = preCondition && JSON.parse(preCondition);
+
+		grid1 = new Grid({
+			cacheClass: "gridx/core/model/cache/Sync",
+			store: store,
+			structure: layout,
+			selectRowTriggerOnCell: true,
+			filterCaseSensitive: true,
+			filterBarMaxRuleCount: 100,
+			filterBarExperimental: true,
+			filterBarFilterData: preCondition,
+			filterBarItemsName: "elements",
+			modules: [
+				"gridx/modules/Filter",
+				"gridx/modules/filter/FilterBar",
+				"gridx/modules/SingleSort",
+				"gridx/modules/extendedSelect/Row",
+				"gridx/modules/IndirectSelectColumn",
+				"gridx/modules/VirtualVScroller"
+			]
+		});
+		grid1.placeAt('gridContainer');
+		grid1.startup();
+	}
+	
+	parser.parse();
 });

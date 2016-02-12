@@ -391,7 +391,7 @@ var h=(this.domNode.style.height&&parseInt(this.domNode.style.height.replace(/px
 var _50=this;
 var _51=function(){
 var v;
-for(var i in _50.grid.views.views){
+for(var i=0;i<_50.grid.views.views.length;++i){
 v=_50.grid.views.views[i];
 if(v!==_50&&v.hasHScrollbar()){
 return true;
@@ -492,7 +492,7 @@ return _66;
 },updateRowStyles:function(_67){
 this.styleRowNode(_67,this.getRowNode(_67));
 },lastTop:0,firstScroll:0,_nativeScroll:false,doscroll:function(_68){
-if(_8("ff")>=13){
+if(_8("ff")>=13||_8("chrome")){
 this._nativeScroll=true;
 }
 var _69=this.grid.isLeftToRight();

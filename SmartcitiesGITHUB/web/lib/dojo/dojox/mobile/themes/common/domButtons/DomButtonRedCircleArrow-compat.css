@@ -1,1 +1,8 @@
-.mblDomButtonRedCircleArrow {background-image: url(compat/mblDomButtonRedCircleArrow.png); background-repeat: no-repeat;}.mblDomButtonRedCircleArrow > div {display: none;}
+
+.mblDomButtonRedCircleArrow {
+	background-image: url(compat/mblDomButtonRedCircleArrow.png);
+	background-repeat: no-repeat;
+}
+.mblDomButtonRedCircleArrow > div {
+	display: none;
+}

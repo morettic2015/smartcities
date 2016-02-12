@@ -1,201 +1,284 @@
-//>>built
-define("gridx/modules/ColumnResizer",["dojo/_base/declare","dojo/_base/sniff","dojo/_base/window","dojo/_base/event","dojo/dom","dojo/dom-style","dojo/dom-class","dojo/dom-construct","dojo/dom-geometry","dojo/keys","dojo/query","../core/_Module"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9,_a,_b,_c){
-var _d=_7.remove;
-function _e(e){
-var _f=e.target;
-if(_f){
-if(/table/i.test(_f.tagName)){
-var m=e.offsetX||e.layerX||0,i=0,_10=_f.rows[0].cells;
-while(m>0&&_10[i]){
-m-=_10[i].offsetWidth;
-i++;
-}
-return _10[i]||null;
-}
-while(_f&&_f.tagName){
-if(_f.tagName.toLowerCase()=="th"){
-return _f;
-}
-_f=_f.parentNode;
-}
-}
-return null;
-};
-return _1(_c,{name:"columnResizer",minWidth:20,detectWidth:5,load:function(_11){
-var t=this,g=t.grid;
-t.batchConnect([g.header.innerNode,"mousemove","_mousemove"],[g,"onHeaderMouseOut","_mouseout"],[g,"onHeaderMouseDown","_mousedown",t,t.name],[g,"onHeaderKeyDown","_keydown"],[_3.doc,"mousemove","_docMousemove"],[_3.doc,"onmouseup","_mouseup"]);
-t.loaded.callback();
-},getAPIPath:function(){
-return {columnResizer:this};
-},columnMixin:{setWidth:function(_12){
-this.grid.columnResizer.setWidth(this.id,_12);
-}},setWidth:function(_13,_14){
-var t=this,g=t.grid,i,_15=g._columns,_16=t.arg("minWidth"),_17;
-_14=parseInt(_14,10);
-if(_14<_16){
-_14=_16;
-}
-g._columnsById[_13].width=_14+"px";
-for(i=0;i<_15.length;++i){
-_15[i].declaredWidth=_15[i].width;
-}
-_b("[colid=\""+_13+"\"]",g.domNode).forEach(function(_18){
-if(!_17){
-_17=_6.get(_18,"width");
-}
-_18.style.width=_14+"px";
-});
-g.body.onRender();
-g.vLayout.reLayout();
-t.onResize(_13,_14,_17);
-},onResize:function(){
-},_mousemove:function(e){
-var t=this,_19=_e(e),_1a=t.grid._eventFlags;
-if(_19){
-if(t._resizing){
-_d(_19,"gridxHeaderCellOver");
-}
-if(t._resizing||!_19||t._ismousedown){
-return;
-}
-var _1b=t._readyToResize=t._isInResizeRange(e);
-_1a.onHeaderMouseDown=_1a.onHeaderCellMouseDown=_1b?t.name:undefined;
-_7.toggle(_3.body(),"gridxColumnResizing",_1b);
-if(_1b){
-_d(_19,"gridxHeaderCellOver");
-}
-}
-},_docMousemove:function(e){
-if(this._resizing){
-this._updateResizerPosition(e);
-}
-},_mouseout:function(e){
-if(!this._resizing){
-this._readyToResize=0;
-_d(_3.body(),"gridxColumnResizing");
-}
-},_keydown:function(evt){
-if((evt.keyCode==_a.LEFT_ARROW||evt.keyCode==_a.RIGHT_ARROW)&&evt.ctrlKey&&evt.shiftKey){
-var _1c=evt.columnId,g=this.grid,dir=g.isLeftToRight()?1:-1,_1d=dir*2;
-_b("[colid=\""+_1c+"\"]",g.header.domNode).forEach(function(_1e){
-var _1f=_6.get(_1e,"width");
-if(evt.keyCode==_a.LEFT_ARROW){
-_1f-=_1d;
-}else{
-_1f+=_1d;
-}
-this.setWidth(_1c,_1f);
-_4.stop(evt);
-},this);
-}
-},_updateResizerPosition:function(e){
-var t=this,_20=e.pageX-t._startX,_21=t._targetCell,g=t.grid,hs=g.hScroller,h=0,n,_22=e.pageX-t._gridX,_23=t.arg("minWidth"),ltr=this.grid.isLeftToRight();
-if(!ltr){
-_20=-_20;
-}
-if(_21.offsetWidth+_20<_23){
-if(ltr){
-_22=t._startX-t._gridX-_21.offsetWidth+_23;
-}else{
-_22=t._startX-t._gridX+(_21.offsetWidth-_23);
-}
-}
-n=hs&&hs.container.offsetHeight?hs.container:g.bodyNode;
-h=n.parentNode.offsetTop+n.offsetHeight-g.header.domNode.offsetTop;
-_6.set(t._resizer,{top:g.header.domNode.offsetTop+"px",left:_22+"px",height:h+"px"});
-},_showResizer:function(e){
-var t=this;
-if(!t._resizer){
-t._resizer=_8.create("div",{className:"gridxColumnResizer"},t.grid.domNode,"last");
-t.connect(t._resizer,"mouseup","_mouseup");
-}
-t._resizer.style.display="block";
-t._updateResizerPosition(e);
-},_hideResizer:function(){
-this._resizer.style.display="none";
-},_mousedown:function(e){
-var t=this;
-if(!t._readyToResize){
-t._ismousedown=1;
-return;
-}
-_5.setSelectable(t.grid.domNode,false);
-_3.doc.onselectstart=function(){
-return false;
-};
-t._resizing=1;
-t._startX=e.pageX;
-t._gridX=_9.position(t.grid.domNode).x;
-t._showResizer(e);
-},_mouseup:function(e){
-var t=this;
-t._ismousedown=0;
-if(t._resizing){
-t._resizing=0;
-t._readyToResize=0;
-_d(_3.body(),"gridxColumnResizing");
-_5.setSelectable(t.grid.domNode,true);
-_3.doc.onselectstart=null;
-var _24=t._targetCell,_25=e.pageX-t._startX;
-if(!t.grid.isLeftToRight()){
-_25=-_25;
-}
-var w=(_2("webkit")?_24.offsetWidth:_6.get(_24,"width"))+_25,_26=t.arg("minWidth");
-if(w<_26){
-w=_26;
-}
-t.setWidth(_24.getAttribute("colid"),w);
-t._hideResizer();
-}
-},_isInResizeRange:function(e){
-var t=this,_27=_e(e),x=t._getCellX(e),_28=t.arg("detectWidth"),ltr=t.grid.isLeftToRight();
-if(x<_28){
-if(ltr){
-return !!(t._targetCell=_27.previousSibling);
-}else{
-t._targetCell=_27;
-return 1;
-}
-}else{
-if(x>_27.offsetWidth-_28&&x<=_27.offsetWidth){
-if(ltr){
-t._targetCell=_27;
-return 1;
-}else{
-return !!(t._targetCell=_27.previousSibling);
-}
-}
-}
-return 0;
-},_getCellX:function(e){
-var _29=e.target,_2a=_e(e);
-if(!_2a){
-return 100000;
-}
-if(/table/i.test(_29.tagName)){
-return 0;
-}
-var lx=e.offsetX;
-if(lx==undefined){
-lx=e.layerX;
-}
-if(!/th/i.test(_29.tagName)){
-lx+=_29.offsetLeft;
-}
-if(_2("ff")&&/th/i.test(_29.tagName)){
-var ltr=this.grid.isLeftToRight();
-var _2b=-parseInt(_6.get(_2a.parentNode.parentNode.parentNode,ltr?"marginLeft":"marginRight"));
-if(!ltr){
-_2b=this.grid.header.domNode.firstChild.scrollWidth-_2b-this.grid.header.innerNode.offsetWidth;
-}
-var d=lx-(_2a.offsetLeft-_2b);
-if(d>=0){
-lx=d;
-}
-if(lx>=_2a.offsetWidth){
-lx=0;
-}
-}
-return lx;
-}});
+define([
+	"dojo/_base/declare",
+	"dojo/_base/window",
+	"dojo/_base/event",
+	"dojo/dom",
+	"dojo/dom-style",
+	"dojo/dom-class",
+	"dojo/dom-construct",
+	"dojo/dom-geometry",
+	"dojo/keys",
+	"../support/query",
+	"dojo/_base/sniff",
+	"../core/_Module"
+//    "dojo/NodeList-traverse"
+], function(declare, win, event, dom, domStyle, domClass, domConstruct, domGeometry, keys, query, has, _Module){
+
+/*=====
+	Column.setWidth = function(width){
+		// summary:
+		//		Set width of the target column
+	};
+
+	return declare(_Module, {
+		// summary:
+		//		module name: columnResizer.
+		//		Column Resizer machinery.
+		// description:
+		//		This module provides a way to resize column width. 
+		
+		// minWidth: Integer
+		//		min column width in px
+		minWidth: 20,
+
+		detectWidth: 5,
+
+		step: 2,
+
+		setWidth: function(olId, width){
+			// summary:
+			//		Set width of the target column
+		},
+
+		onResize: function(colId, newWidth, oldWidth){
+		}
+	});
+=====*/
+
+	return declare(_Module, {
+		name: 'columnResizer',
+
+		load: function(){
+			var t = this,
+				g = t.grid;
+			t.batchConnect(
+				[g.header.domNode, 'onmousemove', '_mousemove'],
+				[g, 'onHeaderMouseOut', '_mouseout'],
+				[g, 'onHeaderMouseDown', '_mousedown', t, t.name],
+				[g, 'onHeaderKeyDown', '_keydown'],
+				[win.doc, 'onmousemove', '_updateResizer'],
+				[win.doc, 'onmouseup', '_mouseup']);
+			t.loaded.callback();
+		},
+
+		columnMixin: {
+			setWidth: function(width){
+				this.grid.columnResizer.setWidth(this.id, width);
+			}
+		},
+
+		//Public---------------------------------------------------------------------
+		minWidth: 20,
+
+		detectWidth: 5,
+
+		step: 2,
+
+		setWidth: function(colId, width){
+			var t = this,
+				g = t.grid,
+				col = g._columnsById[colId];
+			if(col){
+				var headerNode = g.header.getHeaderNode(colId),
+					headerNodeStyle = headerNode.style,
+					oldWidth = domStyle.get(headerNode, 'width'),
+					minWidth = t.arg('minWidth'),
+					padExtents = domGeometry.getPadExtents(headerNode),
+					pads = padExtents.l + padExtents.r,
+					cols = g._columns;
+
+				width = parseInt(width, 10);
+				if(width < minWidth){
+					width = minWidth;
+				}
+				headerNodeStyle.width = width + 'px';
+				headerNodeStyle.minWidth = width + 'px';
+				headerNodeStyle.maxWidth = width + 'px';
+				width = headerNode.clientWidth - pads;
+				//set again in case actual effect is different from what we expect.
+				headerNodeStyle.width = width + 'px';
+				headerNodeStyle.minWidth = width + 'px';
+				headerNodeStyle.maxWidth = width + 'px';
+				//Use actual width as our new column width
+				col.width = width + 'px';
+				for(var i = 0, len = cols.length; i < len; ++i){
+					cols[i].declaredWidth = cols[i].width;
+				}
+				query('[colid="' + g._escapeId(colId) + '"]', g.bodyNode).forEach(function(cell){
+					var cs = cell.style;
+					cs.width = width + 'px';
+					cs.minWidth = width + 'px';
+					cs.maxWidth = width + 'px';
+				});
+				g.body.onRender();
+				g.hLayout.reLayout();
+				g.vLayout.reLayout();
+				t.onResize(colId, width, oldWidth);
+			}
+		},
+
+		//Event--------------------------------------------------------------
+		onResize: function(/* colId, newWidth, oldWidth */){},
+
+		//Private-----------------------------------------------------------
+		_mousemove: function(e){
+			var t = this;
+			if(!t._resizing && !t._ismousedown){
+				var detectWidth = t.arg('detectWidth'),
+					g = t.grid,
+					ltr = g.isLeftToRight(),
+					body = win.body(),
+					flags = g._eventFlags;
+				if(!query('.gridxCell', g.header.innerNode).some(function(cellNode){
+					var pos = domGeometry.position(cellNode),
+						x = ltr ? pos.x + pos.w : pos.x,
+						col = g._columnsById[cellNode.getAttribute('colid')];
+					//check if in resize range
+					if(x - detectWidth <= e.clientX && x + detectWidth >= e.clientX){
+						var n = query(e._target || e.target).closest('td', g.header.innerNode)[0],
+							npos = n && domGeometry.position(n);
+						if(n && (e.clientX <= npos.x + detectWidth || e.clientX >= npos.x + npos.w - detectWidth)){
+							domClass.add(body, 'gridxColumnResizing');
+							t._targetCell = cellNode;
+							t._cellPos = pos;
+							//Forbid anything else to happen when we are resizing a column!
+							flags.onHeaderMouseDown = t.name;
+							t._readyToResize = 1;//Intentional assignment
+							return 1;
+						}
+					}
+				})){
+					//Not in resize region.
+					flags.onHeaderMouseDown = undefined;
+					domClass.remove(body, 'gridxColumnResizing');
+				}
+				flags.onHeaderCellMouseDown  = flags.onHeaderMouseDown;
+			}
+		},
+
+		_mouseout: function(e){
+			if(!this._resizing){
+				var pos = domGeometry.position(this.grid.header.domNode);
+				if(has('chrome')){
+					for(var i in pos){
+						pos[i] = Math.floor(pos[i]);
+					}
+				}
+				
+				if(e.clientY <= pos.y || e.clientY >= pos.y + pos.h ||
+					e.clientX <= pos.x || e.clientX >= pos.x + pos.w){
+					this._readyToResize = 0;
+					domClass.remove(win.body(), 'gridxColumnResizing');
+				}
+			}
+		},
+
+		_mousedown: function(e){
+			var t = this;
+			if(t._readyToResize){
+				//begin resize
+				t._resizing = 1;
+				var g = t.grid,
+					refNode = query('.gridxCell', g.header.innerNode)[0];
+				dom.setSelectable(g.domNode, false);
+				win.doc.onselectstart = function(){
+					return false;
+				};
+				t._containerPos = domGeometry.position(g.domNode);
+				t._headerPos = domGeometry.position(g.header.domNode);
+				t._padBorder = domGeometry.getMarginBox(refNode).w - domGeometry.getContentBox(refNode).w;
+				t._initResizer();
+				t._updateResizer(e);
+				//Only mouse down, not moved yet
+				t._moving = 0;
+				//If column resizing should not cause any part of grid to be focused
+				setTimeout(function(){
+					g.focus.blur();
+				}, 0);
+			}else{
+				t._ismousedown = 1;
+			}
+		},
+
+		_initResizer: function(){
+			var t = this,
+				g = t.grid,
+				hs = g.hScroller,
+				n = hs && hs.container.offsetHeight ? hs.container : g.bodyNode,
+				headerTop = g.header.domNode.offsetTop,
+				h = n.parentNode.offsetTop + n.offsetHeight - g.header.domNode.offsetTop,
+				resizer = t._resizer;
+			if(!resizer){
+				resizer = t._resizer = domConstruct.create('div', {
+					className: 'gridxColumnResizer'
+				}, g.domNode, 'last');
+				t.connect(resizer, 'mouseup', '_mouseup');
+			}
+			var rs = resizer.style;
+			rs.top = headerTop + 'px';
+			rs.height = h + 'px';
+			rs.display = 'block';
+		},
+
+		_updateResizer: function(e){
+			var t = this;
+			if(t._resizing){
+				var ltr = t.grid.isLeftToRight(),
+					minWidth = t.arg('minWidth') + t._padBorder,
+					pos = t._cellPos,
+					left = e.clientX,
+					limit = ltr ? pos.x + minWidth : pos.x + pos.w - minWidth;
+				if(ltr ? left < limit : left > limit){
+					//Column is narrower than minWidth, the resizer should not move further.
+					left = limit;
+				}
+				t._width = (ltr ? left - pos.x : pos.x + pos.w - left) - t._padBorder;
+				//subtract the width of the border so that the resizer appears at center.
+				t._resizer.style.left = (left - t._containerPos.x - 2) + 'px';
+				//Now mouse is moving.
+				t._moving = 1;
+			}
+		},
+
+		_mouseup: function(e){
+			var t = this;
+			t._ismousedown = 0;
+			if(t._resizing){
+				//end resize
+				t._resizing = t._readyToResize = 0;
+				domClass.remove(win.body(), 'gridxColumnResizing');
+				dom.setSelectable(t.grid.domNode, true);
+				win.doc.onselectstart = null;
+				//Only change width when mouse moved.
+				if(t._moving){
+					t._moving = 0;
+					t.setWidth(t._targetCell.getAttribute('colid'), t._width + 'px');
+				}
+				t._resizer.style.display = 'none';
+				//If mouse is still in header region, should get ready for next resize operation
+				var x = e.clientX,
+					y = e.clientY,
+					headerPos = t._headerPos;
+				if(x >= headerPos.x && x <= headerPos.x + headerPos.w &&
+					y >= headerPos.y && y <= headerPos.y + headerPos.h){
+					e._target = t._targetCell;
+					t._mousemove(e);
+				}
+			}
+		},
+
+		_keydown: function(evt){
+			var t = this,
+				g = t.grid;
+			//support keyboard to resize a column
+			if((evt.keyCode == keys.LEFT_ARROW || evt.keyCode == keys.RIGHT_ARROW) && g._isCtrlKey(evt) && evt.shiftKey){
+				var colId = evt.columnId,
+					cellNode = query('[colid="' + g._escapeId(colId) + '"].gridxCell', g.header.innerNode)[0],
+					step = t.arg('step');
+				step = evt.keyCode == keys.LEFT_ARROW ^ !!g.isLeftToRight() ? step : -step;
+				t.setWidth(colId, domStyle.get(cellNode, 'width') + step);
+				event.stop(evt);
+			}
+		}
+	});
 });

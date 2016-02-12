@@ -1,198 +1,459 @@
-//>>built
-define("gridx/modules/RowHeader",["dojo/_base/declare","dojo/_base/query","dojo/_base/lang","dojo/_base/sniff","dojo/aspect","dojo/dom-construct","dojo/dom-class","dojo/dom-style","dojo/dom-geometry","dojo/keys","../core/_Module","../core/util"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9,_a,_b,_c){
-return _1(_b,{name:"rowHeader",getAPIPath:function(){
-return {rowHeader:this};
-},constructor:function(){
-this.headerNode=_6.create("div",{"class":"gridxRowHeaderHeader",role:"row",innerHTML:["<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: ",this.arg("width"),";\"><tr><th class=\"gridxRowHeaderHeaderCell\" role=\"rowheader\" tabindex=\"-1\"></th></tr></table>"].join("")});
-this.bodyNode=_6.create("div",{"class":"gridxRowHeaderBody"});
-},destroy:function(){
-this.inherited(arguments);
-this._b.remove();
-_6.destroy(this.headerNode);
-_6.destroy(this.bodyNode);
-},preload:function(){
-var t=this,_d=t.headerNode,_e=t.bodyNode,g=t.grid,_f=g.body,w=t.arg("width");
-g._initEvents(["RowHeaderHeader","RowHeaderCell"],g._eventNames);
-g.header.domNode.appendChild(_d);
-_d.style.width=w;
-t.headerCellNode=_2("th",_d)[0];
-g._connectEvents(_d,"_onHeaderMouseEvent",t);
-g.mainNode.appendChild(_e);
-_e.style.width=w;
-g.hLayout.register(null,_e);
-t.batchConnect([_f,"onRender","_onRendered"],[_f,"onAfterRow","_onAfterRow"],[_f,"onAfterCell","_onAfterCell"],[_f,"onUnrender","_onUnrender"],[g.bodyNode,"onscroll","_onScroll"],[g,"onRowMouseOver","_onRowMouseOver"],[g,"onRowMouseOut","_onRowMouseOver"],[g,"_onResizeEnd","_onResize"],g.columnWidth&&[g.columnWidth,"onUpdate","_onResize"],g.columnResizer&&[g.columnResizer,"onResize","_onResize"],[g,"onRowHeaderCellMouseOver","_onCellMouseOver"],[g,"onRowHeaderCellMouseOut","_onCellMouseOver"]);
-t._b=_5.before(_f,"renderRows",_3.hitch(t,t._onRenderRows),true);
-g._connectEvents(_e,"_onBodyMouseEvent",t);
-t._initFocus();
-},load:function(_10,_11){
-var t=this,g=t.grid,bn=t.bodyNode;
-_11.then(function(){
-var w=bn.offsetWidth||_8.get(bn,"width"),ltr=g.isLeftToRight(),_12=_9.getBorderExtents(g.mainNode);
-bn.style[ltr?"left":"right"]=-(w+(ltr?_12.l:_12.r))+"px";
-t.loaded.callback();
-});
-},width:"20px",onMoveToRowHeaderCell:function(){
-},_onRenderRows:function(_13,_14,_15){
-var nd=this.bodyNode;
-if(_14>0){
-var str=this._buildRows(_13,_14);
-if(_15=="top"){
-_6.place(str,nd,"first");
-}else{
-if(_15=="bottom"){
-_6.place(str,nd,"last");
-}else{
-nd.innerHTML=str;
-nd.scrollTop=0;
-}
-}
-}else{
-if(_15!="top"&&_15!="bottom"){
-nd.innerHTML="";
-}
-}
-},_onAfterRow:function(row){
-var t=this,_16=row.visualIndex(),n=_2("[visualindex=\""+_16+"\"].gridxRowHeaderRow",t.bodyNode)[0],bn=_2("[visualindex=\""+_16+"\"].gridxRow .gridxRowTable",t.grid.bodyNode)[0],nt=n.firstChild,cp=t.arg("cellProvider");
-n.setAttribute("rowid",row.id);
-n.setAttribute("rowindex",row.index());
-n.setAttribute("parentid",t.model.treePath(row.id).pop()||"");
-if(cp){
-nt.firstChild.firstChild.firstChild.innerHTML=cp.call(t,row);
-}
-t._syncRowHeight(nt,bn);
-},_onAfterCell:function(_17){
-var t=this,_18=_17.row.visualIndex(),n=_2("[visualindex=\""+_18+"\"].gridxRowHeaderRow",t.bodyNode)[0],bn=_2("[visualindex=\""+_18+"\"].gridxRow .gridxRowTable",t.grid.bodyNode)[0];
-t._syncRowHeight(n.firstChild,bn);
-},_syncRowHeight:function(_19,_1a){
-var t=this;
-if(t._isCollapse===undefined){
-var _1b=_2(".gridxCell",t.grid.header.innerNode)[0];
-t._isCollapse=_1b&&_8.get(_1b,"borderCollapse")=="collapse";
-}
-function _1c(){
-return _4("ie")||t._isCollapse?_1a.offsetHeight+"px":_8.getComputedStyle(_1a).height;
-};
-_19.style.height=_1c();
-setTimeout(function(){
-_19.style.height=_1c();
-},0);
-},_onRendered:function(_1d,_1e){
-var t=this,hp=t.arg("headerProvider");
-if(hp){
-t.headerCellNode.innerHTML=hp();
-}
-t._onScroll();
-},_onUnrender:function(id){
-var _1f=id&&_2("[rowid=\""+id+"\"].gridxRowHeaderRow",this.bodyNode);
-if(_1f&&_1f.length){
-_6.destroy(_1f[_1f.length-1]);
-}
-},_onScroll:function(){
-this.bodyNode.scrollTop=this.grid.bodyNode.scrollTop;
-},_onResize:function(){
-for(var brn=this.grid.bodyNode.firstChild,n=this.bodyNode.firstChild;brn&&n;brn=brn.nextSibling,n=n.nextSibling){
-n.firstChild.style.height=brn.firstChild.offsetHeight+"px";
-}
-var t=this,g=t.grid,bn=t.bodyNode,w=bn.offsetWidth||_8.get(bn,"width"),ltr=g.isLeftToRight(),_20=_9.getBorderExtents(g.mainNode);
-bn.style[ltr?"left":"right"]=-(w+(ltr?_20.l:_20.r))+"px";
-},_buildRows:function(_21,_22){
-var sb=[];
-for(var i=0;i<_22;++i){
-sb.push("<div class=\"gridxRowHeaderRow\" role=\"row\" visualindex=\"",_21+i,"\"><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"height: 24px;\"><tr><td class=\"gridxRowHeaderCell\" role=\"rowheader\" tabindex=\"-1\"></td></tr></table></div>");
-}
-return sb.join("");
-},_onHeaderMouseEvent:function(_23,e){
-var g=this.grid,_24="onRowHeaderHeader"+_23,_25="onHeader"+_23;
-if(g._isConnected(_24)){
-g[_24](e);
-}
-if(g._isConnected(_25)){
-g[_25](e);
-}
-},_onBodyMouseEvent:function(_26,e){
-var g=this.grid,_27="onRowHeaderCell"+_26,_28="onRow"+_26,_29=g._isConnected(_27),_2a=g._isConnected(_28);
-if(_29||_2a){
-this._decorateBodyEvent(e);
-if(e.rowIndex>=0){
-if(e.isRowHeader&&_29){
-g[_27](e);
-}
-if(_2a){
-g[_28](e);
-}
-}
-}
-},_decorateBodyEvent:function(e){
-var _2b=e.target||e.originalTarget;
-while(_2b&&_2b!=this.bodyNode){
-if(_7.contains(_2b,"gridxRowHeaderCell")){
-e.isRowHeader=true;
-e.rowHeaderCellNode=_2b;
-}else{
-if(_2b.tagName.toLowerCase()==="div"&&_7.contains(_2b,"gridxRowHeaderRow")){
-e.rowId=_2b.getAttribute("rowid");
-e.parentId=_2b.getAttribute("parentid");
-e.rowIndex=parseInt(_2b.getAttribute("rowindex"),10);
-e.visualIndex=parseInt(_2b.getAttribute("visualindex"),10);
-return;
-}
-}
-_2b=_2b.parentNode;
-}
-},_onRowMouseOver:function(e){
-var _2c=_2("> [rowid=\""+e.rowId+"\"].gridxRowHeaderRow",this.bodyNode)[0];
-if(_2c){
-_7.toggle(_2c,"gridxRowOver",e.type.toLowerCase()=="mouseover");
-}
-},_onCellMouseOver:function(e){
-var _2d=_2("> [rowid=\""+e.rowId+"\"].gridxRowHeaderRow .gridxRowHeaderCell",this.bodyNode)[0];
-if(_2d){
-_7.toggle(_2d,"gridxRowHeaderCellOver",e.type.toLowerCase()=="mouseover");
-}
-},_initFocus:function(){
-var t=this,_2e=t.grid.focus;
-if(_2e){
-_2e.registerArea({name:"rowHeader",priority:0.9,focusNode:t.bodyNode,scope:t,doFocus:t._doFocus,onFocus:t._onFocus,doBlur:t._blur,onBlur:t._blur,connects:[t.connect(t.bodyNode,"onkeydown","_onKeyDown")]});
-}
-},_doFocus:function(evt){
-if(this._focusRow(this.grid.body._focusCellRow)){
-this.grid.focus.stopEvent(evt);
-return true;
-}
-},_onFocus:function(evt){
-var t=this,_2f=evt.target;
-while(_2f!=t.bodyNode){
-if(_7.contains(_2f,"gridxRowHeaderRow")){
-var r=t.grid.body._focusCellRow=parseInt(_2f.getAttribute("visualindex"),10);
-t._focusRow(r);
-return true;
-}
-_2f=_2f.parentNode;
-}
-},_focusRow:function(_30){
-var t=this,_31=_2("[visualindex=\""+_30+"\"] .gridxRowHeaderCell",t.bodyNode)[0];
-t._blur();
-_31=_31||t.bodyNode.firstChild;
-if(_31){
-_7.add(_31,"gridxCellFocus");
-_31.focus();
-}
-return _31;
-},_blur:function(){
-_2(".gridxCellFocus",this.bodyNode).forEach(function(_32){
-_7.remove(_32,"gridxCellFocus");
-});
-return true;
-},_onKeyDown:function(evt){
-var t=this,g=t.grid;
-if(g.focus.currentArea()=="rowHeader"&&evt.keyCode==_a.UP_ARROW||evt.keyCode==_a.DOWN_ARROW){
-g.focus.stopEvent(evt);
-var _33=evt.keyCode==_a.UP_ARROW?-1:1,_34=g.body,r=_34._focusCellRow+_33;
-_34._focusCellRow=r=r<0?0:(r>=_34.visualCount?_34.visualCount-1:r);
-g.vScroller.scrollToRow(r).then(function(){
-t._focusRow(r);
-t.onMoveToRowHeaderCell(r,evt);
-});
-}
-}});
+define([
+	"dojo/_base/declare",
+	// "dojo/query",
+	'../support/query',
+	"dojo/_base/lang",
+	"dojo/_base/sniff",
+	"dojo/aspect",
+	"dojo/dom-construct",
+	"dojo/dom-class",
+	"dojo/dom-style",
+	"dojo/dom-geometry",
+	"dojo/keys",
+	"dojo/on",
+	"../core/_Module"
+], function(declare, query, lang, has, aspect, domConstruct, domClass, domStyle, domGeo, keys, on, _Module){
+
+/*=====
+	return declare(_Module, {
+		// summary:
+		//		module name: rowHeader.
+		//		This modules provides a header before each row.
+		// description:
+		//		Row header can be used as a UI handler for row selection, especially when
+		//		cell selection is turned on and selectRowTriggerOnCell is turned off.
+		//		It can also be used as a place to hold the checkbox/radiobutton for IndirectSelect
+
+		// width: String
+		//		The width (CSS value) of a row header.
+		width: '20px',
+
+		onMoveToRowHeaderCell: function(){
+			// summary:
+			//		Fired when focus is moved to a row header using keyboard.
+			// tags:
+			//		private callback
+		},
+
+		// headerProvider: Function
+		//		A functionn that returns an HTML string to fill the header cell of row headers.
+		headerProvider: null,
+
+		// cellProvider: Function
+		//		A function that returns an HTML string to fill the body cells of row headers.
+		cellProvider: null
+	});
+=====*/
+
+	return declare(_Module, {
+		name: 'rowHeader',
+
+		constructor: function(){
+			this.headerNode = domConstruct.create('div', {
+				'class': 'gridxRowHeaderHeader',
+				role: 'row',
+				innerHTML: '<table role="presentation" border="0" cellspacing="0" cellpadding="0" style="width: 100%;"><tr><td class="gridxRowHeaderHeaderCell" role="rowheader" tabindex="-1"></td></tr></table>'
+			});
+			this.bodyNode = domConstruct.create('div', {
+				'class': 'gridxRowHeaderBody'
+			});
+		},
+
+		destroy: function(){
+			this.inherited(arguments);
+			domConstruct.destroy(this.headerNode);
+			domConstruct.destroy(this.bodyNode);
+		},
+
+		preload: function(){
+			var t = this,
+				rhhn = t.headerNode,
+				rhbn = t.bodyNode,
+				g = t.grid,
+				body = g.body,
+				w = t.arg('width');
+			//register events
+			g._initEvents(['RowHeaderHeader', 'RowHeaderCell'], g._eventNames);
+			//modify header
+			g.header.domNode.appendChild(rhhn);
+			rhhn.style.width = w;
+			t.headerCellNode = query('td', rhhn)[0];
+			g._connectEvents(rhhn, '_onHeaderEvent', t);
+			//modify body
+			g.mainNode.appendChild(rhbn);
+			rhbn.style.width = w;
+			g.hLayout.register(null, rhbn);
+			
+			t.batchConnect(
+				[body, 'onRender', '_onRendered'],
+				[body, 'onAfterRow', '_onAfterRow'],
+				[body, 'onRowHeightChange', '_onAfterRow'],
+				[body, 'onAfterCell', '_onAfterCell'],
+				[body, 'onUnrender', '_onUnrender'],
+				[body, 'onEmpty', function(){
+					rhbn.innerHTML = '';
+				}],
+				[g.bodyNode, 'onscroll', '_onScroll'],
+				[g, 'onRowMouseOver', '_onRowMouseOver'],
+				[g, 'onRowMouseOut', '_onRowMouseOver'],
+				[g, '_onResizeEnd', '_onResize'],
+				g.columnWidth && [g.columnWidth, 'onUpdate', '_onResize'],
+				g.columnResizer && [g.columnResizer, 'onResize', '_onResize'],
+				[g, 'onRowHeaderCellMouseOver', '_onCellMouseOver'],
+				[g, 'onRowHeaderCellMouseOut', '_onCellMouseOver'],
+				[t.model, 'onSizeChange', '_onSizeChange']);
+			//TODO: need to organize this into connect/disconnect system
+			t._cnnts.push(
+				aspect.before(body, 'renderRows', lang.hitch(t, t._onRenderRows), true),
+				aspect.before(body, '_onDelete', lang.hitch(t, t._onDelete), true));
+
+			g._connectEvents(rhbn, '_onBodyEvent', t);
+			t._initFocus();
+		},
+
+		load: function(args, startup){
+			var t = this,
+				g = t.grid,
+				bn = t.bodyNode;
+			startup.then(function(){
+				var w = bn.offsetWidth || domStyle.get(bn, 'width'),
+					ltr = g.isLeftToRight(),
+					mainBorder = domGeo.getBorderExtents(g.mainNode);
+				bn.style[ltr ? 'left' : 'right'] = -(w + (ltr ? mainBorder.l : mainBorder.r)) + 'px';
+				t.loaded.callback();
+			});
+		},
+
+		//Public--------------------------------------------------------------------------
+		width: '20px',
+
+		onMoveToRowHeaderCell: function(){},
+
+		//Private-------------------------------------------------------
+		_onRenderRows: function(start, count, position){
+			var nd = this.bodyNode;
+			if(count > 0){
+				var str = this._buildRows(start, count);
+				if(position == 'top'){
+					domConstruct.place(str, nd, 'first');
+				}else if(position == 'bottom'){
+					domConstruct.place(str, nd, 'last');
+				}else{
+					nd.innerHTML = str;
+					nd.scrollTop = 0;
+				}
+			}else if(position != 'top' && position != 'bottom'){
+				nd.innerHTML = '';
+			}
+		},
+
+		_onAfterRow: function(row){
+			if(typeof row === 'string'){
+				row = this.grid.row(row, 1);
+			}
+			if(!row){
+				console.warn('rowHeader._onAfterRow, row is null');
+				return;
+			}
+			var t = this,
+				visualIndex = row.visualIndex(),
+				n = query('[visualindex="' + visualIndex + '"].gridxRowHeaderRow', t.bodyNode)[0],
+				bn = t.grid.dod? query('[visualindex="' + visualIndex + '"].gridxRow', t.grid.bodyNode)[0] : query('[visualindex="' + visualIndex + '"].gridxRow .gridxRowTable', t.grid.bodyNode)[0],
+				cp = t.arg('cellProvider');
+			if(!n || !bn) return;
+			n.setAttribute('rowid', row.id);
+			n.setAttribute('rowindex', row.index());
+			n.setAttribute('parentid', t.model.treePath(row.id).pop() || '');
+			if(cp){
+				n.firstChild.firstChild.firstChild.firstChild.innerHTML = cp.call(t, row);
+			}
+			t._syncRowHeight(n, bn);
+		},
+
+		_onAfterCell: function(cell){
+			//This is to ensuregit  the rowHeader get correct height for editable cells
+			var t = this,
+				visualIndex = cell.row.visualIndex(),
+				n = query('[visualindex="' + visualIndex + '"].gridxRowHeaderRow', t.bodyNode)[0],
+				bn = query('[visualindex="' + visualIndex + '"].gridxRow .gridxRowTable', t.grid.bodyNode)[0];
+			t._syncRowHeight(n, bn);
+		},
+
+		_syncRowHeight: function(rowHeaderNode, bodyNode){
+			//Check if the table is collasped.
+			var t = this, h, isIE = has('ie');
+
+			if (t._isCollapse === undefined) {
+				var refNode = query('.gridxCell', t.grid.header.innerNode)[0];
+				t._isCollapse = refNode && domStyle.get(refNode, 'borderCollapse') == 'collapse';
+			}
+			//Use setTimeout to ensure the row header height correct reflects the body row height.
+			//FIXME: This is tricky and may not be working in some special cases.
+			function getHeight(){
+				return has('ie') <= 8 || t._isCollapse ? bodyNode.offsetHeight + 'px' : domStyle.getComputedStyle(bodyNode).height;
+			}
+			setTimeout(function() {
+				h = getHeight();
+				if ((h + '').indexOf('.') >= 0) {
+					// #13641
+					// if (isIE === 9) {
+					// 	rowHeaderNode.style.height = rowHeaderNode.firstChild.style.height = bodyNode.style.height = bodyNode.clientHeight + 1 + 'px';
+					// } else {
+						rowHeaderNode.style.height = rowHeaderNode.firstChild.style.height = bodyNode.firstChild.style.height = bodyNode.firstChild.clientHeight + 1 + 'px';
+					// }
+					//For IE,setting fixed height on row will break DOD.
+					// bodyNode.style.height = '';
+				} else {
+					// rowHeaderNode.style.height = rowHeaderNode.firstChild.style.height  = h;
+					if(rowHeaderNode && rowHeaderNode.firstChild){
+						rowHeaderNode.style.height = rowHeaderNode.firstChild.style.height = h;
+					}
+				}
+			}, 0);
+		},
+
+		_onRendered: function(start, count){
+			var t = this,
+				hp = t.arg('headerProvider');
+			if(hp){
+				t.headerCellNode.innerHTML = hp();
+			}
+			t._onScroll();
+		},
+		
+		_onSizeChange: function(size, oldSize){
+			var t = this,
+				g = t.grid,
+				hp = this.arg('headerProvider');
+			if(!size && hp){
+				t.headerCellNode.innerHTML = '';
+			}
+			t._onScroll();
+		},
+
+		_onDelete: function(id){
+			var nodes = this.model.isId(id) && query('[rowid="' + this.grid._escapeId(id) + '"].gridxRowHeaderRow', this.bodyNode);
+			if(nodes && nodes.length){
+				var node = nodes[nodes.length - 1], sn, rid,
+					pid = node.getAttribute('parentid'),
+					pids = {},
+					toDeleteC = 1;
+				pids[id] = 1;
+				for(sn = node.nextSibling; sn && pids[sn.getAttribute('parentid')]; sn = sn.nextSibling){
+					rid = sn.getAttribute('rowid');
+					toDeleteC++;
+					pids[rid] = 1;
+				}
+				for(; sn; sn = sn.nextSibling){
+					if(sn.getAttribute('parentid') == pid){
+						sn.setAttribute('rowindex', parseInt(sn.getAttribute('rowindex'), 10) - 1);
+					}
+					var vidx = parseInt(sn.getAttribute('visualindex'), 10);
+					sn.setAttribute('visualindex', vidx - toDeleteC);
+				}
+			}
+		},
+		
+		_onUnrender: function(id, refresh, preOrPost){
+			if(!this.model.isId(id) && preOrPost){
+				if(preOrPost === 'post'){
+					this.bodyNode.lastChild && domConstruct.destroy(this.bodyNode.lastChild);
+				}else{
+					this.bodyNode.firstChild && domConstruct.destroy(this.bodyNode.firstChild);
+				}
+			}else{
+				//If this is fired in partial refresh, don't destroy the row header, save if for later use.
+				if(refresh != 'refresh'){
+					var nodes = this.model.isId(id) && query('[rowid="' + this.grid._escapeId(id) + '"].gridxRowHeaderRow', this.bodyNode);
+					if(nodes && nodes.length){
+						//remove the last node instead of the first, because when refreshing, there'll be 2 nodes with same id.
+						domConstruct.destroy(nodes[nodes.length - 1]);
+					}
+				}
+			}
+		},
+
+		_onScroll: function(){
+			var t = this;
+			
+			t.bodyNode.scrollTop = t.grid.bodyNode.scrollTop;
+			
+			//scrollTop to be set must not exceeds scrollTopMax
+			if(t.bodyNode.scrollHeight - t.bodyNode.clientHeight >= t.grid.bodyNode.scrollTop){
+				t.bodyNode.scrollTop = t.grid.bodyNode.scrollTop;
+			}else{
+				setTimeout(function(){
+					t.bodyNode.scrollTop = t.grid.bodyNode.scrollTop;
+				}, 0);
+			}
+		},
+
+		_onResize: function(){
+			var ie = has('ie')? has('ie') : has('trident')? 11 : false, 
+				bn;
+
+			for(var brn = this.grid.bodyNode.firstChild, n = this.bodyNode.firstChild;
+				brn && n;
+				brn = brn.nextSibling, n = n.nextSibling){
+					bn = this.grid.dod ? brn : brn.firstChild;
+					var h = ie > 8 ? domStyle.getComputedStyle(bn).height : bn.offsetHeight + 'px';
+					n.style.height = n.firstChild.style.height = h;
+			}
+
+			bn = this.bodyNode;
+			var t = this,
+				g = t.grid,
+				w = bn.offsetWidth || domStyle.get(bn, 'width'),
+				ltr = g.isLeftToRight(),
+				mainBorder = domGeo.getBorderExtents(g.mainNode);
+			
+			bn.style[ltr ? 'left' : 'right'] = -(w + (ltr ? mainBorder.l : mainBorder.r)) + 'px';
+		},
+
+		_buildRows: function(start, count){
+			var sb = [];
+			for(var i = 0; i < count; ++i){
+				sb.push('<div class="gridxRowHeaderRow" role="row" visualindex="', start + i,
+					'"><table role="presentation" border="0" cellspacing="0" cellpadding="0" style="height: 24px;"><tr><td class="gridxRowHeaderCell" role="rowheader" tabindex="-1"></td></tr></table></div>');
+			}
+			return sb.join('');
+		},
+
+		//Events
+		_onHeaderEvent: function(eventName, e){
+			var g = this.grid,
+				evtCell = 'onRowHeaderHeader' + eventName;
+
+			g[evtCell](e);
+			on.emit(e.target, 'rowHeader' + eventName, e);
+		},
+
+		_onBodyEvent: function(eventName, e){
+			var g = this.grid,
+				evtCell = 'onRowHeaderCell' + eventName,
+				evtRow = 'onRow' + eventName;
+				// cellConnected = g._isConnected(evtCell),
+				// rowConnected = g._isConnected(evtRow);
+
+			this._decorateBodyEvent(e);
+			if(e.rowIndex >= 0){
+				if(e.isRowHeader){
+					g[evtCell](e);
+					on.emit(e.target, 'rowHeader' + eventName, e);
+				}
+				g[evtRow](e);
+				on.emit(e.target, 'row' + eventName, e);
+			}
+		},
+
+		_decorateBodyEvent: function(e){
+			var node = e.target || e.originalTarget;
+			while(node && node != this.bodyNode){
+				if(domClass.contains(node, 'gridxRowHeaderCell')){
+					e.isRowHeader = true;
+					e.rowHeaderCellNode = node;
+				}else if(node.tagName.toLowerCase() === 'div' && domClass.contains(node, 'gridxRowHeaderRow')){
+					e.rowId = node.getAttribute('rowid');
+					e.parentId = node.getAttribute('parentid');
+					e.rowIndex = parseInt(node.getAttribute('rowindex'), 10);
+					e.visualIndex = parseInt(node.getAttribute('visualindex'), 10);
+					return;
+				}
+				node = node.parentNode;
+			}
+		},
+
+		_onRowMouseOver: function(e){
+			var rowNode = query('> [rowid="' + this.grid._escapeId(e.rowId) + '"].gridxRowHeaderRow', this.bodyNode)[0];
+			if(rowNode){
+				domClass.toggle(rowNode, "gridxRowOver", e.type.toLowerCase() == 'mouseover');
+			}
+		},
+
+		_onCellMouseOver: function(e){
+			var cellNode = query('> [rowid="' + this.grid._escapeId(e.rowId) + '"].gridxRowHeaderRow .gridxRowHeaderCell', this.bodyNode)[0];
+			if(cellNode){
+				domClass.toggle(cellNode, "gridxRowHeaderCellOver", e.type.toLowerCase() == 'mouseover');
+			}
+		},
+
+		//Focus--------------------------------------------------------
+		_initFocus: function(){
+			var t = this,
+				focus = t.grid.focus;
+			if(focus){
+				focus.registerArea({
+					name: 'rowHeader',
+					priority: 0.9,
+					focusNode: t.bodyNode,
+					scope: t,
+					doFocus: t._doFocus,
+					onFocus: t._onFocus,
+					doBlur: t._blur,
+					onBlur: t._blur,
+					connects: [
+						t.connect(t.bodyNode, 'onkeydown', '_onKeyDown')
+					]
+				});
+			}
+		},
+
+		_doFocus: function(evt){
+			if(this._focusRow(this.grid.body._focusCellRow)){
+				this.grid.focus.stopEvent(evt);
+				return true;
+			}
+		},
+
+		_onFocus: function(evt){
+			var t = this,
+				node = evt.target;
+			while(node != t.bodyNode){
+				if(domClass.contains(node, 'gridxRowHeaderRow')){
+					var r = t.grid.body._focusCellRow = parseInt(node.getAttribute('visualindex'), 10);
+					t._focusRow(r);
+					t._onScroll();
+					return true;
+				}
+				node = node.parentNode;
+			}
+		},
+
+		_focusRow: function(visIndex){
+			var t = this,
+				node = query('[visualindex="' + visIndex + '"] .gridxRowHeaderCell', t.bodyNode)[0];
+			t._blur();
+			node = node || t.bodyNode.firstChild;
+			if(node){
+				domClass.add(node, 'gridxCellFocus');
+				node.focus();
+			}
+			return node;
+		},
+
+		_blur: function(){
+			query('.gridxCellFocus', this.bodyNode).forEach(function(node){
+				domClass.remove(node, 'gridxCellFocus');
+			});
+			return true;
+		},
+
+		_onKeyDown: function(evt){
+			var t = this, g = t.grid;
+			if(!t._busy && g.focus.currentArea() == 'rowHeader' && 
+					evt.keyCode == keys.UP_ARROW || evt.keyCode == keys.DOWN_ARROW){
+				g.focus.stopEvent(evt);
+				var step = evt.keyCode == keys.UP_ARROW ? -1 : 1,
+					body = g.body,
+					r = body._focusCellRow + step;
+				body._focusCellRow = r = r < 0 ? 0 : (r >= g.view.visualCount ? g.view.visualCount - 1 : r);
+				t._busy = 1;
+				g.vScroller.scrollToRow(r).then(function(){
+					t._focusRow(r);
+					t._busy = 0;
+					t.onMoveToRowHeaderCell(r, evt);
+				});
+			}
+		}
+	});
 });

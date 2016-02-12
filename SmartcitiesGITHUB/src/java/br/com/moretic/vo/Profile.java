@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -32,7 +34,62 @@ import org.codehaus.jackson.annotate.*;
 @Entity
 @Table(name = "profile", schema = "public")
 @XmlRootElement
-@Cacheable(true)
+@NamedQueries({
+    @NamedQuery(
+            name = "Profile.findByEmailLike",
+            query = "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars WHERE p.email LIKE :account"
+    ),
+    @NamedQuery(
+            name = "Profile.findContacts",
+            query = "SELECT pc FROM ProfileContact pc WHERE pc.id = :paramid"),
+
+    @NamedQuery(
+            name = "Profile.findMyCircles",
+            query = "SELECT DISTINCT c FROM Circle c where c.circleName LIKE :pCircleName and c.owner = :owner"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyFtps",
+            query = "SELECT DISTINCT a FROM FtpClient a  WHERE a.idProfile = :entityId ORDER BY a.host"
+    ),
+    @NamedQuery(
+            name = "Profile.findMySecInfo",
+            query = "SELECT DISTINCT a FROM SecurityInfo a  WHERE a.idProfile = :entityId ORDER BY a.emailRecorey1"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyAdress",
+            query = "SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyAvatar",
+            query = "SELECT DISTINCT a FROM Avatar a  WHERE a.idProfile = :entityId ORDER BY a.idavatar"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyUserLog",
+            query = "SELECT DISTINCT a FROM UserLog a  WHERE a.idProfile = :entityId ORDER BY a.dTime"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyFileSource",
+            query = "SELECT DISTINCT a FROM FileSource a  WHERE a.idProfile = :entityId ORDER BY a.myTp"
+    ),
+    @NamedQuery(
+            name = "Profile.findMyDataSource",
+            query = "SELECT DISTINCT a FROM DataSource a  WHERE a.idProfile = :entityId ORDER BY a.nmDatasource"
+    ),
+    @NamedQuery(
+            name = "Profile.findById",
+            query = "SELECT DISTINCT p FROM"
+            + " Profile p "
+            + " LEFT JOIN FETCH p.profile "
+            + " LEFT JOIN FETCH p.shareViews"
+            + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile"
+            + " LEFT JOIN FETCH p.groupHasProfiles"
+            + " LEFT JOIN FETCH p.profiles"
+            + " LEFT JOIN FETCH p.socialNetworks"
+            + " LEFT JOIN FETCH p.avatars"
+            + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile1"
+            + " LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile")
+
+})
 public class Profile implements java.io.Serializable, Comparable<Profile> {
 
     @Id
@@ -40,15 +97,13 @@ public class Profile implements java.io.Serializable, Comparable<Profile> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
     @Column(name = "idprofile", unique = true, nullable = false)
     private int idprofile;
-    
+
     @Transient
     private Set<String> circlesOwner = new HashSet<String>();
-    
-    @Column(name = "paypal_acc",nullable = true,updatable = true,length = 200,unique = false)
+
+    @Column(name = "paypal_acc", nullable = true, updatable = true, length = 200, unique = false)
     private String paypal = null;
-    
-    
-    
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idprofile_organization", updatable = false, insertable = false)
@@ -73,7 +128,7 @@ public class Profile implements java.io.Serializable, Comparable<Profile> {
     private Boolean online;
 
     @JsonProperty
-    @Column(name = "bio_text_line",length = 500)
+    @Column(name = "bio_text_line", length = 500)
     private String bioText;
 
     public String getBioText() {

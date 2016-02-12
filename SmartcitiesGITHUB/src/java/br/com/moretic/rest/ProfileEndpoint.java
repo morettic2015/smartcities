@@ -1,5 +1,6 @@
 package br.com.moretic.rest;
 
+import static br.com.moretic.rest.ProfileEndpoint.PROFILE;
 import br.com.moretic.social.twitter.TwiterCallback;
 import static br.com.moretic.social.twitter.TwiterCallback.*;
 import br.com.moretic.util.MD5Crypt;
@@ -91,15 +92,14 @@ public class ProfileEndpoint {
     @Path("/addToCircle/{emailContact}/{circleName}")
     @Produces("application/json")
     public Response addToCircle(@PathParam("emailContact") String emailContact, @PathParam("circleName") String circleName, @Context HttpServletRequest req, @Context HttpServletResponse res) {
-        String jpaQuery = "SELECT p FROM Profile p where p.email LIKE :pEmail";
-        Query q = em.createQuery(jpaQuery);
-        q.setParameter("pEmail", "%" + emailContact + "%");
+
+        Query q = em.createNamedQuery("Profile.findByEmailLike");
+        q.setParameter("account", "%" + emailContact + "%");
         Profile circleContact = (Profile) q.getSingleResult();
         Profile owner = getProfileSession(req);
         owner = em.find(Profile.class, owner.getIdprofile());
 
-        jpaQuery = "SELECT DISTINCT c FROM Circle c where c.circleName LIKE :pCircleName and c.owner = :owner";
-        q = em.createQuery(jpaQuery);
+        q = em.createNamedQuery("Profile.findMyCircles");
         q.setParameter("pCircleName", circleName);
         q.setParameter("owner", owner);
         Circle circleGroup = null;
@@ -147,7 +147,7 @@ public class ProfileEndpoint {
 
     }
 
-    public HashSet<String> findMyCircles(int ownerId, EntityManager em1) {
+    private HashSet<String> findMyCircles(int ownerId, EntityManager em1) {
         String querySql
                 = " SELECT "
                 + "    c1.* "
@@ -366,40 +366,39 @@ public class ProfileEndpoint {
     @Path("/{id:[0-9][0-9]*}")
     @Produces("application/json")
     public Response findById(@PathParam("id") int id, @Context HttpServletRequest req, @Context HttpServletResponse res) {
-        TypedQuery<Profile> findByIdQuery = em
-                .createQuery("SELECT DISTINCT p FROM"
-                        + " Profile p "
-                        + " LEFT JOIN FETCH p.profile "
-                        /////////   + " LEFT JOIN FETCH p.myFtps"
-                        + " LEFT JOIN FETCH p.shareViews"
-                        + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile"
-                        + " LEFT JOIN FETCH p.groupHasProfiles"
-                        + " LEFT JOIN FETCH p.profiles"
-                        + " LEFT JOIN FETCH p.socialNetworks"
-                        + " LEFT JOIN FETCH p.avatars"
-                        + " LEFT JOIN FETCH p.profileContactsForProfileIdprofile1"
-                        + " LEFT JOIN FETCH p.shareViewWiths LEFT JOIN FETCH p.adresses LEFT JOIN FETCH p.securityInfo LEFT JOIN FETCH p.profileLang WHERE p.idprofile = :entityId ORDER BY p.idprofile",
-                        Profile.class);
+
+        Profile p = findProfileById(id, req, res);
+
+        if (p == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(p).build();
+
+    }
+
+    private Profile findProfileById(int id, HttpServletRequest req, HttpServletResponse res) {
+        TypedQuery<Profile> findByIdQuery = em.createNamedQuery("Profile.findById", Profile.class);
         findByIdQuery.setParameter("entityId", id);
         Profile entity = null;
         try {
             entity = findByIdQuery.getSingleResult();
             //Carrega os endereços
-            TypedQuery<Adress> findByIdProf = em.createQuery("SELECT DISTINCT a FROM Adress a  WHERE a.idProfile = :entityId ORDER BY a.idadress", Adress.class);
+            TypedQuery<Adress> findByIdProf = em.createNamedQuery("Profile.findMyAdress", Adress.class);
             findByIdProf.setParameter("entityId", id);
             List<Adress> entityAddrs;
             entityAddrs = findByIdProf.getResultList();
             entity.getAdresses().addAll(entityAddrs);
 
             //Carrega os dados de segurança
-            TypedQuery<SecurityInfo> findByIdSec = em.createQuery("SELECT DISTINCT a FROM SecurityInfo a  WHERE a.idProfile = :entityId ORDER BY a.emailRecorey1", SecurityInfo.class);
+            TypedQuery<SecurityInfo> findByIdSec = em.createNamedQuery("Profile.findMySecInfo", SecurityInfo.class);
             findByIdSec.setParameter("entityId", id);
             List<SecurityInfo> entitySec;
             entitySec = findByIdSec.getResultList();
             entity.getSecurityInfo().addAll(entitySec);
 
             //Carrega a lista de logs
-            TypedQuery<UserLog> findByIdSecUserLog = em.createQuery("SELECT DISTINCT a FROM UserLog a  WHERE a.idProfile = :entityId ORDER BY a.dTime", UserLog.class);
+            TypedQuery<UserLog> findByIdSecUserLog = em.createNamedQuery("Profile.findMyUserLog", UserLog.class);
             findByIdSecUserLog.setParameter("entityId", id);
             findByIdSecUserLog.setMaxResults(200);//Maximo 200 registros....
             List<UserLog> entityUserLog;
@@ -409,7 +408,7 @@ public class ProfileEndpoint {
             entity.getlLog().addAll(entityUserLog);
 
             //Carrega a lista de avatars
-            TypedQuery<Avatar> findByIdAvatar = em.createQuery("SELECT DISTINCT a FROM Avatar a  WHERE a.idProfile = :entityId ORDER BY a.idavatar", Avatar.class);
+            TypedQuery<Avatar> findByIdAvatar = em.createNamedQuery("Profile.findMyAvatar", Avatar.class);
             findByIdAvatar.setParameter("entityId", id);
             List<Avatar> entitAvatar;
             entitAvatar = findByIdAvatar.getResultList();
@@ -417,7 +416,7 @@ public class ProfileEndpoint {
             entity.getAvatars().addAll(entitAvatar);
 
             //Carrega a lista de Files
-            TypedQuery<FileSource> findByIdSecUserLogFileSource = em.createQuery("SELECT DISTINCT a FROM FileSource a  WHERE a.idProfile = :entityId ORDER BY a.myTp", FileSource.class);
+            TypedQuery<FileSource> findByIdSecUserLogFileSource = em.createNamedQuery("Profile.findMyFileSource", FileSource.class);
             findByIdSecUserLogFileSource.setParameter("entityId", id);
             List<FileSource> entityUserLogFS;
             entityUserLogFS = findByIdSecUserLogFileSource.getResultList();
@@ -425,26 +424,25 @@ public class ProfileEndpoint {
             entity.getMySources().addAll(entityUserLogFS);
 
             //Carrega a lista de Files
-            TypedQuery<FtpClient> findByFtpSource = em.createQuery("SELECT DISTINCT a FROM FtpClient a  WHERE a.idProfile = :entityId ORDER BY a.host", FtpClient.class);
+            TypedQuery<FtpClient> findByFtpSource = em.createNamedQuery("Profile.findMyFtps", FtpClient.class);
             findByFtpSource.setParameter("entityId", id);
             List<FtpClient> entityFtps;
-            //findByFtpSource.setParameter("entityId", id);
             entityFtps = findByFtpSource.getResultList();
-            //entity.getlLog().clear();
             entity.getMyFtps().addAll(entityFtps);
 
             //Carrega a lista de database
-            TypedQuery<DataSource> findByDataSource = em.createQuery("SELECT DISTINCT a FROM DataSource a  WHERE a.idProfile = :entityId ORDER BY a.nmDatasource", DataSource.class);
+            TypedQuery<DataSource> findByDataSource = em.createNamedQuery("Profile.findMyDataSource", DataSource.class);
             findByDataSource.setParameter("entityId", id);
             List<DataSource> entityDataSources;
-            //findByFtpSource.setParameter("entityId", id);
             entityDataSources = findByDataSource.getResultList();
-            //entity.getlLog().clear();
             entity.getMyDbs().addAll(entityDataSources);
 
+            //Carrega os circulos
             entity.setCirclesOwner(findMyCircles(entity.getIdprofile(), em));
 
+            //Seta a session
             req.getSession(true).setAttribute(COUNTRIES, initCTRList(em));
+            req.getSession(true).setAttribute(PROFILE, entity);
 
             findByIdProf = null;
             findByIdSec = null;
@@ -458,18 +456,14 @@ public class ProfileEndpoint {
             entitySec = null;
             entityDataSources = null;
 
-        } catch (NoResultException nre) {
+        } catch (Exception nre) {
+            nre.printStackTrace();
             entity = null;
         } finally {
+
             em.flush();
-            if (entity == null) {
-                return Response.status(Status.NOT_FOUND).build();
-            }
-            req.getSession(true).setAttribute(PROFILE, entity);
-
-            return Response.ok(entity).build();
+            return entity;
         }
-
     }
 
     /**
@@ -689,21 +683,21 @@ public class ProfileEndpoint {
 
     @GET
     @Path("/facebook/{email}/{pname}/{avatar}")
+    @SuppressWarnings("CallToPrintStackTrace")
     public void facebook(@PathParam("email") String email, @PathParam("pname") String pname, @PathParam("avatar") String avatar, @Context HttpServletRequest req, @Context HttpServletResponse res) throws NoSuchAlgorithmException, IOException {
         HttpSession session = req.getSession();
         logAction("SOCIAL NETWORK LOGIN", req, res);
 
-        String jpaQueryEmail = "SELECT DISTINCT p FROM Profile p LEFT JOIN FETCH p.avatars  WHERE p.email LIKE :account";
-        Query q1 = em.createQuery(jpaQueryEmail);
+        Query q1 = em.createNamedQuery("Profile.findByEmailLike");
         q1.setParameter(TwiterCallback.ACCOUNT, "%" + email + "%");
-        Profile p;
+        Profile p = null;
         try {//Verifica se esse filho de uma egua existe.
-
             if (session.getAttribute(PROFILE) != null) {
                 res.sendRedirect(SMARTCITIESMAINHTML);
             }
             p = (Profile) q1.getSingleResult();
         } catch (Exception nre) {
+            //nre.printStackTrace();
             //String password = UUID.randomUUID().toString().substring(0, 8);
             p = new Profile();
             p.setEmail(email);
@@ -711,87 +705,95 @@ public class ProfileEndpoint {
             p.setPassword(MD5Crypt.getHash(email));
 
             em.persist(p);
-        }
-        if (avatar != null) {
-            Avatar a = new Avatar();
-            a.setIdProfile(p.getIdprofile());
-            a.setPath(avatar.replaceAll("ø", "/"));
-            a.setProfile(p);
+        } finally {
+            if (avatar != null) {
+                Avatar a = new Avatar();
+                a.setIdProfile(p.getIdprofile());
+                a.setPath(avatar.replaceAll("ø", "/"));
+                a.setProfile(p);
 
-            //Salva o avatar
-            em.persist(a);
+                //Salva o avatar
+                em.persist(a);
 
-            p.getAvatars().add(a);
-            em.merge(p);
-        }
-
-        session.setAttribute(PROFILE, p);
-
-        //Has a follower list to associate with
-        if (req.getSession(true).getAttribute(FOLLOWERS) != null) {
-            JSONArray followersList = (JSONArray) req.getSession(true).getAttribute(FOLLOWERS);
-            FOLLOWER_LOOP:
-            for (int i = 0; i < followersList.length(); i++) {
-
-                JSONObject follower = followersList.getJSONObject(i);
-
-                Profile p1 = new Profile();
-
-                String emailPk = follower.getJSONArray(ID).getString(0);
-
-                q1 = em.createQuery(jpaQueryEmail);
-                q1.setParameter(TwiterCallback.ACCOUNT, "%" + emailPk + "%");
-
-                List<Profile> fl = q1.getResultList();
-
-                //Ja existe o resultado....
-                if (fl.size() > 0) {
-
-                    p1 = fl.get(0);
-
-                } else {//Cria o perfil de um novo usuario.....
-
-                    p1.setEmail(follower.getJSONArray(ID).getString(0));
-                    p1.setNmUser(follower.getJSONArray(NAME).getString(0));
-                    p1.setBio(follower.getJSONArray(BIO).getString(0).getBytes());
-                    p1.setPassword(MD5Crypt.getHash(follower.getJSONArray(ID).getString(0)));
-                    em.persist(p1);
-
-                    Avatar a1 = new Avatar();
-                    a1.setIdProfile(p1.getIdprofile());
-                    a1.setPath(follower.getJSONArray(AVATAR).getString(0).replaceAll("ø", "/"));
-                    a1.setProfile(p1);
-
-                    em.persist(a1);
-
-                    p1.getAvatars().add(a1);
-                    em.merge(p1);
-                }
-
-                ProfileContactId pcId = new ProfileContactId(p.getIdprofile(), p1.getIdprofile());
-
-                Query q = em.createQuery("SELECT pc FROM ProfileContact pc WHERE pc.id = :paramid");
-                q.setParameter("paramid", pcId);
-
-                List<ProfileContact> pcList = q.getResultList();
-                if (pcList.size() > 0) {
-                    continue FOLLOWER_LOOP;
-                }
-
-                ProfileContact pContact = new ProfileContact(pcId, p, p1);
-                pContact.setEnabled(Boolean.TRUE);
-
-                em.persist(pContact);
-
-                logAction(p1.getIdprofile(), em, "SOCIAL NETWORK / contact " + p.getEmail(), req);
-                logAction("SOCIAL NETWORK / contact " + p1.getEmail(), req, res);
-
+                p.getAvatars().add(a);
+                em.merge(p);
             }
 
+            //Has a follower list to associate with
+            if (req.getSession(true).getAttribute(FOLLOWERS) != null) {
+                JSONArray followersList = (JSONArray) req.getSession(true).getAttribute(FOLLOWERS);
+                synchronized (followersList) {
+                    FOLLOWER_LOOP:
+                    for (int i = 0; i < followersList.length(); i++) {
+
+                        JSONObject follower = followersList.getJSONObject(i);
+
+                        Profile p1 = null;
+
+                        String emailPk = follower.getJSONArray(ID).getString(0);
+
+                        q1 = em.createNamedQuery("Profile.findByEmailLike");
+                        q1.setParameter(TwiterCallback.ACCOUNT, "%" + emailPk + "%");
+                        q1.setMaxResults(1);
+                        //Ja existe o resultado....
+                        try {
+                            p1 = (Profile) q1.getSingleResult();
+                        } catch (NoResultException e) {//Cria o perfil de um novo usuario.....
+                            //e.printStackTrace();
+
+                            p1 = new Profile();
+
+                            p1.setEmail(follower.getJSONArray(ID).getString(0));
+                            p1.setNmUser(follower.getJSONArray(NAME).getString(0));
+                            p1.setBio(follower.getJSONArray(BIO).getString(0).getBytes());
+                            p1.setPassword(MD5Crypt.getHash(follower.getJSONArray(ID).getString(0)));
+                            em.persist(p1);
+
+                            Avatar a1 = new Avatar();
+                            a1.setIdProfile(p1.getIdprofile());
+                            a1.setPath(follower.getJSONArray(AVATAR).getString(0).replaceAll("ø", "/"));
+                            a1.setProfile(p1);
+                            em.persist(a1);
+
+                            a1 = null;
+
+                        } finally {//Achou agora basta associar
+                            //Usuario nao pode ser um contato de si mesmo.....
+                            if (p.getIdprofile() == p1.getIdprofile()) {
+                                continue FOLLOWER_LOOP;
+                            }
+
+                            ProfileContactId pcId = new ProfileContactId(p.getIdprofile(), p1.getIdprofile());
+
+                            Query q = em.createNamedQuery("Profile.findContacts");
+                            q.setParameter("paramid", pcId);
+
+                            List<ProfileContact> pcList = q.getResultList();
+                            if (pcList.size() > 0) {
+                                continue FOLLOWER_LOOP;
+                            }
+
+                            ProfileContact pContact = new ProfileContact(pcId, p, p1);
+                            pContact.setEnabled(Boolean.TRUE);
+
+                            em.persist(pContact);
+
+                            logAction(p1.getIdprofile(), em, "SOCIAL NETWORK / contact " + p.getEmail(), req);
+                            logAction("SOCIAL NETWORK / contact " + p1.getEmail(), req, res);
+
+                            q = null;
+                            pContact = null;
+                            pcList.clear();
+                            pcId = null;
+                        }
+                    }
+                }
+            }
+            //Seta na session
+            p = findProfileById(p.getIdprofile(), req, res);
+
+            res.sendRedirect(SMARTCITIESMAINHTML);
         }
-
-        res.sendRedirect(SMARTCITIESMAINHTML);
-
     }
 
     @GET

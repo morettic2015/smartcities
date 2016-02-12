@@ -9,6 +9,9 @@ var c=_10.charAt(0);
 var l=_10.length;
 var _11=["abbr","wide","narrow"];
 switch(c){
+case "G":
+s=_c[(l<4)?"eraAbbr":"eraNames"][0];
+break;
 case "y":
 if(_d.match(/^he(?:-.+)?$/)){
 s=_8.getYearHebrewLetters(_b.getFullYear());
@@ -314,7 +317,7 @@ case "M":
 if(_4b.match("^he(?:-.+)?$")){
 s=(l>2)?"\\S+ ?\\S+":"\\S{1,4}";
 }else{
-s=(l>2)?"\\S+ ?\\S+":p2+"[1-9]|1[0-2]";
+s=(l>2)?"\\S+ ?\\S+":p2+"[1-9]|1[0-3]";
 }
 break;
 case "d":

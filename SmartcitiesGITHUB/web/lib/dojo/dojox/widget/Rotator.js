@@ -13,7 +13,7 @@ _a.set(_15,"position","relative");
 tt[t]=_4.getObject(t);
 if(!tt[t]){
 _17(t,_e);
-tt[_16.transition=_e]=d.getObject(_e);
+tt[_16.transition=_e]=_4.getObject(_e);
 }
 if(!tp.duration){
 tp.duration=_f;
@@ -22,7 +22,7 @@ _5.forEach(_16.panes,function(p){
 _8.create("div",p,_15);
 });
 var pp=_16.panes=[];
-_d(">",_15).forEach(function(n,i){
+_d("> *",_15).forEach(function(n,i){
 var q={node:n,idx:i,params:_4.mixin({},tp,eval("({ "+(_7.get(n,"transitionParams")||"")+" })"))},r=q.trans=_7.get(n,"transition")||_16.transition;
 _5.forEach(["id","title","duration","waitForEvent"],function(a){
 q[a]=_7.get(n,a);

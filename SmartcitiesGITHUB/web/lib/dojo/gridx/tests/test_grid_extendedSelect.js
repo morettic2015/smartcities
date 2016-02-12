@@ -1,63 +1,112 @@
-//>>built
-require(["dojo/_base/connect","dojo/_base/array","dojo/dom","gridx/Grid","gridx/core/model/cache/Async","gridx/tests/support/data/MusicData","gridx/tests/support/stores/ItemFileWriteStore","gridx/tests/support/TestPane","gridx/tests/support/modules","dijit/form/NumberTextBox","dojo/domReady!"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9){
-grid=new _4({id:"grid",cacheClass:_5,store:_7({dataSource:_6,size:200}),structure:_6.layouts[0],modules:[_9.Focus,_9.RowHeader,_9.ColumnResizer,_9.ExtendedSelectRow,_9.ExtendedSelectColumn,_9.ExtendedSelectCell,_9.VirtualVScroller]});
-grid.placeAt("gridContainer");
+require([
+	'dojo/_base/connect',
+	'dojo/_base/array',
+	'dojo/dom',
+	'gridx/Grid',
+	'gridx/core/model/cache/Async',
+	'gridx/tests/support/data/MusicData',
+	'gridx/tests/support/stores/ItemFileWriteStore',
+	'gridx/tests/support/TestPane',
+	'gridx/modules/Focus',
+	'gridx/modules/RowHeader',
+	'gridx/modules/ColumnResizer',
+	'gridx/modules/extendedSelect/Row',
+	'gridx/modules/extendedSelect/Column',
+	'gridx/modules/extendedSelect/Cell',
+	'gridx/modules/VirtualVScroller',
+	'dojo/parser',
+	'dijit/form/NumberTextBox',
+	'dojo/domReady!'
+], function(connect, array, dom, Grid, Cache, dataSource, storeFactory, TestPane, Focus,
+		RowHeader, ColumnResizer, ExtendedSelectRow, ExtendedSelectColumn, ExtendedSelectCell, VirtualVScroller, parser){
+
+grid = new Grid({
+	id: 'grid',
+	cacheClass: Cache,
+	store: storeFactory({
+		dataSource: dataSource,
+		size: 200
+	}),
+	structure: dataSource.layouts[0],
+	modules: [
+		Focus,
+		RowHeader,
+		ColumnResizer,
+		ExtendedSelectRow,
+		ExtendedSelectColumn,
+		ExtendedSelectCell,
+		VirtualVScroller
+	]
+});
+grid.placeAt('gridContainer');
 grid.startup();
-_1.connect(grid.select.row,"onSelectionChange",function(_a){
-_3.byId("rowSelectedCount").value=_a.length;
-_3.byId("rowStatus").value=_a.join("\n");
+
+connect.connect(grid.select.row, 'onSelectionChange', function(selected, lastSelected){
+	// dom.byId('rowSelectedCount').value = selected.length;
+	dom.byId('lastRowStatus').value = lastSelected && lastSelected.join("\n");
 });
-_1.connect(grid.select.column,"onSelectionChange",function(_b){
-_3.byId("colSelectedCount").value=_b.length;
-_3.byId("colStatus").value=_b.join("\n");
+connect.connect(grid.select.row, 'onSelectionChange', function(selected){
+	dom.byId('rowSelectedCount').value = selected.length;
+	dom.byId('rowStatus').value = selected.join("\n");
 });
-_1.connect(grid.select.cell,"onSelectionChange",function(_c){
-_3.byId("cellSelectedCount").value=_c.length;
-_c=_2.map(_c,function(_d){
-return ["(",_d[0],", ",_d[1],")"].join("");
+connect.connect(grid.select.column, 'onSelectionChange', function(selected){
+	dom.byId('colSelectedCount').value = selected.length;
+	dom.byId('colStatus').value = selected.join("\n");
 });
-_3.byId("cellStatus").value=_c.join("\n");
+connect.connect(grid.select.cell, 'onSelectionChange', function(selected){
+	dom.byId('cellSelectedCount').value = selected.length;
+	selected = array.map(selected, function(cell){
+		return ['(', cell[0], ', ', cell[1], ')'].join('');
+	});
+	dom.byId('cellStatus').value = selected.join("\n");
 });
+parser.parse();
 });
-function selectRow(_e){
-var _f=dijit.byId("rowStart").get("value");
-var end=dijit.byId("rowEnd").get("value");
-var a=Math.max(_f,end);
-_f=Math.min(_f,end);
-end=a;
-grid.select.row[_e?"selectByIndex":"deselectByIndex"]([_f,end]);
-};
-function selectAllRow(_10){
-if(_10){
-grid.select.row.selectByIndex([0,grid.rowCount()-1]);
-}else{
-grid.select.row.clear();
+function selectRow(toSelect){
+	var start = dijit.byId('rowStart').get('value');
+	var end = dijit.byId('rowEnd').get('value');
+	var a = Math.max(start, end);
+	start = Math.min(start, end);
+	end = a;
+	grid.select.row[toSelect ? 'selectByIndex' : 'deselectByIndex']([start, end]);
 }
-};
-function selectColumn(_11){
-var _12=dijit.byId("colStart").get("value");
-var end=dijit.byId("colEnd").get("value");
-var a=Math.max(_12,end);
-_12=Math.min(_12,end);
-end=a;
-grid.select.column[_11?"selectByIndex":"deselectByIndex"]([_12,end]);
-};
-function selectAllColumn(_13){
-if(_13){
-grid.select.column.selectByIndex([0,grid.columnCount()-1]);
-}else{
-grid.select.column.clear();
+
+function selectAllRow(toSelect){
+	if(toSelect){
+		grid.select.row.selectByIndex([0, grid.rowCount() - 1]);
+	}else{
+		grid.select.row.clear();
+	}
 }
-};
-function selectCell(_14){
-var _15=[dijit.byId("cellStartR").get("value"),dijit.byId("cellStartC").get("value")];
-var end=[dijit.byId("cellEndR").get("value"),dijit.byId("cellEndC").get("value")];
-grid.select.cell[_14?"selectByIndex":"deselectByIndex"](_15.concat(end));
-};
-function selectAllCell(_16){
-if(_16){
-grid.select.cell.selectByIndex([0,0,grid.rowCount()-1,grid.columnCount()-1]);
-}else{
-grid.select.cell.clear();
+
+function selectColumn(toSelect){
+	var start = dijit.byId('colStart').get('value');
+	var end = dijit.byId('colEnd').get('value');
+	var a = Math.max(start, end);
+	start = Math.min(start, end);
+	end = a;
+	grid.select.column[toSelect ? 'selectByIndex' : 'deselectByIndex']([start, end]);
 }
-};
+
+function selectAllColumn(toSelect){
+	if(toSelect){
+		grid.select.column.selectByIndex([0, grid.columnCount() - 1]);
+	}else{
+		grid.select.column.clear();
+	}
+}
+
+function selectCell(toSelect){
+	var start = [dijit.byId('cellStartR').get('value'), dijit.byId('cellStartC').get('value')];
+	var end = [dijit.byId('cellEndR').get('value'), dijit.byId('cellEndC').get('value')];
+	grid.select.cell[toSelect ? 'selectByIndex' : 'deselectByIndex'](start.concat(end));
+}
+
+function selectAllCell(toSelect){
+	if(toSelect){
+		grid.select.cell.selectByIndex([0, 0, grid.rowCount() - 1, grid.columnCount() - 1]);
+	}else{
+		grid.select.cell.clear();
+	}
+}
+

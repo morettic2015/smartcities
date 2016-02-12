@@ -113,7 +113,9 @@ if(zi!="auto"){
 _17=parseInt(_17,10)+1;
 _18=parseInt(_18,10)+2;
 }else{
-var _19=_14.parentNode;
+var _19=_14;
+if(_19&&_19!==_c.body()&&_19!==_c.doc){
+_19=_14.parentNode;
 var _1a=-100000;
 while(_19&&_19!==_c.body()){
 zi=_a.get(_19,"zIndex");
@@ -127,6 +129,7 @@ _17=_1b+1;
 _18=_1b+2;
 }
 _19=_19.parentNode;
+}
 }
 }
 }

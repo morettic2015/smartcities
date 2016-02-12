@@ -1,6 +1,23 @@
-//>>built
-define("gridx/tests/support/stores/Memory",["dojo/store/Memory"],function(_1){
-return function(_2){
-return new _1({data:_2.dataSource.getData(_2.size).items});
+define([
+	'dojo/store/Memory',
+	'dojo/store/util/QueryResults',
+	'dojo/store/util/SimpleQueryEngine'
+], function(Memory, QueryResults, queryEngine){
+
+return function(args){
+	var data = args.dataSource.getData(args);
+	var store = new Memory({
+		data: data.items
+	});
+	if(args.tree){
+		store.hasChildren = function(id, item){
+			return item && item.children && item.children.length;
+		};
+		store.getChildren = function(item, options){
+			return QueryResults(queryEngine(options.query, options)(item.children));
+		};
+	}
+	return store;
 };
 });
+

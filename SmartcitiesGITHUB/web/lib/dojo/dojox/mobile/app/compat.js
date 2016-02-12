@@ -1,42 +1,15 @@
+/*
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
+	Available via Academic Free License >= 2.1 OR the modified BSD license.
+	see: http://dojotoolkit.org/license for details
+*/
+
+/*
+	This is an optimized version of Dojo, built for deployment and not for
+	development. To get sources and documentation, please visit:
+
+		http://dojotoolkit.org
+*/
+
 //>>built
-define("dojox/mobile/app/compat",["dijit","dojo","dojox","dojo/require!dojox/mobile/compat"],function(_1,_2,_3){
-_2.provide("dojox.mobile.app.compat");
-_2.require("dojox.mobile.compat");
-_2.extend(_3.mobile.app.AlertDialog,{_doTransition:function(_4){
-var h=_2.marginBox(this.domNode.firstChild).h;
-var _5=this.controller.getWindowSize().h;
-var _6=_5-h;
-var _7=_5;
-var _8=_2.fx.slideTo({node:this.domNode,duration:400,top:{start:_4<0?_6:_7,end:_4<0?_7:_6}});
-var _9=_2[_4<0?"fadeOut":"fadeIn"]({node:this.mask,duration:400});
-var _a=_2.fx.combine([_8,_9]);
-var _b=this;
-_2.connect(_a,"onEnd",this,function(){
-if(_4<0){
-_b.domNode.style.display="none";
-_2.destroy(_b.domNode);
-_2.destroy(_b.mask);
-}
-});
-_a.play();
-}});
-_2.extend(_3.mobile.app.List,{deleteRow:function(){
-var _c=this._selectedRow;
-_2.style(_c,{visibility:"hidden",minHeight:"0px"});
-_2.removeClass(_c,"hold");
-var _d=_2.contentBox(_c).h;
-_2.animateProperty({node:_c,duration:800,properties:{height:{start:_d,end:1},paddingTop:{end:0},paddingBottom:{end:0}},onEnd:this._postDeleteAnim}).play();
-}});
-if(_3.mobile.app.ImageView&&!_2.create("canvas").getContext){
-_2.extend(_3.mobile.app.ImageView,{buildRendering:function(){
-this.domNode.innerHTML="ImageView widget is not supported on this browser."+"Please try again with a modern browser, e.g. "+"Safari, Chrome or Firefox";
-this.canvas={};
-},postCreate:function(){
-}});
-}
-if(_3.mobile.app.ImageThumbView){
-_2.extend(_3.mobile.app.ImageThumbView,{place:function(_e,x,y){
-_2.style(_e,{top:y+"px",left:x+"px",visibility:"visible"});
-}});
-}
-});
+require({cache:{"dojox/mobile/compat":function(){define(["dojo/_base/lang","dojo/sniff"],function(_1,_2){var dm=_1.getObject("dojox.mobile",true);if(!(_2("webkit")||_2("ie")===10)||(!_2("ie")&&_2("trident")>6)){var s="dojox/mobile/_compat";require([s]);}return dm;});},"dojo/require":function(){define(["./_base/loader"],function(_3){return {dynamic:0,normalize:function(id){return id;},load:_3.require};});},"dijit/main":function(){define(["dojo/_base/kernel"],function(_4){return _4.dijit;});},"dojox/main":function(){define(["dojo/_base/kernel"],function(_5){return _5.dojox;});}}});define("dojox/mobile/app/compat",["dijit","dojo","dojox","dojo/require!dojox/mobile/compat"],function(_6,_7,_8){_7.provide("dojox.mobile.app.compat");_7.require("dojox.mobile.compat");_7.extend(_8.mobile.app.AlertDialog,{_doTransition:function(_9){var h=_7.marginBox(this.domNode.firstChild).h;var _a=this.controller.getWindowSize().h;var _b=_a-h;var _c=_a;var _d=_7.fx.slideTo({node:this.domNode,duration:400,top:{start:_9<0?_b:_c,end:_9<0?_c:_b}});var _e=_7[_9<0?"fadeOut":"fadeIn"]({node:this.mask,duration:400});var _f=_7.fx.combine([_d,_e]);var _10=this;_7.connect(_f,"onEnd",this,function(){if(_9<0){_10.domNode.style.display="none";_7.destroy(_10.domNode);_7.destroy(_10.mask);}});_f.play();}});_7.extend(_8.mobile.app.List,{deleteRow:function(){var row=this._selectedRow;_7.style(row,{visibility:"hidden",minHeight:"0px"});_7.removeClass(row,"hold");var _11=_7.contentBox(row).h;_7.animateProperty({node:row,duration:800,properties:{height:{start:_11,end:1},paddingTop:{end:0},paddingBottom:{end:0}},onEnd:this._postDeleteAnim}).play();}});if(_8.mobile.app.ImageView&&!_7.create("canvas").getContext){_7.extend(_8.mobile.app.ImageView,{buildRendering:function(){this.domNode.innerHTML="ImageView widget is not supported on this browser."+"Please try again with a modern browser, e.g. "+"Safari, Chrome or Firefox";this.canvas={};},postCreate:function(){}});}if(_8.mobile.app.ImageThumbView){_7.extend(_8.mobile.app.ImageThumbView,{place:function(_12,x,y){_7.style(_12,{top:y+"px",left:x+"px",visibility:"visible"});}});}});

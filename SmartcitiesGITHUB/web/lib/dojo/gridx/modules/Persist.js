@@ -1,111 +1,268 @@
-//>>built
-define("gridx/modules/Persist",["dojo/_base/declare","dojo/_base/array","dojo/_base/lang","dojo/_base/json","dojo/_base/unload","dojo/cookie","../core/_Module"],function(_1,_2,_3,_4,_5,_6,_7){
-return _1(_7,{name:"persist",constructor:function(_8){
-var t=this,_9=_8.destroy;
-t.arg("key",window.location+"/"+_8.id,function(_a){
-return _a;
-});
-t._persistedList={};
-_8.destroy=function(){
-t.save();
-_9.call(_8);
-};
-t._restoreColumnState();
-_5.addOnWindowUnload(function(){
-t.save();
-});
-},getAPIPath:function(){
-return {persist:this};
-},enabled:true,options:null,key:"",put:function(_b,_c,_d){
-if(_c&&_3.isObject(_c)){
-_6(_b,_4.toJson(_c),_d);
-}else{
-_6(_b,null,{expires:-1});
-}
-},get:function(_e){
-return _4.fromJson(_6(_e));
-},registerAndLoad:function(_f,_10,_11){
-this._persistedList[_f]={saver:_10,scope:_11,enabled:true};
-var get=this.arg("get"),_12=get(this.arg("key"));
-return _12?_12[_f]:null;
-},features:function(){
-var _13=this._persistedList,_14=[],_15;
-for(_15 in _13){
-if(_13.hasOwnProperty(_15)){
-_14.push(_15);
-}
-}
-return _14;
-},enable:function(_16){
-this._setEnable(_16,1);
-},disable:function(_17){
-this._setEnable(_17,0);
-},isEnabled:function(_18){
-var _19=this._persistedList[_18];
-if(_19){
-return _19.enabled;
-}
-return _18?false:this.arg("enabled");
-},save:function(){
-var t=this,_1a=null,put=t.arg("put");
-if(t.arg("enabled")){
-var _1b,_1c,_1d=t._persistedList;
-_1a={};
-for(_1b in _1d){
-_1c=_1d[_1b];
-if(_1c.enabled){
-_1a[_1b]=_1c.saver.call(_1c.scope||_3.global);
-}
-}
-}
-put(t.arg("key"),_1a,t.arg("options"));
-},_setEnable:function(_1e,_1f){
-var _20=this._persistedList;
-_1f=!!_1f;
-if(_20[_1e]){
-_20[_1e].enabled=_1f;
-}else{
-if(!_1e){
-for(_1e in _20){
-_20[_1e].enabled=_1f;
-}
-this.enabled=_1f;
-}
-}
-},_restoreColumnState:function(){
-var t=this,_21=t.grid,col,_22=[],_23={},_24,_25=t.registerAndLoad("column",t._columnStateSaver,t);
-if(_3.isArray(_25)){
-_2.forEach(_25,function(c){
-_23[c.id]=c;
-});
-_2.forEach(_21._columns,function(col){
-var c=_23[col.id];
-if(!c){
-_24=true;
-}else{
-if(c.id==col.id){
-col.declaredWidth=col.width=c.width;
-}
-}
-});
-if(_24){
-_22=_21._columns;
-}else{
-_2.forEach(_21._columns,function(col){
-var c=_23[col.id];
-_22[c.index]=col;
-});
-for(var i=_22.length-1;i>=0;--i){
-if(!_22[i]){
-_22.splice(i,1);
-}
-}
-}
-_21.setColumns(_22);
-}
-},_columnStateSaver:function(){
-return _2.map(this.grid._columns,function(c){
-return {id:c.id,index:c.index,width:c.width};
-});
-}});
+define([
+	"dojo/_base/declare",
+	"dojo/_base/array",
+	"dojo/_base/lang",
+	"dojo/_base/json",
+	"dojo/_base/unload",
+	"dojo/cookie",
+	"../core/_Module"
+], function(declare, array, lang, json, unload, cookie, _Module){
+
+/*=====
+	return declare(_Module, {
+		// summary:
+		//		module name: persist.
+		//		Provide a mechanism to persist various grid features when the grid is destroyed,
+		//		so that when a new grid with the same id (or the same persist key) is created,
+		//		all these features will be restored.
+		//		By default use cookie, but users can also provide custom put and get functions.
+		//		Note: since dojox.storage is still experimental, and with HTML5 we will hardly need
+		//		things like gears or behavior storage, so we aren't supporting dojox.storage by default.
+
+		// enabled: Boolean
+		//		Whether this module is enabled (also means whether all registered features are persistable).
+		enabled: true,
+
+		// options:
+		//		Options meaningful to the persist mechanism. By default it mean the cookie options.
+		options: null,
+		
+		// key: String
+		//		This is the storage key of this grid. If not provided (by default), the grid id is used as the key.
+		//		This property is essential when a grid with a different id wants to load from this storage.
+		key: '',
+	
+		put: function(key, value, options){
+			// summary:
+			//		This is NOT a public method, but users can provide their own to override it.
+			//		This function is called when finally saving things into some kind of storage.
+			// key: String
+			//		The persist key of this grid.
+			// value: Object
+			//		A JSON object, containing everything we want to persist for this grid.
+		},
+	
+		get: function(key){
+			// summary:
+			//		This is NOT a public method, but users can provide their own to override it.
+			//		This function is called when loading things from storage.
+			// return:
+			//		Then things we stored before.
+		},
+	
+		registerAndLoad: function(name, saver, scope){
+			// summary:
+			//		Register a feature to be persisted, and then load (return) its contents.
+			// name: String
+			//		A unique name of the feature to be persisted.
+			// saver: Function() return object
+			//		A function to be called when persisting the grid.
+			// return:
+			//		The loaded contents of the given feature.
+		},
+
+		features: function(){
+			// summary:
+			//		Get the names of all the persistable features.
+			//		These names can be used in enable(), disable() or isEnabled() methods.
+			// return:
+			//		An array of persistable feature names.
+		},
+	
+		enable: function(name){
+			// summary:
+			//		Enable persistance of the given feature, that is, will persist this feature when the save function
+			//		is called. If name is not provided (undefined or null), then enable all registered features.
+			// name: String
+			//		Name of a feature.
+		},
+	
+		disable: function(name){
+			// summary:
+			//		Disable persistance of the given feature, that is, will NOT persist this feature when the save
+			//		function is called. If name is not provided (undefined or null), then disable all registered features.
+			// name: String
+			//		Name of a feature.
+		},
+	
+		isEnabled: function(name){
+			// summary:
+			//		Check whether a feature is enabled or not.
+			// name: String
+			//		Name of a feature. If omitted, means every feature.
+			// return:
+			//		Whether this feature (or every feature) is enabled.
+		},
+	
+		save: function(){
+			// summary:
+			//		Save all the enabled features.
+		}
+	});
+=====*/
+
+	return declare(_Module, {
+		name: 'persist',
+	
+		constructor: function(grid){
+			// summary:
+			//		All initializations, if any, must be done in the constructor, instead of the load function.
+			// grid: Object
+			//		The grid itself.
+			var t = this,
+				gridDestroy = grid.destroy;
+			//Initialize arguments
+			t.arg('key', window.location + '/' + grid.id, function(arg){
+				return arg;
+			});
+			t._persistedList = {};
+			// Save states when grid destroy or window unload
+			grid.destroy = function(){
+				t.save();
+				gridDestroy.call(grid);
+			};
+			//column state register/restore
+			t._restoreColumnState();
+			unload.addOnWindowUnload(function(){
+				t.save();
+			});
+		},
+	
+		//Public---------------------------------------------------------
+		enabled: true,
+
+		options: null,
+		
+		key: '',
+	
+		put: function(key, value, options){
+			if(value && lang.isObject(value)){
+				cookie(key, json.toJson(value), options);
+			}else{
+				cookie(key, null, {expires: -1});
+			}
+		},
+	
+		get: function(key){
+			return json.fromJson(cookie(key));
+		},
+	
+		registerAndLoad: function(name, saver, scope){
+			this._persistedList[name] = {
+				saver: saver,
+				scope: scope,
+				enabled: true
+			};
+			var get = this.arg('get'),
+				content = '_content' in this ? this._content : (this._content = get(this.arg('key')));
+			return content ? content[name] : null;
+		},
+
+		features: function(){
+			var list = this._persistedList,
+				features = [],
+				name;
+			for(name in list){
+				if(list.hasOwnProperty(name)){
+					features.push(name);
+				}
+			}
+			return features;
+		},
+	
+		enable: function(name){
+			this._setEnable(name, 1);
+		},
+	
+		disable: function(name){
+			this._setEnable(name, 0);
+		},
+	
+		isEnabled: function(name){
+			var feature = this._persistedList[name];
+			if(feature){
+				return feature.enabled;
+			}
+			return name ? false : this.arg('enabled');
+		},
+	
+		save: function(){
+			var t = this,
+				contents = null,
+				put = t.arg('put');
+			if(t.arg('enabled')){
+				var name,
+					feature,
+					list = t._persistedList;
+				contents = {};
+				for(name in list){
+					feature = list[name];
+					if(feature.enabled){
+						contents[name] = feature.saver.call(feature.scope || lang.global);
+					}
+				}
+			}
+			delete t._content;
+			put(t.arg('key'), contents, t.arg('options'));
+		},
+	
+		//Private--------------------------------------------------------
+		//_persistedList: null,
+		
+		_setEnable: function(name, enabled){
+			var list = this._persistedList;
+			enabled = !!enabled;
+			if(list[name]){
+				list[name].enabled = enabled;
+			}else if(!name){
+				for(name in list){
+					list[name].enabled = enabled;
+				}
+				this.enabled = enabled;
+			}
+		},
+		
+		//For column state restore---------------------
+		_restoreColumnState: function(){
+			var t = this,
+				grid = t.grid,
+				colHash = {},
+				columns = t.registerAndLoad('column', t._columnStateSaver, t);
+			if(lang.isArray(columns)){
+				array.forEach(columns, function(c){
+					colHash[c.id] = c;
+				});
+				//persist column width
+				array.forEach(grid._columns, function(col){
+					var c = colHash[col.id];
+					if(c && c.id == col.id){
+						col.declaredWidth = col.width = c.width;
+					}
+				});
+				grid._columns.sort(function(ca, cb){
+					var c1 = colHash[ca.id];
+					var c2 = colHash[cb.id];
+					if(c1 && c2){
+						return c1.index - c2.index;
+					}else if(!c1 && c2){
+						return 1;
+					}else if(c1 && !c2){
+						return -1;
+					}
+					return ca.index - cb.index;
+				});
+				grid.setColumns(grid._columns);
+			}
+		},
+		
+		_columnStateSaver: function(){
+			return array.map(this.grid._columns, function(c){
+				return {
+					id: c.id,
+					index: c.index,
+					width: c.width
+				};
+			});
+		}
+	});
 });

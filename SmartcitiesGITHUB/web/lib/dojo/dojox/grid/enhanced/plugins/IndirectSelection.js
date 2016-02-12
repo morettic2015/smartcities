@@ -34,7 +34,7 @@ if(_16){
 _14+=_13.disabledClass;
 }
 }
-return ["<div tabindex = -1 ","id = '"+_13.grid.id+"_rowSelector_"+_11+"' ","name = '"+_13.grid.id+"_rowSelector' class = '"+_14+"' ","role = "+_13.inputType+" aria-checked = '"+_15+"' aria-disabled = '"+_16+"' aria-label = '"+_b.substitute(_13.grid._nls["indirectSelection"+_13.inputType],[_11+1])+"'>","<span class = '"+_13.statusTextClass+"'>"+(_15?_13.checkedText:_13.unCheckedText)+"</span>","</div>"].join("");
+return ["<div tabindex = -1 ","id = '"+_13.grid.id+"_rowSelector_"+_11+"' ","name = '"+_13.grid.id+"_rowSelector' class = '"+_14+"' ","role = "+_13.inputType.toLowerCase()+" aria-checked = '"+_15+"' aria-disabled = '"+_16+"' aria-label = '"+_b.substitute(_13.grid._nls["indirectSelection"+_13.inputType],[_11+1])+"'>","<span class = '"+_13.statusTextClass+"'>"+(_15?_13.checkedText:_13.unCheckedText)+"</span>","</div>"].join("");
 },setValue:function(_17,_18){
 },getValue:function(_19){
 return this.grid.selection.isSelected(_19);

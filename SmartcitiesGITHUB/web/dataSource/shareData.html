@@ -13,13 +13,13 @@
 
     <div class="celula-form-1">
         <span class="rotulo"><span id="rotNomeShareData">Nome</span>:</span>
-        <input class="campo" type="text" data-dojo-type="dijit/form/TextBox" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="Nome do compartilhamento"></input>
+        <input class="campo" type="text" data-dojo-type="dijit/form/ValidationTextBox" promptMessage="Share name" invalidMessage="Please inform the share name" required="true" intermediateChanges="false" trim="false" uppercase="false" lowercase="false" propercase="false" selectOnClick="false" placeHolder="Nome do compartilhamento"></input>
     </div>
 
     <div class="celula-form-1" style="margin-bottom:55px;">
         <span class="rotulo"><span id="rotEnviarShareData">Enviar para</span>:</span>
         <select id="cmbCircleShare" class="campo" multiple="true" data-dojo-type="dijit/form/MultiSelect" intermediateChanges="false" style=" height: auto; width: 447px;">
-           
+
         </select>
     </div>
     <div class="celula-form-1" style="">
@@ -36,9 +36,22 @@
             <option id="opPrivadoVisibShare" value="Privado">Privado</option>
         </select>
     </div>
+    <div class="celula-form-1" style="">
+        <span class="rotulo">
+            <span id="rotGridInfoShareData">Descrição</span>:</span>
+        <input type="text"  
+               required="true" 
+               placeHolder="Information about this datasource" 
+               promptMessage="Share info about this datasource"  
+               id="txtDescShare" 
+               class="campo" 
+               type="text" 
+               data-dojo-type="dijit/form/ValidationTextBox"  
+               intermediateChanges="false" rows="3"  uppercase="true" style="width: 60%;"/>
+    </div>
 
-    <div data-dojo-type="dijit/layout/ContentPane">		
-        <table data-dojo-type="gridx/Grid" id="gridDataShare" jsId="gridDataShare" style="min-width: 1em; min-height: 1em; width: 100%; height: 90px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+    <div class="celula-form-1" >		
+        <table data-dojo-type="gridx/Grid" id="gridDataShare" jsId="gridDataShare" style="min-width: 1em; min-height: 1em; width: 97%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
                structure:[
                {width:'auto',name:'<span id=\'rotGridIDShareData\'>ID</span>',field:'id'},
                {width:'auto',name:'<span id=\'rotGridNomeShareData\'>Nome</span>',field:'nome'},
@@ -51,6 +64,7 @@
 </div>
 <script>
     var selectCirclesList = document.getElementById("cmbCircleShare");
+
     for (i = 0; i < myProfile.circlesOwner.length; i++) {
         var opt = document.createElement('option');
 

@@ -1,24 +1,50 @@
-//>>built
-define("gridx/tests/support/stores/test_jsonRestStore",["dijit","dojo","dojox","dojo/require!dojox/data/JsonRestStore"],function(_1,_2,_3){
-_2.require("dojox.data.JsonRestStore");
-_2.xhrPost({url:"test_jsonRestStore.php?totalsize="+200,sync:true});
-var _4=new _3.data.JsonRestStore({idAttribute:"id",target:"test_jsonRestStore.php"});
-_4.fetch({start:10,count:10,query:{id:"*"},sort:[{attribute:"number",descending:true}],onComplete:function(_5){
-_4.deleteItem(_5[0]);
-_4.save({onComplete:function(){
-_4.newItem({id:1000,number:123456,square:11111});
-_4.save({onComplete:function(){
-_4.setValue(_5[1],"number",22222);
-_4.save({onComplete:function(){
-_4.newItem({id:2000,number:123456,square:11111});
-_4.newItem({id:3000,number:123456,square:11111});
-_4.newItem({id:4000,number:123456,square:11111});
-_4.save({onComplete:function(){
-_4.fetch({onComplete:function(_6){
-}});
-}});
-}});
-}});
-}});
-}});
+dojo.require("dojox.data.JsonRestStore");
+
+//Clear put/delete records file, so we can always start with a brand new store.
+dojo.xhrPost({url: 'test_jsonRestStore.php?totalsize=' + 200, sync: true});
+
+var jsonStore = new dojox.data.JsonRestStore({
+	idAttribute: 'id',
+	target: 'test_jsonRestStore.php'
 });
+
+jsonStore.fetch({
+	start: 10,
+	count: 10,
+	query: {id: '*'},
+	sort: [{attribute: 'number', descending: true}],
+	onComplete: function(items){
+		console.log('items:', items);
+		jsonStore.deleteItem(items[0]);
+		console.log('delete ok');
+		jsonStore.save({
+			onComplete: function(){
+				jsonStore.newItem({id: 1000, number: 123456, square: 11111});
+				console.log('add ok');
+				jsonStore.save({
+					onComplete: function(){
+						jsonStore.setValue(items[1], 'number', 22222);
+						console.log('set ok');
+						jsonStore.save({
+							onComplete: function(){
+								jsonStore.newItem({id: 2000, number: 123456, square: 11111});
+								jsonStore.newItem({id: 3000, number: 123456, square: 11111});
+								jsonStore.newItem({id: 4000, number: 123456, square: 11111});
+								jsonStore.save({
+									onComplete: function(){
+										jsonStore.fetch({
+											onComplete: function(items){
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+});
+
+

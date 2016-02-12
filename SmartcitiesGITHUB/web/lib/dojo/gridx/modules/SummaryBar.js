@@ -1,19 +1,39 @@
-//>>built
-define("gridx/modules/SummaryBar",["dojo/_base/declare","dojo/dom-construct","dojo/string","../core/_Module","dojo/i18n!../nls/SummaryBar"],function(_1,_2,_3,_4,_5){
-return _1(_4,{name:"summaryBar",getAPIPath:function(){
-return {summaryBar:this};
-},preload:function(){
-var t=this,m=t.model;
-t.domNode=_2.create("div",{"class":"gridxSummaryBar"});
-t.grid.vLayout.register(t,"domNode","footerNode",5);
-t.connect(m,"onSizeChange","_update");
-t.connect(m,"onMarkChange","_update");
-t._update();
-},destroy:function(){
-_2.destroy(this.domNode);
-this.inherited(arguments);
-},_update:function(){
-var t=this,g=t.grid,sr=g.select&&g.select.row,_6=t.model.size(),_7=sr?sr.getSelected().length:0,_8=sr?_5.summaryWithSelection:_5.summary;
-t.domNode.innerHTML=_3.substitute(_8,[_6,_7]);
-}});
+define([
+	"dojo/_base/declare",
+	"../support/Summary",
+	"../core/_Module",
+	"./Bar"
+], function(declare, Summary, _Module){
+
+/*=====
+	return declare(_Module, {
+		// summary:
+		//		module name: summaryBar.
+		//		Add summary bar to the bottom of grid.
+		// description:
+		//		Add summary based on Bar module. This module is only for conveniency and backward compatibility.
+		//		Using Bar module directly is recommended.
+	});
+=====*/
+
+	return declare(_Module, {
+		name: 'summaryBar',
+
+		required: ['bar'],
+
+		//message: ''
+
+		preload: function(){
+			this.grid.bar.defs.push({
+				bar: 'bottom',
+				row: 0,
+				col: 0,
+				pluginClass: Summary,
+				className: 'gridxBarSummary',
+				message: this.arg('message'),
+				hookPoint: this,
+				hookName: 'summary'
+			});
+		}
+	});
 });

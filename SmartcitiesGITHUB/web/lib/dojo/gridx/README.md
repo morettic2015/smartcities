@@ -2,7 +2,7 @@
 
 #### **A fast rendering, well modularized and plugin architecture based Grid.**
 
-Besides supporting a rich set of popular features, GridX is optimized and extremely capable of supporting huge dataset(e.g.[larger than millions of rows](http://evanhw.github.com/gridx/gridx/tests/test_grid_huge_data.html)).
+Besides supporting a rich set of popular features, GridX is optimized and extremely capable of supporting huge dataset.
 
 GridX is consisted of:
 
@@ -12,41 +12,59 @@ GridX is consisted of:
 
 GridX is available under [Dojo Toolkit](http://dojotoolkit.org/) [CLA](http://dojofoundation.org/about/cla) with the same [BSD/AFLv2 license] (http://dojotoolkit.org/license)
 
+
+### Archive Versions:
+* [1.3 (LTS)](https://github.com/oria/gridx/tree/1.3): [release notes](https://github.com/oria/gridx/wiki/Gridx-v1.3.0-Release-Notes)
+* [1.2 (LTS)](https://github.com/oria/gridx/tree/1.2): [release notes](https://github.com/oria/gridx/wiki/Gridx-v1.2.0-Release-Notes)
+* [1.1](https://github.com/oria/gridx/tree/1.1): [release notes](https://github.com/oria/gridx/wiki/Gridx-v1.1.0-Release-Notes)
+* [1.0 (LTS)](https://github.com/oria/gridx/tree/1.0)
+
 ## Installation
 
-1.  [CPM installation](https://github.com/kriszyp/cpm) with the following command:
+1.	[CPM installation](https://github.com/kriszyp/cpm) with the following command:
 
-    ``cpm install gridx``
+	``cpm install gridx``
 
-2.  Manual installation by putting GridX at the same level as Dojo, e.g:
- * dojo 
- * dijit
- * dojox
- * gridx
+2.	[Bower](http://bower.io) install:
 
-GridX works best with [Dojo 1.7.2](http://download.dojotoolkit.org/release-1.7.2/) or higher.
+	``bower install gridx``
+
+3.	Manual installation by putting GridX at the same level as Dojo, e.g:
+	* dojo 
+	* dijit
+	* dojox
+	* gridx
+
+**GridX** works best with [Dojo 1.8.0](http://download.dojotoolkit.org/release-1.8.0/) or higher.
 
 
 ## Quick ways to know GridX
 
 * [Feature Coverage](https://docs.google.com/spreadsheet/pub?key=0AgR1KOpszcsZdF9ZbW5hWFdYUFAzdjdhZi1xcGMwUVE&gid=1)
 * [Module Compatibility Matrix](https://docs.google.com/spreadsheet/pub?key=0AgR1KOpszcsZdF9ZbW5hWFdYUFAzdjdhZi1xcGMwUVE&gid=0)
-* [Demo gallery](http://evanhw.github.com/gridx/gridx/gallery/gallery.html)
+* [Demo gallery]() (http://oria.github.com/gridx/gallery.html)
 * [Benchmaks]() (in progress)
-* [Tutorial](https://github.com/evanhw/gridx/wiki/Introduction-to-Gridx) (in progress)
-* [API Doc](http://evanhw.github.com/gridx/doc/gridx.html) (in progress)
+* [Tutorial](https://github.com/oria/gridx/wiki) (in progress)
+* [API Doc](http://oria.github.com/gridx/apidoc/index.html) (in progress)
 * [Known limitations]() (in progress)
-* [Release download](https://github.com/evanhw/gridx/zipball/master)
-* [Report bugs](https://github.com/evanhw/gridx/issues/new)
+* [Release download (v1.3)](https://github.com/oria/gridx/zipball/1.3)
+* [Report bugs](https://github.com/oria/gridx/issues/new)
 
 
 ## GridX Home Site (in progress)
-Please check out [GridX Home Site]() for more details on how GridX can help you.
+Please also check out [GridX Home Site](http://oria.github.com/gridx) for more details on how GridX can help you.
 
+
+
+##Current Maintainer
+* [Qi Chen (Leslie) - IBM, CCLA](mailto:yurychika@gmail.com)
 
 ## GridX Team
-* Xiao Wen Zhu (Oliver) - IBM, CCLA
-* Pei Wang (Nate) - IBM, CCLA
-* Wei Huang (Evan) -  Dojo Committer
+* [Xiao Wen Zhu (Oliver) - IBM, CCLA](mailto:zhuxw1984@gmail.com)
+* [Pei Wang (Nate) - IBM, CCLA](mailto:supnate@gmail.com)
+* [Bing Jian Guo (Evans) - IBM, CCLA](mailto:bingjian.guo@gmail.com)
+* [Qi Ruan (Rock) - IBM, CCLA](mailto:)
+* [Xiang Zhou (JayZ) - IBM, CCLA](mailto:)
+* [Wei Huang (Evan) -  Dojo Committer](mailto:evanhuangwei@gmail.com)
 
-Please contact [Wei Huang (Evan)](mailto:evanhuangwei@gmail.com) if you have got any questions. We really appreciate any suggestions or fix patches to improve GridX.
+Please contact us if you have got any questions. We really appreciate any suggestions or fix patches to improve GridX.

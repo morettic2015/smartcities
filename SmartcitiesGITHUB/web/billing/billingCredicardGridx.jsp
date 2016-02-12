@@ -104,13 +104,16 @@
     <img data-dojo-type="clipart/Lock" style="position: absolute; z-index: 900; left: 198px; top: 21.7px;"></img>
     <span style="position: absolute; z-index: 900; left: 15px; top: 125px;">Posting code</span>
     <span style="position: absolute; z-index: 900; left: 236px; top: 128px;">Country</span>
-    <input type="button" onclick="saveLoadCredicard()" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Add card" id="btSalvarCredicard" iconClass="icone-salvar" style="position: absolute; z-index: 900; left: 258px; top: 167px;"></input>
-   <!-- <input type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Cancel" iconClass="icone-excluir" style="position: absolute; z-index: 900; left: 180px; top: 167px;"></input> -->
+    <input type="button" onclick="saveLoadCredicard()" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Add card" id="btSalvarCredicard" iconClass="icone-credito" style="position: absolute; z-index: 900; left: 258px; top: 167px;"></input>
+    <!-- <input type="button" data-dojo-type="dijit/form/Button" intermediateChanges="false" label="Cancel" iconClass="icone-excluir" style="position: absolute; z-index: 900; left: 180px; top: 167px;"></input> -->
     <table data-dojo-type="gridx/Grid" 
            style="min-width: 1em; min-height: 1em; position: absolute; z-index: 900; left: 15px; top: 204px; width: 320px; height: 233px;" 
            jsId="gridCredicards"
            id="gridCredicards"
            data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+           modules: [                        
+           'gridx/modules/SingleSort','gridx/modules/RowHeader','gridx/modules/select/Row', 'gridx/modules/select/Cell'
+           ],
            structure:[ {width:'25px',name:'ID',field:'id'},
            {width:'60px',name:'Card Number',field:'card_number'},
            {width:'70px',name:'Name',field:'name'},
@@ -134,43 +137,43 @@
         var txtPostCode = document.getElementById("txtPostCode").value;
         var txtCountry = document.getElementById("cmbCountries").value;
         var txtCardType = document.getElementById("cmbCardType").value;
-        
+
         /**
          * @Valida campos
          * */
-        
-        if(!checkCreditCard (txtCNumber, txtCardType)){
+
+        if (!checkCreditCard(txtCNumber, txtCardType)) {
             document.getElementById("txtCNumber").focus();
             alert(getCardErrorMessage());
             return;
-        }else if(txtMonth.value==""){
+        } else if (txtMonth.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtMonth").focus();
             return;
-        }else if(txtYear.value==""){
+        } else if (txtYear.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtYear").focus();
             return;
-        }else if(txtSecCode.value==""){
+        } else if (txtSecCode.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtSecCode").focus();
             return;
-        }else if(txtCardName.value==""){
+        } else if (txtCardName.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtCardName").focus();
             return;
-        }else if(txtCardSurname.value==""){
+        } else if (txtCardSurname.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtCardSurname").focus();
             return;
-        }else if(txtPostCode.value==""){
+        } else if (txtPostCode.value == "") {
             alert(getCardErrorMessage(6));
             document.getElementById("txtPostCode").focus();
             return;
         }
-        
-        
-        
+
+
+
         var url = "profiles/credicard/" + txtCNumber + "/" + txtMonth + "/" + txtYear + "/" + txtPostCode + "/" + txtCardName + "/" + txtCardSurname + "/" + txtCountry + "/" + txtSecCode + "/" + profileId;
         var resultado = myProfile.restServices.salvaObjeto(url);
         resultado.then(function (dados) {
@@ -197,6 +200,6 @@
             gridCredicards.body.refresh();
         });
     }
-   
+
 
 </script>

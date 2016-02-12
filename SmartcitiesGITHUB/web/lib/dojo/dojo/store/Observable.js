@@ -1,11 +1,11 @@
 /*
-	Copyright (c) 2004-2012, The Dojo Foundation All Rights Reserved.
+	Copyright (c) 2004-2011, The Dojo Foundation All Rights Reserved.
 	Available via Academic Free License >= 2.1 OR the modified BSD license.
 	see: http://dojotoolkit.org/license for details
 */
 
 //>>built
-define("dojo/store/Observable",["../_base/kernel","../_base/lang","../_base/Deferred","../_base/array"],function(_1,_2,_3,_4){
+define("dojo/store/Observable",["../_base/kernel","../_base/lang","../when","../_base/array"],function(_1,_2,_3,_4){
 var _5=function(_6){
 var _7,_8=[],_9=0;
 _6=_2.delegate(_6);
@@ -30,7 +30,7 @@ var _14=[],_15;
 _10.observe=function(_16,_17){
 if(_14.push(_16)==1){
 _8.push(_15=function(_18,_19){
-_3.when(_10,function(_1a){
+_3(_10,function(_1a){
 var _1b=_1a.length!=_f.count;
 var i,l,_16;
 if(++_13!=_9){
@@ -103,16 +103,20 @@ function _25(_26,_27){
 var _28=_6[_26];
 if(_28){
 _6[_26]=function(_29){
+var _2a;
+if(_26==="put"){
+_2a=_6.getIdentity(_29);
+}
 if(_24){
 return _28.apply(this,arguments);
 }
 _24=true;
 try{
-var _2a=_28.apply(this,arguments);
-_3.when(_2a,function(_2b){
-_27((typeof _2b=="object"&&_2b)||_29);
+var _2b=_28.apply(this,arguments);
+_3(_2b,function(_2c){
+_27((typeof _2c=="object"&&_2c)||_29,_2a);
 });
-return _2a;
+return _2b;
 }
 finally{
 _24=false;
@@ -120,11 +124,11 @@ _24=false;
 };
 }
 };
-_25("put",function(_2c){
-_6.notify(_2c,_6.getIdentity(_2c));
+_25("put",function(_2d,_2e){
+_6.notify(_2d,_2e);
 });
-_25("add",function(_2d){
-_6.notify(_2d);
+_25("add",function(_2f){
+_6.notify(_2f);
 });
 _25("remove",function(id){
 _6.notify(undefined,id);

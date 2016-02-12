@@ -14,9 +14,17 @@ this.makeBusy();
 }
 },makeBusy:function(){
 this.isBusy=true;
+if(this._disableHandle){
+this._disableHandle.remove();
+}
+this._disableHandle=this.defer(function(){
 this.set("disabled",true);
+});
 this.setLabel(this.busyLabel,this.timeout);
 },cancel:function(){
+if(this._disableHandle){
+this._disableHandle.remove();
+}
 this.set("disabled",false);
 this.isBusy=false;
 this.setLabel(this._label);
@@ -42,7 +50,7 @@ this.label=_c;
 while(this.containerNode.firstChild){
 this.containerNode.removeChild(this.containerNode.firstChild);
 }
-this.containerNode.innerHTML=this.label;
+this.containerNode.appendChild(document.createTextNode(this.label));
 if(this.showLabel==false&&!_2.get(this.domNode,"title")){
 this.titleNode.title=_1.trim(this.containerNode.innerText||this.containerNode.textContent||"");
 }

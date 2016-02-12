@@ -25,7 +25,7 @@ return _f.getTransform(_12);
 if(to){
 return _f.getTransformOrigin(_12);
 }else{
-return arguments.length==2?_10(_12,_13):_10(_12);
+return _10.apply(this,arguments);
 }
 }
 };
@@ -37,7 +37,7 @@ return _f.setTransform(n,_16,true);
 if(to){
 return _f.setTransformOrigin(n,_16);
 }else{
-return arguments.length==3?_11(n,_15,_16):_11(n,_15);
+return _11.apply(this,arguments);
 }
 }
 };
@@ -51,10 +51,10 @@ this.toPropertyName=_17[i]+"ransformOrigin";
 }
 if(this.tPropertyName){
 this.setTransform=function(_18,_19){
-return _9.set(_18,this.tPropertyName,_19);
+return _11(_18,this.tPropertyName,_19);
 };
 this.getTransform=function(_1a){
-return _9.get(_1a,this.tPropertyName);
+return _10(_1a,this.tPropertyName);
 };
 }else{
 if(_5("ie")){

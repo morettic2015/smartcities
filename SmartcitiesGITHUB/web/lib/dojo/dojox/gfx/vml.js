@@ -24,10 +24,7 @@ src[_10]=null;
 }
 }
 };
-_d.Shape=_2("dojox.gfx.vml.Shape",gs.Shape,{destroy:function(){
-this.rawNode=null;
-gs.Shape.prototype.destroy.apply(this,arguments);
-},setFill:function(_11){
+_d.Shape=_2("dojox.gfx.vml.Shape",gs.Shape,{setFill:function(_11){
 if(!_11){
 this.fillStyle=null;
 this.rawNode.filled="f";
@@ -215,7 +212,7 @@ return this;
 _1f.stroked="f";
 _1f.filled="f";
 this.rawNode=_1f;
-this.rawNode.__gfxObject__=this.getUID();
+this.rawNode.__gfxObject__=this;
 },_moveToFront:function(){
 this.rawNode.parentNode.appendChild(this.rawNode);
 return this;
@@ -317,7 +314,7 @@ _32.arcsize=r;
 _32.style.display="inline-block";
 _d._reparentEvents(_32,this.rawNode);
 this.rawNode=_32;
-this.rawNode.__gfxObject__=this.getUID();
+this.rawNode.__gfxObject__=this;
 }else{
 this.rawNode.arcsize=r;
 }
@@ -710,6 +707,15 @@ return p;
 },_closePath:function(){
 this.lastControl.type="";
 return ["x"];
+},_getRealBBox:function(){
+this._confirmSegmented();
+if(this.tbbox){
+return this.tbbox;
+}
+if(typeof this.shape.path=="string"){
+this.shape.path="";
+}
+return this.inherited(arguments);
 }});
 _d.Path.nodeType="shape";
 _d.TextPath=_2("dojox.gfx.vml.TextPath",[_d.Path,_a.TextPath],{constructor:function(_7f){
@@ -986,7 +992,7 @@ _1.extend(_d.Surface,gs.Creator);
 _1.extend(_d.Surface,_92);
 _d.fixTarget=function(_9f,_a0){
 if(!_9f.gfxTarget){
-_9f.gfxTarget=gs.byId(_9f.target.__gfxObject__);
+_9f.gfxTarget=_9f.target.__gfxObject__;
 }
 return true;
 };

@@ -13,19 +13,19 @@ import java.util.regex.Pattern;
  * @author lmrosario
  */
 public final class ValidatorUtil {
-    
+
     private static final String[] EXPRESSOES = {"/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{1,3})+$/"};
-    
-    	private static Pattern pattern;
-	private static Matcher matcher;
 
-	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static Pattern pattern;
+    private static Matcher matcher;
 
-	public static boolean isEmail(final String email) {
-                pattern = Pattern.compile(EMAIL_PATTERN);
-		matcher = pattern.matcher(email);
-		return matcher.matches();
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-}
+    public static boolean isEmail(final String email) {
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email);
+        return matcher.matches();
+
+    }
 }

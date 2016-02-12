@@ -1,1 +1,5 @@
-.mblRoundRectCategory {-moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px;}
+
+.mblRoundRectCategory {
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-topright: 6px;
+}
