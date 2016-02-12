@@ -52,6 +52,9 @@
 
     <div class="celula-form-1" >		
         <table data-dojo-type="gridx/Grid" id="gridDataShare" jsId="gridDataShare" style="min-width: 1em; min-height: 1em; width: 97%; height: 300px;" data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
+               modules: [                        
+               'gridx/modules/SingleSort','gridx/modules/RowHeader'
+               ],
                structure:[
                {width:'auto',name:'<span id=\'rotGridIDShareData\'>ID</span>',field:'id'},
                {width:'auto',name:'<span id=\'rotGridNomeShareData\'>Nome</span>',field:'nome'},

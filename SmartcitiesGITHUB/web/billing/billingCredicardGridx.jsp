@@ -112,7 +112,7 @@
            id="gridCredicards"
            data-dojo-props="cacheClass: 'gridx/core/model/cache/Async',
            modules: [                        
-           'gridx/modules/SingleSort','gridx/modules/RowHeader','gridx/modules/select/Row', 'gridx/modules/select/Cell'
+           'gridx/modules/SingleSort','gridx/modules/RowHeader'
            ],
            structure:[ {width:'25px',name:'ID',field:'id'},
            {width:'60px',name:'Card Number',field:'card_number'},

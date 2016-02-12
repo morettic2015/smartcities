@@ -779,8 +779,8 @@ public class ProfileEndpoint {
                             em.persist(pContact);
 
                             logAction(p1.getIdprofile(), em, "SOCIAL NETWORK / contact " + p.getEmail(), req);
-                            logAction("SOCIAL NETWORK / contact " + p1.getEmail(), req, res);
-
+                            logAction(p.getIdprofile(), em, "SOCIAL NETWORK / contact " + p1.getEmail(), req);
+                           
                             q = null;
                             pContact = null;
                             pcList.clear();
